@@ -21,6 +21,7 @@ Then open [http://localhost:8080](http://localhost:8080).
 | `/wildcard.html` | Same Wild Card page |
 | `/conceal-n-strike` | Conceal-N-Strike |
 | `/conceal-n-strike.html` | Same Conceal-N-Strike page |
+| `/privacy` | Privacy policy |
 
 ## Deploy on Railway
 
@@ -97,6 +98,8 @@ You do not need to edit `server.js`. `/<slug>` and `/<slug>/` are served from `p
 public/
   index.html            homepage
   wildcard.html         Wild Card
+  conceal-n-strike.html Conceal-N-Strike
+  privacy.html          privacy policy
   404.html
   favicon.svg
   assets/               images, root-addressed
