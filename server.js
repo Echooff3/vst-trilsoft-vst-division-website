@@ -13,6 +13,10 @@
  *
  * If API_BASE_URL is set to an http(s) URL, it overrides the empty
  * placeholder in public/js/site-config.js at request time.
+ * PAYMENT_LINK_<SLUG> (https only) overrides paymentLinks.<slug>
+ * the same way — PAYMENT_LINK_WILDCARD for "wildcard" — and that
+ * URL is also written into Buy Now hrefs in HTML, so the link works
+ * with JavaScript disabled.
  */
 'use strict';
 
@@ -97,33 +101,155 @@ async function resolveRequest(pathname) {
   return null;
 }
 
-function overlayApiBase(buf) {
+const warned = new Set();
+function warnOnce(message) {
+  if (warned.has(message)) return;
+  warned.add(message);
+  console.warn(message);
+}
+
+function httpsUrl(raw) {
+  const text = String(raw || '').trim();
+  if (!text) return '';
+  let parsed;
+  try {
+    parsed = new URL(text);
+  } catch (err) {
+    return '';
+  }
+  return parsed.protocol === 'https:' ? parsed.href : '';
+}
+
+function filePaymentLinks(src) {
+  const links = {};
+  const block = src.match(/paymentLinks\s*:\s*\{([\s\S]*?)\n[ \t]*\}/);
+  if (!block) return links;
+  const re = /["']?([A-Za-z0-9_-]+)["']?\s*:\s*"((?:[^"\\]|\\.)*)"/g;
+  let match;
+  while ((match = re.exec(block[1]))) {
+    let value = '';
+    try {
+      value = JSON.parse('"' + match[2] + '"');
+    } catch (err) {
+      continue;
+    }
+    const url = httpsUrl(value);
+    if (url) links[match[1]] = url;
+  }
+  return links;
+}
+
+function envPaymentLink(slug) {
+  const name = 'PAYMENT_LINK_' + slug.toUpperCase().replace(/-/g, '_');
+  if (!Object.prototype.hasOwnProperty.call(process.env, name)) return '';
+  const url = httpsUrl(process.env[name]);
+  if (!url) {
+    warnOnce('Ignoring ' + name + ' (must be an https URL)');
+    return '';
+  }
+  return url;
+}
+
+function effectivePaymentLinks(src) {
+  const links = filePaymentLinks(src);
+  for (const slug of Object.keys(links)) {
+    const override = envPaymentLink(slug);
+    if (override) links[slug] = override;
+  }
+  for (const name of Object.keys(process.env)) {
+    const match = /^PAYMENT_LINK_([A-Z0-9_]+)$/.exec(name);
+    if (!match) continue;
+    const slug = match[1].toLowerCase().replace(/_/g, '-');
+    if (!Object.prototype.hasOwnProperty.call(links, slug)) {
+      warnOnce(name + ' is set but site-config.js has no paymentLinks.' + slug + ' entry');
+    }
+  }
+  return links;
+}
+
+function writePaymentLinks(src, links) {
+  const block = /paymentLinks\s*:\s*\{[\s\S]*?\n[ \t]*\}/;
+  if (!block.test(src)) {
+    warnOnce('site-config.js has no paymentLinks block to override');
+    return src;
+  }
+  const lines = Object.keys(links).map((slug) => {
+    const key = /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(slug) ? slug : JSON.stringify(slug);
+    return '    ' + key + ': ' + JSON.stringify(links[slug]) + ',';
+  });
+  return src.replace(block, 'paymentLinks: {\n' + lines.join('\n') + '\n  }');
+}
+
+function overlayApiBase(src) {
   const raw = (process.env.API_BASE_URL || '').trim();
-  if (!raw) return buf;
+  if (!raw) return src;
   let parsed;
   try {
     parsed = new URL(raw);
   } catch (err) {
-    console.warn('Ignoring API_BASE_URL (not an absolute URL)');
-    return buf;
+    warnOnce('Ignoring API_BASE_URL (not an absolute URL)');
+    return src;
   }
   if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-    console.warn('Ignoring API_BASE_URL (must be http or https)');
-    return buf;
+    warnOnce('Ignoring API_BASE_URL (must be http or https)');
+    return src;
   }
   parsed.search = '';
   parsed.hash = '';
   const base = (parsed.origin + parsed.pathname).replace(/\/$/, '');
-  const src = buf.toString('utf8');
   const next = src.replace(
     /API_BASE_URL:\s*"(?:[^"\\]|\\.)*"/,
     'API_BASE_URL: ' + JSON.stringify(base)
   );
   if (next === src) {
-    console.warn('API_BASE_URL is set but public/js/site-config.js has no API_BASE_URL assignment to override');
-    return buf;
+    warnOnce('API_BASE_URL is set but public/js/site-config.js has no API_BASE_URL assignment to override');
+    return src;
   }
-  return Buffer.from(next);
+  return next;
+}
+
+function escapeAttr(value) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;');
+}
+
+function injectBuyHrefs(html, links) {
+  return html.replace(/<a\b[^>]*>/gi, (tag) => {
+    if (!/\bdata-stripe\b/i.test(tag)) return tag;
+    const slugMatch = /\bdata-product\s*=\s*["']([^"']+)["']/i.exec(tag);
+    if (!slugMatch) return tag;
+    const link = links[slugMatch[1]];
+    if (!link) return tag;
+    const href = 'href="' + escapeAttr(link) + '"';
+    if (/\bhref\s*=\s*["'][^"']*["']/i.test(tag)) {
+      return tag.replace(/\bhref\s*=\s*["'][^"']*["']/i, href);
+    }
+    return tag.replace(/<a\b/i, '<a ' + href);
+  });
+}
+
+async function configSource() {
+  return fs.promises.readFile(path.join(ROOT, 'js/site-config.js'), 'utf8');
+}
+
+async function prepareBody(file, body) {
+  const ext = path.extname(file).toLowerCase();
+  if (path.basename(file) === 'site-config.js') {
+    const src = body.toString('utf8');
+    const links = effectivePaymentLinks(src);
+    const fileLinks = filePaymentLinks(src);
+    const overridden = Object.keys(fileLinks).some((slug) => links[slug] !== fileLinks[slug]);
+    const withLinks = overridden ? writePaymentLinks(src, links) : src;
+    return Buffer.from(overlayApiBase(withLinks));
+  }
+  if (ext === '.html') {
+    const links = effectivePaymentLinks(await configSource());
+    if (Object.keys(links).length === 0) return body;
+    return Buffer.from(injectBuyHrefs(body.toString('utf8'), links));
+  }
+  return body;
 }
 
 function send(req, res, status, filePath, body) {
@@ -182,7 +308,7 @@ async function handle(req, res) {
   }
 
   let body = await fs.promises.readFile(file);
-  if (path.basename(file) === 'site-config.js') body = overlayApiBase(body);
+  body = await prepareBody(file, body);
   send(req, res, 200, file, body);
 }
 
@@ -200,6 +326,14 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, HOST, () => {
   console.log('Tril$oft site listening on http://' + HOST + ':' + PORT);
+  fs.promises.readFile(path.join(ROOT, 'js/site-config.js'), 'utf8').then((src) => {
+    const links = effectivePaymentLinks(src);
+    for (const slug of Object.keys(links)) {
+      console.log('Payment link ' + slug + ': ' + links[slug]);
+    }
+  }).catch((err) => {
+    console.warn('Could not read site-config.js: ' + err.message);
+  });
   const raw = (process.env.API_BASE_URL || '').trim();
   if (!raw) return;
   try {
@@ -210,8 +344,8 @@ server.listen(PORT, HOST, () => {
       return;
     }
   } catch (err) {
-    console.warn('Ignoring API_BASE_URL (not an absolute URL)');
+    warnOnce('Ignoring API_BASE_URL (not an absolute URL)');
     return;
   }
-  console.warn('Ignoring API_BASE_URL (must be http or https)');
+  warnOnce('Ignoring API_BASE_URL (must be http or https)');
 });

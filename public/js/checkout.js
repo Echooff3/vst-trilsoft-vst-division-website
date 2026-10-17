@@ -1,6 +1,7 @@
 /* Wires every <a data-stripe data-product="slug"> to site-config.js.
-   Unconfigured or unknown products: the click is cancelled.
-   Configured products: POST the checkout API, then follow the URL it returns. */
+   A slug with a payment link is a plain link; the browser follows it.
+   Otherwise, if API_BASE_URL is set, POST the checkout API and follow
+   the URL it returns. Anything else: the click is cancelled. */
 (function () {
   var cfg = window.TRILOSOFT || {};
   var warned = false;
@@ -23,6 +24,30 @@
     var products = cfg.products || {};
     if (!slug || !Object.prototype.hasOwnProperty.call(products, slug)) return '';
     return String(products[slug] || '');
+  }
+
+  function paymentLink(el) {
+    var slug = el.getAttribute('data-product') || '';
+    var links = cfg.paymentLinks || {};
+    if (!slug || !Object.prototype.hasOwnProperty.call(links, slug)) return '';
+    try {
+      var url = new URL(String(links[slug] || '').trim());
+      return url.protocol === 'https:' ? url.href : '';
+    } catch (err) {
+      return '';
+    }
+  }
+
+  // Config wins. If it has no link, keep an https buy.stripe.com href the
+  // server already wrote into the HTML (the no-JS fallback).
+  function stripeHref(el) {
+    var fromConfig = paymentLink(el);
+    if (fromConfig) return fromConfig;
+    try {
+      var url = new URL(el.getAttribute('href') || '', window.location.href);
+      if (url.protocol === 'https:' && url.hostname === 'buy.stripe.com') return url.href;
+    } catch (err) {}
+    return '';
   }
 
   function endpointFor(product) {
@@ -49,6 +74,12 @@
     var base = apiBase();
     for (var i = 0; i < nodes.length; i++) {
       var anchor = nodes[i];
+      var link = stripeHref(anchor);
+      if (link) {
+        if (anchor.getAttribute('href') !== link) anchor.setAttribute('href', link);
+        anchor.removeAttribute('aria-disabled');
+        continue;
+      }
       var href = endpointFor(productId(anchor));
       anchor.setAttribute('href', href || '#');
       if (base && href) anchor.removeAttribute('aria-disabled');
@@ -113,13 +144,14 @@
   document.addEventListener('click', function (event) {
     var anchor = event.target && event.target.closest && event.target.closest('a[data-stripe]');
     if (!anchor) return;
+    if (stripeHref(anchor)) return;
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     var endpoint = endpointFor(productId(anchor));
     if (!endpoint) {
       event.preventDefault();
       if (!warned) {
         warned = true;
-        console.info('Tril$oft: Buy Now stays on the page until API_BASE_URL is set in /js/site-config.js');
+        console.info('Tril$oft: Buy Now stays on the page until paymentLinks or API_BASE_URL is set in /js/site-config.js');
       }
       return;
     }

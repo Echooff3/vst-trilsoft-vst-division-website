@@ -30,12 +30,15 @@ This repo has a `Dockerfile`. Railway builds that image and starts it with `node
 
 To ship a change, merge to the branch Railway watches and let it redeploy. HTML is sent with `Cache-Control: public, max-age=0, must-revalidate`. Images under `public/assets/` are cached for seven days. Text responses are gzip-compressed when the browser allows it.
 
-## Set the checkout API
+## Buy Now
 
-Purchases are not handled here. A separate API (also on Railway) will create the Stripe Checkout session. Every Buy Now button reads one file: [`public/js/site-config.js`](public/js/site-config.js).
+Every Buy Now button reads [`public/js/site-config.js`](public/js/site-config.js). Wild Card is a plain link to its Stripe Payment Link (test mode for now):
 
 ```js
 window.TRILOSOFT = {
+  paymentLinks: {
+    wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
+  },
   API_BASE_URL: "",
   products: {
     wildcard: "wildcard",
@@ -43,29 +46,11 @@ window.TRILOSOFT = {
 };
 ```
 
-Leave `API_BASE_URL` empty until that API exists. Buy Now then does nothing visible: the click is cancelled, the page does not jump, and no request is sent.
+`server.js` copies `paymentLinks.wildcard` into each Wild Card Buy Now `href`, including the homepage fallback inside `<noscript>`. The button is an ordinary link.
 
-Set the base URL in either place. When `server.js` is serving the site, the environment variable wins:
+To go live, set `PAYMENT_LINK_WILDCARD` on the Railway service to the live Payment Link. It has to be an `https` URL. The server uses it in place of the value in the file, both in `/js/site-config.js` and in the HTML `href`s. Hyphens in a slug become underscores in the variable name (`my-plugin` → `PAYMENT_LINK_MY_PLUGIN`).
 
-1. Edit `API_BASE_URL` in `public/js/site-config.js`, or
-2. Set `API_BASE_URL` on the Railway service, for example `https://your-api.up.railway.app`.
-
-The value has to be an absolute `http` or `https` URL. A trailing slash is removed. Query strings and hashes are ignored. Anything else is left unused and the buttons stay idle.
-
-`products` maps the slug on the button (`data-product`) to the id the API receives. A button whose slug is missing from this map does nothing.
-
-When the base URL and the product are both set, a click does this:
-
-1. `POST {API_BASE_URL}/checkout?product=wildcard` with JSON `{ "product": "wildcard" }`.
-2. If the body is JSON and includes `url` (also `checkoutUrl` or `checkout_url`), the browser navigates there. That value should be the Stripe Checkout URL.
-3. If the response is a redirect, or the browser cannot read it (no CORS), the browser submits a normal POST form to the same URL with a `product` field. The API can answer that with `302` or `303` to Stripe.
-
-Suggested API shape, for when you build it:
-
-- `POST /checkout?product={id}`
-- JSON body `{ "product": "{id}" }`, and the same field as `application/x-www-form-urlencoded` for the form fallback
-- Success: `200` `{ "url": "https://checkout.stripe.com/..." }` or `303` to that URL
-- If you return JSON, allow this site's origin in CORS (`POST`, and the `Content-Type` and `Accept` headers)
+`API_BASE_URL` is only the fallback for a plug-in with no payment link. Leave it empty and those buttons stay on the page. When it is an `http` or `https` origin (the `API_BASE_URL` environment variable overrides the file), a click POSTs `{API_BASE_URL}/checkout?product=<id>` with JSON `{ "product": "<id>" }` and follows a returned `url` (`checkoutUrl` and `checkout_url` too), or submits a form POST so the API can answer with a redirect. `products` maps the button's `data-product` slug to that id.
 
 ## Add a plug-in page
 
@@ -87,13 +72,17 @@ Each plug-in is one HTML file with its own look. Copy the idea of [`public/wildc
    <script src="/js/checkout.js"></script>
    ```
 
-6. Register the slug in `public/js/site-config.js`:
+6. Register the slug in `public/js/site-config.js`. A payment link makes Buy Now a plain link. Leave it out only if that plug-in should use the checkout API fallback instead.
 
    ```js
+   paymentLinks: {
+     wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
+     "my-plugin": "https://buy.stripe.com/test_...",
+   },
    products: {
      wildcard: "wildcard",
      "my-plugin": "my-plugin",
-   }
+   },
    ```
 
 You do not need to edit `server.js`. `/<slug>` and `/<slug>/` are served from `public/<slug>.html` whenever that file is there, and `/<slug>.html` keeps working. A missing path returns `public/404.html` with status 404.

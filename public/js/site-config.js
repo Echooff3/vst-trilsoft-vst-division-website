@@ -1,29 +1,28 @@
 /* Tril$oft purchase config.
    This is the only file Buy Now buttons read.
 
-   API_BASE_URL
-     Origin of the separate checkout API (no trailing slash).
-     Leave it as an empty string until that service exists.
-     Buy Now then stays on the page: no navigation, no error screen.
-     When this site is served by server.js, an API_BASE_URL environment
-     variable (http or https) replaces the empty string below. On
-     Railway, set that variable on the service. Locally you can export
-     it or edit the string in this file. The environment variable wins.
+   paymentLinks
+     Plug-in slug → Stripe Payment Link (https://buy.stripe.com/...).
+     Buy Now is a plain link to that URL, including the no-JS fallback
+     (server.js writes the href into the HTML).
+     A PAYMENT_LINK_<SLUG> environment variable replaces the value here
+     at serve time. Hyphens in the slug become underscores, so wildcard
+     is PAYMENT_LINK_WILDCARD and my-plugin is PAYMENT_LINK_MY_PLUGIN.
+     The value must be https. On Railway, set the variable to switch
+     from the test link to the live link without a code change.
+
+   API_BASE_URL (fallback only)
+     Used only for a slug that has no payment link. Buy Now then POSTs
+     {API_BASE_URL}/checkout?product=<id> and follows the returned URL.
+     Leave it empty and those buttons stay on the page. An API_BASE_URL
+     environment variable (http or https) overrides the string below.
 
    products
-     Plug-in slug → product id sent to the API.
-     Each Buy Now anchor sets data-product to the slug.
-
-   Placeholder contract (the API is not part of this repo):
-     POST {API_BASE_URL}/checkout?product=<id>
-     JSON body: {"product":"<id>"}
-     Success: 200 {"url":"https://checkout.stripe.com/..."}
-              (checkoutUrl and checkout_url are also accepted)
-              or 302/303 to that Stripe Checkout URL.
-     If the browser cannot read the JSON response, it falls back to a
-     normal form POST of a "product" field to the same URL, which the
-     API can answer with a redirect. */
+     Plug-in slug → product id sent to that fallback API. */
 window.TRILOSOFT = {
+  paymentLinks: {
+    wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
+  },
   API_BASE_URL: "",
   products: {
     wildcard: "wildcard",
