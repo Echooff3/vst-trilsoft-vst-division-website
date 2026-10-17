@@ -42,6 +42,8 @@ const MIME = {
   '.ico': 'image/x-icon',
   '.txt': 'text/plain; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
 };
 
 const COMPRESSIBLE = new Set(['.html', '.js', '.css', '.svg', '.txt', '.json']);
@@ -52,7 +54,7 @@ function cacheControl(filePath) {
   if (base === 'site-config.js' || ext === '.html') {
     return 'public, max-age=0, must-revalidate';
   }
-  if (ext === '.jpg' || ext === '.jpeg' || ext === '.png' || ext === '.webp' || ext === '.gif' || ext === '.svg' || ext === '.ico') {
+  if (ext === '.jpg' || ext === '.jpeg' || ext === '.png' || ext === '.webp' || ext === '.gif' || ext === '.svg' || ext === '.ico' || ext === '.mp4' || ext === '.webm') {
     return 'public, max-age=604800';
   }
   return 'public, max-age=3600';
@@ -131,6 +133,10 @@ function filePaymentLinks(src) {
     try {
       value = JSON.parse('"' + match[2] + '"');
     } catch (err) {
+      continue;
+    }
+    if (String(value).trim() === '') {
+      links[match[1]] = '';
       continue;
     }
     const url = httpsUrl(value);
@@ -262,6 +268,53 @@ function send(req, res, status, filePath, body) {
     'X-Frame-Options': 'SAMEORIGIN',
     'Vary': 'Accept-Encoding',
   };
+  if ((ext === '.mp4' || ext === '.webm') && status === 200) {
+    headers['Accept-Ranges'] = 'bytes';
+    const range = String(req.headers.range || '');
+    if (range) {
+      const size = body.length;
+      const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+      const unsat = () => {
+        res.writeHead(416, {
+          'Content-Range': 'bytes */' + size,
+          'Accept-Ranges': 'bytes',
+          'Content-Type': headers['Content-Type'],
+        });
+        res.end();
+      };
+      if (!match) {
+        unsat();
+        return;
+      }
+      let start;
+      let end;
+      if (match[1] === '') {
+        const suffix = Number(match[2]);
+        if (!Number.isFinite(suffix) || suffix <= 0) {
+          unsat();
+          return;
+        }
+        start = Math.max(0, size - suffix);
+        end = size - 1;
+      } else {
+        start = Number(match[1]);
+        end = match[2] === '' ? size - 1 : Number(match[2]);
+      }
+      if (!Number.isFinite(start) || !Number.isFinite(end) || start < 0 || start >= size || end < start) {
+        unsat();
+        return;
+      }
+      if (end >= size) end = size - 1;
+      const chunk = body.subarray(start, end + 1);
+      headers['Content-Range'] = 'bytes ' + start + '-' + end + '/' + size;
+      headers['Content-Length'] = chunk.length;
+      res.writeHead(206, headers);
+      if (req.method === 'HEAD') res.end();
+      else res.end(chunk);
+      return;
+    }
+  }
+
   const accept = String(req.headers['accept-encoding'] || '');
   const canGzip = COMPRESSIBLE.has(ext) && body.length >= 256 && /\bgzip\b/.test(accept);
 
@@ -329,7 +382,7 @@ server.listen(PORT, HOST, () => {
   fs.promises.readFile(path.join(ROOT, 'js/site-config.js'), 'utf8').then((src) => {
     const links = effectivePaymentLinks(src);
     for (const slug of Object.keys(links)) {
-      console.log('Payment link ' + slug + ': ' + links[slug]);
+      if (links[slug]) console.log('Payment link ' + slug + ': ' + links[slug]);
     }
   }).catch((err) => {
     console.warn('Could not read site-config.js: ' + err.message);

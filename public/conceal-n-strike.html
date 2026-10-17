@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#141517">
+<title>Conceal-N-Strike — 64-step turntablism sequencer · Tril$oft VST Division</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="description" content="Conceal-N-Strike is a 64-step turntablism sequencer plug-in. Every step programs both hands: the platter (CONCEAL) and the crossfader (STRIKE).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Share+Tech+Mono&family=Chakra+Petch:wght@400;500;600;700&family=Unbounded:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --amber:#F5A623; --amber-2:#FFC861; --cyan:#3EC6F0; --red:#FF4A2B; --ink:#0D0E10; --deep:#141517;
+  --panel:#222428; --panel-2:#1B1C1F; --line:#34373C; --text:#E7E9EC; --dim:#8A9097;
+  --ops:"Black Ops One",Impact,sans-serif; --mono:"Share Tech Mono",ui-monospace,monospace; --body:"Chakra Petch",system-ui,sans-serif;
+  --cham:polygon(var(--c,14px) 0,calc(100% - var(--c,14px)) 0,100% var(--c,14px),100% calc(100% - var(--c,14px)),calc(100% - var(--c,14px)) 100%,var(--c,14px) 100%,0 calc(100% - var(--c,14px)),0 var(--c,14px));
+  --haz:repeating-linear-gradient(-45deg,var(--amber) 0 14px,#141414 14px 28px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--body);color:var(--text);background:var(--deep) url(/assets/camo-dark.png) 0 0/720px;image-rendering:auto;line-height:1.55;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.camo-l{background:#2A2C30 url(/assets/camo-light.png) 0 0/720px;image-rendering:pixelated}
+.mono{font-family:var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);background:rgba(13,14,16,.92);border:1px solid rgba(245,166,35,.6);padding:7px 13px}
+.tag.cy{color:var(--cyan);border-color:rgba(62,198,240,.6)}
+.hz{height:12px;background:var(--haz)}
+.ops{font-family:var(--ops);font-weight:400;letter-spacing:.02em;line-height:1}
+.stencil{font-family:var(--ops);font-weight:400;line-height:.98;color:var(--text);-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;text-shadow:5px 5px 0 var(--ink)}
+.stencil .n{color:var(--red)}
+h2.stencil{font-size:clamp(40px,5.2vw,72px);margin:22px 0 16px}
+.sub{font-size:19px;color:#C3C8CE;max-width:640px}
+.btn{--c:13px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--ops);font-size:22px;letter-spacing:.06em;line-height:1;text-transform:uppercase;
+  padding:20px 34px 19px;color:#141006;background:var(--amber);clip-path:var(--cham);transition:filter .15s,transform .12s;touch-action:manipulation}
+.btn:hover{filter:brightness(1.12)} .btn:active{transform:translateY(2px)}
+.btn.cy{background:var(--cyan);color:#06171D}
+.btnwrap{display:inline-block;filter:drop-shadow(0 6px 0 rgba(13,14,16,.95))}
+
+/* nav */
+nav.top{position:sticky;top:0;z-index:30;background:rgba(20,21,23,.92);backdrop-filter:blur(10px)}
+nav.top::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:6px;background:var(--haz)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:20px}
+.ts{display:inline-flex;align-items:center;gap:10px;font-family:"Unbounded",sans-serif;font-weight:800;font-size:15px;color:#fff;white-space:nowrap}
+.ts i{font-style:normal;color:#FF5B1F}
+.ts small{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.22em;color:var(--dim)}
+nav.top ul{display:flex;gap:30px;list-style:none;font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+nav.top ul a:hover{color:var(--amber)}
+nav.top .btn{font-size:17px;padding:13px 22px 12px;--c:10px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:84px 0 110px}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,14,16,.92) 0%,rgba(13,14,16,.78) 42%,rgba(13,14,16,.35) 100%),radial-gradient(700px 500px at 75% 50%,rgba(245,166,35,.12),transparent 70%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.02fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(64px,8.2vw,124px);margin:26px 0 24px;-webkit-text-stroke:4px var(--ink);text-shadow:7px 7px 0 var(--ink)}
+.hero h1 span{display:block}
+.hero h1 .n{margin-left:.05em}
+.tagline{font-family:var(--ops);font-size:clamp(26px,2.6vw,36px);line-height:1.1;color:var(--amber);text-shadow:3px 3px 0 var(--ink);margin-bottom:16px}
+.tagline em{font-style:normal;color:var(--cyan)}
+.hero .cta{margin-top:34px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.fine{margin-top:22px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.fine b{color:var(--amber);font-weight:400}
+.fine a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
+.mini{position:relative;padding:22px;background:rgba(20,21,23,.86);border:2px solid var(--line);border-radius:10px;box-shadow:0 30px 60px rgba(0,0,0,.55)}
+.mini::before{content:"";position:absolute;left:-2px;right:-2px;top:-14px;height:12px;background:var(--haz);border-radius:3px 3px 0 0}
+.mini-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--amber)}
+.mini-h .bpm{font-size:22px;color:var(--amber);background:#0D0E0F;border:1px solid var(--line);padding:2px 10px;letter-spacing:.06em}
+.mini-h .bpm small{font-size:10px;color:var(--dim);margin-left:4px}
+.mini .strips{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+/* strips (shared by hero + panel) */
+.st{position:relative;background:var(--panel);border:2px solid var(--line);border-radius:7px;padding:10px 9px 26px;display:flex;flex-direction:column;align-items:center;min-width:0;transition:border-color .15s,box-shadow .15s,transform .15s}
+.st.hot{border-color:var(--amber);box-shadow:0 0 22px rgba(245,166,35,.45);transform:translateY(-3px)}
+.st-h{align-self:stretch;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:10px}
+.st-h b{font-family:var(--ops);font-weight:400;font-size:16px;letter-spacing:.04em;white-space:nowrap}
+.led{width:11px;height:11px;border-radius:50%;background:#4A2224;border:2px solid #111;flex:none}
+.st.hot .led{background:#E5484D;box-shadow:0 0 10px #E5484D}
+.kn{--v:.6;--col:var(--cyan);width:54px;aspect-ratio:1;border-radius:50%;position:relative;background:#111214}
+.kn::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 225deg,var(--col) 0 calc(var(--v)*270deg),transparent 0);-webkit-mask:radial-gradient(circle,transparent 58%,#000 60%,#000 82%,transparent 84%);mask:radial-gradient(circle,transparent 58%,#000 60%,#000 82%,transparent 84%)}
+.kn::after{content:"";position:absolute;inset:22%;border-radius:50%;background:radial-gradient(circle at 50% 18%,#e7e9ec 0 7%,transparent 8%) ,#2B2E32;border:2px solid #0E0F10;transform:rotate(calc(-135deg + var(--v)*270deg))}
+.kn.s{--col:var(--amber)}
+.kl{font-family:var(--ops);font-size:12px;letter-spacing:.03em;color:var(--cyan);margin:5px 0 4px;white-space:nowrap}
+.kl.s{color:var(--amber)}
+.st small{align-self:stretch;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--dim);margin:6px 0 4px}
+.pad{--c:9px;--col:var(--cyan);position:relative;align-self:stretch;aspect-ratio:1.18;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--col);clip-path:var(--cham);background:var(--col);transition:transform .1s}
+.pad::before{content:"";position:absolute;inset:2px;clip-path:var(--cham);background:#1E2023;z-index:0;transition:background .2s}
+.pad > *{position:relative;z-index:1}
+.pad.s{--col:var(--amber)}
+.st.hot .pad.c::before{background:#1f3a45} .st.hot .pad.s::before{background:#43341a}
+.pad svg{width:62%;height:auto;overflow:visible}
+.pad span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--text);white-space:nowrap}
+.pad.flip > *{animation:flip .26s ease-in-out}
+@keyframes flip{50%{transform:scaleY(.02)}}
+.pad:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.ch{position:absolute;bottom:7px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--dim)}
+
+/* marquee */
+.cauts{position:relative;z-index:2;overflow:hidden;background:var(--amber);color:var(--ink);border-block:4px solid var(--ink);white-space:nowrap}
+.cauts div{display:inline-block;padding:13px 0 11px;font-family:var(--ops);font-size:22px;letter-spacing:.06em;animation:mq 34s linear infinite}
+.cauts span{margin:0 22px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+section{padding:120px 0;position:relative}
+.head{text-align:center;margin-bottom:60px}
+.head .sub{margin:0 auto}
+
+/* two hands */
+.hands{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.hand{--c:22px;--col:var(--cyan);position:relative;padding:3px;clip-path:var(--cham);background:var(--col)}
+.hand.s{--col:var(--amber)}
+.hand-in{clip-path:var(--cham);background:linear-gradient(160deg,#25282C,#1A1B1E);padding:40px 38px 36px;height:100%;display:grid;grid-template-columns:1fr 170px;gap:24px;align-items:center}
+.hand .kick{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--col)}
+.hand h3{font-family:var(--ops);font-weight:400;font-size:clamp(38px,4vw,54px);line-height:1;color:var(--col);margin:8px 0 14px;text-shadow:3px 3px 0 var(--ink)}
+.hand p{color:#C3C8CE;font-size:17px}
+.hand p b{color:var(--text);font-weight:600}
+.viz{position:relative;width:170px;aspect-ratio:1}
+.vrec{position:absolute;inset:6%;border-radius:50%;background:repeating-radial-gradient(circle,#15161A 0 2px,#22242A 2px 3.4px,#15161A 3.4px 5px);border:3px solid #0B0C0D;box-shadow:0 0 0 6px #2C2F34;animation:wob 2.4s cubic-bezier(.45,0,.55,1) infinite}
+.vrec::after{content:"";position:absolute;inset:34%;border-radius:50%;background:var(--cyan);border:3px solid #0B0C0D;box-shadow:inset 0 0 0 9px #1C5E73}
+.vrec i{position:absolute;left:50%;top:6%;width:5px;height:16%;margin-left:-2.5px;background:var(--cyan);border-radius:3px}
+@keyframes wob{0%{transform:rotate(0)}18%{transform:rotate(130deg)}32%{transform:rotate(40deg)}46%{transform:rotate(170deg)}60%{transform:rotate(60deg)}74%{transform:rotate(-40deg)}100%{transform:rotate(0)}}
+.vfad{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.vfad .trk{position:relative;height:22px;border-radius:5px;background:#0D0E10;border:2px solid #34373C}
+.vfad .trk::before{content:"";position:absolute;inset:4px 10px;background:repeating-linear-gradient(90deg,#3A3E44 0 2px,transparent 2px 13px)}
+.vfad .cap{position:absolute;top:-12px;left:6%;width:28px;height:42px;border-radius:5px;background:var(--amber);border:3px solid #0B0C0D;animation:cut 1.6s steps(1,end) infinite}
+.vfad .cap::after{content:"";position:absolute;left:50%;top:5px;bottom:5px;width:3px;margin-left:-1.5px;background:#0B0C0D}
+@keyframes cut{0%{left:6%}12%{left:74%}20%{left:6%}30%{left:74%}38%{left:6%}54%{left:74%}60%{left:6%}70%{left:74%}80%{left:6%}}
+.vfad .gate{display:flex;gap:4px;height:36px;align-items:flex-end}
+.vfad .gate i{flex:1;background:var(--amber);opacity:.25;height:100%;}
+.vfad .ab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--dim)}
+.plus{display:flex;align-items:center;justify-content:center;margin:30px 0 0;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.plus b{font-family:var(--ops);font-weight:400;font-size:20px;letter-spacing:.04em;color:var(--text)}
+
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:70px}
+.ft{position:relative;background:rgba(27,28,31,.94);border:2px solid var(--line);border-radius:8px;padding:28px 26px 26px}
+.ft::before{content:attr(data-n);position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim)}
+.ft h4{font-family:var(--ops);font-weight:400;font-size:24px;letter-spacing:.02em;line-height:1.05;margin:14px 0 10px}
+.ft p{color:#B9BEC5;font-size:16px}
+.ft p a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
+.ft .ico{min-width:42px;height:34px;padding:0 8px;display:inline-grid !important;font-size:13px !important;letter-spacing:.06em;display:grid;place-items:center;border:2px solid var(--amber);color:var(--amber);border-radius:6px;font-family:var(--ops);font-size:18px}
+.ft.cy .ico{border-color:var(--cyan);color:var(--cyan)}
+
+/* arsenal */
+.arsenal{background:rgba(13,14,16,.6);border-block:2px solid var(--line)}
+.bank{margin-top:10px}
+.bank+.bank{margin-top:64px}
+.bank-h{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.bank-h h3{font-family:var(--ops);font-weight:400;font-size:40px;line-height:1;color:var(--cyan);text-shadow:3px 3px 0 var(--ink)}
+.bank.s .bank-h h3{color:var(--amber)}
+.bank-h span{font-family:var(--mono);font-size:14px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.act{--c:14px;--col:var(--cyan);padding:2px;clip-path:var(--cham);background:var(--col)}
+.bank.s .act{--col:var(--amber)}
+.act-in{clip-path:var(--cham);background:#1C1E21;height:100%;padding:20px 20px 22px;display:flex;flex-direction:column;gap:10px;transition:background .2s}
+.act:hover .act-in{background:#23272b}
+.act svg{width:96px;height:58px;color:var(--col);overflow:visible}
+.act svg *{transition:stroke-dashoffset .6s}
+.act b{font-family:var(--ops);font-weight:400;font-size:21px;letter-spacing:.03em;line-height:1}
+.act p{font-size:15px;color:#AEB4BB;line-height:1.45}
+.act em{font-style:normal;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--col);text-transform:uppercase;margin-top:auto}
+
+/* panel showcase */
+.showcase .frame{position:relative;padding:14px;border-radius:14px;background:#0D0E10;box-shadow:0 0 0 2px var(--amber),0 40px 80px rgba(0,0,0,.6)}
+.plug{border-radius:8px;overflow:hidden;padding:18px}
+.p-top{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start}
+.p-title{font-family:var(--ops);font-size:clamp(30px,3.6vw,50px);line-height:1;color:#ECEEF0;-webkit-text-stroke:2px #111;paint-order:stroke fill;text-shadow:4px 4px 0 #111;white-space:nowrap}
+.p-title .n{color:var(--red)}
+.p-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.p-chips span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;background:#1B1C1F;color:var(--amber);padding:3px 8px;border:1px solid #3a3326}
+.p-haz{height:8px;background:var(--haz);margin-top:10px;max-width:520px}
+.box{background:rgba(29,31,34,.96);border:2px solid #3A3D42;border-radius:6px;padding:12px 14px}
+.box-h{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--amber);margin-bottom:8px}
+.clock{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap}
+.lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dim);margin-bottom:4px}
+.seg{display:inline-flex;border:1px solid #3A3D42;border-radius:4px;overflow:hidden}
+.seg span{font-family:var(--ops);font-size:12px;padding:5px 9px;color:#6E747B;background:#16171A}
+.seg span.on{background:var(--cyan);color:#06171D}
+.seg.am span.on{background:var(--amber);color:#141006}
+.play{font-family:var(--ops);font-size:14px;color:var(--amber);border:2px solid var(--amber);border-radius:5px;padding:7px 14px;background:#141006}
+.play.on{background:var(--amber);color:#141006}
+.lcd{font-family:var(--mono);font-size:30px;line-height:1;color:var(--amber);background:#0B0C0D;border:2px solid #3A3D42;border-radius:4px;padding:5px 10px}
+.lcd small{font-size:10px;color:var(--dim);margin-left:4px}
+.res{font-family:var(--ops);font-size:14px;color:var(--cyan);border:2px solid var(--cyan);border-radius:4px;padding:5px 12px}
+.kwrap{text-align:center}
+.kwrap .kn{width:42px;margin:0 auto}
+.kwrap .v{font-family:var(--ops);font-size:12px;color:var(--cyan);margin-top:3px}
+.kwrap .kn.s + .v{color:var(--amber)}
+.payload{display:grid;grid-template-columns:auto auto auto 1fr;gap:20px;align-items:center;margin-top:14px}
+.pl-btns{display:flex;flex-direction:column;gap:8px}
+.pl-btns span{font-family:var(--ops);font-size:14px;text-align:center;padding:7px 16px;border-radius:5px;border:2px solid var(--amber);color:var(--amber)}
+.pl-btns span+span{border-color:var(--cyan);color:var(--cyan)}
+.pl-info b{font-family:var(--ops);font-weight:400;font-size:18px;display:block}
+.pl-info small{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em;display:block}
+.pl-info small.am{color:var(--amber)}
+.wave{position:relative;height:84px;background:#0B0C0D;border:2px solid #3A3D42;border-radius:4px;overflow:hidden}
+.wave svg{position:absolute;inset:0;width:100%;height:100%}
+.wave .ph{position:absolute;top:0;bottom:0;width:2px;background:#fff;box-shadow:0 0 8px #fff;left:0}
+.wave .cue{position:absolute;left:0;bottom:0;font-family:var(--mono);font-size:10px;background:var(--amber);color:#111;padding:1px 4px}
+.banks{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.banks .tb{font-family:var(--ops);font-size:13px;padding:7px 12px;border-radius:4px;background:#1A1C1F;color:#6FA9BD;border:2px solid #2C3A40}
+.banks .tb.on{background:var(--cyan);color:#06171D;border-color:var(--cyan)}
+.banks .sp{flex:1}
+.banks .tb,.banks .len{flex:none;white-space:nowrap}
+.banks .len{font-family:var(--ops);font-size:13px;color:var(--amber);background:#141006;border:2px solid var(--amber);border-radius:4px;padding:7px 12px}
+.p-strips{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:9px;margin-top:14px}
+.p-foot{display:flex;justify-content:space-between;gap:12px;margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--amber);background:rgba(13,14,16,.85);padding:6px 10px;border-radius:4px}
+.p-foot span+span{color:var(--dim)}
+.caption{text-align:center;margin-top:26px;color:var(--dim);font-family:var(--mono);font-size:13px;letter-spacing:.08em}
+
+/* final */
+.final{text-align:center;padding:110px 0 120px;overflow:hidden}
+.final h2{font-size:clamp(48px,7vw,104px);margin:24px 0 18px}
+.final .cta{margin-top:34px}
+footer{background:var(--ink);padding:34px 0;position:relative}
+footer::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--haz)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:14px;color:var(--dim)}
+footer .ts{font-size:18px}
+footer nav{display:flex;gap:26px}
+footer a:hover{color:var(--amber)}
+
+/* ===== tablet ===== */
+@media (max-width:1080px){
+  .hero .wrap{grid-template-columns:1fr;gap:56px}
+  .mini{max-width:680px}
+  .acts{grid-template-columns:repeat(2,1fr)}
+  .p-top{grid-template-columns:1fr}
+  .payload{grid-template-columns:auto 1fr}
+  .payload .wave{grid-column:1/-1}
+  .p-strips{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;-webkit-overflow-scrolling:touch;scrollbar-color:var(--amber) #111}
+  .p-strips .st{flex:0 0 150px;scroll-snap-align:start}
+}
+/* ===== mobile ===== */
+@media (max-width:760px){
+  .wrap{padding:0 18px}
+  nav.top ul{display:none}
+  nav.top .wrap{height:62px}
+  .ts small{display:none}
+  .hero{padding:46px 0 80px}
+  .hero h1{font-size:min(15.5vw,96px);-webkit-text-stroke:3px var(--ink);text-shadow:5px 5px 0 var(--ink)}
+  .sub{font-size:17px}
+  .tag{font-size:11px;letter-spacing:.12em}
+  .btn{font-size:20px;width:100%}
+  .btnwrap{display:block;width:100%}
+  nav.top .btnwrap{width:auto} nav.top .btn{width:auto;font-size:15px;padding:11px 16px 10px}
+  .mini{padding:16px 14px}
+  .mini .strips{grid-template-columns:repeat(2,1fr)}
+  .mini .st:nth-child(n+3){display:none}
+  .cauts div{font-size:18px}
+  section{padding:80px 0}
+  .head{margin-bottom:40px}
+  .hands{grid-template-columns:1fr}
+  .hand-in{grid-template-columns:1fr;padding:30px 22px 28px}
+  .viz{width:150px;justify-self:center}
+  .feats{grid-template-columns:1fr;margin-top:50px}
+  .acts{grid-template-columns:1fr 1fr;gap:12px}
+  .act-in{padding:16px 14px 18px}
+  .act svg{width:76px;height:46px}
+  .act b{font-size:18px}
+  .act p{font-size:14px}
+  .bank-h h3{font-size:32px}
+  .showcase .frame{padding:8px}
+  .plug{padding:12px}
+  .p-title{font-size:min(7.4vw,40px);white-space:normal}
+  .clock{gap:12px}
+  .payload{grid-template-columns:1fr;gap:12px}
+  .pl-btns{flex-direction:row}
+  .banks .sp{display:none}
+  .p-strips .st{flex-basis:128px}
+  .p-foot{flex-direction:column}
+  footer .wrap{flex-direction:column;text-align:center}
+}
+@media (max-width:380px){ .acts{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){
+  .cauts div,.vrec,.vfad .cap{animation:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a href="/" class="ts" title="Back to Tril$oft">← <span>TRIL<i>$</i>OFT</span> <small>VST DIV · 002</small></a>
+    <ul>
+      <li><a href="#hands">Two hands</a></li>
+      <li><a href="#arsenal">Arsenal</a></li>
+      <li><a href="#panel">The panel</a></li>
+    </ul>
+    <span class="btnwrap"><a href="#" class="btn" data-stripe data-product="conceal-n-strike">Buy Now</a></span>
+  </div>
+</nav>
+
+<header class="hero camo-l">
+  <div class="wrap">
+    <div>
+      <span class="tag">DIV-002 // Class-T turntablism ordnance</span>
+      <h1 class="stencil"><span>CONCEAL</span><span class="n">-N-</span><span>STRIKE</span></h1>
+      <p class="tagline">Program the scratch.<br><em>Two hands. Every step.</em></p>
+      <p class="sub">A 64-step turntablism sequencer. Every step tells the platter hand how to move the record and the fader hand how to cut it — locked to your DAW's tempo, so routines that take years to learn come out of a grid.</p>
+      <div class="cta"><span class="btnwrap"><a class="btn" href="#" data-stripe data-product="conceal-n-strike">Buy Now →</a></span></div>
+      <p class="fine"><b>✦</b> VST3 · CLAP · AU · Standalone app &nbsp;·&nbsp; macOS &nbsp;·&nbsp; Same scratch engine as <a href="/wildcard">Wild Card</a></p>
+    </div>
+    <div class="mini" aria-label="Animated preview of four Conceal-N-Strike step strips">
+      <div class="mini-h"><span>SECTOR 01-08 // LIVE</span><span class="bpm">090.0<small>BPM</small></span></div>
+      <div class="strips" id="miniStrips"></div>
+    </div>
+  </div>
+</header>
+
+<div class="cauts" aria-hidden="true"><div>
+  <span>CAUTION: HIGH VELOCITY FADER</span><span>//</span><span>AUTHORIZED PERSONNEL ONLY</span><span>//</span><span>64 STEPS</span><span>//</span><span>CONCEAL</span><span>//</span><span>STRIKE</span><span>//</span><span>LOCKED TO YOUR DAW</span><span>//</span>
+  <span>CAUTION: HIGH VELOCITY FADER</span><span>//</span><span>AUTHORIZED PERSONNEL ONLY</span><span>//</span><span>64 STEPS</span><span>//</span><span>CONCEAL</span><span>//</span><span>STRIKE</span><span>//</span><span>LOCKED TO YOUR DAW</span><span>//</span>
+</div></div>
+
+<section id="hands">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag">Briefing</span>
+      <h2 class="stencil">TWO HANDS. EVERY STEP.</h2>
+      <p class="sub">A scratch DJ does two jobs at once. Conceal-N-Strike splits them up and lets you program each one, step by step.</p>
+    </div>
+    <div class="hands">
+      <div class="hand c"><div class="hand-in">
+        <div>
+          <span class="kick">LEFT HAND // THE PLATTER</span>
+          <h3>CONCEAL</h3>
+          <p>How the record moves under the needle. <b>Baby scratches, tears, scribbles, drags, spinbacks</b> and more — each with its own knob for throw, tension, curve or speed.</p>
+        </div>
+        <div class="viz" aria-hidden="true"><div class="vrec"><i></i></div></div>
+      </div></div>
+      <div class="hand s"><div class="hand-in">
+        <div>
+          <span class="kick">RIGHT HAND // THE CROSSFADER</span>
+          <h3>STRIKE</h3>
+          <p>How the sound gets cut. <b>Stabs, chirps, transformers, flares, crabs</b> and fades — with a real fader throw, so sharp curves cut instantly and smooth ones fade.</p>
+        </div>
+        <div class="viz" aria-hidden="true"><div class="vfad"><div class="gate" id="gate"></div><div class="trk"><div class="cap"></div></div><div class="ab"><span>A</span><span>B</span></div></div></div>
+      </div></div>
+    </div>
+    <p class="plus"><b>CONCEAL</b> + <b>STRIKE</b> × 64 steps = a full routine, played back in time</p>
+
+    <div class="feats">
+      <div class="ft" data-n="01"><span class="ico">BPM</span><h4>Locked to the beat</h4><p>Follows your DAW's tempo and playhead, or runs its own clock. Step resolution from 1/4 to 1/32 (triplets and dotted too), plus swing.</p></div>
+      <div class="ft cy" data-n="02"><span class="ico">WAV</span><h4>Load your own ammo</h4><p>Drop in a WAV, MP3, AIFF, FLAC, OGG or M4A — or scratch the built-in “ahh”. Click the waveform to set the cue.</p></div>
+      <div class="ft" data-n="03"><span class="ico">8×8</span><h4>8 sector banks</h4><p>Eight pages of eight steps. Follow the playhead, set the pattern length anywhere from 1 to 64, and copy/paste whole pages.</p></div>
+      <div class="ft cy" data-n="04"><span class="ico">CUE</span><h4>CUE or RIDE</h4><p>CUE lands every step on the same sound. RIDE lets the record carry on from wherever the last move left it.</p></div>
+      <div class="ft" data-n="05"><span class="ico">DAW</span><h4>Automate everything</h4><p>Every step's four controls are host parameters, so your DAW can automate them, undo edits and save them with the project.</p></div>
+      <div class="ft cy" data-n="06"><span class="ico">DIV</span><h4>The Wild Card engine</h4><p>Built on the same scratch engine as <a href="/wildcard">Wild Card</a>: band-limited playback at any speed and a record that follows the hand.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="arsenal" class="arsenal">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag">The arsenal</span>
+      <h2 class="stencil">16 MOVES. ONE GRID.</h2>
+      <p class="sub">Pick an action for each hand on every step, then dial its knob in.</p>
+    </div>
+    <div class="bank c">
+      <div class="bank-h"><h3>CONCEAL</h3><span>Platter actions</span></div>
+      <div class="acts" id="actsC"></div>
+    </div>
+    <div class="bank s">
+      <div class="bank-h"><h3>STRIKE</h3><span>Fader actions</span></div>
+      <div class="acts" id="actsS"></div>
+    </div>
+  </div>
+</section>
+
+<section id="panel" class="showcase">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag cy">The panel</span>
+      <h2 class="stencil">COMMAND CENTER</h2>
+      <p class="sub">Clock, payload, sector banks and eight channel strips. Tap any pad to cycle its action.</p>
+    </div>
+    <div class="frame">
+      <div class="plug camo-l" id="plug">
+        <div class="p-top">
+          <div>
+            <div class="p-title">CONCEAL<span class="n">-N-</span>STRIKE</div>
+            <div class="p-chips"><span>SYS.OP // 64</span><span>REV.01 // ARTIC-STRIKE</span><span>CLASS-T TURNTABLISM ORDNANCE</span></div>
+            <div class="p-haz"></div>
+          </div>
+          <div class="box">
+            <div class="box-h">COMMAND CLOCK // CHRONO-SYNC</div>
+            <div class="clock">
+              <div><div class="lbl">SYNC MODE</div><div class="seg"><span>DAW</span><span class="on">INT</span></div><div style="margin-top:8px"><button class="play on" id="playBtn" aria-pressed="true">■ STOP</button></div></div>
+              <div><div class="lbl">MASTER BPM</div><div class="lcd">090.0<small>BPM</small></div></div>
+              <div><div class="lbl">STEP RES</div><div class="res">1/8</div><div style="margin-top:8px" class="seg am"><span class="on">CUE</span><span>RIDE</span></div></div>
+              <div class="kwrap"><div class="lbl">SWING</div><div class="kn" style="--v:0"></div><div class="v">50%</div></div>
+              <div class="kwrap"><div class="lbl">XF CURVE</div><div class="kn s" style="--v:.9"></div><div class="v">90%</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="box payload">
+          <div><div class="box-h">PAYLOAD // SAMPLE BAY</div><div class="pl-btns"><span>LOAD</span><span>BUILT-IN</span></div></div>
+          <div class="pl-info"><b>AHH (BUILT-IN)</b><small>0.90 S // 44.1 KHZ</small><small class="am">CUE 0.000 S // 16 SLICES</small></div>
+          <div><div class="lbl">SAMPLE EDGE</div><div class="seg"><span class="on">LOOP</span><span>BOUNCE</span><span>SILENT</span></div></div>
+          <div class="wave" id="wave"><svg id="waveSvg" preserveAspectRatio="none" viewBox="0 0 400 80" aria-hidden="true"></svg><span class="ph" id="ph"></span><span class="cue">CUE</span></div>
+        </div>
+        <div class="banks" id="banks">
+          <span class="tb on">01-08</span><span class="tb">09-16</span><span class="tb">17-24</span><span class="tb">25-32</span><span class="tb">33-40</span><span class="tb">41-48</span><span class="tb">49-56</span><span class="tb">57-64</span>
+          <span class="sp"></span><span class="tb on">FOLLOW</span><span class="len">◀ LEN 08 ▶</span>
+        </div>
+        <div class="p-strips" id="pStrips"></div>
+        <div class="p-foot"><span>CAUTION: HIGH VELOCITY FADER // AUTHORIZED PERSONNEL ONLY // GRID REF 64-8</span><span>PAD: TAP TO CYCLE</span></div>
+      </div>
+    </div>
+    <p class="caption">Conceal-N-Strike interface, rebuilt for the web from the plug-in. Swipe the strips on small screens.</p>
+  </div>
+</section>
+
+<div class="final">
+  <div class="wrap">
+    <span class="tag">Clearance granted</span>
+    <h2 class="stencil">LOCK. LOAD. <span class="n">CUT.</span></h2>
+    <p class="sub" style="margin:0 auto">Sixty-four steps of scratch routine, waiting for your sample.</p>
+    <div class="cta"><span class="btnwrap"><a class="btn" href="#" data-stripe data-product="conceal-n-strike">Buy Now</a></span></div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <a href="/" class="ts"><span>TRIL<i>$</i>OFT</span> <small>VST DIVISION</small></a>
+    <nav><a href="/">All plug-ins</a><a href="/wildcard">Wild Card</a></nav>
+    <span>© 2026 Tril$oft · Conceal-N-Strike is DIV-002</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const G = {"conceal": [["FORWARD", "<path d=\"M38 12L38 48L68 30Z\" fill=\"currentColor\"/>", "SPD 1.00X"], ["REVERSE", "<path d=\"M62 12L62 48L32 30Z\" fill=\"currentColor\"/>", "SPD 1.00X"], ["BABY", "<path d=\"M18 30H82M27 21L18 30L27 39M73 21L82 30L73 39\"/>", "THROW 80%"], ["TEAR", "<path d=\"M16 46L38 14L54 38L62 30L84 46\"/>", "SPLIT 40%"], ["SCRIBBLE", "<path d=\"M14 30 L16 16 L20 44 L24 16 L28 44 L32 16 L36 44 L40 16 L44 44 L48 16 L52 44 L56 16 L60 44 L64 16 L68 44 L72 16 L76 44 L80 16 L84 44 L88 30\" stroke-width=\"3\"/>", "TENSION 19HZ"], ["DRAG", "<path d=\"M18 48C24 26 40 14 84 13\"/>", "CURVE 30%"], ["DICE", "<rect x=\"33\" y=\"13\" width=\"34\" height=\"34\" rx=\"5\"/><circle cx=\"42\" cy=\"22\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"50\" cy=\"30\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"58\" cy=\"38\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/>", "SLICE 07"], ["SPIN/BRAKE", "<path d=\"M50 30a3 3 0 1 1 3 3a8 8 0 1 1 8-8a13 13 0 1 1-13-13\"/><path d=\"M46 7L50 12L45 16\"/>", "SPIN 6.0X"], ["HYDROPLANE", "<path d=\"M12 34C20 18 30 18 38 34S56 50 64 34S80 20 88 30\"/><path d=\"M14 48H86\" stroke-dasharray=\"4 5\" stroke-width=\"2\"/>", "FRICTION 55%"]], "strike": [["OPEN", "<rect x=\"24\" y=\"16\" width=\"52\" height=\"30\"/><rect x=\"24\" y=\"16\" width=\"52\" height=\"7\" fill=\"currentColor\"/>", "LEVEL 100%"], ["MUTE", "<rect x=\"24\" y=\"16\" width=\"52\" height=\"30\" stroke-dasharray=\"5 4\"/><path d=\"M40 24L60 38M60 24L40 38\"/>", "BLEED 5%"], ["STAB", "<path d=\"M22 46V14H32V46H82\"/>", "GATE 24%"], ["CHIRP", "<path d=\"M24 14L47 30L24 46ZM76 14L53 30L76 46Z\" fill=\"currentColor\"/>", "PINCH 38%"], ["TRANSFORM", "<path d=\"M16 46V16H24V46H32V16H40V46H48V16H56V46H64V16H72V46H80V16H86\"/>", "4 CUTS"], ["FLARE", "<path d=\"M22 20H38L36 42H24ZM42 20H58L56 42H44ZM62 20H78L76 42H64Z\" fill=\"currentColor\" stroke-width=\"2\"/>", "2-CLICK"], ["CRAB", "<path d=\"M14 46H20V16H24V46H34V20H38V46H48V24H52V46H62V28H66V46H86\"/>", "ROLL FAST"], ["FADE/SWELL", "<path d=\"M18 46L82 16V46Z\" fill=\"currentColor\" fill-opacity=\".25\"/><path d=\"M18 46L82 16\"/>", "SWELL 60%"]]};
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const svg = (inner, sw = 4) => '<svg viewBox="0 0 100 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round" stroke-linecap="round">' + inner + '</g></svg>';
+
+  // ----- arsenal tiles (README action names + what the knob does) -----
+  const C_INFO = [
+    ['FORWARD / REVERSE', 0, 'Push or pull the record at a set speed.', 'Knob: speed 0.25×–2×'],
+    ['BABY SCRATCH', 2, 'The classic back-and-forth.', 'Knob: throw'],
+    ['TEAR', 3, 'A pull-back broken by a tiny pause.', 'Knob: split'],
+    ['SCRIBBLE', 4, 'A tense, shaking hand on the record.', 'Knob: tension 6–60 Hz'],
+    ['DRAG', 5, 'Slows the record down under your hand.', 'Knob: curve'],
+    ['DICE', 6, 'Jumps to one of 16 slices, then plays on.', 'Knob: slice 1–16'],
+    ['SPINBACK / BRAKE', 7, 'Stop the platter dead or fling it back.', 'Knob: brake ↔ spin 2×–10×'],
+    ['HYDROPLANE', 8, 'Slip-and-grip friction on the platter.', 'Knob: friction'],
+  ];
+  const S_INFO = [
+    ['OPEN', 0, 'Fader open. Let the move speak.', 'Knob: level'],
+    ['MUTE', 1, 'Fader closed, with a little bleed if you want it.', 'Knob: bleed 0–20%'],
+    ['STAB', 2, 'One short, hard cut at the top of the step.', 'Knob: gate length'],
+    ['CHIRP', 3, 'Open, snap shut in the middle, open again.', 'Knob: pinch'],
+    ['TRANSFORMER', 4, 'Rapid on/off cuts across the step.', 'Knob: 2, 3, 4, 6 or 8 cuts'],
+    ['FLARE', 5, 'Starts open and clicks out.', 'Knob: 1, 2 or 3 clicks'],
+    ['CRAB', 6, 'Four fingers rolling off the fader.', 'Knob: roll speed'],
+    ['FADE / SWELL', 7, 'Fade out to the left, swell in to the right.', 'Knob: direction + depth'],
+  ];
+  const tile = (info, list) => info.map(([n, gi, p, k]) => '<div class="act"><div class="act-in">' + svg(list[gi][1]) + '<b>' + n + '</b><p>' + p + '</p><em>' + k + '</em></div></div>').join('');
+  document.getElementById('actsC').innerHTML = tile(C_INFO, G.conceal);
+  document.getElementById('actsS').innerHTML = tile(S_INFO, G.strike);
+  // draw-on hover for arsenal glyph strokes
+  document.querySelectorAll('.act').forEach(a => {
+    const ps = a.querySelectorAll('path,rect');
+    a.addEventListener('mouseenter', () => ps.forEach(p => { if (RM || !p.getTotalLength) return; const L = p.getTotalLength(); p.style.transition = 'none'; p.style.strokeDasharray = L; p.style.strokeDashoffset = L; p.getBoundingClientRect(); p.style.transition = ''; p.style.strokeDashoffset = 0; }));
+  });
+
+  // ----- channel strips -----
+  const BASE_C = [2, 2, 0, 3, 4, 2, 5, 7], BASE_S = [0, 3, 2, 0, 0, 4, 5, 0];
+  const KV = [.8, .8, .5, .4, .35, .94, .3, .6];
+  function strip(n, ci, si, small) {
+    const el = document.createElement('div');
+    el.className = 'st';
+    el.innerHTML = '<div class="st-h"><b>STEP ' + String(n).padStart(2, '0') + '</b><i class="led"></i></div>' +
+      '<div class="kn c"></div><div class="kl c"></div><small>CONCEAL</small>' +
+      '<button class="pad c" type="button"></button><small>STRIKE</small><button class="pad s" type="button"></button>' +
+      '<div class="kn s"></div><div class="kl s"></div><span class="ch">CH.' + String(n).padStart(2, '0') + ' // ARMED</span>';
+    const st = { el, ci, si, n };
+    const [kc, ks] = el.querySelectorAll('.kn'), [lc, ls] = el.querySelectorAll('.kl'), [pc, ps] = el.querySelectorAll('.pad');
+    const paint = (which, anim) => {
+      const isC = which === 'c', list = isC ? G.conceal : G.strike, i = ((isC ? st.ci : st.si) % list.length + list.length) % list.length, a = list[i];
+      const pad = isC ? pc : ps, set = () => { pad.innerHTML = svg(a[1]) + '<span>' + a[0] + '</span>'; pad.setAttribute('aria-label', (isC ? 'Conceal' : 'Strike') + ' action for step ' + n + ': ' + a[0] + '. Tap to cycle.'); (isC ? lc : ls).textContent = a[2]; (isC ? kc : ks).style.setProperty('--v', (.25 + ((i * 37 + n * 13) % 70) / 100).toFixed(2)); };
+      if (anim && !RM) { pad.classList.remove('flip'); void pad.offsetWidth; pad.classList.add('flip'); setTimeout(set, 130); } else set();
+    };
+    st.paint = paint;
+    paint('c'); paint('s');
+    const cyc = (which, d) => e => { e.preventDefault(); if (which === 'c') st.ci += d; else st.si += d; paint(which, true); };
+    pc.addEventListener('click', cyc('c', 1)); ps.addEventListener('click', cyc('s', 1));
+    pc.addEventListener('contextmenu', cyc('c', -1)); ps.addEventListener('contextmenu', cyc('s', -1));
+    return st;
+  }
+  const mini = [0, 1, 2, 3].map(i => strip(i + 1, BASE_C[i] + 1, BASE_S[i] + 1));
+  mini.forEach(s => document.getElementById('miniStrips').appendChild(s.el));
+  const full = BASE_C.map((c, i) => strip(i + 1, c, BASE_S[i]));
+  full.forEach(s => document.getElementById('pStrips').appendChild(s.el));
+
+  // ----- waveform (deterministic, like the built-in "ahh") -----
+  let d = '', seed = 11;
+  for (let i = 0; i < 200; i++) { seed = (seed * 9301 + 49297) % 233280; const r = seed / 233280; const env = Math.pow(1 - i / 200, .55) * (i < 6 ? i / 6 : 1); const h = Math.max(.6, env * (26 + r * 12)); d += 'M' + (i * 2 + 1) + ' ' + (40 - h).toFixed(1) + 'V' + (40 + h).toFixed(1); }
+  let marks = ''; for (let i = 1; i < 16; i++) marks += '<path d="M' + i * 25 + ' 0V80" stroke="rgba(255,255,255,.12)" stroke-width="1"/>';
+  document.getElementById('waveSvg').innerHTML = marks + '<path d="' + d + '" stroke="#3EC6F0" stroke-width="1.4"/>';
+
+  // ----- sequencer playback (90 BPM, 1/8 steps); pads flip as they fire -----
+  const ph = document.getElementById('ph'), playBtn = document.getElementById('playBtn');
+  const STEP_MS = 60000 / 90 / 2;
+  function runner(strips, mutate) {
+    let i = -1, t0 = 0, vis = false, playing = !RM, hits = 0;
+    const tick = now => {
+      if (vis && playing) {
+        if (!t0) t0 = now;
+        const k = Math.floor((now - t0) / STEP_MS) % strips.length;
+        if (k !== i) {
+          if (i >= 0) strips[i].el.classList.remove('hot');
+          i = k; strips[i].el.classList.add('hot'); hits++;
+          if (mutate && hits > strips.length && (hits + i) % 3 === 0) { const s = strips[i]; s.ci += 1; s.paint('c', true); if (hits % 2) { s.si += 1; s.paint('s', true); } }
+        }
+        if (strips === full) ph.style.left = (((now - t0) % (STEP_MS * 8)) / (STEP_MS * 8) * 100).toFixed(2) + '%';
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    return {
+      setVis(v) { vis = v; if (!v) t0 = 0; },
+      toggle() { playing = !playing; if (!playing && i >= 0) strips[i].el.classList.remove('hot'); t0 = 0; i = -1; return playing; },
+    };
+  }
+  const rMini = runner(mini, true), rFull = runner(full, false);
+  if (RM) { mini[1].el.classList.add('hot'); full[2].el.classList.add('hot'); playBtn.classList.remove('on'); playBtn.textContent = '▶ PLAY'; playBtn.setAttribute('aria-pressed', 'false'); }
+  playBtn.addEventListener('click', () => { const on = rFull.toggle(); playBtn.classList.toggle('on', on); playBtn.textContent = on ? '■ STOP' : '▶ PLAY'; playBtn.setAttribute('aria-pressed', on); });
+  const io = new IntersectionObserver(es => es.forEach(e => (e.target.id === 'miniStrips' ? rMini : rFull).setVis(e.isIntersecting)), { threshold: .15 });
+  io.observe(document.getElementById('miniStrips')); io.observe(document.getElementById('pStrips'));
+
+  // fader gate meter in the STRIKE card
+  const gate = document.getElementById('gate');
+  const pat = [1,1,0,0,1,0,1,1,0,1,0,0,1,1,1,0];
+  pat.forEach((v, i) => { const b = document.createElement('i'); b.style.animationDelay = (-i * .1) + 's'; b.style.opacity = v ? 1 : .2; gate.appendChild(b); });
+})();
+</script>
+<script src="/js/site-config.js"></script>
+<script src="/js/checkout.js"></script>
+</body>
+</html>

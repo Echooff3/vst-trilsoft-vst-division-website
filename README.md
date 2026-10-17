@@ -19,6 +19,8 @@ Then open [http://localhost:8080](http://localhost:8080).
 | `/` | Homepage |
 | `/wildcard` | Wild Card |
 | `/wildcard.html` | Same Wild Card page |
+| `/conceal-n-strike` | Conceal-N-Strike |
+| `/conceal-n-strike.html` | Same Conceal-N-Strike page |
 
 ## Deploy on Railway
 
@@ -38,17 +40,19 @@ Every Buy Now button reads [`public/js/site-config.js`](public/js/site-config.js
 window.TRILOSOFT = {
   paymentLinks: {
     wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
+    "conceal-n-strike": "",
   },
   API_BASE_URL: "",
   products: {
     wildcard: "wildcard",
+    "conceal-n-strike": "conceal-n-strike",
   },
 };
 ```
 
 `server.js` copies `paymentLinks.wildcard` into each Wild Card Buy Now `href`, including the homepage fallback inside `<noscript>`. The button is an ordinary link.
 
-To go live, set `PAYMENT_LINK_WILDCARD` on the Railway service to the live Payment Link. It has to be an `https` URL. The server uses it in place of the value in the file, both in `/js/site-config.js` and in the HTML `href`s. Hyphens in a slug become underscores in the variable name (`my-plugin` → `PAYMENT_LINK_MY_PLUGIN`).
+To go live, set `PAYMENT_LINK_WILDCARD` on the Railway service to the live Payment Link. Conceal-N-Strike has no link yet (`paymentLinks["conceal-n-strike"]` is `""`). Set `PAYMENT_LINK_CONCEAL_N_STRIKE` to an `https` Payment Link and its Buy Now buttons pick that up, without using Wild Card's URL. The server uses the variable in place of the value in the file, both in `/js/site-config.js` and in the HTML `href`s. Hyphens in a slug become underscores in the variable name (`conceal-n-strike` → `PAYMENT_LINK_CONCEAL_N_STRIKE`).
 
 `API_BASE_URL` is only the fallback for a plug-in with no payment link. Leave it empty and those buttons stay on the page. When it is an `http` or `https` origin (the `API_BASE_URL` environment variable overrides the file), a click POSTs `{API_BASE_URL}/checkout?product=<id>` with JSON `{ "product": "<id>" }` and follows a returned `url` (`checkoutUrl` and `checkout_url` too), or submits a form POST so the API can answer with a redirect. `products` maps the button's `data-product` slug to that id.
 
@@ -72,12 +76,12 @@ Each plug-in is one HTML file with its own look. Copy the idea of [`public/wildc
    <script src="/js/checkout.js"></script>
    ```
 
-6. Register the slug in `public/js/site-config.js`. A payment link makes Buy Now a plain link. Leave it out only if that plug-in should use the checkout API fallback instead.
+6. Register the slug in `public/js/site-config.js`. A payment link makes Buy Now a plain link. Use `""` until a link exists so the slug stays overridable by `PAYMENT_LINK_<SLUG>` and does not reuse another plug-in's URL.
 
    ```js
    paymentLinks: {
      wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
-     "my-plugin": "https://buy.stripe.com/test_...",
+     "conceal-n-strike": "",
    },
    products: {
      wildcard: "wildcard",
