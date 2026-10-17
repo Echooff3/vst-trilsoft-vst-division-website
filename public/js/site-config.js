@@ -24,7 +24,7 @@
 window.TRILOSOFT = {
   paymentLinks: {
     wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
-    "conceal-n-strike": "",
+    "conceal-n-strike": "https://buy.stripe.com/test_aFa5kF5C67X42GOfSL9R601",
   },
   API_BASE_URL: "",
   products: {

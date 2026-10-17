@@ -43,7 +43,7 @@ Every Buy Now button reads [`public/js/site-config.js`](public/js/site-config.js
 window.TRILOSOFT = {
   paymentLinks: {
     wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
-    "conceal-n-strike": "",
+    "conceal-n-strike": "https://buy.stripe.com/test_aFa5kF5C67X42GOfSL9R601",
   },
   API_BASE_URL: "",
   products: {
@@ -55,7 +55,7 @@ window.TRILOSOFT = {
 
 `server.js` copies `paymentLinks.wildcard` into each Wild Card Buy Now `href`, including the homepage fallback inside `<noscript>`. The button is an ordinary link.
 
-To go live, set `PAYMENT_LINK_WILDCARD` on the Railway service to the live Payment Link. Conceal-N-Strike has no link yet (`paymentLinks["conceal-n-strike"]` is `""`). Set `PAYMENT_LINK_CONCEAL_N_STRIKE` to an `https` Payment Link and its Buy Now buttons pick that up, without using Wild Card's URL. The server uses the variable in place of the value in the file, both in `/js/site-config.js` and in the HTML `href`s. Hyphens in a slug become underscores in the variable name (`conceal-n-strike` → `PAYMENT_LINK_CONCEAL_N_STRIKE`).
+To go live, set `PAYMENT_LINK_WILDCARD` or `PAYMENT_LINK_CONCEAL_N_STRIKE` on the Railway service to the live Payment Link. The server uses that variable in place of the value in the file, both in `/js/site-config.js` and in the HTML `href`s, and one plug-in's link is never copied onto the other. Hyphens in a slug become underscores in the variable name (`conceal-n-strike` → `PAYMENT_LINK_CONCEAL_N_STRIKE`).
 
 `API_BASE_URL` is only the fallback for a plug-in with no payment link. Leave it empty and those buttons stay on the page. When it is an `http` or `https` origin (the `API_BASE_URL` environment variable overrides the file), a click POSTs `{API_BASE_URL}/checkout?product=<id>` with JSON `{ "product": "<id>" }` and follows a returned `url` (`checkoutUrl` and `checkout_url` too), or submits a form POST so the API can answer with a redirect. `products` maps the button's `data-product` slug to that id.
 
@@ -84,7 +84,7 @@ Each plug-in is one HTML file with its own look. Copy the idea of [`public/wildc
    ```js
    paymentLinks: {
      wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
-     "conceal-n-strike": "",
+     "conceal-n-strike": "https://buy.stripe.com/test_aFa5kF5C67X42GOfSL9R601",
    },
    products: {
      wildcard: "wildcard",
