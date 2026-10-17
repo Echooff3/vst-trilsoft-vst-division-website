@@ -39,6 +39,11 @@ nav.top .r{display:flex;align-items:center;gap:14px}
 .btnwrap{display:inline-block;filter:drop-shadow(0 6px 0 rgba(13,14,16,.95))}
 nav.top .btn{font-size:16px;padding:12px 18px 11px;--c:9px}
 nav.top .plug small{font-family:var(--mono);font-size:11px;letter-spacing:.14em}
+.px{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.15;color:var(--amber);white-space:nowrap}
+.px b{font-family:var(--ops);font-weight:400;font-size:16px;letter-spacing:.04em;color:#fff;text-transform:none}
+.px small{font-size:10px;letter-spacing:.08em;color:var(--dim)}
+.pxnote{margin:18px 0 0;font-family:var(--mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.pxnote b{color:var(--amber);font-weight:400}
 
 .stage{background:var(--deep) url(/assets/camo-dark.png) 0 0/720px;image-rendering:auto}
 .stage::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(1000px 700px at 32% 55%,rgba(245,166,35,.10),transparent 70%),linear-gradient(90deg,rgba(13,14,16,.55),rgba(13,14,16,.8))}
@@ -162,6 +167,10 @@ footer nav{display:flex;gap:24px;flex-wrap:wrap} footer a:hover{color:var(--ambe
 .is-port nav.top .r{gap:8px}
 .is-port nav.top .btn{font-size:13px;padding:10px 12px 9px}
 .is-port nav.top .plug span{display:none}
+.is-port{--hdr:86px}
+.is-port nav.top .px{position:absolute;left:14px;right:14px;bottom:7px;flex-direction:row;align-items:baseline;justify-content:flex-end;gap:8px}
+.is-port nav.top .px b{font-size:14px}
+.is-port nav.top .px small{font-size:9px}
 .is-port .copy{padding:14px 14px max(14px,env(safe-area-inset-bottom))}
 .is-port .beat{top:14px;bottom:14px;left:14px;right:14px}
 .is-port .card{height:100%;padding:18px 18px 16px;overflow:hidden}
@@ -184,6 +193,7 @@ html.static .scene{padding:60px 20px}
   <div class="r">
     <span class="btnwrap"><a href="/wildcard" class="btn gh plug" title="Other plug-in: Wild Card">DIV-001 <span>Wild Card</span> →</a></span>
     <span class="btnwrap"><a href="#" class="btn" data-stripe data-product="conceal-n-strike">Buy Now</a></span>
+    <span class="px"><b>$15 launch price</b><small>goes to $19 after launch</small></span>
   </div>
 </nav>
 
@@ -310,6 +320,7 @@ html.static .scene{padding:60px 20px}
         <h2 class="stencil" style="font-size:clamp(54px,7.4vw,118px);margin:26px 0 10px">BOTH HANDS.<br><span class="n">64</span> STEPS.</h2>
         <p class="tagline">Program the <em>routine</em>. Hit play.</p>
         <div class="cta" style="margin-top:40px"><span class="btnwrap"><a class="btn" style="font-size:28px;padding:24px 44px 22px" href="#" data-stripe data-product="conceal-n-strike">Buy Now →</a></span></div>
+        <p class="pxnote"><b>$15 launch price.</b> Goes to $19 after launch.</p>
         <p class="fine">VST3 · CLAP · Audio Unit · Standalone · macOS</p>
       </div>
     </section>

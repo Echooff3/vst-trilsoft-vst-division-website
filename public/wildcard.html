@@ -38,6 +38,8 @@ nav.top .r{display:flex;align-items:center;gap:14px}
 .btn:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--INK)}
 .btn-lime{background:var(--lime-s);color:var(--INK)}
 .btn-violet{background:var(--violet-s);color:#fff}
+.px{display:inline-block;font-family:var(--comic);font-size:.78em;letter-spacing:.03em;line-height:1;background:#fff;color:var(--INK);border:3px solid var(--INK);border-radius:8px;padding:4px 8px 2px;box-shadow:2px 2px 0 var(--INK)}
+nav.top .px{font-size:15px;border-width:2px;padding:3px 6px 1px;box-shadow:2px 2px 0 var(--INK)}
 nav.top .btn{font-size:19px;padding:9px 16px 7px;border-width:3px;box-shadow:4px 4px 0 var(--INK)}
 nav.top .plug{font-size:17px}
 nav.top .plug small{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;opacity:.8}
@@ -159,6 +161,7 @@ footer nav{display:flex;gap:24px} footer a:hover{color:var(--lime-s)}
 .is-port .ts small{display:none}
 .is-port nav.top .r{gap:10px}
 .is-port nav.top .btn{font-size:16px;padding:8px 12px 6px}
+.is-port nav.top .px{font-size:13px;padding:2px 5px 0}
 .is-port nav.top .plug span{display:none}
 .is-port .copy{padding:14px 14px max(14px,env(safe-area-inset-bottom))}
 .is-port .beat{top:14px;bottom:14px;left:14px;right:14px}
@@ -190,7 +193,7 @@ html.static .scene{padding:60px 20px}
   <a href="/" class="ts" title="Back to Tril$oft">← <span>TRIL<i>$</i>OFT</span> <small>VST DIV · 001</small></a>
   <div class="r">
     <a href="/conceal-n-strike" class="btn btn-violet plug" title="Next plug-in: Conceal-N-Strike">DIV-002 <span>Conceal-N-Strike</span> →</a>
-    <a href="#" class="btn btn-lime" data-stripe data-product="wildcard">Buy Now</a>
+    <a href="#" class="btn btn-lime" data-stripe data-product="wildcard">Buy Now <span class="px">$13</span></a>
   </div>
 </nav>
 
@@ -322,7 +325,7 @@ html.static .scene{padding:60px 20px}
       <div>
         <div class="bubble" style="font-size:clamp(24px,2.6vw,34px);margin-bottom:34px;transform:rotate(-2deg)">THAT'S THE WHOLE DECK.</div>
         <h2 class="big" style="font-size:clamp(70px,10vw,150px);transform:rotate(-3deg) skew(-4deg)">READY TO WRECK<br>SOME SAMPLES?</h2>
-        <div class="cta" style="margin-top:44px"><a class="btn btn-lime" style="font-size:32px;padding:20px 40px 16px" href="#" data-stripe data-product="wildcard">Buy Now →</a></div>
+        <div class="cta" style="margin-top:44px"><a class="btn btn-lime" style="font-size:32px;padding:20px 40px 16px" href="#" data-stripe data-product="wildcard">Buy Now → <span class="px">$13</span></a></div>
         <p class="sub">VST3 · CLAP · Audio Unit · Standalone · macOS</p>
       </div>
     </section>
