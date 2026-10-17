@@ -2,540 +2,617 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#141517">
-<title>Conceal-N-Strike — 64-step turntablism sequencer · Tril$oft VST Division</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conceal-N-Strike: field manual · Tril$oft VST Division</title>
+<meta name="description" content="Conceal-N-Strike is a 64-step turntablism sequencer. Scroll through every control, step by step.">
+<script>
+(function(d){var p=matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: reduce)').matches?' static':'');})(document.documentElement);
+</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="description" content="Conceal-N-Strike is a 64-step turntablism sequencer plug-in. Every step programs both hands: the platter (CONCEAL) and the crossfader (STRIKE).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Share+Tech+Mono&family=Chakra+Petch:wght@400;500;600;700&family=Unbounded:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tour.css">
 <style>
 :root{
-  --amber:#F5A623; --amber-2:#FFC861; --cyan:#3EC6F0; --red:#FF4A2B; --ink:#0D0E10; --deep:#141517;
-  --panel:#222428; --panel-2:#1B1C1F; --line:#34373C; --text:#E7E9EC; --dim:#8A9097;
+  --amber:#F5A623; --cyan:#3EC6F0; --red:#FF4A2B; --ink:#0D0E10; --deep:#141517; --panel:#222428; --line:#34373C; --text:#E7E9EC; --dim:#8A9097;
+  /* plug-in palette (src/theme.rs) */
+  --SNOW:#eef2f5; --FROST:#c4cdd5; --SLATE:#7b8894; --GUN:#2a2f35; --GUN_HI:#555e68; --GUN_DEEP:#15181c; --BLACK:#0a0c0f; --ICE:#4fd8ff; --AMBER:#ffb01f; --IR:#ff2d40; --TEXT:#e4eaef; --MUTED:#8c98a3;
   --ops:"Black Ops One",Impact,sans-serif; --mono:"Share Tech Mono",ui-monospace,monospace; --body:"Chakra Petch",system-ui,sans-serif;
   --cham:polygon(var(--c,14px) 0,calc(100% - var(--c,14px)) 0,100% var(--c,14px),100% calc(100% - var(--c,14px)),calc(100% - var(--c,14px)) 100%,var(--c,14px) 100%,0 calc(100% - var(--c,14px)),0 var(--c,14px));
   --haz:repeating-linear-gradient(-45deg,var(--amber) 0 14px,#141414 14px 28px);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;overflow-x:hidden}
-body{font-family:var(--body);color:var(--text);background:var(--deep) url(/assets/camo-dark.png) 0 0/720px;image-rendering:auto;line-height:1.55;overflow-x:clip;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
-.camo-l{background:#2A2C30 url(/assets/camo-light.png) 0 0/720px;image-rendering:pixelated}
-.mono{font-family:var(--mono);letter-spacing:.16em;text-transform:uppercase}
-.tag{display:inline-block;font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);background:rgba(13,14,16,.92);border:1px solid rgba(245,166,35,.6);padding:7px 13px}
-.tag.cy{color:var(--cyan);border-color:rgba(62,198,240,.6)}
-.hz{height:12px;background:var(--haz)}
-.ops{font-family:var(--ops);font-weight:400;letter-spacing:.02em;line-height:1}
-.stencil{font-family:var(--ops);font-weight:400;line-height:.98;color:var(--text);-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;text-shadow:5px 5px 0 var(--ink)}
-.stencil .n{color:var(--red)}
-h2.stencil{font-size:clamp(40px,5.2vw,72px);margin:22px 0 16px}
-.sub{font-size:19px;color:#C3C8CE;max-width:640px}
-.btn{--c:13px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--ops);font-size:22px;letter-spacing:.06em;line-height:1;text-transform:uppercase;
-  padding:20px 34px 19px;color:#141006;background:var(--amber);clip-path:var(--cham);transition:filter .15s,transform .12s;touch-action:manipulation}
-.btn:hover{filter:brightness(1.12)} .btn:active{transform:translateY(2px)}
-.btn.cy{background:var(--cyan);color:#06171D}
-.btnwrap{display:inline-block;filter:drop-shadow(0 6px 0 rgba(13,14,16,.95))}
-
-/* nav */
-nav.top{position:sticky;top:0;z-index:30;background:rgba(20,21,23,.92);backdrop-filter:blur(10px)}
+html{background:var(--deep)}
+body{font-family:var(--body);color:var(--text);background:var(--deep);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.pbar{background:linear-gradient(90deg,var(--amber),var(--cyan))}
+nav.top{position:fixed;inset:0 0 auto 0;z-index:60;height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 2.6vw;background:rgba(20,21,23,.94);backdrop-filter:blur(10px)}
 nav.top::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:6px;background:var(--haz)}
-nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:20px}
 .ts{display:inline-flex;align-items:center;gap:10px;font-family:"Unbounded",sans-serif;font-weight:800;font-size:15px;color:#fff;white-space:nowrap}
 .ts i{font-style:normal;color:#FF5B1F}
 .ts small{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.22em;color:var(--dim)}
-nav.top ul{display:flex;gap:30px;list-style:none;font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase}
-nav.top ul a:hover{color:var(--amber)}
-nav.top .btn{font-size:17px;padding:13px 22px 12px;--c:10px}
+nav.top .r{display:flex;align-items:center;gap:14px}
+.btn{--c:13px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--ops);font-size:22px;letter-spacing:.06em;line-height:1;text-transform:uppercase;padding:20px 34px 19px;color:#141006;background:var(--amber);clip-path:var(--cham);transition:filter .15s,transform .12s;white-space:nowrap}
+.btn:hover{filter:brightness(1.12)} .btn:active{transform:translateY(2px)}
+.btn.cy{background:var(--cyan);color:#06171D}
+.btn.gh{background:#0D0E10;color:var(--cyan);box-shadow:inset 0 0 0 2px var(--cyan)}
+.btnwrap{display:inline-block;filter:drop-shadow(0 6px 0 rgba(13,14,16,.95))}
+nav.top .btn{font-size:16px;padding:12px 18px 11px;--c:9px}
+nav.top .plug small{font-family:var(--mono);font-size:11px;letter-spacing:.14em}
 
-/* hero */
-.hero{position:relative;overflow:hidden;padding:84px 0 110px}
-.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,14,16,.92) 0%,rgba(13,14,16,.78) 42%,rgba(13,14,16,.35) 100%),radial-gradient(700px 500px at 75% 50%,rgba(245,166,35,.12),transparent 70%)}
-.hero .wrap{position:relative;display:grid;grid-template-columns:1.02fr 1fr;gap:40px;align-items:center}
-.hero h1{font-size:clamp(64px,8.2vw,124px);margin:26px 0 24px;-webkit-text-stroke:4px var(--ink);text-shadow:7px 7px 0 var(--ink)}
-.hero h1 span{display:block}
-.hero h1 .n{margin-left:.05em}
-.tagline{font-family:var(--ops);font-size:clamp(26px,2.6vw,36px);line-height:1.1;color:var(--amber);text-shadow:3px 3px 0 var(--ink);margin-bottom:16px}
+.stage{background:var(--deep) url(/assets/camo-dark.png) 0 0/720px;image-rendering:auto}
+.stage::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(1000px 700px at 32% 55%,rgba(245,166,35,.10),transparent 70%),linear-gradient(90deg,rgba(13,14,16,.55),rgba(13,14,16,.8))}
+#uibox{border:2px solid var(--line);border-radius:8px;box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 6px rgba(13,14,16,.9);background:#0a0c0f}
+#uibox::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--haz);z-index:50}
+.is-port #uibox{border-radius:0;border-width:0 0 2px;box-shadow:none}
+#rail button span{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);background:rgba(13,14,16,.85);padding:2px 6px}
+#rail button i{background:var(--dim);border-radius:1px!important;transform:rotate(45deg)}
+#rail button.on i{background:var(--amber);transform:rotate(45deg) scale(1.5)}
+
+.card{position:relative;background:rgba(22,24,27,.95);border:1px solid var(--line);padding:28px 30px 26px;clip-path:var(--cham);--c:18px}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--haz)}
+.card .tag{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);border:1px solid rgba(245,166,35,.6);padding:5px 10px;margin-top:6px}
+.card h2{font-family:var(--ops);font-weight:400;font-size:clamp(30px,2.7vw,44px);line-height:1;color:var(--text);margin:16px 0 12px;text-shadow:3px 3px 0 var(--ink)}
+.card h2 em{font-style:normal;color:var(--amber)}
+.card h2 .c{color:var(--cyan)}
+.card p{font-size:16.5px;color:#C9CED4;max-width:540px}
+.card p+p{margin-top:10px}
+.card b{color:#fff;font-weight:600}
+.keys{list-style:none;display:grid;gap:7px;margin-top:14px}
+.keys li{display:flex;align-items:baseline;gap:12px;font-size:15px;color:#C9CED4}
+kbd{flex:none;min-width:94px;font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);background:#0a0c0f;border:1px solid rgba(79,216,255,.5);padding:4px 8px;white-space:nowrap}
+kbd.a{color:var(--amber);border-color:rgba(255,176,31,.55)}
+.tip{margin-top:14px;font-size:14px;color:var(--dim)}
+.tip b{color:var(--amber);font-weight:500}
+
+.scene{display:grid;place-items:center;text-align:center;padding:100px 6vw 40px;background:var(--deep) url(/assets/camo-dark.png) 0 0/720px}
+.scene::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(900px 600px at 60% 45%,rgba(245,166,35,.14),transparent 70%),linear-gradient(rgba(13,14,16,.6),rgba(13,14,16,.85))}
+.scene>div{position:relative}
+.scene .tag{display:inline-block;font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);background:rgba(13,14,16,.92);border:1px solid rgba(245,166,35,.6);padding:7px 13px}
+.stencil{font-family:var(--ops);font-weight:400;line-height:.98;color:var(--text);-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;text-shadow:6px 6px 0 var(--ink)}
+.stencil .n{color:var(--red)}
+.hero h1{font-size:clamp(64px,9vw,140px);margin:26px 0 20px}
+.tagline{font-family:var(--ops);font-size:clamp(24px,2.6vw,36px);line-height:1.1;color:var(--amber);text-shadow:3px 3px 0 var(--ink)}
 .tagline em{font-style:normal;color:var(--cyan)}
-.hero .cta{margin-top:34px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
-.fine{margin-top:22px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
-.fine b{color:var(--amber);font-weight:400}
-.fine a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
-.mini{position:relative;padding:22px;background:rgba(20,21,23,.86);border:2px solid var(--line);border-radius:10px;box-shadow:0 30px 60px rgba(0,0,0,.55)}
-.mini::before{content:"";position:absolute;left:-2px;right:-2px;top:-14px;height:12px;background:var(--haz);border-radius:3px 3px 0 0}
-.mini-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--amber)}
-.mini-h .bpm{font-size:22px;color:var(--amber);background:#0D0E0F;border:1px solid var(--line);padding:2px 10px;letter-spacing:.06em}
-.mini-h .bpm small{font-size:10px;color:var(--dim);margin-left:4px}
-.mini .strips{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.scene .sub{font-size:18px;color:#C3C8CE;max-width:660px;margin:16px auto 0}
+.scene .cta{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.hint{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:38px;font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--amber)}
+.hint i{display:block;width:2px;height:44px;background:linear-gradient(var(--amber),transparent);animation:drip 1.6s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.fine{margin-top:20px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+footer{background:#0D0E10;padding:30px 2.6vw;padding-bottom:max(30px,env(safe-area-inset-bottom));border-top:6px solid transparent;border-image:var(--haz) 6;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--dim)}
+footer nav{display:flex;gap:24px;flex-wrap:wrap} footer a:hover{color:var(--amber)}
 
-/* strips (shared by hero + panel) */
-.st{position:relative;background:var(--panel);border:2px solid var(--line);border-radius:7px;padding:10px 9px 26px;display:flex;flex-direction:column;align-items:center;min-width:0;transition:border-color .15s,box-shadow .15s,transform .15s}
-.st.hot{border-color:var(--amber);box-shadow:0 0 22px rgba(245,166,35,.45);transform:translateY(-3px)}
-.st-h{align-self:stretch;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:10px}
-.st-h b{font-family:var(--ops);font-weight:400;font-size:16px;letter-spacing:.04em;white-space:nowrap}
-.led{width:11px;height:11px;border-radius:50%;background:#4A2224;border:2px solid #111;flex:none}
-.st.hot .led{background:#E5484D;box-shadow:0 0 10px #E5484D}
-.kn{--v:.6;--col:var(--cyan);width:54px;aspect-ratio:1;border-radius:50%;position:relative;background:#111214}
-.kn::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 225deg,var(--col) 0 calc(var(--v)*270deg),transparent 0);-webkit-mask:radial-gradient(circle,transparent 58%,#000 60%,#000 82%,transparent 84%);mask:radial-gradient(circle,transparent 58%,#000 60%,#000 82%,transparent 84%)}
-.kn::after{content:"";position:absolute;inset:22%;border-radius:50%;background:radial-gradient(circle at 50% 18%,#e7e9ec 0 7%,transparent 8%) ,#2B2E32;border:2px solid #0E0F10;transform:rotate(calc(-135deg + var(--v)*270deg))}
-.kn.s{--col:var(--amber)}
-.kl{font-family:var(--ops);font-size:12px;letter-spacing:.03em;color:var(--cyan);margin:5px 0 4px;white-space:nowrap}
-.kl.s{color:var(--amber)}
-.st small{align-self:stretch;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--dim);margin:6px 0 4px}
-.pad{--c:9px;--col:var(--cyan);position:relative;align-self:stretch;aspect-ratio:1.18;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--col);clip-path:var(--cham);background:var(--col);transition:transform .1s}
-.pad::before{content:"";position:absolute;inset:2px;clip-path:var(--cham);background:#1E2023;z-index:0;transition:background .2s}
-.pad > *{position:relative;z-index:1}
-.pad.s{--col:var(--amber)}
-.st.hot .pad.c::before{background:#1f3a45} .st.hot .pad.s::before{background:#43341a}
-.pad svg{width:62%;height:auto;overflow:visible}
-.pad span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--text);white-space:nowrap}
-.pad.flip > *{animation:flip .26s ease-in-out}
-@keyframes flip{50%{transform:scaleY(.02)}}
-.pad:focus-visible{outline:2px solid #fff;outline-offset:3px}
-.ch{position:absolute;bottom:7px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--dim)}
+/* ---------- recreated plug-in UI (src/editor.rs, 1160 × 780) ---------- */
+#ui{font-family:var(--mono);color:var(--TEXT);user-select:none;background:#c4cdd5 url(/assets/camo-light.png) 0 0/720px;image-rendering:pixelated}
+#ui *{image-rendering:auto}
+.tx{position:absolute;z-index:3;line-height:1;white-space:nowrap}
+.st{font-family:var(--ops)}
+.plate{position:absolute;background:var(--BLACK);border-radius:3px;box-shadow:2px 3px 0 rgba(10,12,15,.45)}
+.plate::before{content:"";position:absolute;inset:3px;border-radius:2px;background:var(--GUN);box-shadow:inset 6px 6px 6px -4px rgba(10,12,15,.6),inset -1px -1px 0 var(--GUN_HI)}
+.plate i{position:absolute;width:8px;height:8px;background:#1d2126;clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%);box-shadow:inset 0 0 0 2px #0a0c0f}
+.b{position:absolute;z-index:3;display:grid;place-items:center;clip-path:var(--cham);--c:5px;background:var(--col);font-family:var(--ops);letter-spacing:1px;color:var(--col)}
+.b::before{content:"";position:absolute;inset:1.5px;clip-path:var(--cham);--c:4.4px;background:var(--GUN_DEEP)}
+.b>span{position:relative;padding-top:1px}
+.b.lit{color:var(--BLACK);filter:drop-shadow(0 0 5px var(--col))}
+.b.lit::before{background:var(--col)}
+.b.hov:not(.lit)::before{background:#2e343b}
+.b.dn{transform:translateY(1px)}
+.b.dimc{opacity:.45}
+.sw{position:absolute;z-index:3;display:flex;padding:3px;gap:0;background:var(--BLACK);clip-path:var(--cham);--c:5px;box-shadow:inset 0 0 0 1px var(--GUN_HI)}
+.sw span{flex:1;display:grid;place-items:center;font-family:var(--ops);letter-spacing:1px;color:var(--col);border-radius:2px;padding-top:1px}
+.sw span.on{background:var(--col);color:var(--BLACK)}
+.sw span.x{color:rgba(140,152,163,.5);background:repeating-linear-gradient(-45deg,transparent 0 4px,rgba(85,94,104,.5) 4px 5px)}
+.lbl{position:absolute;z-index:3;font-size:10px;letter-spacing:1px;color:var(--MUTED);line-height:1;white-space:nowrap}
+.pad{position:absolute;z-index:3;clip-path:var(--cham);--c:9px;background:rgba(var(--rgb),.55)}
+.pad::before{content:"";position:absolute;inset:1.5px;clip-path:var(--cham);--c:8.4px;background:var(--GUN_DEEP)}
+.pad.on{background:rgb(var(--rgb));filter:drop-shadow(0 0 7px rgb(var(--rgb)))}
+.pad.on::before{background:color-mix(in srgb,#1a222a 72%,rgb(var(--rgb)))}
+.pad.hov:not(.on)::before{background:#22282f}
+.pad.dim{background:rgba(var(--rgb),.25)}
+.pad svg{position:absolute;left:22px;top:12px;width:66px;height:40px;color:rgb(var(--rgb))}
+.pad.dim svg{opacity:.4}
+.pad .pl{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:11px;letter-spacing:1px;color:var(--TEXT)}
+.led{position:absolute;z-index:3;width:9px;height:9px;border-radius:50%;background:#3a1015;transform:translate(-50%,-50%)}
+.led.on{background:var(--IR);box-shadow:0 0 8px var(--IR)}
+.led.s{width:6px;height:6px}
+.strip .shade{position:absolute;inset:3px;background:rgba(10,12,15,.35);z-index:4;display:none}
+.strip.off .shade{display:block}
+#csvg{position:absolute;left:0;top:0;z-index:3;overflow:visible;pointer-events:none}
+.picker{position:absolute;z-index:9;background:var(--col);clip-path:var(--cham);--c:8px;filter:drop-shadow(0 0 10px rgba(var(--rgb),.6))}
+.picker::before{content:"";position:absolute;inset:1.5px;clip-path:var(--cham);--c:7.4px;background:#101317}
+.picker .t{position:absolute;left:12px;top:8px;font-size:11px;letter-spacing:1.5px;color:var(--col)}
+.picker .cell{position:absolute;clip-path:var(--cham);--c:6px;background:rgba(var(--rgb),.4)}
+.picker .cell::before{content:"";position:absolute;inset:1px;clip-path:var(--cham);--c:5.5px;background:var(--GUN_DEEP)}
+.picker .cell.sel{background:rgb(var(--rgb))} .picker .cell.sel::before{inset:2px}
+.picker .cell.hov::before{background:#262d35}
+.picker .cell svg{position:absolute;left:50%;top:calc(50% - 10px);width:60px;height:34px;transform:translate(-50%,-50%);color:rgb(var(--rgb))}
+.picker .cell b{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-weight:400;font-size:10px;letter-spacing:1px;color:var(--TEXT)}
+.picker .cell.res b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--ops);font-size:15px;bottom:auto}
+.picker .cell.res.sel b{color:rgb(var(--rgb))}
+.ov{position:absolute;inset:0;z-index:12;display:grid;place-items:center;transition:opacity .3s}
+.ov.off{opacity:0;pointer-events:none}
+.prompt{background:rgba(8,10,12,.86)}
+.prompt .box{width:448px;padding:24px;background:var(--GUN);border:2px solid var(--AMBER);border-radius:10px}
+.prompt h4{font-family:var(--ops);font-weight:400;font-size:28px;line-height:1;color:var(--TEXT)}
+.prompt p{font-size:16px;color:var(--MUTED);margin-top:6px}
+.prompt .field{margin-top:14px;height:30px;padding:0 8px;display:flex;align-items:center;background:#0a0c0f;border:1px solid var(--GUN_HI);font-family:ui-monospace,Menlo,monospace;font-size:17px;color:var(--TEXT)}
+.prompt .field.hint{color:#5a646e}
+.prompt .field i{display:inline-block;width:2px;height:18px;background:var(--TEXT);margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.prompt .row{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.prompt .pb{font-size:16px;padding:7px 14px 5px;border-radius:3px;background:var(--AMBER);color:var(--TEXT)}
+.prompt .pb.go{background:var(--ICE);color:var(--BLACK);font-weight:700}
+.prompt .pb.go.busy{opacity:.55}
+.installer{background:rgba(8,10,12,.9)}
+.installer .box{width:600px;padding:26px 30px 24px;background:var(--GUN);border:1px solid var(--GUN_HI);clip-path:var(--cham);--c:14px;position:relative}
+.installer .box::before{content:"";position:absolute;left:0;right:0;top:0;height:7px;background:var(--haz)}
+.installer h4{font-family:var(--ops);font-weight:400;font-size:30px;line-height:1;color:var(--TEXT);margin-top:6px}
+.installer h4 small{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--AMBER);margin-top:8px}
+.installer ul{list-style:none;margin-top:16px;display:grid;gap:8px}
+.installer li{display:flex;align-items:center;gap:12px;font-family:var(--ops);font-size:18px;letter-spacing:1px;padding:9px 12px 7px;background:var(--GUN_DEEP);border:1px solid var(--GUN_HI);color:var(--TEXT)}
+.installer li small{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--MUTED);letter-spacing:0}
+.installer li .ck{width:18px;height:18px;border:1px solid var(--ICE);display:grid;place-items:center;font-size:12px;color:transparent}
+.installer li.done .ck{background:var(--ICE);color:var(--BLACK)}
+.installer .barx{margin-top:16px;height:10px;background:#0a0c0f;border:1px solid var(--GUN_HI)}
+.installer .barx i{display:block;height:100%;background:var(--AMBER);width:0}
 
-/* marquee */
-.cauts{position:relative;z-index:2;overflow:hidden;background:var(--amber);color:var(--ink);border-block:4px solid var(--ink);white-space:nowrap}
-.cauts div{display:inline-block;padding:13px 0 11px;font-family:var(--ops);font-size:22px;letter-spacing:.06em;animation:mq 34s linear infinite}
-.cauts span{margin:0 22px}
-@keyframes mq{to{transform:translateX(-50%)}}
-
-section{padding:120px 0;position:relative}
-.head{text-align:center;margin-bottom:60px}
-.head .sub{margin:0 auto}
-
-/* two hands */
-.hands{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.hand{--c:22px;--col:var(--cyan);position:relative;padding:3px;clip-path:var(--cham);background:var(--col)}
-.hand.s{--col:var(--amber)}
-.hand-in{clip-path:var(--cham);background:linear-gradient(160deg,#25282C,#1A1B1E);padding:40px 38px 36px;height:100%;display:grid;grid-template-columns:1fr 170px;gap:24px;align-items:center}
-.hand .kick{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--col)}
-.hand h3{font-family:var(--ops);font-weight:400;font-size:clamp(38px,4vw,54px);line-height:1;color:var(--col);margin:8px 0 14px;text-shadow:3px 3px 0 var(--ink)}
-.hand p{color:#C3C8CE;font-size:17px}
-.hand p b{color:var(--text);font-weight:600}
-.viz{position:relative;width:170px;aspect-ratio:1}
-.vrec{position:absolute;inset:6%;border-radius:50%;background:repeating-radial-gradient(circle,#15161A 0 2px,#22242A 2px 3.4px,#15161A 3.4px 5px);border:3px solid #0B0C0D;box-shadow:0 0 0 6px #2C2F34;animation:wob 2.4s cubic-bezier(.45,0,.55,1) infinite}
-.vrec::after{content:"";position:absolute;inset:34%;border-radius:50%;background:var(--cyan);border:3px solid #0B0C0D;box-shadow:inset 0 0 0 9px #1C5E73}
-.vrec i{position:absolute;left:50%;top:6%;width:5px;height:16%;margin-left:-2.5px;background:var(--cyan);border-radius:3px}
-@keyframes wob{0%{transform:rotate(0)}18%{transform:rotate(130deg)}32%{transform:rotate(40deg)}46%{transform:rotate(170deg)}60%{transform:rotate(60deg)}74%{transform:rotate(-40deg)}100%{transform:rotate(0)}}
-.vfad{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:14px}
-.vfad .trk{position:relative;height:22px;border-radius:5px;background:#0D0E10;border:2px solid #34373C}
-.vfad .trk::before{content:"";position:absolute;inset:4px 10px;background:repeating-linear-gradient(90deg,#3A3E44 0 2px,transparent 2px 13px)}
-.vfad .cap{position:absolute;top:-12px;left:6%;width:28px;height:42px;border-radius:5px;background:var(--amber);border:3px solid #0B0C0D;animation:cut 1.6s steps(1,end) infinite}
-.vfad .cap::after{content:"";position:absolute;left:50%;top:5px;bottom:5px;width:3px;margin-left:-1.5px;background:#0B0C0D}
-@keyframes cut{0%{left:6%}12%{left:74%}20%{left:6%}30%{left:74%}38%{left:6%}54%{left:74%}60%{left:6%}70%{left:74%}80%{left:6%}}
-.vfad .gate{display:flex;gap:4px;height:36px;align-items:flex-end}
-.vfad .gate i{flex:1;background:var(--amber);opacity:.25;height:100%;}
-.vfad .ab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--dim)}
-.plus{display:flex;align-items:center;justify-content:center;margin:30px 0 0;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
-.plus b{font-family:var(--ops);font-weight:400;font-size:20px;letter-spacing:.04em;color:var(--text)}
-
-.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:70px}
-.ft{position:relative;background:rgba(27,28,31,.94);border:2px solid var(--line);border-radius:8px;padding:28px 26px 26px}
-.ft::before{content:attr(data-n);position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim)}
-.ft h4{font-family:var(--ops);font-weight:400;font-size:24px;letter-spacing:.02em;line-height:1.05;margin:14px 0 10px}
-.ft p{color:#B9BEC5;font-size:16px}
-.ft p a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
-.ft .ico{min-width:42px;height:34px;padding:0 8px;display:inline-grid !important;font-size:13px !important;letter-spacing:.06em;display:grid;place-items:center;border:2px solid var(--amber);color:var(--amber);border-radius:6px;font-family:var(--ops);font-size:18px}
-.ft.cy .ico{border-color:var(--cyan);color:var(--cyan)}
-
-/* arsenal */
-.arsenal{background:rgba(13,14,16,.6);border-block:2px solid var(--line)}
-.bank{margin-top:10px}
-.bank+.bank{margin-top:64px}
-.bank-h{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:22px}
-.bank-h h3{font-family:var(--ops);font-weight:400;font-size:40px;line-height:1;color:var(--cyan);text-shadow:3px 3px 0 var(--ink)}
-.bank.s .bank-h h3{color:var(--amber)}
-.bank-h span{font-family:var(--mono);font-size:14px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
-.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.act{--c:14px;--col:var(--cyan);padding:2px;clip-path:var(--cham);background:var(--col)}
-.bank.s .act{--col:var(--amber)}
-.act-in{clip-path:var(--cham);background:#1C1E21;height:100%;padding:20px 20px 22px;display:flex;flex-direction:column;gap:10px;transition:background .2s}
-.act:hover .act-in{background:#23272b}
-.act svg{width:96px;height:58px;color:var(--col);overflow:visible}
-.act svg *{transition:stroke-dashoffset .6s}
-.act b{font-family:var(--ops);font-weight:400;font-size:21px;letter-spacing:.03em;line-height:1}
-.act p{font-size:15px;color:#AEB4BB;line-height:1.45}
-.act em{font-style:normal;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--col);text-transform:uppercase;margin-top:auto}
-
-/* panel showcase */
-.showcase .frame{position:relative;padding:14px;border-radius:14px;background:#0D0E10;box-shadow:0 0 0 2px var(--amber),0 40px 80px rgba(0,0,0,.6)}
-.plug{border-radius:8px;overflow:hidden;padding:18px}
-.p-top{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start}
-.p-title{font-family:var(--ops);font-size:clamp(30px,3.6vw,50px);line-height:1;color:#ECEEF0;-webkit-text-stroke:2px #111;paint-order:stroke fill;text-shadow:4px 4px 0 #111;white-space:nowrap}
-.p-title .n{color:var(--red)}
-.p-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.p-chips span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;background:#1B1C1F;color:var(--amber);padding:3px 8px;border:1px solid #3a3326}
-.p-haz{height:8px;background:var(--haz);margin-top:10px;max-width:520px}
-.box{background:rgba(29,31,34,.96);border:2px solid #3A3D42;border-radius:6px;padding:12px 14px}
-.box-h{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--amber);margin-bottom:8px}
-.clock{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap}
-.lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dim);margin-bottom:4px}
-.seg{display:inline-flex;border:1px solid #3A3D42;border-radius:4px;overflow:hidden}
-.seg span{font-family:var(--ops);font-size:12px;padding:5px 9px;color:#6E747B;background:#16171A}
-.seg span.on{background:var(--cyan);color:#06171D}
-.seg.am span.on{background:var(--amber);color:#141006}
-.play{font-family:var(--ops);font-size:14px;color:var(--amber);border:2px solid var(--amber);border-radius:5px;padding:7px 14px;background:#141006}
-.play.on{background:var(--amber);color:#141006}
-.lcd{font-family:var(--mono);font-size:30px;line-height:1;color:var(--amber);background:#0B0C0D;border:2px solid #3A3D42;border-radius:4px;padding:5px 10px}
-.lcd small{font-size:10px;color:var(--dim);margin-left:4px}
-.res{font-family:var(--ops);font-size:14px;color:var(--cyan);border:2px solid var(--cyan);border-radius:4px;padding:5px 12px}
-.kwrap{text-align:center}
-.kwrap .kn{width:42px;margin:0 auto}
-.kwrap .v{font-family:var(--ops);font-size:12px;color:var(--cyan);margin-top:3px}
-.kwrap .kn.s + .v{color:var(--amber)}
-.payload{display:grid;grid-template-columns:auto auto auto 1fr;gap:20px;align-items:center;margin-top:14px}
-.pl-btns{display:flex;flex-direction:column;gap:8px}
-.pl-btns span{font-family:var(--ops);font-size:14px;text-align:center;padding:7px 16px;border-radius:5px;border:2px solid var(--amber);color:var(--amber)}
-.pl-btns span+span{border-color:var(--cyan);color:var(--cyan)}
-.pl-info b{font-family:var(--ops);font-weight:400;font-size:18px;display:block}
-.pl-info small{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em;display:block}
-.pl-info small.am{color:var(--amber)}
-.wave{position:relative;height:84px;background:#0B0C0D;border:2px solid #3A3D42;border-radius:4px;overflow:hidden}
-.wave svg{position:absolute;inset:0;width:100%;height:100%}
-.wave .ph{position:absolute;top:0;bottom:0;width:2px;background:#fff;box-shadow:0 0 8px #fff;left:0}
-.wave .cue{position:absolute;left:0;bottom:0;font-family:var(--mono);font-size:10px;background:var(--amber);color:#111;padding:1px 4px}
-.banks{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
-.banks .tb{font-family:var(--ops);font-size:13px;padding:7px 12px;border-radius:4px;background:#1A1C1F;color:#6FA9BD;border:2px solid #2C3A40}
-.banks .tb.on{background:var(--cyan);color:#06171D;border-color:var(--cyan)}
-.banks .sp{flex:1}
-.banks .tb,.banks .len{flex:none;white-space:nowrap}
-.banks .len{font-family:var(--ops);font-size:13px;color:var(--amber);background:#141006;border:2px solid var(--amber);border-radius:4px;padding:7px 12px}
-.p-strips{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:9px;margin-top:14px}
-.p-foot{display:flex;justify-content:space-between;gap:12px;margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--amber);background:rgba(13,14,16,.85);padding:6px 10px;border-radius:4px}
-.p-foot span+span{color:var(--dim)}
-.caption{text-align:center;margin-top:26px;color:var(--dim);font-family:var(--mono);font-size:13px;letter-spacing:.08em}
-
-/* final */
-.final{text-align:center;padding:110px 0 120px;overflow:hidden}
-.final h2{font-size:clamp(48px,7vw,104px);margin:24px 0 18px}
-.final .cta{margin-top:34px}
-footer{background:var(--ink);padding:34px 0;position:relative}
-footer::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--haz)}
-footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:14px;color:var(--dim)}
-footer .ts{font-size:18px}
-footer nav{display:flex;gap:26px}
-footer a:hover{color:var(--amber)}
-
-/* ===== tablet ===== */
-@media (max-width:1080px){
-  .hero .wrap{grid-template-columns:1fr;gap:56px}
-  .mini{max-width:680px}
-  .acts{grid-template-columns:repeat(2,1fr)}
-  .p-top{grid-template-columns:1fr}
-  .payload{grid-template-columns:auto 1fr}
-  .payload .wave{grid-column:1/-1}
-  .p-strips{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;-webkit-overflow-scrolling:touch;scrollbar-color:var(--amber) #111}
-  .p-strips .st{flex:0 0 150px;scroll-snap-align:start}
-}
-/* ===== mobile ===== */
-@media (max-width:760px){
-  .wrap{padding:0 18px}
-  nav.top ul{display:none}
-  nav.top .wrap{height:62px}
-  .ts small{display:none}
-  .hero{padding:46px 0 80px}
-  .hero h1{font-size:min(15.5vw,96px);-webkit-text-stroke:3px var(--ink);text-shadow:5px 5px 0 var(--ink)}
-  .sub{font-size:17px}
-  .tag{font-size:11px;letter-spacing:.12em}
-  .btn{font-size:20px;width:100%}
-  .btnwrap{display:block;width:100%}
-  nav.top .btnwrap{width:auto} nav.top .btn{width:auto;font-size:15px;padding:11px 16px 10px}
-  .mini{padding:16px 14px}
-  .mini .strips{grid-template-columns:repeat(2,1fr)}
-  .mini .st:nth-child(n+3){display:none}
-  .cauts div{font-size:18px}
-  section{padding:80px 0}
-  .head{margin-bottom:40px}
-  .hands{grid-template-columns:1fr}
-  .hand-in{grid-template-columns:1fr;padding:30px 22px 28px}
-  .viz{width:150px;justify-self:center}
-  .feats{grid-template-columns:1fr;margin-top:50px}
-  .acts{grid-template-columns:1fr 1fr;gap:12px}
-  .act-in{padding:16px 14px 18px}
-  .act svg{width:76px;height:46px}
-  .act b{font-size:18px}
-  .act p{font-size:14px}
-  .bank-h h3{font-size:32px}
-  .showcase .frame{padding:8px}
-  .plug{padding:12px}
-  .p-title{font-size:min(7.4vw,40px);white-space:normal}
-  .clock{gap:12px}
-  .payload{grid-template-columns:1fr;gap:12px}
-  .pl-btns{flex-direction:row}
-  .banks .sp{display:none}
-  .p-strips .st{flex-basis:128px}
-  .p-foot{flex-direction:column}
-  footer .wrap{flex-direction:column;text-align:center}
-}
-@media (max-width:380px){ .acts{grid-template-columns:1fr} }
-@media (prefers-reduced-motion:reduce){
-  .cauts div,.vrec,.vfad .cap{animation:none}
-  html{scroll-behavior:auto}
-}
+.is-port nav.top{height:var(--hdr);padding:0 14px;padding-top:env(safe-area-inset-top)}
+.is-port .ts small{display:none}
+.is-port nav.top .r{gap:8px}
+.is-port nav.top .btn{font-size:13px;padding:10px 12px 9px}
+.is-port nav.top .plug span{display:none}
+.is-port .copy{padding:14px 14px max(14px,env(safe-area-inset-bottom))}
+.is-port .beat{top:14px;bottom:14px;left:14px;right:14px}
+.is-port .card{height:100%;padding:18px 18px 16px;overflow:hidden}
+.is-port .card h2{font-size:clamp(24px,6.8vw,36px);margin:12px 0 8px}
+.is-port .card p{font-size:14.5px}
+.is-port .keys{gap:5px;margin-top:10px}
+.is-port .keys li{font-size:13px;gap:9px}
+.is-port kbd{min-width:84px;font-size:11.5px;padding:3px 6px}
+.is-port .scene{padding:84px 22px 30px}
+.is-port .hero h1{font-size:min(13.5vw,110px);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}
+.is-port .btn{font-size:18px;padding:16px 22px 15px}
+html.static nav.top{position:sticky}
+html.static .scene{padding:60px 20px}
 </style>
 </head>
 <body>
-
+<div class="pbar"></div>
 <nav class="top">
-  <div class="wrap">
-    <a href="/" class="ts" title="Back to Tril$oft">← <span>TRIL<i>$</i>OFT</span> <small>VST DIV · 002</small></a>
-    <ul>
-      <li><a href="#hands">Two hands</a></li>
-      <li><a href="#arsenal">Arsenal</a></li>
-      <li><a href="#panel">The panel</a></li>
-    </ul>
+  <a href="/" class="ts" title="Back to Tril$oft">← <span>TRIL<i>$</i>OFT</span> <small>VST DIV · 002</small></a>
+  <div class="r">
+    <span class="btnwrap"><a href="/wildcard" class="btn gh plug" title="Other plug-in: Wild Card">DIV-001 <span>Wild Card</span> →</a></span>
     <span class="btnwrap"><a href="#" class="btn" data-stripe data-product="conceal-n-strike">Buy Now</a></span>
   </div>
 </nav>
 
-<header class="hero camo-l">
-  <div class="wrap">
-    <div>
-      <span class="tag">DIV-002 // Class-T turntablism ordnance</span>
-      <h1 class="stencil"><span>CONCEAL</span><span class="n">-N-</span><span>STRIKE</span></h1>
-      <p class="tagline">Program the scratch.<br><em>Two hands. Every step.</em></p>
-      <p class="sub">A 64-step turntablism sequencer. Every step tells the platter hand how to move the record and the fader hand how to cut it — locked to your DAW's tempo, so routines that take years to learn come out of a grid.</p>
-      <div class="cta"><span class="btnwrap"><a class="btn" href="#" data-stripe data-product="conceal-n-strike">Buy Now →</a></span></div>
-      <p class="fine"><b>✦</b> VST3 · CLAP · AU · Standalone app &nbsp;·&nbsp; macOS &nbsp;·&nbsp; Same scratch engine as <a href="/wildcard">Wild Card</a></p>
-    </div>
-    <div class="mini" aria-label="Animated preview of four Conceal-N-Strike step strips">
-      <div class="mini-h"><span>SECTOR 01-08 // LIVE</span><span class="bpm">090.0<small>BPM</small></span></div>
-      <div class="strips" id="miniStrips"></div>
-    </div>
-  </div>
-</header>
-
-<div class="cauts" aria-hidden="true"><div>
-  <span>CAUTION: HIGH VELOCITY FADER</span><span>//</span><span>AUTHORIZED PERSONNEL ONLY</span><span>//</span><span>64 STEPS</span><span>//</span><span>CONCEAL</span><span>//</span><span>STRIKE</span><span>//</span><span>LOCKED TO YOUR DAW</span><span>//</span>
-  <span>CAUTION: HIGH VELOCITY FADER</span><span>//</span><span>AUTHORIZED PERSONNEL ONLY</span><span>//</span><span>64 STEPS</span><span>//</span><span>CONCEAL</span><span>//</span><span>STRIKE</span><span>//</span><span>LOCKED TO YOUR DAW</span><span>//</span>
-</div></div>
-
-<section id="hands">
-  <div class="wrap">
-    <div class="head">
-      <span class="tag">Briefing</span>
-      <h2 class="stencil">TWO HANDS. EVERY STEP.</h2>
-      <p class="sub">A scratch DJ does two jobs at once. Conceal-N-Strike splits them up and lets you program each one, step by step.</p>
-    </div>
-    <div class="hands">
-      <div class="hand c"><div class="hand-in">
-        <div>
-          <span class="kick">LEFT HAND // THE PLATTER</span>
-          <h3>CONCEAL</h3>
-          <p>How the record moves under the needle. <b>Baby scratches, tears, scribbles, drags, spinbacks</b> and more — each with its own knob for throw, tension, curve or speed.</p>
-        </div>
-        <div class="viz" aria-hidden="true"><div class="vrec"><i></i></div></div>
-      </div></div>
-      <div class="hand s"><div class="hand-in">
-        <div>
-          <span class="kick">RIGHT HAND // THE CROSSFADER</span>
-          <h3>STRIKE</h3>
-          <p>How the sound gets cut. <b>Stabs, chirps, transformers, flares, crabs</b> and fades — with a real fader throw, so sharp curves cut instantly and smooth ones fade.</p>
-        </div>
-        <div class="viz" aria-hidden="true"><div class="vfad"><div class="gate" id="gate"></div><div class="trk"><div class="cap"></div></div><div class="ab"><span>A</span><span>B</span></div></div></div>
-      </div></div>
-    </div>
-    <p class="plus"><b>CONCEAL</b> + <b>STRIKE</b> × 64 steps = a full routine, played back in time</p>
-
-    <div class="feats">
-      <div class="ft" data-n="01"><span class="ico">BPM</span><h4>Locked to the beat</h4><p>Follows your DAW's tempo and playhead, or runs its own clock. Step resolution from 1/4 to 1/32 (triplets and dotted too), plus swing.</p></div>
-      <div class="ft cy" data-n="02"><span class="ico">WAV</span><h4>Load your own ammo</h4><p>Drop in a WAV, MP3, AIFF, FLAC, OGG or M4A — or scratch the built-in “ahh”. Click the waveform to set the cue.</p></div>
-      <div class="ft" data-n="03"><span class="ico">8×8</span><h4>8 sector banks</h4><p>Eight pages of eight steps. Follow the playhead, set the pattern length anywhere from 1 to 64, and copy/paste whole pages.</p></div>
-      <div class="ft cy" data-n="04"><span class="ico">CUE</span><h4>CUE or RIDE</h4><p>CUE lands every step on the same sound. RIDE lets the record carry on from wherever the last move left it.</p></div>
-      <div class="ft" data-n="05"><span class="ico">DAW</span><h4>Automate everything</h4><p>Every step's four controls are host parameters, so your DAW can automate them, undo edits and save them with the project.</p></div>
-      <div class="ft cy" data-n="06"><span class="ico">DIV</span><h4>The Wild Card engine</h4><p>Built on the same scratch engine as <a href="/wildcard">Wild Card</a>: band-limited playback at any speed and a record that follows the hand.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="arsenal" class="arsenal">
-  <div class="wrap">
-    <div class="head">
-      <span class="tag">The arsenal</span>
-      <h2 class="stencil">16 MOVES. ONE GRID.</h2>
-      <p class="sub">Pick an action for each hand on every step, then dial its knob in.</p>
-    </div>
-    <div class="bank c">
-      <div class="bank-h"><h3>CONCEAL</h3><span>Platter actions</span></div>
-      <div class="acts" id="actsC"></div>
-    </div>
-    <div class="bank s">
-      <div class="bank-h"><h3>STRIKE</h3><span>Fader actions</span></div>
-      <div class="acts" id="actsS"></div>
-    </div>
-  </div>
-</section>
-
-<section id="panel" class="showcase">
-  <div class="wrap">
-    <div class="head">
-      <span class="tag cy">The panel</span>
-      <h2 class="stencil">COMMAND CENTER</h2>
-      <p class="sub">Clock, payload, sector banks and eight channel strips. Tap any pad to cycle its action.</p>
-    </div>
-    <div class="frame">
-      <div class="plug camo-l" id="plug">
-        <div class="p-top">
-          <div>
-            <div class="p-title">CONCEAL<span class="n">-N-</span>STRIKE</div>
-            <div class="p-chips"><span>SYS.OP // 64</span><span>REV.01 // ARTIC-STRIKE</span><span>CLASS-T TURNTABLISM ORDNANCE</span></div>
-            <div class="p-haz"></div>
-          </div>
-          <div class="box">
-            <div class="box-h">COMMAND CLOCK // CHRONO-SYNC</div>
-            <div class="clock">
-              <div><div class="lbl">SYNC MODE</div><div class="seg"><span>DAW</span><span class="on">INT</span></div><div style="margin-top:8px"><button class="play on" id="playBtn" aria-pressed="true">■ STOP</button></div></div>
-              <div><div class="lbl">MASTER BPM</div><div class="lcd">090.0<small>BPM</small></div></div>
-              <div><div class="lbl">STEP RES</div><div class="res">1/8</div><div style="margin-top:8px" class="seg am"><span class="on">CUE</span><span>RIDE</span></div></div>
-              <div class="kwrap"><div class="lbl">SWING</div><div class="kn" style="--v:0"></div><div class="v">50%</div></div>
-              <div class="kwrap"><div class="lbl">XF CURVE</div><div class="kn s" style="--v:.9"></div><div class="v">90%</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="box payload">
-          <div><div class="box-h">PAYLOAD // SAMPLE BAY</div><div class="pl-btns"><span>LOAD</span><span>BUILT-IN</span></div></div>
-          <div class="pl-info"><b>AHH (BUILT-IN)</b><small>0.90 S // 44.1 KHZ</small><small class="am">CUE 0.000 S // 16 SLICES</small></div>
-          <div><div class="lbl">SAMPLE EDGE</div><div class="seg"><span class="on">LOOP</span><span>BOUNCE</span><span>SILENT</span></div></div>
-          <div class="wave" id="wave"><svg id="waveSvg" preserveAspectRatio="none" viewBox="0 0 400 80" aria-hidden="true"></svg><span class="ph" id="ph"></span><span class="cue">CUE</span></div>
-        </div>
-        <div class="banks" id="banks">
-          <span class="tb on">01-08</span><span class="tb">09-16</span><span class="tb">17-24</span><span class="tb">25-32</span><span class="tb">33-40</span><span class="tb">41-48</span><span class="tb">49-56</span><span class="tb">57-64</span>
-          <span class="sp"></span><span class="tb on">FOLLOW</span><span class="len">◀ LEN 08 ▶</span>
-        </div>
-        <div class="p-strips" id="pStrips"></div>
-        <div class="p-foot"><span>CAUTION: HIGH VELOCITY FADER // AUTHORIZED PERSONNEL ONLY // GRID REF 64-8</span><span>PAD: TAP TO CYCLE</span></div>
+<main id="scroller" class="scroller">
+  <div id="stage" class="stage">
+    <section class="scene hero first" id="hero">
+      <div>
+        <span class="tag">DIV-002 // Field manual</span>
+        <h1 class="stencil"><span>CONCEAL</span><span class="n">-N-</span><span>STRIKE</span></h1>
+        <p class="tagline">Weird VSTs <em>no one asked for.</em></p>
+        <p class="sub">A 64-step turntablism sequencer. Every step programs both of a DJ's hands: how the record moves, and how the fader cuts it. Scroll for the full briefing.</p>
+        <div class="cta"><span class="btnwrap"><a class="btn" href="#" data-stripe data-product="conceal-n-strike">Buy Now →</a></span><span class="btnwrap"><a class="btn gh" href="#" data-goto="install">Start the briefing</a></span></div>
+        <div class="hint"><i></i>SCROLL</div>
       </div>
-    </div>
-    <p class="caption">Conceal-N-Strike interface, rebuilt for the web from the plug-in. Swipe the strips on small screens.</p>
-  </div>
-</section>
+    </section>
 
-<div class="final">
-  <div class="wrap">
-    <span class="tag">Clearance granted</span>
-    <h2 class="stencil">LOCK. LOAD. <span class="n">CUT.</span></h2>
-    <p class="sub" style="margin:0 auto">Sixty-four steps of scratch routine, waiting for your sample.</p>
-    <div class="cta"><span class="btnwrap"><a class="btn" href="#" data-stripe data-product="conceal-n-strike">Buy Now</a></span></div>
+    <div id="uibox"><div id="ui"></div></div>
+
+    <div class="copy">
+      <article class="beat" data-beat="install"><div class="card"><span class="tag">01 // Setup</span>
+        <h2>Run the <em>installer</em></h2>
+        <p>One macOS installer deploys every format: <b>VST3</b>, <b>CLAP</b>, an <b>Audio Unit</b> for Logic Pro and GarageBand, and a <b>standalone app</b>.</p>
+        <p class="tip"><b>Only want some?</b> Hit Customize on the Installation Type step and skip the rest.</p></div></article>
+
+      <article class="beat" data-beat="daw"><div class="card"><span class="tag">02 // Setup</span>
+        <h2>Drop it on an <em>instrument track</em></h2>
+        <p>Conceal-N-Strike loads like a synth. It doesn't play notes from MIDI; it just needs a track to live on. Hit play in your DAW and it runs.</p>
+        <p class="tip"><b>No DAW?</b> The standalone app runs on its own clock.</p></div></article>
+
+      <article class="beat" data-beat="activate"><div class="card"><span class="tag">03 // Setup</span>
+        <h2>Activate <em>once</em></h2>
+        <p>On first launch it asks for your activation code. It's in your purchase email and on the thank-you page right after checkout. Paste it, hit <b>Activate</b>. After that it checks your license offline.</p>
+        <ul class="keys"><li><kbd>PASTE</kbd> for hosts that swallow ⌘V</li><li><kbd class="a">CONC-XXXX-XXXX-XXXX-XXXX</kbd></li></ul></div></article>
+
+      <article class="beat" data-beat="zones"><div class="card"><span class="tag">04 // Orientation</span>
+        <h2>Know the <em>panel</em></h2>
+        <ul class="keys"><li><kbd>COMMAND CLOCK</kbd> tempo, sync, step timing, swing, curve</li><li><kbd>PAYLOAD</kbd> the sample you're cutting</li><li><kbd>SECTOR BANKS</kbd> eight pages of eight steps</li><li><kbd>CHANNEL STRIPS</kbd> the eight steps on the page you're looking at</li></ul>
+        <p class="tip"><b>Out of the box</b> it's loaded with a built-in sample and a demo routine, so press play first and listen.</p></div></article>
+
+      <article class="beat" data-beat="sync"><div class="card"><span class="tag">05 // Command clock</span>
+        <h2>Sync: <span class="c">DAW</span> or <em>INT</em></h2>
+        <p><b>DAW</b> follows your host's tempo and playhead, and the pattern lines up with your bars. The light reads <b>HOST ROLL</b> while the host plays.</p>
+        <p><b>INT</b> runs its own clock at the <b>MASTER BPM</b>: hit PLAY/STOP and drag the readout to set the tempo, 20 to 300 BPM.</p>
+        <p class="tip"><b>Standalone app:</b> always INT, and Space plays or stops.</p></div></article>
+
+      <article class="beat" data-beat="res"><div class="card"><span class="tag">06 // Command clock</span>
+        <h2>Step res &amp; <em>swing</em></h2>
+        <p><b>STEP RES</b> sets how long each step is: 1/4 down to 1/32, plus triplets (1/8T, 1/16T) and dotted (1/8D, 1/16D).</p>
+        <p><b>SWING</b> runs from 50% to 75% and pushes every second step late.</p></div></article>
+
+      <article class="beat" data-beat="payload"><div class="card"><span class="tag">07 // Payload</span>
+        <h2>Load your <em>sample</em></h2>
+        <p>It starts on the <b>BUILT-IN</b> "ahh", the classic scratch vowel. Hit <b>LOAD</b> for your own <b>WAV, MP3, AIFF, FLAC, OGG or M4A</b>. BUILT-IN takes you back.</p>
+        <p class="tip"><b>OUTPUT</b> sets the level.</p></div></article>
+
+      <article class="beat" data-beat="cue"><div class="card"><span class="tag">08 // Payload</span>
+        <h2>Set the <em>cue</em></h2>
+        <p>Click the waveform to set the <b>CUE</b> point, the spot every move works from. Load a new sample and its cue goes where its sound starts.</p>
+        <p>The 16 numbered slices are what <b>DICE</b> jumps between.</p></div></article>
+
+      <article class="beat" data-beat="edge"><div class="card"><span class="tag">09 // Payload</span>
+        <h2>Sample <em>edge</em></h2>
+        <p>What the record finds past the ends of your sample:</p>
+        <ul class="keys"><li><kbd>LOOP</kbd> back in at the start (the default)</li><li><kbd>BOUNCE</kbd> plays back the way it came</li><li><kbd>SILENT</kbd> dead air</li></ul></div></article>
+
+      <article class="beat" data-beat="anatomy"><div class="card"><span class="tag">10 // Channel strip</span>
+        <h2>One step, <em>two hands</em></h2>
+        <p>Each column is one step. The top half is <b class="c" style="color:var(--cyan)">CONCEAL</b>, the platter: how the record moves. The bottom half is <b style="color:var(--amber)">STRIKE</b>, the crossfader: how the sound gets cut.</p>
+        <p>The red light marks the step that's playing.</p></div></article>
+
+      <article class="beat" data-beat="pick"><div class="card"><span class="tag">11 // Channel strip</span>
+        <h2>Pick an <em>action</em></h2>
+        <ul class="keys"><li><kbd>CLICK PAD</kbd> open the chooser with every action</li><li><kbd>RIGHT-CLICK</kbd> cycle to the next action</li><li><kbd>ESC</kbd> close the chooser</li></ul>
+        <p class="tip"><b>Picking an action</b> sets its knob to that action's default, so it sounds right straight away.</p></div></article>
+
+      <article class="beat" data-beat="conceal1"><div class="card"><span class="tag">12 // Conceal arsenal 1 of 2</span>
+        <h2>Platter <span class="c">moves</span></h2>
+        <ul class="keys"><li><kbd>FORWARD</kbd> push it. Knob: speed 0.25×–2×</li><li><kbd>REVERSE</kbd> pull it. Knob: speed 0.25×–2×</li><li><kbd>BABY</kbd> the classic back and forth. Knob: throw, 10–150% of a step</li><li><kbd>TEAR</kbd> a pull-back broken by a pause. Knob: split</li><li><kbd>SCRIBBLE</kbd> a tense, shaking hand. Knob: tension, 6 Hz shake to 60 Hz buzz</li></ul></div></article>
+
+      <article class="beat" data-beat="conceal2"><div class="card"><span class="tag">13 // Conceal arsenal 2 of 2</span>
+        <h2>More <span class="c">moves</span></h2>
+        <ul class="keys"><li><kbd>DRAG</kbd> slows the record. Knob: gentle slow-down to sudden brake</li><li><kbd>DICE</kbd> jumps to one of 16 slices, then plays on. Knob: slice</li><li><kbd>SPIN/BRAKE</kbd> left half brakes, right half spins back at 2×–10×</li><li><kbd>HYDRO</kbd> hydroplane. Knob: friction, the slip-and-grip rate and depth</li></ul></div></article>
+
+      <article class="beat" data-beat="strike1"><div class="card"><span class="tag">14 // Strike arsenal 1 of 2</span>
+        <h2>Fader <em>cuts</em></h2>
+        <ul class="keys"><li><kbd class="a">OPEN</kbd> fader up. Knob: level</li><li><kbd class="a">MUTE</kbd> fader shut. Knob: bleed, 0–20%</li><li><kbd class="a">STAB</kbd> a short burst. Knob: gate, 5–60% of the step</li><li><kbd class="a">CHIRP</kbd> cut out the middle. Knob: pinch, how wide the gap is</li></ul></div></article>
+
+      <article class="beat" data-beat="strike2"><div class="card"><span class="tag">15 // Strike arsenal 2 of 2</span>
+        <h2>More <em>cuts</em></h2>
+        <ul class="keys"><li><kbd class="a">TRANSFORM</kbd> 2, 3, 4, 6 or 8 cuts per step</li><li><kbd class="a">FLARE</kbd> 1, 2 or 3 clicks</li><li><kbd class="a">CRAB</kbd> a four-finger roll. Knob: roll speed, over the whole step or the first quarter</li><li><kbd class="a">FADE</kbd> left of center fades out, right of center swells in</li></ul></div></article>
+
+      <article class="beat" data-beat="knobs"><div class="card"><span class="tag">16 // Channel strip</span>
+        <h2>Dial it <em>in</em></h2>
+        <p>Every pad has a knob. The readout underneath tells you exactly what it's set to: <b>THROW 80%</b>, <b>4 CUTS</b>, <b>SPIN 6.0X</b>.</p>
+        <ul class="keys"><li><kbd>DRAG</kbd> up or down</li><li><kbd>SHIFT</kbd> fine steps</li><li><kbd>DOUBLE-CLICK</kbd> back to the default</li></ul></div></article>
+
+      <article class="beat" data-beat="curve"><div class="card"><span class="tag">17 // Command clock</span>
+        <h2>XF <em>curve</em></h2>
+        <p>XF CURVE shapes every STRIKE. The fader cap has a real 8 ms throw, and the hand only pushes it just past the curve's cut-in point.</p>
+        <p>So a <b>sharp curve</b> makes near-instant cuts, and a <b>smooth one</b> gives short fades.</p></div></article>
+
+      <article class="beat" data-beat="anchor"><div class="card"><span class="tag">18 // Command clock</span>
+        <h2>Anchor: <em>CUE</em> or <span class="c">RIDE</span></h2>
+        <p><b>CUE</b> (the default): every move is placed so it never goes behind the cue point. Forward moves start at the cue, pulls end there, so every step cuts the same sound.</p>
+        <p><b>RIDE</b>: the record carries on from wherever the last move left it, and goes back to the cue at the top of each loop.</p></div></article>
+
+      <article class="beat" data-beat="banks"><div class="card"><span class="tag">19 // Sector banks</span>
+        <h2>64 steps, <em>8 pages</em></h2>
+        <p>Click a bank to see its eight steps. <b>FOLLOW</b> turns the page as the playhead moves on, and you can still peek at another page until it does.</p>
+        <p><b>LEN</b> sets the pattern length, 1 to 64: use the arrows or drag the readout. Steps past it go dim and read OFFLINE.</p></div></article>
+
+      <article class="beat" data-beat="copy"><div class="card"><span class="tag">20 // Sector banks</span>
+        <h2>Copy &amp; <em>paste</em></h2>
+        <p><b>COPY</b> grabs every step on the page you're on. Go to another bank and hit <b>PASTE</b> to drop it there, then tweak the differences.</p></div></article>
+
+      <article class="beat" data-beat="tips"><div class="card"><span class="tag">21 // Field notes</span>
+        <h2>Pro <em>tips</em></h2>
+        <ul class="keys"><li><kbd>AUTOMATE</kbd> every step's four controls are DAW parameters: automate them, undo them, save them with the project</li><li><kbd>RECORD</kbd> what comes out is the scratched sample, locked to tempo. Bounce or record it like any instrument</li><li><kbd>SPACE</kbd> plays and stops in the standalone app</li></ul></div></article>
+    </div>
+
+    <section class="scene" id="cta">
+      <div>
+        <span class="tag">Briefing complete</span>
+        <h2 class="stencil" style="font-size:clamp(54px,7.4vw,118px);margin:26px 0 10px">BOTH HANDS.<br><span class="n">64</span> STEPS.</h2>
+        <p class="tagline">Program the <em>routine</em>. Hit play.</p>
+        <div class="cta" style="margin-top:40px"><span class="btnwrap"><a class="btn" style="font-size:28px;padding:24px 44px 22px" href="#" data-stripe data-product="conceal-n-strike">Buy Now →</a></span></div>
+        <p class="fine">VST3 · CLAP · Audio Unit · Standalone · macOS</p>
+      </div>
+    </section>
+    <div id="rail"></div>
   </div>
-</div>
+</main>
 
 <footer>
-  <div class="wrap">
-    <a href="/" class="ts"><span>TRIL<i>$</i>OFT</span> <small>VST DIVISION</small></a>
-    <nav><a href="/">All plug-ins</a><a href="/wildcard">Wild Card</a><a href="/privacy">Privacy</a><a href="/refunds">Refunds</a></nav>
-    <span>© 2026 Tril$oft · Conceal-N-Strike is DIV-002</span>
-  </div>
+  <a href="/" class="ts"><span>TRIL<i>$</i>OFT</span> <small>VST DIVISION</small></a>
+  <nav><a href="/">All plug-ins</a><a href="/wildcard">Wild Card</a><a href="/privacy">Privacy</a><a href="/refunds">Refunds</a></nav>
+  <span>© 2026 Tril$oft · Conceal-N-Strike is DIV-002</span>
 </footer>
-
+<script src="/tour.js"></script>
 <script>
 (() => {
-  const G = {"conceal": [["FORWARD", "<path d=\"M38 12L38 48L68 30Z\" fill=\"currentColor\"/>", "SPD 1.00X"], ["REVERSE", "<path d=\"M62 12L62 48L32 30Z\" fill=\"currentColor\"/>", "SPD 1.00X"], ["BABY", "<path d=\"M18 30H82M27 21L18 30L27 39M73 21L82 30L73 39\"/>", "THROW 80%"], ["TEAR", "<path d=\"M16 46L38 14L54 38L62 30L84 46\"/>", "SPLIT 40%"], ["SCRIBBLE", "<path d=\"M14 30 L16 16 L20 44 L24 16 L28 44 L32 16 L36 44 L40 16 L44 44 L48 16 L52 44 L56 16 L60 44 L64 16 L68 44 L72 16 L76 44 L80 16 L84 44 L88 30\" stroke-width=\"3\"/>", "TENSION 19HZ"], ["DRAG", "<path d=\"M18 48C24 26 40 14 84 13\"/>", "CURVE 30%"], ["DICE", "<rect x=\"33\" y=\"13\" width=\"34\" height=\"34\" rx=\"5\"/><circle cx=\"42\" cy=\"22\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"50\" cy=\"30\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"58\" cy=\"38\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/>", "SLICE 07"], ["SPIN/BRAKE", "<path d=\"M50 30a3 3 0 1 1 3 3a8 8 0 1 1 8-8a13 13 0 1 1-13-13\"/><path d=\"M46 7L50 12L45 16\"/>", "SPIN 6.0X"], ["HYDROPLANE", "<path d=\"M12 34C20 18 30 18 38 34S56 50 64 34S80 20 88 30\"/><path d=\"M14 48H86\" stroke-dasharray=\"4 5\" stroke-width=\"2\"/>", "FRICTION 55%"]], "strike": [["OPEN", "<rect x=\"24\" y=\"16\" width=\"52\" height=\"30\"/><rect x=\"24\" y=\"16\" width=\"52\" height=\"7\" fill=\"currentColor\"/>", "LEVEL 100%"], ["MUTE", "<rect x=\"24\" y=\"16\" width=\"52\" height=\"30\" stroke-dasharray=\"5 4\"/><path d=\"M40 24L60 38M60 24L40 38\"/>", "BLEED 5%"], ["STAB", "<path d=\"M22 46V14H32V46H82\"/>", "GATE 24%"], ["CHIRP", "<path d=\"M24 14L47 30L24 46ZM76 14L53 30L76 46Z\" fill=\"currentColor\"/>", "PINCH 38%"], ["TRANSFORM", "<path d=\"M16 46V16H24V46H32V16H40V46H48V16H56V46H64V16H72V46H80V16H86\"/>", "4 CUTS"], ["FLARE", "<path d=\"M22 20H38L36 42H24ZM42 20H58L56 42H44ZM62 20H78L76 42H64Z\" fill=\"currentColor\" stroke-width=\"2\"/>", "2-CLICK"], ["CRAB", "<path d=\"M14 46H20V16H24V46H34V20H38V46H48V24H52V46H62V28H66V46H86\"/>", "ROLL FAST"], ["FADE/SWELL", "<path d=\"M18 46L82 16V46Z\" fill=\"currentColor\" fill-opacity=\".25\"/><path d=\"M18 46L82 16\"/>", "SWELL 60%"]]};
-  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const svg = (inner, sw = 4) => '<svg viewBox="0 0 100 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round" stroke-linecap="round">' + inner + '</g></svg>';
+const W = 1160, H = 780;
+const C = {SNOW:'#eef2f5',GUN:'#2a2f35',GUN_HI:'#555e68',GUN_DEEP:'#15181c',BLACK:'#0a0c0f',ICE:'#4fd8ff',AMBER:'#ffb01f',IR:'#ff2d40',TEXT:'#e4eaef',MUTED:'#8c98a3'};
+const ICE_RGB = '79,216,255', AMB_RGB = '255,176,31';
+const G = {"conceal": [["FORWARD", "<path d=\"M38 12L38 48L68 30Z\" fill=\"currentColor\"/>", "SPD 1.00X"], ["REVERSE", "<path d=\"M62 12L62 48L32 30Z\" fill=\"currentColor\"/>", "SPD 1.00X"], ["BABY", "<path d=\"M18 30H82M27 21L18 30L27 39M73 21L82 30L73 39\"/>", "THROW 80%"], ["TEAR", "<path d=\"M16 46L38 14L54 38L62 30L84 46\"/>", "SPLIT 40%"], ["SCRIBBLE", "<path d=\"M14 30 L16 16 L20 44 L24 16 L28 44 L32 16 L36 44 L40 16 L44 44 L48 16 L52 44 L56 16 L60 44 L64 16 L68 44 L72 16 L76 44 L80 16 L84 44 L88 30\" stroke-width=\"3\"/>", "TENSION 19HZ"], ["DRAG", "<path d=\"M18 48C24 26 40 14 84 13\"/>", "CURVE 30%"], ["DICE", "<rect x=\"33\" y=\"13\" width=\"34\" height=\"34\" rx=\"5\"/><circle cx=\"42\" cy=\"22\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"50\" cy=\"30\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"58\" cy=\"38\" r=\"3\" fill=\"currentColor\" stroke=\"none\"/>", "SLICE 07"], ["SPIN/BRAKE", "<path d=\"M50 30a3 3 0 1 1 3 3a8 8 0 1 1 8-8a13 13 0 1 1-13-13\"/><path d=\"M46 7L50 12L45 16\"/>", "SPIN 6.0X"], ["HYDROPLANE", "<path d=\"M12 34C20 18 30 18 38 34S56 50 64 34S80 20 88 30\"/><path d=\"M14 48H86\" stroke-dasharray=\"4 5\" stroke-width=\"2\"/>", "FRICTION 55%"]], "strike": [["OPEN", "<rect x=\"24\" y=\"16\" width=\"52\" height=\"30\"/><rect x=\"24\" y=\"16\" width=\"52\" height=\"7\" fill=\"currentColor\"/>", "LEVEL 100%"], ["MUTE", "<rect x=\"24\" y=\"16\" width=\"52\" height=\"30\" stroke-dasharray=\"5 4\"/><path d=\"M40 24L60 38M60 24L40 38\"/>", "BLEED 5%"], ["STAB", "<path d=\"M22 46V14H32V46H82\"/>", "GATE 24%"], ["CHIRP", "<path d=\"M24 14L47 30L24 46ZM76 14L53 30L76 46Z\" fill=\"currentColor\"/>", "PINCH 38%"], ["TRANSFORM", "<path d=\"M16 46V16H24V46H32V16H40V46H48V16H56V46H64V16H72V46H80V16H86\"/>", "4 CUTS"], ["FLARE", "<path d=\"M22 20H38L36 42H24ZM42 20H58L56 42H44ZM62 20H78L76 42H64Z\" fill=\"currentColor\" stroke-width=\"2\"/>", "2-CLICK"], ["CRAB", "<path d=\"M14 46H20V16H24V46H34V20H38V46H48V24H52V46H62V28H66V46H86\"/>", "ROLL FAST"], ["FADE/SWELL", "<path d=\"M18 46L82 16V46Z\" fill=\"currentColor\" fill-opacity=\".25\"/><path d=\"M18 46L82 16\"/>", "SWELL 60%"]]};
+const ui = document.getElementById('ui');
+const TAU = Math.PI * 2, clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), seg = (a, x, y) => clamp((a - x) / (y - x)), sm = t => t * t * (3 - 2 * t);
+const pct = v => Math.round(v * 100) + '%', p2 = n => String(n).padStart(2, '0');
 
-  // ----- arsenal tiles (README action names + what the knob does) -----
-  const C_INFO = [
-    ['FORWARD / REVERSE', 0, 'Push or pull the record at a set speed.', 'Knob: speed 0.25×–2×'],
-    ['BABY SCRATCH', 2, 'The classic back-and-forth.', 'Knob: throw'],
-    ['TEAR', 3, 'A pull-back broken by a tiny pause.', 'Knob: split'],
-    ['SCRIBBLE', 4, 'A tense, shaking hand on the record.', 'Knob: tension 6–60 Hz'],
-    ['DRAG', 5, 'Slows the record down under your hand.', 'Knob: curve'],
-    ['DICE', 6, 'Jumps to one of 16 slices, then plays on.', 'Knob: slice 1–16'],
-    ['SPINBACK / BRAKE', 7, 'Stop the platter dead or fling it back.', 'Knob: brake ↔ spin 2×–10×'],
-    ['HYDROPLANE', 8, 'Slip-and-grip friction on the platter.', 'Knob: friction'],
-  ];
-  const S_INFO = [
-    ['OPEN', 0, 'Fader open. Let the move speak.', 'Knob: level'],
-    ['MUTE', 1, 'Fader closed, with a little bleed if you want it.', 'Knob: bleed 0–20%'],
-    ['STAB', 2, 'One short, hard cut at the top of the step.', 'Knob: gate length'],
-    ['CHIRP', 3, 'Open, snap shut in the middle, open again.', 'Knob: pinch'],
-    ['TRANSFORMER', 4, 'Rapid on/off cuts across the step.', 'Knob: 2, 3, 4, 6 or 8 cuts'],
-    ['FLARE', 5, 'Starts open and clicks out.', 'Knob: 1, 2 or 3 clicks'],
-    ['CRAB', 6, 'Four fingers rolling off the fader.', 'Knob: roll speed'],
-    ['FADE / SWELL', 7, 'Fade out to the left, swell in to the right.', 'Knob: direction + depth'],
-  ];
-  const tile = (info, list) => info.map(([n, gi, p, k]) => '<div class="act"><div class="act-in">' + svg(list[gi][1]) + '<b>' + n + '</b><p>' + p + '</p><em>' + k + '</em></div></div>').join('');
-  document.getElementById('actsC').innerHTML = tile(C_INFO, G.conceal);
-  document.getElementById('actsS').innerHTML = tile(S_INFO, G.strike);
-  // draw-on hover for arsenal glyph strokes
-  document.querySelectorAll('.act').forEach(a => {
-    const ps = a.querySelectorAll('path,rect');
-    a.addEventListener('mouseenter', () => ps.forEach(p => { if (RM || !p.getTotalLength) return; const L = p.getTotalLength(); p.style.transition = 'none'; p.style.strokeDasharray = L; p.style.strokeDashoffset = L; p.getBoundingClientRect(); p.style.transition = ''; p.style.strokeDashoffset = 0; }));
-  });
+/* ---------- actions (src/moves.rs, src/cuts.rs) ---------- */
+const MOVES = ['FORWARD', 'REVERSE', 'BABY', 'TEAR', 'SCRIBBLE', 'DRAG', 'DICE', 'SPIN/BRAKE', 'HYDRO'];
+const CUTS = ['OPEN', 'MUTE', 'STAB', 'CHIRP', 'TRANSFORM', 'FLARE', 'CRAB', 'FADE'];
+const mDef = m => ({ 3: .33, 5: .3, 6: 0, 7: .75 })[m] ?? .5;
+const cDef = c => ({ 0: 1, 7: 1, 1: 0, 2: .35, 3: .4 })[c] ?? .5;
+const speed = k => k < .5 ? Math.pow(2, -2 + 4 * k) : Math.pow(2, 2 * k - 1);
+const mRead = (m, k) => [() => `SPD ${speed(k).toFixed(2)}X`, () => `SPD ${speed(k).toFixed(2)}X`, () => `THROW ${pct(.1 + 1.4 * k)}`, () => `SPLIT ${pct(.2 + .6 * k)}`,
+  () => `TENSION ${Math.round(6 * Math.pow(10, k))}HZ`, () => `CURVE ${pct(k)}`, () => `SLICE ${p2(Math.min(15, Math.floor(k * 16)) + 1)}`,
+  () => k < .5 ? `BRAKE ${pct(.15 + .85 * k / .5)}` : `SPIN ${(2 + 8 * (k - .5) / .5).toFixed(1)}X`, () => `FRICTION ${pct(k)}`][m]();
+const cRead = (c, k) => [() => `LEVEL ${pct(k)}`, () => `BLEED ${pct(.2 * k)}`, () => `GATE ${pct(.05 + .55 * k)}`, () => `PINCH ${pct(.1 + .7 * k)}`,
+  () => `${[2, 3, 4, 6, 8][Math.min(4, Math.round(k * 4))]} CUTS`, () => `${1 + Math.round(k * 2)}-CLICK`, () => `ROLL ${pct(k)}`,
+  () => { const [s, e] = k < .5 ? [1, k / .5] : [(1 - k) / .5, 1]; return Math.abs(s - e) < .02 ? 'FLAT' : e < s ? `OUT ${pct(s - e)}` : `IN ${pct(e - s)}`; }][c]();
+// the routine a new instance starts with (src/engine.rs ROUTINE), repeated over all 64 steps
+const ROUTINE = [[2, .5, 0, 1], [2, .5, 3, .4], [0, .5, 2, .35], [3, .33, 0, 1], [4, .5, 0, 1], [2, .6, 4, .5], [5, .3, 5, .5], [7, .75, 0, 1]];
+const RES = ['1/4', '1/8', '1/16', '1/32', '1/8T', '1/16T', '1/8D', '1/16D'], RES_BEATS = [1, .5, .25, .125, 1 / 3, 1 / 6, .75, .375];
+const glyph = (inner, sw = 4) => `<svg viewBox="0 0 100 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round">${inner}</g></svg>`;
+const dbg = d => Math.pow(10, d / 20), gs = Math.log(.5) / Math.log((dbg(-15) - dbg(-36)) / (dbg(6) - dbg(-36)));
+const VOLN = Math.pow((1 - dbg(-36)) / (dbg(6) - dbg(-36)), gs);
+const volStr = n => { const g = dbg(-36) + (dbg(6) - dbg(-36)) * Math.pow(n, 1 / gs); return (20 * Math.log10(g)).toFixed(1) + ' DB'; };
 
-  // ----- channel strips -----
-  const BASE_C = [2, 2, 0, 3, 4, 2, 5, 7], BASE_S = [0, 3, 2, 0, 0, 4, 5, 0];
-  const KV = [.8, .8, .5, .4, .35, .94, .3, .6];
-  function strip(n, ci, si, small) {
-    const el = document.createElement('div');
-    el.className = 'st';
-    el.innerHTML = '<div class="st-h"><b>STEP ' + String(n).padStart(2, '0') + '</b><i class="led"></i></div>' +
-      '<div class="kn c"></div><div class="kl c"></div><small>CONCEAL</small>' +
-      '<button class="pad c" type="button"></button><small>STRIKE</small><button class="pad s" type="button"></button>' +
-      '<div class="kn s"></div><div class="kl s"></div><span class="ch">CH.' + String(n).padStart(2, '0') + ' // ARMED</span>';
-    const st = { el, ci, si, n };
-    const [kc, ks] = el.querySelectorAll('.kn'), [lc, ls] = el.querySelectorAll('.kl'), [pc, ps] = el.querySelectorAll('.pad');
-    const paint = (which, anim) => {
-      const isC = which === 'c', list = isC ? G.conceal : G.strike, i = ((isC ? st.ci : st.si) % list.length + list.length) % list.length, a = list[i];
-      const pad = isC ? pc : ps, set = () => { pad.innerHTML = svg(a[1]) + '<span>' + a[0] + '</span>'; pad.setAttribute('aria-label', (isC ? 'Conceal' : 'Strike') + ' action for step ' + n + ': ' + a[0] + '. Tap to cycle.'); (isC ? lc : ls).textContent = a[2]; (isC ? kc : ks).style.setProperty('--v', (.25 + ((i * 37 + n * 13) % 70) / 100).toFixed(2)); };
-      if (anim && !RM) { pad.classList.remove('flip'); void pad.offsetWidth; pad.classList.add('flip'); setTimeout(set, 130); } else set();
-    };
-    st.paint = paint;
-    paint('c'); paint('s');
-    const cyc = (which, d) => e => { e.preventDefault(); if (which === 'c') st.ci += d; else st.si += d; paint(which, true); };
-    pc.addEventListener('click', cyc('c', 1)); ps.addEventListener('click', cyc('s', 1));
-    pc.addEventListener('contextmenu', cyc('c', -1)); ps.addEventListener('contextmenu', cyc('s', -1));
-    return st;
-  }
-  const mini = [0, 1, 2, 3].map(i => strip(i + 1, BASE_C[i] + 1, BASE_S[i] + 1));
-  mini.forEach(s => document.getElementById('miniStrips').appendChild(s.el));
-  const full = BASE_C.map((c, i) => strip(i + 1, c, BASE_S[i]));
-  full.forEach(s => document.getElementById('pStrips').appendChild(s.el));
+/* ---------- build the window ---------- */
+const H$ = h => { ui.insertAdjacentHTML('beforeend', h); return ui.lastElementChild; };
+const AL = { lc: '0,-50%', cc: '-50%,-50%', rc: '-100%,-50%', lt: '0,0', rt: '-100%,0', ct: '-50%,0' };
+const tx = (x, y, al, t, size, color, cls = '', id = '', ls = 1) => H$(`<div class="tx ${cls}" ${id ? `id="${id}"` : ''} style="left:${x}px;top:${y}px;transform:translate(${AL[al]});font-size:${size}px;color:${color};letter-spacing:${ls}px">${t}</div>`);
+const plate = (x, y, w, h, extra = '') => H$(`<div class="plate ${extra}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"><i style="left:7px;top:7px"></i><i style="right:7px;top:7px"></i><i style="left:7px;bottom:7px"></i><i style="right:7px;bottom:7px"></i></div>`);
+const btn = (id, x, y, w, h, label, col, size) => H$(`<div class="b" id="b-${id}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;font-size:${size}px;--col:${col}"><span>${label}</span></div>`);
+const sw = (id, x, y, w, h, labels, col, size) => H$(`<div class="sw" id="s-${id}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;font-size:${size}px;--col:${col}">${labels.map(l => `<span>${l}</span>`).join('')}</div>`);
+const lbl = (x, y, al, t) => tx(x, y, al, t, 10, C.MUTED);
 
-  // ----- waveform (deterministic, like the built-in "ahh") -----
-  let d = '', seed = 11;
-  for (let i = 0; i < 200; i++) { seed = (seed * 9301 + 49297) % 233280; const r = seed / 233280; const env = Math.pow(1 - i / 200, .55) * (i < 6 ? i / 6 : 1); const h = Math.max(.6, env * (26 + r * 12)); d += 'M' + (i * 2 + 1) + ' ' + (40 - h).toFixed(1) + 'V' + (40 + h).toFixed(1); }
-  let marks = ''; for (let i = 1; i < 16; i++) marks += '<path d="M' + i * 25 + ' 0V80" stroke="rgba(255,255,255,.12)" stroke-width="1"/>';
-  document.getElementById('waveSvg').innerHTML = marks + '<path d="' + d + '" stroke="#3EC6F0" stroke-width="1.4"/>';
+// header
+H$(`<div class="tx st" style="left:22px;top:10px;font-size:46px;letter-spacing:2px;color:${C.BLACK};-webkit-text-stroke:5px ${C.SNOW};paint-order:stroke fill;text-shadow:4px 4px 0 rgba(10,12,15,.55)">CONCEAL<span style="color:${C.IR}">-N-</span>STRIKE</div>`);
+{ let x = 22; for (const t of ['SYS.OP // 64', 'REV.01 // ARTIC-STRIKE', 'CLASS-T TURNTABLISM ORDNANCE']) { const el = H$(`<div class="tx" style="left:${x}px;top:72px;font-size:11px;color:${C.SNOW};background:rgba(10,12,15,.88);padding:2px 7px 2px 8px;border-left:3px solid ${C.AMBER}">${t}</div>`); x += el.offsetWidth + 8; } }
+H$(`<div class="tx" style="left:22px;top:96px;width:574px;height:7px;background:repeating-linear-gradient(-63deg,${C.AMBER} 0 7px,${C.BLACK} 7px 21px)"></div>`);
+// command clock
+const CL = [612, 10, 534, 108]; plate(...CL);
+const cp = (x, y) => [CL[0] + x, CL[1] + y];
+tx(...cp(22, 9), 'lt', 'COMMAND CLOCK // CHRONO-SYNC', 10, C.AMBER, '', '', 1.5);
+lbl(...cp(22, 25), 'lt', 'SYNC MODE'); sw('sync', ...cp(22, 36), 96, 24, ['DAW', 'INT'], C.ICE, 12);
+btn('play', ...cp(22, 66), 96, 32, '', C.AMBER, 15);
+lbl(...cp(130, 25), 'lt', '').id = 'l-bpm';
+H$(`<div class="tx" style="left:${cp(130, 36)[0]}px;top:${cp(130, 36)[1]}px;width:120px;height:62px;background:${C.BLACK};border:1px solid ${C.GUN_HI};border-radius:2px"></div>`);
+tx(...cp(190, 63), 'cc', '888.8', 34, 'rgba(255,176,31,.07)', '', 'lcd-g'); tx(...cp(190, 63), 'cc', '090.0', 34, C.AMBER, '', 'lcd'); tx(...cp(244, 94), 'rt', 'BPM', 10, C.AMBER, '', 'lcd-u').style.transform = 'translate(-100%,-100%)';
+lbl(...cp(262, 25), 'lt', 'STEP RES'); btn('res', ...cp(262, 36), 90, 26, '1/8', C.ICE, 15);
+sw('anchor', ...cp(262, 68), 90, 30, ['CUE', 'RIDE'], C.AMBER, 12);
+lbl(...cp(398, 25), 'ct', 'SWING'); lbl(...cp(474, 25), 'ct', 'XF CURVE');
+tx(...cp(398, 96), 'cc', '50%', 12, C.ICE, 'st', 'v-swing'); tx(...cp(474, 96), 'cc', '90%', 12, C.AMBER, 'st', 'v-curve');
+// payload
+const PL = [16, 128, 1130, 94]; plate(...PL);
+const pp = (x, y) => [PL[0] + x, PL[1] + y];
+tx(...pp(22, 9), 'lt', 'PAYLOAD // SAMPLE BAY', 10, C.AMBER, '', '', 1.5);
+btn('load', ...pp(22, 26), 104, 30, 'LOAD', C.AMBER, 16); btn('builtin', ...pp(22, 60), 104, 24, 'BUILT-IN', C.ICE, 11);
+tx(...pp(140, 24), 'lt', 'AHH (BUILT-IN)', 16, C.TEXT, 'st', 'p-name');
+tx(...pp(140, 48), 'lt', '0.90 S // 44.1 KHZ', 11, C.MUTED, '', 'p-stat', 0);
+tx(...pp(140, 64), 'lt', '', 11, C.AMBER, '', 'p-cue', 0);
+lbl(...pp(352, 16), 'lt', 'SAMPLE EDGE'); sw('edge', ...pp(352, 30), 180, 26, ['LOOP', 'BOUNCE', 'SILENT'], C.ICE, 11);
+tx(...pp(352, 64), 'lt', '', 10, C.MUTED, '', 'p-edge', 0);
+lbl(...pp(570, 14), 'ct', 'OUTPUT'); tx(...pp(570, 80), 'cc', '0.0 DB', 10, C.ICE, '', 'v-vol', 0);
+const WV = [PL[0] + 608, PL[1] + 14, 498, 66];
+H$(`<div class="tx" style="left:${WV[0]}px;top:${WV[1]}px;width:${WV[2]}px;height:${WV[3]}px;background:${C.BLACK};border:1px solid ${C.GUN_HI};border-radius:2px"></div>`);
+for (let i = 0; i < 16; i++) tx(WV[0] + WV[2] * i / 16 + 3, WV[1] + 2, 'lt', p2(i + 1), 8, 'rgba(79,216,255,.35)', '', '', 0);
+tx(WV[0] + WV[2] - 5, WV[1] + WV[3] - 3, 'lt', 'CLICK: SET CUE', 9, 'rgba(140,152,163,.8)', '', '', 0).style.transform = 'translate(-100%,-100%)';
+// banks
+for (let b = 0; b < 8; b++) btn('bank' + b, 16 + b * 84, 232, 78, 34, `${p2(b * 8 + 1)}-${p2(b * 8 + 8)}`, C.ICE, 13);
+for (let b = 0; b < 8; b++) H$(`<div class="led s" id="bl${b}" style="left:${16 + b * 84 + 70}px;top:240px"></div>`);
+btn('follow', 694, 232, 108, 34, 'FOLLOW', C.ICE, 13);
+btn('lenm', 812, 232, 32, 34, '◀', C.AMBER, 12); btn('lenp', 956, 232, 32, 34, '▶', C.AMBER, 12);
+H$(`<div class="tx" style="left:848px;top:232px;width:104px;height:34px;background:${C.BLACK};clip-path:var(--cham);--c:5px;box-shadow:inset 0 0 0 1px ${C.GUN_HI}"></div>`);
+tx(900, 250, 'cc', 'LEN 08', 15, C.AMBER, 'st', 'lenv', 1.5);
+btn('copy', 998, 232, 70, 34, 'COPY', C.ICE, 13); btn('paste', 1076, 232, 70, 34, 'PASTE', C.ICE, 13);
+// strips
+const SX = col => 16 + col * 142, SY = 282;
+const strips = [];
+for (let col = 0; col < 8; col++) {
+  const x = SX(col); const el = plate(x, SY, 134, 476, 'strip'); el.insertAdjacentHTML('beforeend', '<div class="shade"></div>');
+  const s = { el, title: tx(x + 20, SY + 10, 'lt', '', 14, C.TEXT, 'st'), led: H$(`<div class="led" style="left:${x + 112}px;top:${SY + 17}px"></div>`),
+    mr: tx(x + 67, SY + 113, 'cc', '', 11, C.ICE, 'st', '', .5), cr: tx(x + 67, SY + 423, 'cc', '', 11, C.AMBER, 'st', '', .5),
+    foot: tx(x + 67, SY + 452, 'cc', '', 9, C.MUTED, '', '', 1) };
+  H$(`<div class="tx" style="left:${x + 10}px;top:${SY + 32}px;width:114px;height:1px;background:rgba(10,12,15,.7)"></div>`);
+  tx(x + 14, SY + 128, 'lt', 'CONCEAL', 9, C.MUTED, '', '', 2); tx(x + 14, SY + 238, 'lt', 'STRIKE', 9, C.MUTED, '', '', 2);
+  s.pa = H$(`<div class="pad" style="left:${x + 12}px;top:${SY + 140}px;width:110px;height:88px;--rgb:${ICE_RGB}"><div class="g"></div><div class="pl"></div></div>`);
+  s.pb = H$(`<div class="pad" style="left:${x + 12}px;top:${SY + 250}px;width:110px;height:88px;--rgb:${AMB_RGB}"><div class="g"></div><div class="pl"></div></div>`);
+  strips.push(s);
+}
+H$(`<div class="tx" style="left:0;top:762px;width:${W}px;height:18px;background:rgba(10,12,15,.9)"></div>`);
+tx(16, 771, 'lc', 'CAUTION: HIGH VELOCITY FADER // AUTHORIZED PERSONNEL ONLY // GRID REF 64-8', 10, C.AMBER, '', '', .5);
+tx(W - 16, 771, 'rc', 'PAD: SELECT, R-CLICK CYCLES // KNOB: DRAG, SHIFT FINE, DBL-CLICK RESETS', 10, C.MUTED, '', 'foot-r', .5);
+// svg: knobs + waveform
+const svg = H$(`<svg id="csvg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"></svg>`);
+const KN = { swing: [...cp(398, 64), 17, C.ICE], curve: [...cp(474, 64), 17, C.AMBER], vol: [...pp(570, 50), 15, C.ICE] };
+for (let col = 0; col < 8; col++) { KN['m' + col] = [SX(col) + 67, SY + 74, 22, C.ICE]; KN['c' + col] = [SX(col) + 67, SY + 384, 22, C.AMBER]; }
+const pt = (cx, cy, r, a) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+const A0 = .75 * Math.PI, A1 = 2.25 * Math.PI;
+const arcD = (cx, cy, r, a0, a1) => { const [x0, y0] = pt(cx, cy, r, a0), [x1, y1] = pt(cx, cy, r, a1); return `M${x0.toFixed(2)} ${y0.toFixed(2)}A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`; };
+let S = '';
+for (const [k, [cx, cy, r, col]] of Object.entries(KN)) {
+  S += `<path d="${arcD(cx, cy, r + 6, A0, A1)}" stroke="${C.BLACK}" stroke-width="4" fill="none"/><path id="kg-${k}" stroke="${col}" stroke-opacity=".18" stroke-width="8" fill="none"/><path id="ka-${k}" stroke="${col}" stroke-width="2.5" fill="none"/>
+   <circle cx="${cx + 1.5}" cy="${cy + 2.5}" r="${r}" fill="rgba(10,12,15,.7)"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="${C.BLACK}"/><g id="kk-${k}">`;
+  for (let i = 0; i < 36; i++) { const a = i / 36 * TAU; const [x0, y0] = pt(cx, cy, r - 4, a), [x1, y1] = pt(cx, cy, r - .5, a); S += `<line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}" stroke="${i % 2 ? '#121417' : '#30353b'}" stroke-width="2"/>`; }
+  S += `</g><circle cx="${cx}" cy="${cy}" r="${r - 5}" fill="#1b1f23" stroke="${C.BLACK}"/><path d="${arcD(cx, cy, r - 7, 1.05 * Math.PI, 1.55 * Math.PI)}" stroke="rgba(85,94,104,.8)" stroke-width="1.5" fill="none"/><line id="kp-${k}" stroke="${col}" stroke-width="2.5" stroke-linecap="round"/>`;
+}
+S += `<path id="wv" stroke="rgba(79,216,255,.85)" stroke-width="2" fill="none"/><line id="cueL" y1="${WV[1]}" y2="${WV[1] + WV[3]}" stroke="${C.AMBER}" stroke-width="2"/><rect id="cueF" y="${WV[1] + WV[3] - 14}" width="28" height="14" rx="1" fill="${C.AMBER}"/>
+  <text id="cueT" y="${WV[1] + WV[3] - 7}" text-anchor="middle" dominant-baseline="central" font-family="Share Tech Mono" font-size="10" fill="${C.BLACK}">CUE</text><line id="phL" y1="${WV[1]}" y2="${WV[1] + WV[3]}" stroke="${C.IR}" stroke-width="2"/>`;
+for (let i = 1; i < 16; i++) { const x = WV[0] + WV[2] * i / 16; S += `<line x1="${x}" y1="${WV[1]}" x2="${x}" y2="${WV[1] + WV[3]}" stroke="rgba(79,216,255,.12)"/>`; }
+svg.innerHTML = S;
+const picker = H$(`<div class="picker" id="picker" style="display:none"><div class="t"></div></div>`);
+const inst = H$(`<div class="ov installer off"><div class="box"><h4>Install Conceal-N-Strike<small>macOS installer // Installation type</small></h4><ul>
+  <li><span class="ck">✓</span>VST3 plug-in<small>/Library/Audio/Plug-Ins/VST3</small></li><li><span class="ck">✓</span>CLAP plug-in<small>/Library/Audio/Plug-Ins/CLAP</small></li>
+  <li><span class="ck">✓</span>Audio Unit<small>/Library/Audio/Plug-Ins/Components</small></li><li><span class="ck">✓</span>Standalone app<small>/Applications</small></li></ul><div class="barx"><i></i></div></div></div>`);
+const prm = H$(`<div class="ov prompt off"><div class="box"><h4>Activate Conceal-N-Strike</h4><p>Enter the activation code from your purchase email.</p>
+  <div class="field hint" id="p-field">CONC-XXXX-XXXX-XXXX-XXXX</div><div class="row"><span class="pb">Paste</span><span class="pb go busy" id="p-go">Activate</span></div></div></div>`);
+const $ = id => document.getElementById(id);
+const B = {}; ui.querySelectorAll('.b').forEach(b => B[b.id.slice(2)] = b);
+const SW = {}; ui.querySelectorAll('.sw').forEach(s => SW[s.id.slice(2)] = s);
 
-  // ----- sequencer playback (90 BPM, 1/8 steps); pads flip as they fire -----
-  const ph = document.getElementById('ph'), playBtn = document.getElementById('playBtn');
-  const STEP_MS = 60000 / 90 / 2;
-  function runner(strips, mutate) {
-    let i = -1, t0 = 0, vis = false, playing = !RM, hits = 0;
-    const tick = now => {
-      if (vis && playing) {
-        if (!t0) t0 = now;
-        const k = Math.floor((now - t0) / STEP_MS) % strips.length;
-        if (k !== i) {
-          if (i >= 0) strips[i].el.classList.remove('hot');
-          i = k; strips[i].el.classList.add('hot'); hits++;
-          if (mutate && hits > strips.length && (hits + i) % 3 === 0) { const s = strips[i]; s.ci += 1; s.paint('c', true); if (hits % 2) { s.si += 1; s.paint('s', true); } }
-        }
-        if (strips === full) ph.style.left = (((now - t0) % (STEP_MS * 8)) / (STEP_MS * 8) * 100).toFixed(2) + '%';
-      }
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-    return {
-      setVis(v) { vis = v; if (!v) t0 = 0; },
-      toggle() { playing = !playing; if (!playing && i >= 0) strips[i].el.classList.remove('hot'); t0 = 0; i = -1; return playing; },
-    };
-  }
-  const rMini = runner(mini, true), rFull = runner(full, false);
-  if (RM) { mini[1].el.classList.add('hot'); full[2].el.classList.add('hot'); playBtn.classList.remove('on'); playBtn.textContent = '▶ PLAY'; playBtn.setAttribute('aria-pressed', 'false'); }
-  playBtn.addEventListener('click', () => { const on = rFull.toggle(); playBtn.classList.toggle('on', on); playBtn.textContent = on ? '■ STOP' : '▶ PLAY'; playBtn.setAttribute('aria-pressed', on); });
-  const io = new IntersectionObserver(es => es.forEach(e => (e.target.id === 'miniStrips' ? rMini : rFull).setVis(e.isIntersecting)), { threshold: .15 });
-  io.observe(document.getElementById('miniStrips')); io.observe(document.getElementById('pStrips'));
+// built-in "ahh" envelope (0.9 s): fast attack, a body that sags, vibrato after 0.25 s
+const AHH = Array.from({ length: 249 }, (_, i) => { const t = i / 249 * .9; return Math.min(1, t / .02) * (1 - .45 * t / .9) * (1 + .06 * Math.sin(t * 70) * clamp((t - .25) / .2)) * (.85 + .15 * Math.sin(i * 1.7)) * (t > .8 ? (0.9 - t) / .1 : 1); });
 
-  // fader gate meter in the STRIKE card
-  const gate = document.getElementById('gate');
-  const pat = [1,1,0,0,1,0,1,1,0,1,0,0,1,1,1,0];
-  pat.forEach((v, i) => { const b = document.createElement('i'); b.style.animationDelay = (-i * .1) + 's'; b.style.opacity = v ? 1 : .2; gate.appendChild(b); });
+/* ---------- state ---------- */
+const CODE = 'CONC-7K3M-Q9TX-4HPA-2VNE';
+const base = () => ({ installer: -1, prompt: 1, code: '', busy: false, sync: 'DAW', hostRoll: false, play: false, bpm: 90, res: 1, anchor: 'CUE', swing: 0, curve: .9, vol: VOLN,
+  cue: 0, edge: 0, page: 0, follow: true, len: 8, clip: false, steps: Array.from({ length: 64 }, (_, i) => ROUTINE[i % 8].slice()), forceStep: null,
+  picker: null, phov: -1, hov: null, press: null, cur: null, flash: null });
+const run = st => st.sync === 'INT' ? st.play : st.hostRoll;
+const bc = id => { const b = B[id]; return [parseFloat(b.style.left) + parseFloat(b.style.width) / 2, parseFloat(b.style.top) + parseFloat(b.style.height) / 2]; };
+const br = (id, p = 6) => { const b = B[id]; return [parseFloat(b.style.left) - p, parseFloat(b.style.top) - p, parseFloat(b.style.width) + 2 * p, parseFloat(b.style.height) + 2 * p, 6]; };
+const swc = (id, i, n) => { const s = SW[id]; const x = parseFloat(s.style.left), w = parseFloat(s.style.width); return [x + w * (i + .5) / n, parseFloat(s.style.top) + parseFloat(s.style.height) / 2]; };
+const swr = (id, p = 6) => { const s = SW[id]; return [parseFloat(s.style.left) - p, parseFloat(s.style.top) - p, parseFloat(s.style.width) + 2 * p, parseFloat(s.style.height) + 2 * p, 6]; };
+const padR = (col, which) => [SX(col) + 12, SY + (which === 'a' ? 140 : 250), 110, 88];
+const stripR = col => [SX(col) - 4, SY - 4, 142, 484, 6];
+const knobR = k => { const [cx, cy, r] = KN[k]; const R = r + 12; return [cx - R, cy - R, 2 * R, 2 * R + (k[0] === 'm' || k[0] === 'c' ? 14 : 18), 8]; };
+const union = (...rs) => { const x = Math.min(...rs.map(r => r[0])), y = Math.min(...rs.map(r => r[1])); return [x, y, Math.max(...rs.map(r => r[0] + r[2])) - x, Math.max(...rs.map(r => r[1] + r[3])) - y, 8]; };
+function point(st, a, from, to, t0, t1, t2) { const u = sm(seg(a, t0, t1)); st.cur = { x: from[0] + (to[0] - from[0]) * u, y: from[1] + (to[1] - from[1]) * u, down: a >= t1 && a < t2 }; return a >= t1; }
+function pickerGeom(pk) {
+  const [cols, count, cw, ch] = pk.what === 'm' ? [3, 9, 118, 78] : pk.what === 'c' ? [4, 8, 118, 78] : [4, 8, 78, 40];
+  const rows = Math.ceil(count / cols), w = cols * cw + (cols - 1) * 6 + 20, h = 22 + rows * ch + (rows - 1) * 6 + 20;
+  const from = pk.what === 'r' ? [874, 46, 90, 26] : padR(pk.step % 8, pk.what === 'm' ? 'a' : 'b');
+  let x = from[0] + from[2] / 2 - w / 2, y = from[1] + from[3] + 8; if (y + h > H - 8) y = from[1] - 8 - h; x = clamp(x, 8, W - w - 8);
+  const cell = j => [x + 10 + (j % cols) * (cw + 6), y + 32 + Math.floor(j / cols) * (ch + 6), cw, ch];
+  return { x, y, w, h, cols, count, cw, ch, cell };
+}
+const cellC = (pk, j) => { const r = pickerGeom(pk).cell(j); return [r[0] + r[2] / 2, r[1] + r[3] / 2]; };
+const pickR = pk => { const g = pickerGeom(pk); return [g.x - 4, g.y - 4, g.w + 8, g.h + 8, 10]; };
+const ZONES = [[CL[0] - 6, CL[1] - 4, CL[2] + 12, CL[3] + 10, 8], [PL[0] - 6, PL[1] - 6, PL[2] + 12, PL[3] + 12, 8], [10, 226, 1142, 46, 8], [10, 276, 1142, 488, 8]];
+
+/* ---------- beats ---------- */
+const PM = { what: 'm', step: 1 }, PC = { what: 'c', step: 1 };
+const beats = [
+  { id: 'hero', scene: 'hero', len: .8 },
+  { id: 'install', rail: 'Install', apply(st, a, d) { st.installer = d ? -1 : a; } },
+  { id: 'daw', rail: 'DAW' },
+  { id: 'activate', rail: 'Activate', focus: [352, 270, 456, 232, 12], cam: [300, 220, 560, 330], camPort: [340, 260, 480, 250], len: 1.2,
+    apply(st, a, d) { if (d) { st.prompt = 0; return; } st.code = CODE.slice(0, Math.round(CODE.length * seg(a, .05, .45)));
+      point(st, a, [560, 470], [744, 466], .45, .6, .66); st.busy = a >= .6 && a < .8; st.prompt = 1 - seg(a, .8, .95); } },
+  { id: 'zones', rail: 'The panel', len: 1.4, focus: ZONES[0],
+    apply(st, a, d) { st.prompt = 0; st.hostRoll = true; if (d) return; st.focus = [ZONES[Math.min(3, Math.floor(a * 4))]]; } },
+  { id: 'sync', rail: 'Sync', focus: [CL[0] + 12, CL[1] + 16, 256, 90, 8], cam: union(CL, [612, 128, 300, 20]), camPort: [CL[0], CL[1], 280, 108], len: 1.4,
+    apply(st, a, d) { st.hostRoll = true; if (d) { st.sync = 'INT'; st.play = true; st.bpm = 100; return; }
+      if (point(st, a, [700, 200], swc('sync', 1, 2), 0, .2, .26)) st.sync = 'INT';
+      if (a > .26) { point(st, a, swc('sync', 1, 2), [802, 66], .28, .38, .7); st.cur.drag = true; if (a > .38) st.bpm = 90 + Math.round(10 * sm(seg(a, .4, .68))); }
+      if (a > .7) { point(st, a, [802, 66], bc('play'), .72, .82, .88); st.cur.drag = false; if (a >= .82) st.play = true; }
+      st.press = st.cur.down && a > .7 ? 'play' : null; } },
+  { id: 'res', rail: 'Step res', focus: [br('res', 8), knobR('swing')], cam: [700, 0, 460, 270], camPort: [720, 6, 436, 210], len: 1.3,
+    apply(st, a, d) { if (d) { st.res = 2; st.swing = .32; return; } const R = { what: 'r' };
+      if (point(st, a, [800, 200], bc('res'), 0, .12, .18)) st.picker = R;
+      if (a > .18) { point(st, a, bc('res'), cellC(R, 2), .2, .45, .52); st.phov = 2; if (a >= .45) { st.res = 2; } if (a >= .52) st.picker = null; }
+      if (a > .55) { const [cx, cy] = KN.swing; point(st, a, cellC(R, 2), [cx + 6, cy - 4], .55, .65, .95); st.cur.drag = true; st.cur.y -= 16 * sm(seg(a, .66, .9)); st.swing = .32 * sm(seg(a, .66, .9)); }
+      st.focus = st.picker ? [br('res', 8), pickR(R)] : null; } },
+  { id: 'payload', rail: 'Payload', focus: [PL[0] + 12, PL[1] + 8, 590, 80, 8], cam: union(PL, [16, 10, 590, 100]), camPort: [PL[0], PL[1], 600, 94],
+    apply(st, a, d) { if (d) return; point(st, a, [400, 300], bc('load'), 0, .25, .32); st.hov = a > .2 && a < .5 ? 'load' : null;
+      if (a > .5) { point(st, a, bc('load'), bc('builtin'), .5, .7, .76); st.hov = 'builtin'; } st.press = st.cur.down ? (a < .5 ? 'load' : 'builtin') : null; } },
+  { id: 'cue', rail: 'Cue', focus: [WV[0] - 6, WV[1] - 6, WV[2] + 12, WV[3] + 12, 6], cam: union(PL, [600, 10, 540, 100]), camPort: [WV[0] - 10, WV[1] - 30, WV[2] + 20, WV[3] + 60],
+    apply(st, a, d) { if (d) { st.cue = .06; return; } const x = f => WV[0] + WV[2] * f;
+      point(st, a, [x(.6), 300], [x(.3), WV[1] + 34], 0, .25, .7); if (a >= .25) { const f = .3 - .23 * sm(seg(a, .3, .65)); st.cur.x = x(f); st.cue = f * .9; } } },
+  { id: 'edge', rail: 'Edge', focus: [PL[0] + 340, PL[1] + 8, 204, 72, 8], cam: union(PL, [16, 10, 590, 100]), camPort: [PL[0] + 240, PL[1] - 10, 380, 110],
+    apply(st, a, d) { if (d) return; const c = i => swc('edge', i, 3);
+      if (point(st, a, [500, 300], c(1), 0, .2, .26)) st.edge = 1; if (a > .26) { point(st, a, c(1), c(2), .3, .5, .56); if (a >= .5) st.edge = 2; }
+      if (a > .56) { point(st, a, c(2), c(0), .6, .8, .86); if (a >= .8) st.edge = 0; } } },
+  { id: 'anatomy', rail: 'Steps', focus: stripR(0), cam: [0, 220, 1160, 560], camPort: [10, 276, 440, 488], len: 1.3,
+    apply(st, a, d) { if (d) return; const s = Math.min(7, Math.floor(a * 8)); st.forceStep = s; st.focus = [stripR(s)]; } },
+  { id: 'pick', rail: 'Pick', focus: padR(2, 'a'), cam: [100, 100, 560, 680], camPort: [140, 110, 420, 640], len: 1.5,
+    apply(st, a, d) { const P2 = { what: 'm', step: 2 }; if (d) { st.steps[2][0] = 4; st.steps[2][1] = .5; st.steps[2][2] = 3; st.steps[2][3] = .4; return; }
+      const pa = padR(2, 'a'), pc = [pa[0] + 55, pa[1] + 44];
+      if (point(st, a, [400, 650], pc, 0, .14, .2)) st.picker = P2;
+      if (a > .2) { point(st, a, pc, cellC(P2, 4), .22, .48, .55); st.phov = 4; if (a >= .48) { st.steps[2][0] = 4; st.steps[2][1] = .5; } if (a >= .55) st.picker = null; }
+      if (a > .58) { const pb = padR(2, 'b'), pbc = [pb[0] + 55, pb[1] + 44]; point(st, a, cellC(P2, 4), pbc, .6, .76, .82); st.cur.right = true; if (a >= .76) { st.steps[2][2] = 3; st.steps[2][3] = .4; } }
+      st.focus = st.picker ? [[pa[0] - 4, pa[1] - 4, pa[2] + 8, pa[3] + 8, 10], pickR(P2)] : a > .58 ? [padR(2, 'b').concat(10)] : [pa.concat(10)]; } },
+  { id: 'conceal1', rail: 'Moves', cam: union(pickR(PM), padR(1, 'a')), camPort: union(pickR(PM), padR(1, 'a')), len: 1.2,
+    apply(st, a, d) { if (d) return; st.picker = PM; const j = Math.min(4, Math.floor(a * 5)); st.phov = j; const [x, y] = cellC(PM, j); st.cur = { x: x + 20, y: y + 16 }; st.focus = [pickR(PM)]; } },
+  { id: 'conceal2', cam: union(pickR(PM), padR(1, 'a')), camPort: union(pickR(PM), padR(1, 'a')), len: 1.1,
+    apply(st, a, d) { if (d) return; st.picker = PM; const j = 5 + Math.min(3, Math.floor(a * 4)); st.phov = j; const [x, y] = cellC(PM, j); st.cur = { x: x + 20, y: y + 16 }; st.focus = [pickR(PM)]; } },
+  { id: 'strike1', rail: 'Cuts', cam: union(pickR(PC), padR(1, 'b')), camPort: union(pickR(PC), padR(1, 'b')), len: 1.1,
+    apply(st, a, d) { if (d) return; st.picker = PC; const j = Math.min(3, Math.floor(a * 4)); st.phov = j; const [x, y] = cellC(PC, j); st.cur = { x: x + 20, y: y + 16 }; st.focus = [pickR(PC)]; } },
+  { id: 'strike2', cam: union(pickR(PC), padR(1, 'b')), camPort: union(pickR(PC), padR(1, 'b')), len: 1.1,
+    apply(st, a, d) { if (d) return; st.picker = PC; const j = 4 + Math.min(3, Math.floor(a * 4)); st.phov = j; const [x, y] = cellC(PC, j); st.cur = { x: x + 20, y: y + 16 }; st.focus = [pickR(PC)]; } },
+  { id: 'knobs', rail: 'Knobs', focus: [knobR('m5'), knobR('c5')], cam: [SX(3), 270, 142 * 5, 500], camPort: stripR(5), len: 1.3,
+    apply(st, a, d) { if (d) return; const [cx, cy] = KN.c5; const u = sm(seg(a, .1, .5)); st.cur = { x: cx + 6, y: cy - 4 - u * 40, drag: true, down: a > .1 && a < .55 };
+      st.steps[5][3] = .5 + .5 * u; if (a > .65) { st.cur = { x: cx + 6, y: cy - 4, down: (a > .7 && a < .73) || (a > .76 && a < .79) }; if (a > .78) st.steps[5][3] = .5; } } },
+  { id: 'curve', rail: 'XF curve', focus: knobR('curve'), cam: [800, 0, 360, 260], camPort: [880, 0, 280, 150],
+    apply(st, a, d) { if (d) return; const [cx, cy] = KN.curve; const u = Math.sin(sm(seg(a, .1, .85)) * Math.PI); st.cur = { x: cx + 6, y: cy - 4 + u * 40, drag: true, down: a > .1 && a < .85 }; st.curve = .9 - .6 * u; } },
+  { id: 'anchor', rail: 'Anchor', focus: swr('anchor'), cam: [700, 0, 460, 270], camPort: [760, 0, 380, 160],
+    apply(st, a, d) { if (d) return; if (point(st, a, [900, 200], swc('anchor', 1, 2), 0, .25, .31)) st.anchor = 'RIDE'; if (a > .5) { point(st, a, swc('anchor', 1, 2), swc('anchor', 0, 2), .55, .78, .84); if (a >= .78) st.anchor = 'CUE'; } } },
+  { id: 'banks', rail: 'Banks', focus: [10, 226, 1142, 46, 8], cam: [0, 200, 1160, 400], camPort: [600, 200, 560, 300], len: 1.5,
+    apply(st, a, d) { if (d) { st.len = 16; return; } const u = seg(a, .1, .55); point(st, a, [900, 400], bc('lenp'), 0, .1, .1); st.len = 8 + Math.round(8 * u);
+      st.cur.down = a > .1 && a < .55 && (a * 40 % 1) < .5; st.press = st.cur.down ? 'lenp' : null;
+      if (a > .6) { point(st, a, bc('lenp'), bc('bank0'), .62, .78, .82); st.press = st.cur.down ? 'bank0' : null; if (a >= .78) st.page = 0; } } },
+  { id: 'copy', rail: 'Copy', focus: [br('copy'), br('paste'), br('bank1')], cam: [0, 200, 1160, 400], camPort: [600, 200, 560, 300], len: 1.4,
+    apply(st, a, d) { st.follow = false; st.page = 0; const paste = () => { for (let i = 0; i < 8; i++) st.steps[8 + i] = st.steps[i].slice(); };
+      if (d) { st.page = 1; paste(); st.clip = true; return; }
+      if (point(st, a, [900, 400], bc('copy'), 0, .18, .24)) st.clip = true;
+      if (a > .24) { point(st, a, bc('copy'), bc('bank1'), .28, .48, .54); if (a >= .48) st.page = 1; }
+      if (a > .54) { point(st, a, bc('bank1'), bc('paste'), .58, .76, .82); if (a >= .76) { paste(); st.flash = 1 - seg(a, .76, .95); } }
+      st.press = st.cur.down ? (a < .26 ? 'copy' : a < .56 ? 'bank1' : 'paste') : null; } },
+  { id: 'tips', rail: 'Tips' },
+  { id: 'cta', rail: 'Buy', scene: 'cta' }
+];
+
+/* ---------- render ---------- */
+const setT = (el, t) => { if (el._t !== t) { el.textContent = t; el._t = t; } };
+const setC = (el, cls, on) => { if (el.classList.contains(cls) !== on) el.classList.toggle(cls, on); };
+const knobSet = (k, v) => { const [cx, cy, r] = KN[k]; const a = A0 + (A1 - A0) * v; const d = v > .002 ? arcD(cx, cy, r + 6, A0, a) : '';
+  $('ka-' + k).setAttribute('d', d); $('kg-' + k).setAttribute('d', d); $('kk-' + k).setAttribute('transform', `rotate(${(a * 180 / Math.PI).toFixed(1)} ${cx} ${cy})`);
+  const [x0, y0] = pt(cx, cy, r * .25, a), [x1, y1] = pt(cx, cy, r - 7, a); const l = $('kp-' + k); l.setAttribute('x1', x0); l.setAttribute('y1', y0); l.setAttribute('x2', x1); l.setAttribute('y2', y1); };
+const swSet = (id, on, dis = []) => SW[id].querySelectorAll('span').forEach((s, i) => { setC(s, 'on', i === on); setC(s, 'x', dis.includes(i)); });
+let pickKey = '';
+function render(st) {
+  const now = st.now || 0;
+  inst.classList.toggle('off', st.installer < 0);
+  if (st.installer >= 0) { inst.querySelectorAll('li').forEach((li, i) => li.classList.toggle('done', st.installer > .15 + i * .18)); inst.querySelector('.barx i').style.width = clamp(st.installer / .85) * 100 + '%'; }
+  prm.classList.toggle('off', st.prompt <= 0); prm.style.opacity = st.prompt > 0 ? st.prompt : '';
+  const fh = st.code ? st.code + '<i></i>' : 'CONC-XXXX-XXXX-XXXX-XXXX'; if ($('p-field')._h !== fh) { $('p-field').innerHTML = fh; $('p-field')._h = fh; } setC($('p-field'), 'hint', !st.code);
+  setT($('p-go'), st.busy ? 'Activating…' : 'Activate'); setC($('p-go'), 'busy', !st.code || st.busy);
+  // clock
+  const INT = st.sync === 'INT'; swSet('sync', INT ? 1 : 0);
+  const pb = B.play; pb.style.setProperty('--col', INT ? (st.play ? C.IR : C.AMBER) : C.ICE);
+  pb.firstChild.innerHTML = INT ? (st.play ? '<span style="display:inline-block;width:11px;height:11px;background:currentColor;margin-right:10px;vertical-align:-1px"></span>STOP' : '<span style="display:inline-block;border-left:12px solid currentColor;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-right:10px;vertical-align:-2px"></span>PLAY')
+    : `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${st.hostRoll ? C.ICE : '#13303a'};box-shadow:${st.hostRoll ? '0 0 6px ' + C.ICE : 'none'};margin-right:8px"></span>${st.hostRoll ? 'HOST ROLL' : 'HOST STBY'}`;
+  pb.style.fontSize = INT ? '15px' : '12px'; setC(pb, 'lit', INT && st.play);
+  setT($('l-bpm'), INT ? 'MASTER BPM' : 'HOST TEMPO'); const col = INT ? C.AMBER : C.ICE;
+  setT($('lcd'), (INT ? st.bpm : 90).toFixed(1).padStart(5, '0')); $('lcd').style.color = col; $('lcd-u').style.color = col;
+  setT(B.res.firstChild, RES[st.res]); setC(B.res, 'lit', !!(st.picker && st.picker.what === 'r'));
+  swSet('anchor', st.anchor === 'RIDE' ? 1 : 0);
+  knobSet('swing', st.swing); setT($('v-swing'), pct(.5 + .25 * st.swing)); knobSet('curve', st.curve); setT($('v-curve'), pct(st.curve));
+  // payload
+  setT($('p-cue'), `CUE ${st.cue.toFixed(3)} S // 16 SLICES`); swSet('edge', st.edge); setT($('p-edge'), ['PAST THE END: BACK TO START', 'PAST THE END: PLAYS BACK', 'PAST THE END: DEAD AIR'][st.edge]);
+  knobSet('vol', st.vol); setT($('v-vol'), volStr(st.vol));
+  let wv = ''; const mid = WV[1] + WV[3] / 2 + 4, half = WV[3] / 2 - 8; for (let i = 0; i < AHH.length; i++) { const x = WV[0] + 1 + i * 2, h = AHH[i] * half; if (h > .3) wv += `M${x} ${(mid - h).toFixed(1)}V${(mid + h).toFixed(1)}`; } $('wv').setAttribute('d', wv);
+  const cx = WV[0] + st.cue / .9 * WV[2]; $('cueL').setAttribute('x1', cx); $('cueL').setAttribute('x2', cx); $('cueF').setAttribute('x', cx); $('cueT').setAttribute('x', cx + 14);
+  // sequencer clock: which step is playing
+  const running = run(st); let step = null;
+  if (st.forceStep != null) step = st.forceStep;
+  else if (running) { const bpm = INT ? st.bpm : 90, stepMs = 60000 / bpm * RES_BEATS[st.res]; step = Math.floor(now / stepMs) % st.len; }
+  const page = st.follow && step != null && st.forceStep == null ? Math.floor(step / 8) : st.page;
+  const ph = $('phL'); ph.style.display = step != null ? '' : 'none';
+  if (step != null) { const s = st.steps[step], fr = running ? (now / (60000 / (INT ? st.bpm : 90) * RES_BEATS[st.res])) % 1 : .5; const px = WV[0] + clamp(st.cue / .9 + (s[0] === 1 ? -1 : 1) * fr * .25) * WV[2]; ph.setAttribute('x1', px); ph.setAttribute('x2', px); }
+  // banks
+  for (let b = 0; b < 8; b++) { setC(B['bank' + b], 'lit', page === b); setC(B['bank' + b], 'dimc', b * 8 >= st.len); setC($('bl' + b), 'on', step != null && Math.floor(step / 8) === b); }
+  setC(B.follow, 'lit', st.follow); setT($('lenv'), 'LEN ' + p2(st.len)); setC(B.paste, 'dimc', !st.clip);
+  // strips
+  for (let col = 0; col < 8; col++) { const i = page * 8 + col, s = st.steps[i], S2 = strips[col], on = step === i, armed = i < st.len;
+    setT(S2.title, 'STEP ' + p2(i + 1)); S2.title.style.color = on ? C.IR : C.TEXT; setC(S2.led, 'on', on);
+    knobSet('m' + col, s[1]); knobSet('c' + col, s[3]); setT(S2.mr, mRead(s[0], s[1])); setT(S2.cr, cRead(s[2], s[3]));
+    const ka = s[0] + '|' + s[2] + '|' + armed; if (S2._k !== ka) { S2._k = ka;
+      S2.pa.querySelector('.g').innerHTML = glyph(G.conceal[s[0]][1]); S2.pa.querySelector('.pl').textContent = MOVES[s[0]];
+      S2.pb.querySelector('.g').innerHTML = glyph(G.strike[s[2]][1]); S2.pb.querySelector('.pl').textContent = CUTS[s[2]]; }
+    for (const p of [S2.pa, S2.pb]) { setC(p, 'on', on); setC(p, 'dim', !armed); }
+    setT(S2.foot, armed ? `CH.${p2(i + 1)} // ARMED` : 'OFFLINE // BEYOND LEN'); S2.foot.style.color = armed ? C.MUTED : 'rgba(255,45,64,.8)'; setC(S2.el, 'off', !armed);
+    S2.el.style.boxShadow = st.flash && page === 1 ? `0 0 0 ${2 + 6 * st.flash}px rgba(79,216,255,${st.flash})` : ''; }
+  for (const k in B) { setC(B[k], 'dn', st.press === k); setC(B[k], 'hov', st.hov === k); }
+  // picker
+  const pk = st.picker; picker.style.display = pk ? '' : 'none';
+  if (pk) { const g = pickerGeom(pk), key = pk.what + pk.step; const ac = pk.what === 'c' ? C.AMBER : C.ICE, rgb = pk.what === 'c' ? AMB_RGB : ICE_RGB;
+    if (pickKey !== key) { pickKey = key; picker.style.cssText = `left:${g.x}px;top:${g.y}px;width:${g.w}px;height:${g.h}px;--col:${ac};--rgb:${rgb}`;
+      picker.querySelector('.t').textContent = pk.what === 'm' ? `SELECT PLATTER ACTION // STEP ${p2(pk.step + 1)}` : pk.what === 'c' ? `SELECT FADER ACTION // STEP ${p2(pk.step + 1)}` : 'SELECT STEP RESOLUTION';
+      picker.querySelectorAll('.cell').forEach(c => c.remove());
+      for (let j = 0; j < g.count; j++) { const [x, y, w, h] = g.cell(j); const inner = pk.what === 'm' ? glyph(G.conceal[j][1]) + `<b>${MOVES[j]}</b>` : pk.what === 'c' ? glyph(G.strike[j][1]) + `<b>${CUTS[j]}</b>` : `<b>${RES[j]}</b>`;
+        picker.insertAdjacentHTML('beforeend', `<div class="cell ${pk.what === 'r' ? 'res' : ''}" style="left:${x - g.x}px;top:${y - g.y}px;width:${w}px;height:${h}px">${inner}</div>`); } }
+    const cur = pk.what === 'm' ? st.steps[pk.step][0] : pk.what === 'c' ? st.steps[pk.step][2] : st.res;
+    picker.querySelectorAll('.cell').forEach((c, j) => { setC(c, 'sel', j === cur); setC(c, 'hov', j === st.phov); }); } else pickKey = '';
+}
+Tour({ W, H, beats, base, render, vh: 100, vhPort: 92, maxZoom: 1.8, maxZoomPort: 2.2, ring: C.AMBER, ringW: 3, dim: 'rgba(8,10,12,.62)' });
 })();
 </script>
 <script src="/js/site-config.js"></script>

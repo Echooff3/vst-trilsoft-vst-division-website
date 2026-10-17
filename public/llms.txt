@@ -1,0 +1,23 @@
+# Tril$oft VST Division
+
+> Weird VSTs no one asked for. Tril$oft is an independent developer selling audio plug-ins.
+
+## Plug-ins
+
+- [Wild Card](https://vst.trilsoft.com/wildcard): DJ scratch VST for MIDI DJ controllers, tested with the Hercules DJControl Starlight.
+- [Conceal-N-Strike](https://vst.trilsoft.com/conceal-n-strike): 64-step turntablism sequencer where each step has a platter CONCEAL move and a fader STRIKE cut.
+
+## Support
+
+- [Help](https://vst.trilsoft.com/privacy): Questions go to help@trilsoft.com.
+- [Wild Card mapping](https://vst.trilsoft.com/wildcard): Controller mapping requests use the subject "Wild Card Mapper Request" to help@trilsoft.com.
+
+## Policies
+
+- [Privacy](https://vst.trilsoft.com/privacy): Tril$oft sets no cookies of its own and does not collect visitor data.
+- [Refunds](https://vst.trilsoft.com/refunds): No refunds on digital products, but email help@trilsoft.com and reasonable requests get made right.
+
+## How it works
+
+- [Wild Card](https://vst.trilsoft.com/wildcard): Run the installer, put it on a MIDI track, activate with the code from your purchase email, load a sample, then scratch on a Hercules DJControl Starlight or by scrolling the record.
+- [Conceal-N-Strike](https://vst.trilsoft.com/conceal-n-strike): Run the installer, drop it on an instrument track, activate with the code from your purchase email, then program each of 64 steps with a platter CONCEAL move and a fader STRIKE cut.

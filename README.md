@@ -22,6 +22,8 @@ Then open [http://localhost:8080](http://localhost:8080).
 | `/conceal-n-strike` | Conceal-N-Strike |
 | `/conceal-n-strike.html` | Same Conceal-N-Strike page |
 | `/privacy` | Privacy policy |
+| `/refunds` | Refund policy |
+| `/llms.txt` | Short site summary for language models |
 
 ## Deploy on Railway
 
@@ -100,6 +102,10 @@ public/
   wildcard.html         Wild Card
   conceal-n-strike.html Conceal-N-Strike
   privacy.html          privacy policy
+  refunds.html          refund policy
+  llms.txt              llmstxt.org summary
+  tour.css              scroll tutorial styles
+  tour.js               scroll tutorial engine
   404.html
   favicon.svg
   assets/               images, root-addressed

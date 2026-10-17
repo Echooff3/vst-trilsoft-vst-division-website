@@ -1,0 +1,59 @@
+/* Shared scroll-tutorial layout. Each page adds its own theme on top.
+   Native scroll drives a sticky stage; the layout (desktop or portrait) is
+   picked once at load by the inline head script (html.is-desk / html.is-port). */
+*{box-sizing:border-box;margin:0;padding:0}
+a{color:inherit;text-decoration:none}
+.scroller{position:relative}
+.stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;isolation:isolate}
+#uibox{position:absolute;overflow:hidden;transition:opacity .5s,filter .5s,transform .6s}
+#ui{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+#spot{position:absolute;left:0;top:0;pointer-events:none;z-index:40;overflow:visible}
+#spot .dim{transition:opacity .4s}
+#cursor{position:absolute;left:0;top:0;z-index:45;pointer-events:none;transform-origin:0 0;opacity:0;transition:opacity .25s}
+#cursor.on{opacity:1}
+#cursor .rip{transform-origin:6px 4px;opacity:0}
+#cursor.down .rip{opacity:1}
+#cursor .wheel{display:none} #cursor.wheel .wheel{display:block} #cursor.wheel .arrow{display:none}
+#cursor .hand{display:none} #cursor.drag .hand{display:block} #cursor.drag .arrow{display:none}
+.copy{position:absolute;z-index:20}
+.beat{position:absolute;left:0;right:0;opacity:0;visibility:hidden;transform:translateY(26px);transition:opacity .38s ease,transform .45s cubic-bezier(.2,.8,.2,1),visibility .45s}
+.beat.on{opacity:1;visibility:visible;transform:none}
+.scene{position:absolute;inset:0;z-index:30;opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s,transform .6s cubic-bezier(.2,.8,.2,1);transform:scale(1.03)}
+.scene.on{opacity:1;visibility:visible;transform:none}
+.stage.scene-on #uibox{opacity:.08;filter:blur(3px);transform:scale(.96)}
+.stage.scene-on .copy,.stage.scene-on #rail{opacity:0;pointer-events:none}
+.copy,#rail{transition:opacity .4s}
+#rail{position:absolute;z-index:25;display:flex;flex-direction:column;gap:7px}
+#rail button{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:flex-end;gap:10px;height:18px}
+#rail button i{display:block;width:9px;height:9px;border-radius:50%;transition:transform .2s,background .2s}
+#rail button span{opacity:0;transform:translateX(6px);transition:.2s;white-space:nowrap}
+#rail button:hover span,#rail button.on span{opacity:1;transform:none}
+#rail button.on i{transform:scale(1.5)}
+.pbar{position:fixed;left:0;top:0;height:4px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:70}
+
+/* desktop */
+.is-desk #uibox{left:2.6vw;top:100px;width:60vw;bottom:34px}
+.is-desk .copy{left:65vw;right:8vw;top:100px;bottom:34px}
+.is-desk .beat{top:50%;transform:translateY(calc(-50% + 26px))}
+.is-desk .beat.on{transform:translateY(-50%)}
+.is-desk #rail{right:1.6vw;top:50%;transform:translateY(-50%)}
+
+/* portrait: tablet portrait to phone */
+.is-port{--hdr:62px;--uih:48svh}
+.is-port #uibox{left:0;right:0;top:var(--hdr);height:var(--uih)}
+.is-port .copy{left:0;right:0;top:calc(var(--hdr) + var(--uih));bottom:0}
+.is-port .beat{top:0;bottom:0}
+.is-port #rail{display:none}
+
+/* reduced motion: no pin, the UI once (final state), then every step stacked */
+html.static .scroller{height:auto!important}
+html.static .stage{position:relative;height:auto;overflow:visible}
+html.static #uibox{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:auto;height:auto;margin:90px auto 20px;max-width:1100px;aspect-ratio:var(--ar)}
+html.static .copy{position:relative;inset:auto;display:grid;gap:22px;max-width:760px;margin:0 auto;padding:20px 20px 60px}
+html.static .beat{position:relative;inset:auto;opacity:1;visibility:visible;transform:none!important}
+html.static .scene{position:relative;inset:auto;opacity:1;visibility:visible;transform:none;min-height:auto}
+html.static #rail,html.static #cursor,html.static #spot,html.static .pbar,html.static .hint{display:none}
+html.static .stage.scene-on #uibox{opacity:1;filter:none;transform:none}
+html.static .stage{display:flex;flex-direction:column}
+html.static .scene{order:3} html.static .scene.first{order:0}
+html.static #uibox{order:1} html.static .copy{order:2}
