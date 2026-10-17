@@ -4,8 +4,10 @@
      base()      a fresh UI state
      render(st)  draws a state into #ui
    Scroll position picks the beat; within a beat the camera eases in over
-   the first part, then apply() animates from a=0 to a=1. States build up:
-   every earlier beat is applied at a=1 first. */
+   the first part, then apply() animates from a=0 to a=1. Durable state
+   builds up: every earlier beat is applied at a=1 first. Overlay state
+   (modals, the installer, the cursor, press/hover, choosers, spotlights)
+   is cleared after that, so only the beat on screen can show one. */
 (function () {
   const D = document.documentElement;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -88,10 +90,33 @@
       window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
     }
 
+    // Anything a beat shows on top of the plug-in, rather than a setting
+    // that later beats keep. Cleared before the current beat runs, so a
+    // modal, cursor, or chooser cannot survive into another step — forward,
+    // backward, a rail jump, or a load that lands mid-page.
+    function clearOverlays(st) {
+      st.prompt = 0;
+      st.installer = -1;
+      st.code = '';
+      st.busy = false;
+      st.cur = null;
+      st.focus = null;
+      st.press = null;
+      st.hover = null;
+      st.hov = null;
+      st.picker = null;
+      st.phov = -1;
+      st.flash = null;
+      st.loading = false;
+      st.touched = false;
+      st.cut = false;
+      st.forceStep = null;
+    }
+
     function stateAt(i, a) {
       const st = base();
       for (let j = 0; j < i; j++) if (beats[j].apply) beats[j].apply(st, 1, true);
-      st.focus = null;
+      clearOverlays(st);
       if (beats[i] && beats[i].apply) beats[i].apply(st, a, false);
       return st;
     }
@@ -99,8 +124,10 @@
     let last = -1, lastRects = null;
     function drawRects(rs, on) {
       holes.innerHTML = ''; rings.innerHTML = '';
-      dimRect.style.opacity = on ? 1 : 0;
-      if (!rs) return;
+      const show = !!(on && rs && rs.length);
+      dimRect.style.opacity = show ? 1 : 0;
+      spot.classList.toggle('on', show);
+      if (!show) return;
       for (const r of rs) {
         const [x, y, w, h, rad = 10] = r;
         holes.insertAdjacentHTML('beforeend', `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rad}" fill="#000"/>`);
@@ -126,10 +153,14 @@
       ui.style.transform = STATIC ? `scale(${bw / W})` : `translate(${(bw / 2 - cx * s).toFixed(2)}px,${(bh / 2 - cy * s).toFixed(2)}px) scale(${s.toFixed(4)})`;
       // spotlight
       if (!STATIC) {
-        const r1 = focusOf(b, st), r0 = i > 0 ? (focusOf(beats[i - 1], stateAt(i - 1, 1)) ) : r1;
-        const rs = (st.focus ? r1 : lerpRects(r0, r1, t));
-        drawRects(rs, !!r1 && !b.scene);
-      }
+        const r1 = focusOf(b, st);
+        let rs = null;
+        if (r1 && !b.scene) {
+          const r0 = i > 0 ? focusOf(beats[i - 1], stateAt(i - 1, 1)) : r1;
+          rs = st.focus ? r1 : lerpRects(r0, r1, t);
+        }
+        drawRects(rs, !!rs);
+      } else drawRects(null, false);
       // cursor
       const cu = st.cur;
       if (cu && !STATIC) {

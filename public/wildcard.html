@@ -131,7 +131,7 @@ footer nav{display:flex;gap:24px} footer a:hover{color:var(--lime-s)}
 .kl small{display:block;margin-top:5px;font-family:system-ui,sans-serif;font-size:11px;color:var(--LIME)}
 #svg{position:absolute;left:0;top:0;z-index:2;overflow:visible}
 .ov{position:absolute;inset:0;z-index:8;display:grid;place-items:center;transition:opacity .3s}
-.ov.off{opacity:0;pointer-events:none}
+.ov.off{opacity:0;visibility:hidden;pointer-events:none}
 .prompt{background:rgba(13,5,20,.84)}
 .prompt .box{width:448px;padding:24px;background:var(--PANEL);border:2px solid var(--INK);border-radius:10px}
 .prompt h4{font-weight:400;font-size:34px;line-height:1;color:var(--PAPER)}
@@ -476,7 +476,7 @@ const B = {}; document.querySelectorAll('#ui .b').forEach(b => B[b.id.slice(2)] 
 
 /* ---------- state ---------- */
 const CODE = 'WILD-7K3M-Q9TX-4HPA-2VNE';
-const base = () => ({ installer: -1, prompt: 1, code: '', busy: false, loaded: false, loading: false, controller: false, deck: 'A',
+const base = () => ({ installer: -1, prompt: 0, code: '', busy: false, loaded: false, loading: false, controller: false, deck: 'A',
   pos: 0, posKey: 'a', spin: false, touched: false, speed: 0, playing: false, cues: [null, null, null, null, null],
   k: Object.fromEntries(Object.keys(P).map(k => [k, P[k].dn])), fmode: 'fader', vinyl: true, xf: .5, cut: false, level: 0, standalone: false,
   cur: null, press: null, hover: null, pitch: 0 });

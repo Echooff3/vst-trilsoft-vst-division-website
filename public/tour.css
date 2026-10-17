@@ -7,10 +7,11 @@ a{color:inherit;text-decoration:none}
 .stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;isolation:isolate}
 #uibox{position:absolute;overflow:hidden;transition:opacity .5s,filter .5s,transform .6s}
 #ui{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
-#spot{position:absolute;left:0;top:0;pointer-events:none;z-index:40;overflow:visible}
+#spot{position:absolute;left:0;top:0;pointer-events:none;z-index:40;overflow:visible;visibility:hidden}
+#spot.on{visibility:visible}
 #spot .dim{transition:opacity .4s}
-#cursor{position:absolute;left:0;top:0;z-index:45;pointer-events:none;transform-origin:0 0;opacity:0;transition:opacity .25s}
-#cursor.on{opacity:1}
+#cursor{position:absolute;left:0;top:0;z-index:45;pointer-events:none;transform-origin:0 0;opacity:0;visibility:hidden;transition:opacity .25s}
+#cursor.on{opacity:1;visibility:visible}
 #cursor .rip{transform-origin:6px 4px;opacity:0}
 #cursor.down .rip{opacity:1}
 #cursor .wheel{display:none} #cursor.wheel .wheel{display:block} #cursor.wheel .arrow{display:none}

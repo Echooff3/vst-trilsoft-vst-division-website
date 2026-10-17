@@ -136,7 +136,7 @@ footer nav{display:flex;gap:24px;flex-wrap:wrap} footer a:hover{color:var(--ambe
 .picker .cell.res b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--ops);font-size:15px;bottom:auto}
 .picker .cell.res.sel b{color:rgb(var(--rgb))}
 .ov{position:absolute;inset:0;z-index:12;display:grid;place-items:center;transition:opacity .3s}
-.ov.off{opacity:0;pointer-events:none}
+.ov.off{opacity:0;visibility:hidden;pointer-events:none}
 .prompt{background:rgba(8,10,12,.86)}
 .prompt .box{width:448px;padding:24px;background:var(--GUN);border:2px solid var(--AMBER);border-radius:10px}
 .prompt h4{font-family:var(--ops);font-weight:400;font-size:28px;line-height:1;color:var(--TEXT)}
@@ -463,7 +463,7 @@ const AHH = Array.from({ length: 249 }, (_, i) => { const t = i / 249 * .9; retu
 
 /* ---------- state ---------- */
 const CODE = 'CONC-7K3M-Q9TX-4HPA-2VNE';
-const base = () => ({ installer: -1, prompt: 1, code: '', busy: false, sync: 'DAW', hostRoll: false, play: false, bpm: 90, res: 1, anchor: 'CUE', swing: 0, curve: .9, vol: VOLN,
+const base = () => ({ installer: -1, prompt: 0, code: '', busy: false, sync: 'DAW', hostRoll: false, play: false, bpm: 90, res: 1, anchor: 'CUE', swing: 0, curve: .9, vol: VOLN,
   cue: 0, edge: 0, page: 0, follow: true, len: 8, clip: false, steps: Array.from({ length: 64 }, (_, i) => ROUTINE[i % 8].slice()), forceStep: null,
   picker: null, phov: -1, hov: null, press: null, cur: null, flash: null });
 const run = st => st.sync === 'INT' ? st.play : st.hostRoll;
