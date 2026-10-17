@@ -1,0 +1,11 @@
+{
+  "name": "trilsoft-vst-division",
+  "private": true,
+  "description": "Tril$oft VST Division marketing site",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

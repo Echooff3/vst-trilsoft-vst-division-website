@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#09090B">
+<title>Tril$oft VST Division — Weird VSTs no one asked for</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>
+/* Pick the layout before first paint (no flash): portrait for tablet-portrait → phone, desktop otherwise. */
+(function(d){var p=matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: reduce)').matches?' static':'');})(document.documentElement);
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Unbounded:wght@400;600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#09090B; --char:#111114; --panel:#16161B;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --bone:#EEE9E0; --mute:#8C8996; --dim:#5D5A66;
+  --signal:#FF5B1F; --signal-2:#FF8A3D; --amber:#FFC266;
+  --wc-deep:#1E0D4D; --wc-purple:#2D1679; --wc-violet:#4325B5; --wc-lav:#B9ADFF;
+  --lime:#9CFF2E; --wc-ink:#100524; --white:#fff;
+  --display:"Unbounded",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  --comic:"Bangers","Impact",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink)}
+body{background:var(--ink);color:var(--bone);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+#app{min-height:100vh;min-height:100svh}
+
+/* header */
+header.top{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;height:84px;padding:0 clamp(20px,4vw,56px);pointer-events:none}
+header.top>*{pointer-events:auto}
+.logo{display:inline-flex;align-items:center;gap:12px}
+.wordmark{display:flex;flex-direction:column;line-height:1}
+.wordmark b{font-family:var(--display);font-weight:800;font-size:19px;color:var(--bone)}
+.wordmark b i,.dollar{font-style:normal;color:var(--signal)}
+.wordmark small{font-family:var(--mono);font-size:9px;letter-spacing:.32em;color:var(--mute);margin-top:5px}
+.navlink{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone);padding:10px 16px;border:1px solid var(--line-2);border-radius:999px;background:rgba(9,9,11,.4);backdrop-filter:blur(8px);transition:.2s}
+.navlink:hover{border-color:var(--signal);color:var(--signal)}
+.bar{position:fixed;left:0;top:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:60;background:linear-gradient(90deg,var(--signal),var(--amber),var(--lime))}
+
+/* pinned stage: native scroll drives a sticky stage */
+.scroller{position:relative}
+.stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;isolation:isolate}
+.scene{position:absolute;inset:0;display:grid;place-items:center;will-change:transform,opacity}
+
+.bg-dark{position:absolute;inset:0;z-index:-3;background:var(--ink);
+  background-image:radial-gradient(900px 560px at 50% 38%,rgba(255,91,31,.17),transparent 70%),
+  linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:auto,64px 64px,64px 64px;background-position:center}
+.bg-dark::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,var(--ink) 85%)}
+.waves{position:absolute;left:0;right:0;bottom:8vh;height:28vh;z-index:-2;opacity:.9;pointer-events:none}
+.waves path{fill:none;stroke-linecap:round}
+.bg-purple{position:absolute;inset:0;z-index:-1;background:var(--wc-purple);
+  background-image:radial-gradient(900px 600px at 70% 45%,rgba(156,255,46,.16),transparent 65%),
+  radial-gradient(rgba(143,124,255,.32) 1.6px,transparent 1.9px);
+  background-size:auto,16px 16px;clip-path:circle(0% at 50% 50%)}
+.bg-purple::after{content:"";position:absolute;inset:0;background:radial-gradient(900px 700px at 0% 100%,rgba(16,5,36,.75),transparent 70%)}
+
+/* ghost-fill words */
+.w{--a:0;display:inline-block;will-change:transform;color:rgba(238,233,224,calc(.07 + var(--a)*.93))}
+em.w,.w em{font-style:normal;background:linear-gradient(90deg,rgba(255,91,31,calc(.12 + var(--a)*.88)),rgba(255,194,102,calc(.12 + var(--a)*.88)));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.hint{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px}
+.hint i{display:block;width:1px;height:46px;background:linear-gradient(var(--signal),transparent);animation:drip 1.6s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* lockup type */
+.brand{display:flex;align-items:center}
+.brand svg{height:auto;overflow:visible}
+.brand b{font-family:var(--display);font-weight:800;line-height:1;letter-spacing:-.01em}
+.brand b span{display:inline-block}
+.vst{font-family:var(--display);font-weight:900;line-height:.92;letter-spacing:-.045em}
+.vst .l{display:inline-block;will-change:transform}
+.vst .word{display:inline-flex;overflow:hidden;padding:.04em .02em .08em}
+.vst .div .l{color:transparent;-webkit-text-stroke:2px var(--signal)}
+.vst .div .l.fill{background:linear-gradient(90deg,var(--signal),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:0!important}
+.rule hr{flex:1;border:0;height:1px;background:linear-gradient(90deg,transparent,var(--signal),transparent);transform-origin:center}
+.meta span{display:inline-flex;align-items:center;gap:10px}
+.meta span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 10px var(--signal)}
+
+/* Wild Card comic kit */
+.tab{display:inline-block;font-family:var(--comic);font-size:20px;letter-spacing:.06em;background:var(--lime);color:var(--wc-ink);
+  padding:5px 14px 2px;border:3px solid var(--wc-ink);box-shadow:4px 4px 0 var(--wc-ink);transform:rotate(-1.5deg)}
+.wc-title{font-family:var(--comic);font-weight:400;line-height:.86;letter-spacing:.02em;color:var(--lime);-webkit-text-stroke:5px var(--wc-ink);paint-order:stroke fill;text-shadow:9px 9px 0 var(--wc-ink)}
+.wc-line{font-family:var(--comic);letter-spacing:.03em;line-height:1.02;color:var(--white);-webkit-text-stroke:2px var(--wc-ink);paint-order:stroke fill;text-shadow:4px 4px 0 var(--wc-ink)}
+.wc-line em{font-style:normal;color:var(--lime)}
+.wc-sub{font-size:17px;color:var(--wc-lav);font-weight:500}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--comic);font-size:26px;letter-spacing:.05em;line-height:1;
+  padding:16px 28px 13px;border:4px solid var(--wc-ink);border-radius:14px;box-shadow:6px 6px 0 var(--wc-ink);transition:transform .12s,box-shadow .12s;touch-action:manipulation}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--wc-ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--wc-ink)}
+.btn-lime{background:var(--lime);color:var(--wc-ink)}
+.btn-white{background:var(--white);color:var(--wc-ink)}
+
+/* speech bubbles: body = ::after, tail = ::before, both z-index:-1 inside an isolated stacking
+   context. ::after paints after ::before, so the body always covers the tail; text paints on top. */
+.bubble{--bg:var(--white);position:absolute;isolation:isolate;display:inline-block;color:var(--wc-ink);font-family:var(--comic);font-size:24px;letter-spacing:.04em;line-height:1.05;padding:18px 26px 15px;white-space:nowrap;z-index:4}
+.bubble::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--bg);border:4px solid var(--wc-ink);border-radius:26px;box-shadow:5px 5px 0 var(--wc-ink)}
+.bubble::before{content:"";position:absolute;z-index:-1;width:26px;height:26px;background:var(--bg);border:4px solid var(--wc-ink);border-top:0;border-left:0;bottom:-15px;left:38px;transform:skew(28deg) rotate(45deg)}
+.bubble.r::before{left:auto;right:42px;transform:skew(-28deg) rotate(45deg)}
+.bubble.lime{--bg:var(--lime)}
+
+.deck{position:relative;aspect-ratio:1}
+.platter{position:absolute;inset:0;border-radius:50%;background:#1A0B44;border:5px solid var(--wc-ink);box-shadow:12px 12px 0 var(--wc-ink)}
+.platter::before{content:"";position:absolute;inset:2%;border-radius:50%;background:radial-gradient(circle,var(--lime) 0 2.3px,transparent 2.8px) 0 0/20px 20px;
+  -webkit-mask:radial-gradient(circle,transparent 90.5%,#000 91%);mask:radial-gradient(circle,transparent 90.5%,#000 91%);opacity:.9}
+.platter::after{content:"";position:absolute;inset:1%;border-radius:50%;border:3px dashed var(--lime);opacity:.85}
+.record{position:absolute;inset:6.2%;border-radius:50%;will-change:transform;
+  background:radial-gradient(circle,transparent 0 33%,rgba(255,255,255,.04) 33.3% 34%,transparent 34.5%),
+    conic-gradient(from 20deg,rgba(255,255,255,.12),transparent 12%,transparent 38%,rgba(255,255,255,.09) 50%,transparent 62%,transparent 88%,rgba(255,255,255,.12)),
+    repeating-radial-gradient(circle,#15121F 0 2px,#221D33 2px 3.2px,#15121F 3.2px 5px);
+  border:4px solid var(--wc-ink);box-shadow:inset 0 0 0 10px #0E0B18}
+.label{position:absolute;left:50%;top:50%;width:37%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:var(--lime);border:4px solid var(--wc-ink);display:grid;place-items:center;
+  background-image:radial-gradient(rgba(16,5,36,.16) 1.3px,transparent 1.6px);background-size:9px 9px;container-type:inline-size}
+.label .lt{font-family:var(--comic);font-size:21cqw;margin-top:-30%;letter-spacing:.04em;color:var(--wc-ink);line-height:.86;text-align:center;transform:skew(-6deg)}
+.label .lt small{display:block;font-size:7.5cqw;letter-spacing:.18em;margin-top:22%}
+.label::before{content:"";position:absolute;left:50%;top:50%;width:9%;height:9%;transform:translate(-50%,-50%);border-radius:50%;background:#EDE9FF;border:3px solid var(--wc-ink);z-index:2}
+.marker{position:absolute;left:50%;top:6%;width:2.4%;height:6%;transform:translateX(-50%);background:var(--lime);border:3px solid var(--wc-ink);border-radius:4px}
+.tonearm{position:absolute;right:-6%;top:-4%;width:42%;height:auto;z-index:3;transform-origin:85% 12%;filter:drop-shadow(5px 5px 0 var(--wc-ink))}
+.strip{background:var(--lime);border-block:4px solid var(--wc-ink);overflow:hidden;white-space:nowrap}
+.strip div{display:inline-block;padding:10px 0 6px;font-family:var(--comic);font-size:24px;letter-spacing:.06em;color:var(--wc-ink);will-change:transform}
+
+.after{position:relative;background:var(--wc-deep);border-top:4px solid var(--wc-ink);color:#F4F1FF}
+.after .lab{text-align:center;padding:70px 20px}
+.after .lab span{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--wc-lav);padding:10px 18px;border:1px dashed rgba(185,173,255,.4);border-radius:999px}
+.after .lab span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 10px var(--signal)}
+footer{background:var(--ink);border-top:1px solid var(--line);padding:28px clamp(20px,4vw,56px);padding-bottom:max(28px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--dim)}
+
+/* reduced motion (both versions): no pin, static stacked sections */
+html.static .scroller{height:auto!important}
+html.static .stage{position:relative;height:auto;overflow:visible}
+html.static .scene{position:relative;inset:auto;min-height:100vh;min-height:100svh;opacity:1!important;visibility:visible!important;transform:none!important}
+html.static .scene *{opacity:1!important;filter:none!important}
+html.static .scene .w,html.static .scene .l,html.static .scene .deck,html.static .scene .wc-title span,html.static .scene .cta,html.static .scene .cta a,html.static .scene .wc-line,html.static .scene .wc-sub,html.static .scene .brand,html.static .scene .brand b span,html.static .scene .meta,html.static .scene .rule hr,html.static .scene .tonearm,html.static .scene .record{transform:none!important}
+html.static .w{--a:1}
+html.static .vst .div .l{background:linear-gradient(90deg,var(--signal),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:0!important}
+html.static .scene.wc{background:var(--wc-purple);background-image:radial-gradient(rgba(143,124,255,.32) 1.6px,transparent 1.9px);background-size:16px 16px}
+html.static .bg-purple,html.static .hint,html.static .bar,html.static .rail,html.static .waves,html.static .edge{display:none}
+html.static .bg-dark{position:absolute;inset:0 0 auto 0;height:200vh;height:200svh}
+@media (prefers-reduced-motion:reduce){ .hint i{animation:none} }
+/* ================= DESKTOP / LANDSCAPE ================= */
+.v-desk .scroller{height:720vh}
+.v-desk .s1 .inner{text-align:center;padding:0 24px;max-width:1200px}
+.v-desk .s1 .kicker{display:inline-block;margin-bottom:28px;color:var(--signal)}
+.v-desk .s1 h1{font-family:var(--display);font-weight:800;font-size:clamp(46px,8vw,124px);line-height:1;letter-spacing:-.035em}
+.v-desk .s1 h1 .w{margin:0 .1em}
+.v-desk .s2 .inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 20px}
+.v-desk .brand{gap:clamp(14px,1.6vw,24px)}
+.v-desk .brand svg{width:clamp(56px,6vw,92px)}
+.v-desk .brand b{font-size:clamp(34px,4.4vw,66px)}
+.v-desk .vst{margin-top:clamp(18px,2.6vw,34px);font-size:clamp(44px,9.4vw,150px);display:flex;gap:.22em;flex-wrap:wrap;justify-content:center}
+.v-desk .rule{margin-top:clamp(22px,3vw,38px);display:flex;width:min(760px,86vw)}
+.v-desk .meta{margin-top:18px;display:flex;gap:26px;flex-wrap:wrap;justify-content:center}
+.v-desk .s3{color:#F4F1FF}
+.v-desk .s3 .inner{width:min(1240px,100%);padding:84px clamp(24px,4vw,56px) 40px;display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(20px,3vw,48px);align-items:center}
+.v-desk .wc-title{font-size:clamp(84px,11.5vw,184px);margin:24px 0 26px}
+.v-desk .wc-title span{display:block;transform-origin:left bottom}
+.v-desk .wc-title span:nth-child(2){margin-left:.32em}
+.v-desk .wc-line{font-size:clamp(28px,2.8vw,42px)}
+.v-desk .wc-sub{margin-top:14px;max-width:470px}
+.v-desk .cta{display:flex;gap:18px;flex-wrap:wrap;margin-top:30px}
+.v-desk .deck{width:min(560px,44vw,66vh);justify-self:center}
+.v-desk .deck .b1{left:-8%;top:-2%;transform-origin:30px 100%}
+.v-desk .deck .b2{right:-4%;bottom:4%;transform-origin:80% 100%}
+.v-desk .strip{position:absolute;left:-2%;right:-2%;bottom:clamp(14px,3vh,34px);transform:rotate(-1.2deg);z-index:1}
+.v-desk .rail{position:fixed;left:50%;top:0;height:84px;transform:translateX(-50%);z-index:55;display:flex;gap:26px;align-items:center}
+.v-desk .rail a{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--dim);transition:color .3s}
+.v-desk .rail a i{display:block;width:18px;height:2px;background:currentColor;transition:width .3s}
+.v-desk .rail a.on{color:var(--signal)}
+.v-desk .rail a.on i{width:34px}
+.v-desk .rail.wc a{color:rgba(185,173,255,.55)}
+.v-desk .rail.wc a.on{color:var(--lime)}
+/* narrow landscape windows (e.g. landscape phones / small laptops) */
+@media (max-width:1100px){ .v-desk .rail{display:none} }
+@media (max-height:560px){
+  .v-desk header.top{height:58px}
+  .v-desk .s1 h1{font-size:min(8vw,15vh)}
+  .v-desk .vst{font-size:min(9.4vw,19vh);margin-top:10px}
+  .v-desk .brand b{font-size:min(4.4vw,9vh)} .v-desk .brand svg{width:min(6vw,12vh)}
+  .v-desk .s3 .inner{padding:62px 5vw 24px}
+  .v-desk .wc-title{font-size:min(11.5vw,24vh);margin:12px 0;text-shadow:5px 5px 0 var(--wc-ink);-webkit-text-stroke:4px var(--wc-ink)}
+  .v-desk .wc-line{font-size:min(2.8vw,6vh)} .v-desk .wc-sub,.v-desk .strip,.v-desk .deck .b2{display:none}
+  .v-desk .cta{margin-top:14px;gap:12px} .v-desk .btn{font-size:18px;padding:11px 16px 8px;box-shadow:4px 4px 0 var(--wc-ink)}
+  .v-desk .tab{font-size:14px} .v-desk .bubble{font-size:15px;padding:10px 14px 8px}
+  .v-desk .deck{width:min(40vw,72vh)}
+}
+html.static .v-desk .tab{transform:rotate(-1.5deg)!important}
+html.static .v-desk .strip{transform:rotate(-1.2deg)!important}
+html.static .v-desk .wc-title span{transform:rotate(-3deg) skew(-4deg)!important}
+/* ================= PORTRAIT (tablet portrait → phone) ================= */
+.v-port{--hdr:64px}
+.v-port .scroller{height:760vh;height:760svh}
+.v-port header.top{height:var(--hdr);padding:0 20px;padding-top:env(safe-area-inset-top)}
+.v-port .wordmark b{font-size:16px}
+.v-port .navlink{font-size:11px;padding:11px 14px;min-height:40px;display:inline-flex;align-items:center}
+.v-port .bg-dark{background-image:radial-gradient(70vw 50svh at 40% 40%,rgba(255,91,31,.18),transparent 70%),linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:auto,48px 48px,48px 48px}
+.v-port .waves{bottom:4svh;height:16svh}
+
+/* beat 1: stacked line */
+.v-port .p1{place-items:center start}
+.v-port .p1 .inner{padding:0 7vw;width:100%}
+.v-port .p1 .kicker{display:block;margin-bottom:3svh;color:var(--signal);font-size:11px}
+.v-port .p1 h1{font-family:var(--display);font-weight:800;font-size:min(16.5vw,9.4svh);line-height:1.02;letter-spacing:-.04em}
+.v-port .p1 h1 .w{display:block;width:max-content}
+.v-port .p1 h1 .w:nth-child(even){margin-left:auto}
+.v-port .p1 .hint{bottom:max(26px,calc(env(safe-area-inset-bottom) + 16px))}
+
+/* beat 2: stacked lockup */
+.v-port .p2 .inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 6vw}
+.v-port .brand{gap:14px}
+.v-port .brand svg{width:min(14vw,9svh)}
+.v-port .brand b{font-size:min(9.4vw,6.2svh)}
+.v-port .vst{margin-top:3svh;display:flex;flex-direction:column;align-items:center;gap:0}
+.v-port .vst .vstw{font-size:min(30vw,20svh);line-height:.86}
+.v-port .vst .div{font-size:min(13.4vw,8.4svh)}
+.v-port .vst .div .l{-webkit-text-stroke:1.5px var(--signal)}
+.v-port .rule{margin-top:3svh;display:flex;width:80vw}
+.v-port .meta{margin-top:2.4svh;display:flex;flex-direction:column;gap:10px;align-items:center;font-size:min(2.8vw,13px)}
+
+/* wipe */
+.v-port .edge{position:absolute;left:0;right:0;top:0;height:46px;margin-top:-23px;z-index:0;visibility:hidden}
+.v-port .edge div{font-size:20px;padding:8px 0 4px}
+
+/* beat 3: record dominant top half, copy stacked below */
+.v-port .p3{color:#F4F1FF;place-items:stretch}
+.v-port .p3 .inner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:min(3.2svh,30px);
+  padding:calc(var(--hdr) + env(safe-area-inset-top) + 1svh) 20px max(20px,calc(env(safe-area-inset-bottom) + 14px));text-align:center}
+.v-port .deck{flex:1 1 0;min-height:0;width:auto;max-height:min(80vw,46svh);max-width:100%}
+.v-port .deck .b1{left:-8%;top:0;font-size:min(4.4vw,22px);padding:12px 16px 10px;transform-origin:20% 100%}
+.v-port .deck .b1::before{width:20px;height:20px;bottom:-12px;left:26px}
+.v-port .copy{display:flex;flex-direction:column;align-items:center;width:100%}
+.v-port .tab{font-size:min(4.2vw,20px)}
+.v-port .wc-title{font-size:min(22vw,11.5svh);margin:min(2svh,18px) 0 min(1.4svh,14px);display:flex;gap:.2em;-webkit-text-stroke:4px var(--wc-ink);text-shadow:6px 6px 0 var(--wc-ink)}
+.v-port .wc-title span{display:block;transform-origin:50% 100%}
+.v-port .wc-line{font-size:min(7vw,4svh)}
+.v-port .wc-sub{display:none}
+.v-port .cta{display:flex;flex-direction:column;gap:14px;width:100%;max-width:440px;margin-top:min(3svh,28px)}
+.v-port .cta .btn{width:100%;min-height:58px;font-size:min(6.6vw,28px)}
+.v-port .strip:not(.edge){display:none}
+/* tablet portrait */
+@media (min-width:600px){
+  .v-port{--hdr:84px}
+  .v-port header.top{padding:0 40px}
+  .v-port .wordmark b{font-size:19px}
+  .v-port .p1 h1{font-size:min(15vw,10svh)}
+  .v-port .deck{max-height:min(68vw,44svh)}
+  .v-port .deck .b1{font-size:24px;padding:16px 24px 13px}
+  .v-port .wc-title{font-size:min(19vw,12svh);-webkit-text-stroke:5px var(--wc-ink);text-shadow:9px 9px 0 var(--wc-ink)}
+  .v-port .wc-sub{display:block;margin-top:14px;max-width:520px;font-size:19px}
+  .v-port .cta{flex-direction:row;max-width:680px;gap:20px}
+  .v-port .cta .btn{flex:1;min-height:72px;font-size:min(3.4vw,30px);white-space:nowrap;padding-inline:18px}
+  .v-port .p3 .inner{padding-bottom:calc(3svh + 90px)}
+  .v-port .strip:not(.edge){display:block;position:absolute;left:-2%;right:-2%;bottom:3svh;transform:rotate(-1.2deg);z-index:1}
+  .v-port .meta{font-size:13px}
+}
+/* short phones (e.g. 375×667) */
+@media (max-width:599px) and (max-height:720px){
+  .v-port .deck{max-height:min(72vw,40svh)}
+  .v-port .tab{display:none}
+  .v-port .cta .btn{min-height:54px}
+  .v-port .p3 .inner{gap:2svh}
+}
+html.static .v-port .p3{min-height:100svh}
+html.static .v-port .tab{transform:rotate(-1.5deg)!important}
+html.static .v-port .strip{transform:rotate(-1.2deg)!important}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="mark" viewBox="0 0 40 40">
+    <rect x="1" y="1" width="38" height="38" rx="11" fill="#16161B" stroke="#FF5B1F" stroke-width="2"/>
+    <path d="M8 13c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M8 20c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#FF5B1F" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M8 27c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" opacity=".45"/>
+  </symbol></defs></svg>
+<div id="app"></div>
+<noscript><style>.nojs{min-height:100vh;display:grid;place-items:center;text-align:center;padding:40px 24px}.nojs h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,8vw,110px);line-height:1;letter-spacing:-.03em}.nojs h1 em{font-style:normal;color:var(--signal)}.nojs p{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}</style>
+<div class="nojs"><div><span class="mono" style="color:var(--signal)">Tril$oft VST Division</span><h1>Weird VSTs <em>no one</em> asked for.</h1><p><a class="btn btn-lime" href="/wildcard">Check out Wild Card →</a><a class="btn btn-white" href="#" data-stripe data-product="wildcard">Buy Now</a></p></div></div></noscript>
+<template id="tpl-desk"><div class="v-desk">
+<div class="bar" id="bar"></div>
+<header class="top">
+  <a href="#top" class="logo" aria-label="Tril$oft VST Division home"><svg width="38" height="38"><use href="#mark"/></svg><span class="wordmark"><b>TRIL<i>$</i>OFT</b><small>VST DIVISION</small></span></a>
+  <a href="/wildcard" class="navlink">Wild Card →</a>
+</header>
+<nav class="rail" id="rail" aria-label="Sections">
+  <a href="#" data-go="0.17"><span>01 WEIRD</span><i></i></a>
+  <a href="#" data-go="0.44"><span>02 DIVISION</span><i></i></a>
+  <a href="#" data-go="1"><span>03 WILD CARD</span><i></i></a>
+</nav>
+<main id="top">
+<div class="scroller" id="scroller">
+  <div class="stage" id="stage">
+    <div class="bg-dark"></div>
+    <svg class="waves" id="waves" viewBox="0 0 1440 240" preserveAspectRatio="none" aria-hidden="true">
+      <path id="wv1" stroke="#FF5B1F" stroke-width="2.5" opacity=".75"/>
+      <path id="wv2" stroke="#EEE9E0" stroke-width="1.5" opacity=".22"/>
+      <path id="wv3" stroke="#FFC266" stroke-width="1.5" opacity=".35"/>
+    </svg>
+    <div class="bg-purple" id="bgPurple"></div>
+    <section class="scene s1" id="s1" aria-label="Weird VSTs no one asked for">
+      <div class="inner">
+        <span class="mono kicker">Tril$oft VST Division</span>
+        <h1 id="line"><span class="w">Weird</span> <span class="w">VSTs</span> <em class="w">no</em> <em class="w">one</em> <span class="w">asked</span> <span class="w">for.</span></h1>
+      </div>
+      <div class="hint mono" id="hint"><span>Scroll</span><i></i></div>
+    </section>
+    <section class="scene s2" id="s2" aria-label="Tril$oft VST Division">
+      <div class="inner">
+        <div class="brand" id="brand">
+          <svg viewBox="0 0 40 40" id="bigmark" aria-hidden="true">
+            <rect x="1" y="1" width="38" height="38" rx="11" fill="#16161B" stroke="#FF5B1F" stroke-width="2" pathLength="1" class="mk-box"/>
+            <path class="mk-w" d="M8 13c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+            <path class="mk-w" d="M8 20c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#FF5B1F" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+            <path class="mk-w" d="M8 27c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" opacity=".45" pathLength="1"/>
+          </svg>
+          <b id="wm"><span>T</span><span>R</span><span>I</span><span>L</span><span class="dollar">$</span><span>O</span><span>F</span><span>T</span></b>
+        </div>
+        <div class="vst" id="vst" aria-label="VST Division">
+          <span class="word vstw"><span class="l">V</span><span class="l">S</span><span class="l">T</span></span>
+          <span class="word div"><span class="l">D</span><span class="l">I</span><span class="l">V</span><span class="l">I</span><span class="l">S</span><span class="l">I</span><span class="l">O</span><span class="l">N</span></span>
+        </div>
+        <div class="rule" id="rule"><hr></div>
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>More weird ones in the lab</span></div>
+      </div>
+    </section>
+    <section class="scene s3 wc" id="s3" aria-label="Wild Card">
+      <div class="inner">
+        <div class="copy" id="copy">
+          <span class="tab" id="tab">DIV-001 · SCRATCH DECK</span>
+          <h2 class="wc-title" id="wctitle"><span>WILD</span><span>CARD</span></h2>
+          <p class="wc-line" id="wcline">Plug in your controller. <em>Scratch.</em></p>
+          <p class="wc-sub" id="wcsub">A dead-simple scratch deck for MIDI DJ controllers. No setup marathon — and cheaper than the DJ apps on iPad.</p>
+          <div class="cta" id="cta">
+            <a href="/wildcard" class="btn btn-lime">Check out Wild Card →</a>
+            <a href="#" data-stripe data-product="wildcard" class="btn btn-white">Buy Now</a>
+          </div>
+        </div>
+        <div class="deck" id="deck">
+          <div class="platter"></div>
+          <div class="record" id="record"><div class="marker"></div><div class="label"><div class="lt">WILD<br>CARD<small>TRIL$OFT</small></div></div></div>
+          <svg class="tonearm" id="tonearm" viewBox="0 0 220 300" aria-hidden="true">
+            <circle cx="186" cy="36" r="30" fill="#4325B5" stroke="#100524" stroke-width="6"/>
+            <circle cx="186" cy="36" r="11" fill="#9CFF2E" stroke="#100524" stroke-width="5"/>
+            <path d="M186 36 L176 200 L110 262" fill="none" stroke="#100524" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M186 36 L176 200 L110 262" fill="none" stroke="#EDE9FF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="78" y="246" width="50" height="34" rx="6" transform="rotate(-42 103 263)" fill="#9CFF2E" stroke="#100524" stroke-width="6"/>
+          </svg>
+          <div class="bubble b1" id="b1">Tested on the Starlight!</div>
+          <div class="bubble lime r b2" id="b2">Hold to cut!</div>
+        </div>
+      </div>
+      <div class="strip" id="strip" aria-hidden="true"><div class="stripTxt"></div></div>
+    </section>
+  </div>
+</div>
+<section class="after">
+  <div class="lab"><span>More weird ones in the lab</span></div>
+  <footer>
+    <a href="#top" class="logo"><svg width="28" height="28"><use href="#mark"/></svg><span class="wordmark"><b style="font-size:15px">TRIL<i>$</i>OFT</b></span></a>
+    <span>© 2026 Tril$oft · VST is a trademark of Steinberg Media Technologies GmbH.</span>
+  </footer>
+</section>
+</main>
+</div></template>
+<template id="tpl-port"><div class="v-port">
+<div class="bar" id="bar"></div>
+<header class="top">
+  <a href="#top" class="logo" aria-label="Tril$oft VST Division home"><svg width="38" height="38"><use href="#mark"/></svg><span class="wordmark"><b>TRIL<i>$</i>OFT</b><small>VST DIVISION</small></span></a>
+  <a href="/wildcard" class="navlink">Wild Card →</a>
+</header>
+<main id="top">
+<div class="scroller" id="scroller">
+  <div class="stage" id="stage">
+    <div class="bg-dark"></div>
+    <svg class="waves" id="waves" viewBox="0 0 1440 240" preserveAspectRatio="none" aria-hidden="true">
+      <path id="wv1" stroke="#FF5B1F" stroke-width="2.5" opacity=".75"/>
+      <path id="wv2" stroke="#EEE9E0" stroke-width="1.5" opacity=".22"/>
+      <path id="wv3" stroke="#FFC266" stroke-width="1.5" opacity=".35"/>
+    </svg>
+    <div class="bg-purple" id="bgPurple"></div>
+    <div class="strip edge" id="edge" aria-hidden="true"><div class="stripTxt"></div></div>
+    <section class="scene p1" id="p1" aria-label="Weird VSTs no one asked for">
+      <div class="inner">
+        <span class="mono kicker" id="pk">Tril$oft VST Division</span>
+        <h1 id="line"><span class="w">Weird</span> <span class="w">VSTs</span> <span class="w"><em>no one</em></span> <span class="w">asked</span> <span class="w">for.</span></h1>
+      </div>
+      <div class="hint mono" id="hint"><span>Scroll</span><i></i></div>
+    </section>
+    <section class="scene p2" id="p2" aria-label="Tril$oft VST Division">
+      <div class="inner">
+        <div class="brand" id="brand">
+          <svg viewBox="0 0 40 40" id="bigmark" aria-hidden="true">
+            <rect x="1" y="1" width="38" height="38" rx="11" fill="#16161B" stroke="#FF5B1F" stroke-width="2" pathLength="1" class="mk-box"/>
+            <path class="mk-w" d="M8 13c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+            <path class="mk-w" d="M8 20c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#FF5B1F" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+            <path class="mk-w" d="M8 27c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" opacity=".45" pathLength="1"/>
+          </svg>
+          <b id="wm"><span>T</span><span>R</span><span>I</span><span>L</span><span class="dollar">$</span><span>O</span><span>F</span><span>T</span></b>
+        </div>
+        <div class="vst" id="vst" aria-label="VST Division">
+          <span class="word vstw"><span class="l">V</span><span class="l">S</span><span class="l">T</span></span>
+          <span class="word div"><span class="l">D</span><span class="l">I</span><span class="l">V</span><span class="l">I</span><span class="l">S</span><span class="l">I</span><span class="l">O</span><span class="l">N</span></span>
+        </div>
+        <div class="rule" id="rule"><hr></div>
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>More weird ones in the lab</span></div>
+      </div>
+    </section>
+    <section class="scene p3 wc" id="p3" aria-label="Wild Card">
+      <div class="inner">
+        <div class="deck" id="deck">
+          <div class="platter"></div>
+          <div class="record" id="record"><div class="marker"></div><div class="label"><div class="lt">WILD<br>CARD<small>TRIL$OFT</small></div></div></div>
+          <svg class="tonearm" id="tonearm" viewBox="0 0 220 300" aria-hidden="true">
+            <circle cx="186" cy="36" r="30" fill="#4325B5" stroke="#100524" stroke-width="6"/>
+            <circle cx="186" cy="36" r="11" fill="#9CFF2E" stroke="#100524" stroke-width="5"/>
+            <path d="M186 36 L176 200 L110 262" fill="none" stroke="#100524" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M186 36 L176 200 L110 262" fill="none" stroke="#EDE9FF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="78" y="246" width="50" height="34" rx="6" transform="rotate(-42 103 263)" fill="#9CFF2E" stroke="#100524" stroke-width="6"/>
+          </svg>
+          <div class="bubble b1" id="b1">Tested on the Starlight!</div>
+          
+        </div>
+        <div class="copy" id="copy">
+          <span class="tab" id="tab">DIV-001 · SCRATCH DECK</span>
+          <h2 class="wc-title" id="wctitle"><span>WILD</span><span>CARD</span></h2>
+          <p class="wc-line" id="wcline">Plug in your controller. <em>Scratch.</em></p>
+          <p class="wc-sub" id="wcsub">A dead-simple scratch deck for MIDI DJ controllers. No setup marathon — and cheaper than the DJ apps on iPad.</p>
+          <div class="cta" id="cta">
+            <a href="/wildcard" class="btn btn-lime">Check out Wild Card →</a>
+            <a href="#" data-stripe data-product="wildcard" class="btn btn-white">Buy Now</a>
+          </div>
+        </div>
+      </div>
+      <div class="strip" id="strip" aria-hidden="true"><div class="stripTxt"></div></div>
+    </section>
+  </div>
+</div>
+<section class="after">
+  <div class="lab"><span>More weird ones in the lab</span></div>
+  <footer>
+    <a href="#top" class="logo"><svg width="28" height="28"><use href="#mark"/></svg><span class="wordmark"><b style="font-size:15px">TRIL<i>$</i>OFT</b></span></a>
+    <span>© 2026 Tril$oft · VST is a trademark of Steinberg Media Technologies GmbH.</span>
+  </footer>
+</section>
+</main>
+</div></template>
+<script>
+(() => {
+  const PORTRAIT_Q = '(max-width: 1024px) and (orientation: portrait)';
+  const mqPort = matchMedia(PORTRAIT_Q), mqRM = matchMedia('(prefers-reduced-motion: reduce)');
+  const html = document.documentElement, app = document.getElementById('app');
+
+  // ---------- helpers ----------
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const seg = (p, a, b) => clamp((p - a) / (b - a));
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  const easeIn = t => t * t * t;
+  const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const back = t => { const c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+  const show = (el, o) => { el.style.opacity = o; el.style.visibility = o < 0.005 ? 'hidden' : 'visible'; };
+  function wavePath(phase, amp, freq, yOff) {
+    let d = '';
+    for (let x = 0; x <= 1440; x += 16) {
+      const y = 120 + yOff + Math.sin(x * freq + phase) * amp * Math.sin((x / 1440) * Math.PI);
+      d += (x ? 'L' : 'M') + x + ' ' + y.toFixed(1);
+    }
+    return d;
+  }
+  const UNIT = 'WILD CARD • MIDI DJ CONTROLLERS • PLUG IN • SCRATCH • TESTED ON THE STARLIGHT • ';
+
+  // shared bits used by both scenes' renderers
+  function common(root) {
+    const $ = s => root.querySelector(s), $$ = s => [...root.querySelectorAll(s)];
+    return {
+      $, $$,
+      bar: $('#bar'), waves: $('#waves'), wv: [$('#wv1'), $('#wv2'), $('#wv3')],
+      mkBox: $('.mk-box'), mkW: $$('.mk-w'), bigmark: $('#bigmark'), wmL: $$('#wm span'),
+      vstL: $$('#vst .vstw .l'), divL: $$('#vst .div .l'), rule: $('#rule hr'), meta: $('#meta'), brand: $('#brand'),
+      bgPurple: $('#bgPurple'), tab: $('#tab'), titleS: $$('#wctitle span'), wcline: $('#wcline'), wcsub: $('#wcsub'),
+      cta: $('#cta'), ctaA: $$('#cta a'), deck: $('#deck'), record: $('#record'), tonearm: $('#tonearm'),
+      b1: $('#b1'), b2: $('#b2'), strip: $('#strip'), words: $$('#line .w'), hint: $('#hint'),
+      angle: 0,
+      drawWaves(p, now, fade) {
+        const ph = p * 26 + now / 900;
+        this.wv[0].setAttribute('d', wavePath(ph, 60 + p * 80, .0062, 0));
+        this.wv[1].setAttribute('d', wavePath(ph * .8 + 1.4, 46, .0081, 18));
+        this.wv[2].setAttribute('d', wavePath(-ph * .6 + 2.2, 34, .011, -14));
+        this.waves.style.opacity = .9 * fade * (.35 + .65 * seg(p, 0, .1));
+      },
+      drawMark(p, a) { // logo draws itself starting at progress a
+        const mk = easeOut(seg(p, a, a + .07));
+        this.bigmark.style.transform = `scale(${.4 + mk * .6}) rotate(${(1 - mk) * -90}deg)`;
+        this.bigmark.style.opacity = mk;
+        this.mkBox.style.strokeDasharray = 1; this.mkBox.style.strokeDashoffset = 1 - easeOut(seg(p, a + .01, a + .09));
+        this.mkBox.style.fillOpacity = seg(p, a + .04, a + .09);
+        this.mkW.forEach((w, i) => { w.style.strokeDasharray = 1; w.style.strokeDashoffset = 1 - easeOut(seg(p, a + .03 + i * .015, a + .09 + i * .015)); });
+      },
+      spin(p, dp, dt) { // record spins on its own; scroll velocity scratches it (scroll up = spin back)
+        this.angle += dt * .12 + dp * 4200;
+        this.record.style.transform = `rotate(${this.angle}deg)`;
+      },
+      marquee(el, p, now) { if (el) el.firstElementChild.style.transform = `translateX(${-((p * 2200 + now / 25) % 1200)}px)`; }
+    };
+  }
+
+  // ================= desktop renderer =================
+  function desk(root) {
+    const c = common(root), $ = c.$, $$ = c.$$;
+    const s1 = $('#s1'), s2 = $('#s2'), s3 = $('#s3'), rail = $('#rail'), railA = $$('#rail a');
+    const onRail = e => { const a = e.target.closest('a[data-go]'); if (!a) return; e.preventDefault(); goTo(+a.dataset.go, true); };
+    rail.addEventListener('click', onRail);
+    return {
+      render(p, now, dp, dt) {
+        c.bar.style.transform = `scaleX(${p})`;
+        c.words.forEach((w, i) => {
+          const a = .01 + i * .03, t = easeOut(seg(p, a, a + .07));
+          w.style.setProperty('--a', t.toFixed(3));
+          w.style.transform = `translateY(${(1 - t) * 0.22}em) rotate(${(1 - t) * (i % 2 ? 3 : -3)}deg) scale(${.94 + t * .06})`;
+        });
+        show(c.hint, 1 - seg(p, .01, .06));
+        const out1 = easeIn(seg(p, .25, .34));
+        s1.style.transform = `scale(${1 + out1 * .5})`; s1.style.filter = `blur(${out1 * 14}px)`; show(s1, 1 - out1);
+
+        const in2 = seg(p, .29, .44), out2 = easeIn(seg(p, .55, .63));
+        show(s2, (in2 > 0 ? 1 : 0) * (1 - out2));
+        s2.style.transform = `scale(${1 - out2 * .18}) translateY(${-out2 * 40}px)`;
+        c.drawMark(p, .29);
+        c.wmL.forEach((l, i) => { const t = easeOut(seg(p, .31 + i * .007, .36 + i * .007)); l.style.opacity = t; l.style.transform = `translateY(${(1 - t) * 40}px)`; });
+        [...c.vstL, ...c.divL].forEach((l, i) => { const a = .335 + i * .007, t = easeOut(seg(p, a, a + .05)); l.style.transform = `translateY(${(1 - t) * 105}%) skewY(${(1 - t) * 8}deg)`; });
+        const fillT = seg(p, .43, .52);
+        c.divL.forEach((l, i) => l.classList.toggle('fill', fillT > (i + 1) / (c.divL.length + 1)));
+        c.rule.style.transform = `scaleX(${easeOut(seg(p, .40, .47))})`;
+        const mt = easeOut(seg(p, .42, .47)); c.meta.style.opacity = mt; c.meta.style.transform = `translateY(${(1 - mt) * 16}px)`;
+        c.brand.style.transform = `translateY(${-easeIO(seg(p, .44, .56)) * 8}px)`;
+        c.drawWaves(p, now, 1 - seg(p, .56, .66));
+
+        c.bgPurple.style.clipPath = `circle(${easeIO(seg(p, .575, .70)) * 160}% at 50% 100%)`;
+
+        show(s3, seg(p, .62, .64) > 0 ? 1 : 0);
+        const dk = easeOut(seg(p, .63, .76));
+        c.deck.style.transform = `translateY(${(1 - dk) * 60}vh) rotate(${(1 - dk) * 25}deg) scale(${.7 + dk * .3})`;
+        c.tonearm.style.transform = `rotate(${(1 - easeIO(seg(p, .76, .84))) * -28}deg)`;
+        const tb = back(seg(p, .68, .73)); c.tab.style.transform = `rotate(-1.5deg) scale(${tb})`; c.tab.style.opacity = clamp(tb * 3);
+        c.titleS.forEach((s, i) => { const a = .69 + i * .03, t = seg(p, a, a + .06); s.style.transform = `scale(${back(t)}) rotate(${(1 - t) * -12 - 3}deg) skew(-4deg)`; s.style.opacity = clamp(t * 4); });
+        const ln = easeOut(seg(p, .77, .83)); c.wcline.style.opacity = ln; c.wcline.style.transform = `translateX(${(1 - ln) * -40}px)`;
+        const sb = easeOut(seg(p, .80, .86)); c.wcsub.style.opacity = sb; c.wcsub.style.transform = `translateY(${(1 - sb) * 14}px)`;
+        const ct = easeOut(seg(p, .83, .90)); c.cta.style.opacity = ct; c.cta.style.transform = `translateY(${(1 - ct) * 26}px)`; c.cta.style.pointerEvents = ct > .6 ? 'auto' : 'none';
+        const bb1 = seg(p, .82, .87), bb2 = seg(p, .86, .91);
+        c.b1.style.transform = `rotate(-4deg) scale(${back(bb1)})`; show(c.b1, clamp(bb1 * 4));
+        c.b2.style.transform = `rotate(3deg) scale(${back(bb2)})`; show(c.b2, clamp(bb2 * 4));
+        c.strip.style.transform = `rotate(-1.2deg) translateY(${(1 - easeOut(seg(p, .74, .82))) * 160}%)`;
+        c.marquee(c.strip, p, now);
+        c.spin(p, dp, dt);
+        const idx = p < .29 ? 0 : p < .62 ? 1 : 2;
+        railA.forEach((a, i) => a.classList.toggle('on', i === idx));
+        rail.classList.toggle('wc', idx === 2);
+      },
+      destroy() { rail.removeEventListener('click', onRail); }
+    };
+  }
+
+  // ================= portrait renderer =================
+  // Own beats: stacked line slides in from alternating sides → lockup rises from below →
+  // lime-edged vertical wipe → record drops into top half, copy + big tap targets stack below.
+  function port(root) {
+    const c = common(root), $ = c.$;
+    const p1 = $('#p1'), p2 = $('#p2'), p3 = $('#p3'), pk = $('#pk'), edge = $('#edge');
+    const vstw = $('#vst .vstw'), divw = $('#vst .div');
+    function fit() { // make "VST" exactly as wide as "DIVISION" for a justified lockup
+      vstw.style.fontSize = '';
+      const target = divw.getBoundingClientRect().width, w = vstw.getBoundingClientRect().width;
+      if (w > 0 && target > 0) {
+        const fs = parseFloat(getComputedStyle(vstw).fontSize) * target / w;
+        vstw.style.fontSize = Math.min(fs, innerHeight * .22) + 'px';
+      }
+    }
+    fit(); document.fonts && document.fonts.ready.then(fit);
+    let rt; const onResize = () => { clearTimeout(rt); rt = setTimeout(fit, 120); };
+    addEventListener('resize', onResize);
+    return {
+      render(p, now, dp, dt) {
+        c.bar.style.transform = `scaleX(${p})`;
+        // beat 1 (0 → .30)
+        pk.style.transform = `translateY(${-easeIn(seg(p, .23, .3)) * 30}px)`;
+        c.words.forEach((w, i) => {
+          const a = .01 + i * .035, t = easeOut(seg(p, a, a + .08)), side = i % 2 ? 1 : -1;
+          w.style.setProperty('--a', t.toFixed(3));
+          const o = easeIn(seg(p, .22 + i * .012, .30 + i * .012));
+          w.style.transform = `translateX(${(1 - t) * side * 8}vw) translateY(${-o * 22}svh)`;
+          w.style.opacity = 1 - o;
+        });
+        show(c.hint, 1 - seg(p, .01, .06));
+        show(p1, 1 - seg(p, .31, .33));
+
+        // beat 2 (.30 → .60)
+        const out2 = easeIn(seg(p, .53, .60));
+        show(p2, (p > .29 ? 1 : 0) * (1 - out2));
+        p2.style.transform = `translateY(${-out2 * 14}svh)`;
+        c.drawMark(p, .30);
+        c.wmL.forEach((l, i) => { const t = easeOut(seg(p, .32 + i * .007, .37 + i * .007)); l.style.opacity = t; l.style.transform = `translateY(${(1 - t) * 30}px)`; });
+        c.vstL.forEach((l, i) => { const a = .35 + i * .012, t = easeOut(seg(p, a, a + .05)); l.style.transform = `translateY(${(1 - t) * 105}%)`; });
+        c.divL.forEach((l, i) => { const a = .38 + i * .006, t = easeOut(seg(p, a, a + .045)); l.style.transform = `translateY(${(1 - t) * 105}%)`; });
+        const fillT = seg(p, .44, .51);
+        c.divL.forEach((l, i) => l.classList.toggle('fill', fillT > (i + 1) / (c.divL.length + 1)));
+        c.rule.style.transform = `scaleX(${easeOut(seg(p, .43, .48))})`;
+        const mt = easeOut(seg(p, .45, .50)); c.meta.style.opacity = mt; c.meta.style.transform = `translateY(${(1 - mt) * 16}px)`;
+        c.drawWaves(p, now, 1 - seg(p, .55, .64));
+
+        // vertical wipe (.56 → .68): purple rises, led by a lime marquee band riding the edge
+        const w = easeIO(seg(p, .56, .68));
+        c.bgPurple.style.clipPath = `inset(${(1 - w) * 100}% 0 0 0)`;
+        edge.style.transform = `translateY(calc(${(1 - w).toFixed(4)} * var(--sh)))`;
+        edge.style.visibility = w > 0 && w < 1 ? 'visible' : 'hidden';
+        c.marquee(edge, p, now);
+
+        // beat 3 (.64 → 1)
+        show(p3, p > .63 ? 1 : 0);
+        const dk = easeOut(seg(p, .64, .76));
+        c.deck.style.transform = `translateY(${(1 - dk) * -75}svh) rotate(${(1 - dk) * -30}deg) scale(${.8 + dk * .2})`;
+        c.tonearm.style.transform = `rotate(${(1 - easeIO(seg(p, .75, .81))) * -28}deg)`;
+        const tb = back(seg(p, .74, .78)); c.tab.style.transform = `rotate(-1.5deg) scale(${tb})`; c.tab.style.opacity = clamp(tb * 3);
+        c.titleS.forEach((s, i) => { const a = .76 + i * .03, t = seg(p, a, a + .055); s.style.transform = `scale(${back(t)}) rotate(${(1 - t) * (i ? 10 : -10) - 3}deg) skew(-4deg)`; s.style.opacity = clamp(t * 4); });
+        const ln = easeOut(seg(p, .82, .87)); c.wcline.style.opacity = ln; c.wcline.style.transform = `translateY(${(1 - ln) * 20}px)`;
+        const sb = easeOut(seg(p, .84, .89)); c.wcsub.style.opacity = sb; c.wcsub.style.transform = `translateY(${(1 - sb) * 14}px)`;
+        c.ctaA.forEach((a, i) => { const t = easeOut(seg(p, .86 + i * .025, .92 + i * .025)); a.style.opacity = t; a.style.transform = `translateY(${(1 - t) * 40}px)`; });
+        c.cta.style.pointerEvents = p > .9 ? 'auto' : 'none';
+        const bb1 = seg(p, .89, .94);
+        c.b1.style.transform = `rotate(-4deg) scale(${back(bb1)})`; show(c.b1, clamp(bb1 * 4));
+        if (c.strip) { c.strip.style.transform = `rotate(-1.2deg) translateY(${(1 - easeOut(seg(p, .80, .88))) * 200}%)`; c.marquee(c.strip, p, now); }
+        c.spin(p, dp, dt);
+      },
+      destroy() { removeEventListener('resize', onResize); clearTimeout(rt); }
+    };
+  }
+
+  // ================= mount / engine =================
+  let active = null; // {mode, scroller, stage, renderer, raf, cur}
+  function progressNow() {
+    if (!active) return 0;
+    if (active.static) { const max = document.documentElement.scrollHeight - innerHeight; return max > 0 ? clamp(scrollY / max) : 0; }
+    return active.cur;
+  }
+  function targetOf(a) {
+    const total = a.scroller.offsetHeight - a.stage.offsetHeight;
+    return total > 0 ? clamp(-a.scroller.getBoundingClientRect().top / total) : 0;
+  }
+  function goTo(p, smooth) {
+    if (!active) return;
+    let top;
+    if (active.static) top = (document.documentElement.scrollHeight - innerHeight) * p;
+    else top = active.scroller.offsetTop + (active.scroller.offsetHeight - active.stage.offsetHeight) * p;
+    scrollTo({ top, behavior: smooth ? 'smooth' : 'instant' });
+  }
+  function unmount() {
+    if (!active) return;
+    cancelAnimationFrame(active.raf);
+    active.renderer && active.renderer.destroy();
+    app.textContent = '';
+    active = null;
+  }
+  function mount(mode, keep = 0) {
+    unmount();
+    const isStatic = mqRM.matches;
+    html.classList.toggle('is-port', mode === 'port');
+    html.classList.toggle('is-desk', mode === 'desk');
+    html.classList.toggle('static', isStatic);
+    const tpl = document.getElementById(mode === 'port' ? 'tpl-port' : 'tpl-desk');
+    app.appendChild(tpl.content.cloneNode(true));
+    const root = app.firstElementChild;
+    root.querySelectorAll('.stripTxt').forEach(el => el.textContent = UNIT.repeat(8));
+    const a = active = { mode, static: isStatic, root, scroller: root.querySelector('#scroller'), stage: root.querySelector('#stage'), cur: 0 };
+    root.style.setProperty('--sh', a.stage.offsetHeight + 'px');
+    goTo(keep, false);
+    if (isStatic) return;
+    a.renderer = (mode === 'port' ? port : desk)(root);
+    a.cur = targetOf(a);
+    let last = performance.now(), prev = a.cur;
+    const ease = mode === 'port' ? .16 : .11; // lighter smoothing on touch so it tracks iOS momentum
+    const tick = now => {
+      if (active !== a) return;
+      const t = targetOf(a);
+      a.cur += (t - a.cur) * ease;
+      if (Math.abs(t - a.cur) < 1e-4) a.cur = t;
+      const dt = Math.min(64, now - last); last = now;
+      a.renderer.render(a.cur, now, a.cur - prev, dt);
+      prev = a.cur;
+      a.raf = requestAnimationFrame(tick);
+    };
+    a.raf = requestAnimationFrame(tick);
+  }
+  const modeNow = () => mqPort.matches ? 'port' : 'desk';
+  // keep stage-height var fresh (dynamic toolbar on mobile) without re-mounting
+  addEventListener('resize', () => { if (active) active.root.style.setProperty('--sh', active.stage.offsetHeight + 'px'); });
+  const remount = () => { const p = progressNow(); mount(modeNow(), p); };
+  mqPort.addEventListener('change', remount);   // orientation flip / crossing 1024px
+  mqRM.addEventListener('change', remount);
+
+  mount(modeNow(), 0);
+  if (location.hash === '' && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  // test / debug hook
+  window.__tril = { mode: () => active && active.mode, progress: progressNow, goTo, scrollers: () => document.querySelectorAll('.scroller').length };
+})();
+</script>
+<script src="/js/site-config.js"></script>
+<script src="/js/checkout.js"></script>
+</body>
+</html>
