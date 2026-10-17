@@ -3,8 +3,12 @@
    picked once at load by the inline head script (html.is-desk / html.is-port). */
 *{box-sizing:border-box;margin:0;padding:0}
 a{color:inherit;text-decoration:none}
-.scroller{position:relative}
-.stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;isolation:isolate}
+.scroller{position:relative;z-index:1}
+.stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;overflow:clip;isolation:isolate}
+/* The scroller is positioned, so it paints over the in-flow footer wherever
+   they overlap (iOS sticky + a tall vh stage). Keep the footer on top. */
+footer{position:relative;z-index:2}
+footer a{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation}
 #uibox{position:absolute;overflow:hidden;transition:opacity .5s,filter .5s,transform .6s}
 #ui{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
 #spot{position:absolute;left:0;top:0;pointer-events:none;z-index:40;overflow:visible;visibility:hidden}

@@ -191,6 +191,10 @@
       clearTimeout(snapT);
       snapT = setTimeout(() => {
         const p = progress(); if (p <= 0 || p >= total) return;
+        // Once the footer is on screen, stay there. Snapping back to the
+        // last step would pull the links out from under the tap.
+        const foot = document.querySelector('footer');
+        if (foot) { const fr = foot.getBoundingClientRect(); if (fr.top < window.innerHeight - 8 && fr.bottom > 8) return; }
         const { i, f } = locate(p);
         let target = i;
         if (dir > 0 && f > .96 && i < beats.length - 1) target = i + 1;
