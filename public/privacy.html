@@ -55,11 +55,11 @@ footer a:hover{color:var(--bone)}
   <h1>Privacy</h1>
   <p>Short version: we’re not selling your data, and we keep as little of it as we can.</p>
   <p><strong>Page views.</strong> This site uses Google Analytics only to count page views, so we can see which pages people visit. Advertising features and Google signals are turned off, and we don’t send any other events. Google Analytics sets its own cookies to tell visits apart. We set no cookies of our own.</p>
-  <p><strong>Purchases.</strong> Checkout happens on Stripe’s page. Card numbers and payment details go to Stripe, not to us. Stripe and our license server handle your email address to complete the purchase and deliver your license key. We use it for that, and to look up your license if you write in for help. No marketing, no sharing.</p>
+  <p><strong>Purchases.</strong> Checkout happens on Stripe’s page. Card numbers and payment details go to Stripe, not to us. Stripe keeps your email address to complete the purchase, and the license server uses it once to send your license key through Amazon SES. After that, the license server doesn’t keep your actual email. It stores only a scrambled, one-way version (a keyed hash) and a masked form like b•••@e•••.com, so we can’t see your real address. If you write in for help, we can match the email you give us to your license without ever having stored it. No marketing, no sharing.</p>
   <p><strong>Activations.</strong> The plug-in contacts the license server only to activate a license. The server keeps an anonymous count of activations per plug-in, with no emails, IP addresses, machine IDs or other personal info attached. It does not track how you use the plug-in.</p>
-  <p><strong>Other services.</strong> Stripe, Google Analytics and Google Fonts (which loads the type on this site) have their own policies: <a href="https://stripe.com/privacy">Stripe</a>, <a href="https://policies.google.com/privacy">Google</a> (this covers Google Fonts too).</p>
+  <p><strong>Other services.</strong> Stripe, Amazon SES (which sends the license email), Google Analytics and Google Fonts (which loads the type on this site) have their own policies: <a href="https://stripe.com/privacy">Stripe</a>, <a href="https://aws.amazon.com/privacy/">Amazon</a>, <a href="https://policies.google.com/privacy">Google</a> (this covers Google Fonts too).</p>
   <p>Questions, or a request to delete what we hold, go to <a href="mailto:help@trilsoft.com">help@trilsoft.com</a>.</p>
-  <p class="meta">Last updated October 17, 2026.</p>
+  <p class="meta">Last updated October 21, 2026.</p>
 </main>
 <footer>
   <span>© 2026 Tril$oft</span>
