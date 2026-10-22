@@ -9,9 +9,17 @@
      the href into the HTML).
      A PAYMENT_LINK_<SLUG> environment variable replaces the value here
      at serve time. Hyphens in the slug become underscores, so wildcard
-     is PAYMENT_LINK_WILDCARD and conceal-n-strike is
-     PAYMENT_LINK_CONCEAL_N_STRIKE. The value must be https. On Railway,
+     is PAYMENT_LINK_WILDCARD, conceal-n-strike is
+     PAYMENT_LINK_CONCEAL_N_STRIKE, and midi-fart-sniffer is
+     PAYMENT_LINK_MIDI_FART_SNIFFER. The value must be https. On Railway,
      set the variable to publish a link without a code change.
+
+   prices
+     The one place a price is filled in when the page does not hard-code
+     it. "" renders nothing: no number and no standby text.
+     MIDI Fart Sniffer stays "" until the price is decided. Set
+     "midi-fart-sniffer" to the string that should show (for example
+     "$12"). The product page reads only this field.
 
    API_BASE_URL (fallback only)
      Used only for a slug that has no payment link. Buy Now then POSTs
@@ -25,10 +33,15 @@ window.TRILOSOFT = {
   paymentLinks: {
     wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
     "conceal-n-strike": "https://buy.stripe.com/test_aFa5kF5C67X42GOfSL9R601",
+    "midi-fart-sniffer": "",
+  },
+  prices: {
+    "midi-fart-sniffer": "",
   },
   API_BASE_URL: "",
   products: {
     wildcard: "wildcard",
     "conceal-n-strike": "conceal-n-strike",
+    "midi-fart-sniffer": "fart-sniffer",
   },
 };

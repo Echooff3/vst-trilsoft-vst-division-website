@@ -21,7 +21,7 @@ d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: red
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Black+Ops+One&family=Share+Tech+Mono&family=Unbounded:wght@400;600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Black+Ops+One&family=Share+Tech+Mono&family=Titan+One&family=Unbounded:wght@400;600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#09090B; --char:#111114; --panel:#16161B;
@@ -157,7 +157,7 @@ html.static .bg-purple,html.static .hint,html.static .bar,html.static .rail,html
 html.static .bg-dark{position:absolute;inset:0 0 auto 0;height:200vh;height:200svh}
 @media (prefers-reduced-motion:reduce){ .hint i{animation:none} }
 /* ================= DESKTOP / LANDSCAPE ================= */
-.v-desk .scroller{height:1160vh} /* 0→K_DESK = original 720vh beats, rest = Conceal-N-Strike */
+.v-desk .scroller{height:1600vh} /* film 620 + Conceal-N-Strike 440 + MIDI Fart Sniffer 440, plus the 100vh stage */
 .v-desk .s1 .inner{text-align:center;padding:0 24px;max-width:1200px}
 .v-desk .s1 .kicker{display:inline-block;margin-bottom:28px;color:var(--signal)}
 .v-desk .s1 h1{font-family:var(--display);font-weight:800;font-size:clamp(46px,8vw,124px);line-height:1;letter-spacing:-.035em}
@@ -207,7 +207,7 @@ html.static .v-desk .strip{transform:rotate(-1.2deg)!important}
 html.static .v-desk .wc-title span{transform:rotate(-3deg) skew(-4deg)!important}
 /* ================= PORTRAIT (tablet portrait → phone) ================= */
 .v-port{--hdr:64px}
-.v-port .scroller{height:1200vh;height:1200svh}
+.v-port .scroller{height:1640vh;height:1640svh}
 .v-port header.top{height:var(--hdr);padding:0 20px;padding-top:env(safe-area-inset-top)}
 .v-port .wordmark b{font-size:16px}
 .v-port .navlink{font-size:11px;padding:11px 14px;min-height:40px;display:inline-flex;align-items:center}
@@ -307,6 +307,8 @@ html.static .v-port .strip{transform:rotate(-1.2deg)!important}
 .v-desk .cns-ui{bottom:max(11vh,64px)}
 .v-desk .rail.cn a{color:rgba(231,233,236,.55)}
 .v-desk .rail.cn a.on{color:#F5A623}
+.v-desk .rail.sn a{color:rgba(246,241,228,.55)}
+.v-desk .rail.sn a.on{color:#B6E23A}
 @media (max-height:560px){ .v-desk .cns-ui{bottom:34px} .v-desk .cns-tag{display:none} .v-desk .cbtn{font-size:16px;padding:13px 20px 12px} }
 .v-port .cns-ui{bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px))}
 .v-port .cns-row{flex-direction:column;width:100%;max-width:440px;gap:12px}
@@ -316,7 +318,31 @@ html.static .v-port .strip{transform:rotate(-1.2deg)!important}
   .v-port .cns-row{flex-direction:row;max-width:720px;gap:18px}
   .v-port .cbtn{flex:1;min-height:70px;font-size:min(2.7vw,22px);white-space:nowrap}
 }
-html.static .scene.cns{visibility:visible!important;min-height:100vh;min-height:100svh}
+html.static .scene.cns,html.static .scene.mfs{visibility:visible!important;min-height:100vh;min-height:100svh}
+html.static .mfs-lid{display:none}
+
+/* ================= MIDI Fart Sniffer beat (both layouts) ================= */
+.scene.mfs{z-index:7;visibility:hidden;place-items:stretch;background:#14110e}
+.mfs-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mfs-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
+.mfs-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.mbtn{display:inline-flex;align-items:center;justify-content:center;font-family:"Titan One",Impact,sans-serif;font-size:20px;letter-spacing:.03em;line-height:1;padding:16px 22px 14px;color:#1A120C;background:#F4E2B0;border-radius:14px;box-shadow:0 5px 0 #1A120C;touch-action:manipulation}
+.mbtn:hover{filter:brightness(1.05)} .mbtn:active{transform:translateY(3px);box-shadow:0 2px 0 #1A120C}
+.mbtn.slime{background:#B6E23A}
+.mfs-tag{font-family:"Titan One",Impact,sans-serif;font-size:13px;letter-spacing:.08em;color:#1A120C;background:#B6E23A;border-radius:999px;padding:6px 12px}
+.mfs-lid{position:absolute;left:0;right:0;top:0;height:100%;z-index:8;visibility:hidden;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8vh;
+  background:#9aa19c repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 2px,transparent 2px 8px);box-shadow:0 12px 0 #1A120C}
+.mfs-lid span{font-family:"Titan One",Impact,sans-serif;font-size:22px;color:#B6E23A;-webkit-text-stroke:5px #1A120C;paint-order:stroke fill}
+.v-desk .mfs-ui{bottom:max(11vh,64px)}
+@media (max-height:560px){ .v-desk .mfs-ui{bottom:34px} .v-desk .mfs-tag{display:none} .v-desk .mbtn{font-size:16px;padding:12px 16px 10px} }
+.v-port .mfs-ui{bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px))}
+.v-port .mfs-row{flex-direction:column;width:100%;max-width:440px;gap:12px}
+.v-port .mbtn{width:100%;min-height:58px;font-size:min(4.2vw,20px);padding-inline:12px}
+@media (min-width:600px){
+  .v-port .mfs-ui{bottom:7svh}
+  .v-port .mfs-row{flex-direction:row;max-width:760px;gap:18px}
+  .v-port .mbtn{flex:1;min-height:70px;font-size:min(2.6vw,22px)}
+}
 html.static .cns-wipe,html.static .cns-door{display:none}
 </style>
 </head>
@@ -330,7 +356,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
   </symbol></defs></svg>
 <div id="app"></div>
 <noscript><style>.nojs{min-height:100vh;display:grid;place-items:center;text-align:center;padding:40px 24px}.nojs h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,8vw,110px);line-height:1;letter-spacing:-.03em}.nojs h1 em{font-style:normal;color:var(--signal)}.nojs p{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}</style>
-<div class="nojs"><div><span class="mono" style="color:var(--signal)">Tril$oft VST Division</span><h1>Weird VSTs <em>no one</em> asked for.</h1><p><a class="btn btn-lime" href="/wildcard">Check out Wild Card →</a><a class="btn btn-white" href="#" data-stripe data-product="wildcard">Buy Now</a><a class="btn btn-lime" href="/conceal-n-strike">Conceal-N-Strike →</a></p></div></div></noscript>
+<div class="nojs"><div><span class="mono" style="color:var(--signal)">Tril$oft VST Division</span><h1>Weird VSTs <em>no one</em> asked for.</h1><p><a class="btn btn-lime" href="/wildcard">Check out Wild Card →</a><a class="btn btn-white" href="#" data-stripe data-product="wildcard">Buy Now</a><a class="btn btn-lime" href="/conceal-n-strike">Conceal-N-Strike →</a><a class="btn btn-lime" href="/midi-fart-sniffer">MIDI Fart Sniffer →</a></p></div></div></noscript>
 <template id="tpl-desk"><div class="v-desk">
 <div class="bar" id="bar"></div>
 <header class="top">
@@ -338,10 +364,11 @@ html.static .cns-wipe,html.static .cns-door{display:none}
   <a href="/wildcard" class="navlink" id="nav">Wild Card →</a>
 </header>
 <nav class="rail" id="rail" aria-label="Sections">
-  <a href="#" data-go="0.1"><span>01 WEIRD</span><i></i></a>
-  <a href="#" data-go="0.257"><span>02 DIVISION</span><i></i></a>
-  <a href="#" data-go="0.585"><span>03 WILD CARD</span><i></i></a>
-  <a href="#" data-go="1"><span>04 CONCEAL-N-STRIKE</span><i></i></a>
+  <a href="#" data-go="0.071"><span>01 WEIRD</span><i></i></a>
+  <a href="#" data-go="0.182"><span>02 DIVISION</span><i></i></a>
+  <a href="#" data-go="0.413"><span>03 WILD CARD</span><i></i></a>
+  <a href="#" data-go="0.707"><span>04 CONCEAL-N-STRIKE</span><i></i></a>
+  <a href="#" data-go="1"><span>05 FART SNIFFER</span><i></i></a>
 </nav>
 <main id="top">
 <div class="scroller" id="scroller">
@@ -376,7 +403,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
           <span class="word div"><span class="l">D</span><span class="l">I</span><span class="l">V</span><span class="l">I</span><span class="l">S</span><span class="l">I</span><span class="l">O</span><span class="l">N</span></span>
         </div>
         <div class="rule" id="rule"><hr></div>
-        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span></div>
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
       </div>
     </section>
     <section class="scene s3 wc" id="s3" aria-label="Wild Card">
@@ -417,6 +444,16 @@ html.static .cns-wipe,html.static .cns-door{display:none}
       </div>
     </section>
     <div class="cns-wipe" id="cnsWipe" aria-hidden="true"></div>
+    <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
+      <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
+      <video class="mfs-vid" id="mfsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/mfs-teaser-desk.mp4" poster="/assets/mfs-teaser-desk-start.jpg" data-end="/assets/mfs-teaser-desk-end.jpg"></video>
+      <div class="mfs-ui" id="mfsUi">
+        <span class="mfs-tag">DIV-003 · VST3 · CLAP · AU</span>
+        <div class="mfs-row"><a href="/midi-fart-sniffer" class="mbtn">Check out MIDI Fart Sniffer →</a><a href="#" data-stripe data-product="midi-fart-sniffer" class="mbtn slime">Buy Now</a></div>
+      </div>
+    </section>
+    <div class="mfs-lid" id="mfsLid" aria-hidden="true"><span>DIV-003 // MIDI Fart Sniffer</span></div>
   </div>
 </div>
 <section class="after">
@@ -469,7 +506,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
           <span class="word div"><span class="l">D</span><span class="l">I</span><span class="l">V</span><span class="l">I</span><span class="l">S</span><span class="l">I</span><span class="l">O</span><span class="l">N</span></span>
         </div>
         <div class="rule" id="rule"><hr></div>
-        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span></div>
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
       </div>
     </section>
     <section class="scene p3 wc" id="p3" aria-label="Wild Card">
@@ -511,6 +548,16 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     </section>
     <div class="cns-door t" id="doorT" aria-hidden="true"><span class="cns-tag">Authorized personnel only</span></div>
     <div class="cns-door b" id="doorB" aria-hidden="true"><span class="cns-tag">DIV-002 // Conceal-N-Strike</span></div>
+    <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
+      <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
+      <video class="mfs-vid" id="mfsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/mfs-teaser-port.mp4" poster="/assets/mfs-teaser-port-start.jpg" data-end="/assets/mfs-teaser-port-end.jpg"></video>
+      <div class="mfs-ui" id="mfsUi">
+        <span class="mfs-tag">DIV-003 · VST3 · CLAP · AU</span>
+        <div class="mfs-row"><a href="/midi-fart-sniffer" class="mbtn">Check out MIDI Fart Sniffer →</a><a href="#" data-stripe data-product="midi-fart-sniffer" class="mbtn slime">Buy Now</a></div>
+      </div>
+    </section>
+    <div class="mfs-lid" id="mfsLid" aria-hidden="true"><span>DIV-003 // MIDI Fart Sniffer</span></div>
   </div>
 </div>
 <section class="after">
@@ -714,9 +761,11 @@ html.static .cns-wipe,html.static .cns-door{display:none}
 
 
   // ================= Conceal-N-Strike beat (shared; desktop = diagonal hazard sweep, portrait = blast doors) =================
-  // q = 0..1 progress inside the CNS part of the scroller. The Remotion teaser is a rendered mp4 scrubbed by currentTime
-  // (encoded with a 6-frame GOP so seeks stay cheap).
-  const K_DESK = 620 / 1060, K_PORT = 660 / 1100; // (old scroller - 100) / (new scroller - 100)
+  // q = 0..1 progress inside one teaser's slice of the scroller. Each Remotion mp4 is scrubbed by currentTime
+  // (encoded with a 6-frame GOP so seeks stay cheap). Scroll distances of the older sections stay put;
+  // MIDI Fart Sniffer is another 440vh after Conceal-N-Strike.
+  const FILM_DESK = 620, CNS_DESK = 1060, RANGE_DESK = 1500;
+  const FILM_PORT = 660, CNS_PORT = 1100, RANGE_PORT = 1540;
   function cns(root, mode) {
     const $ = s => root.querySelector(s);
     const sc = $('#cns'), vid = $('#cnsVid'), ui = $('#cnsUi'), bits = [...ui.querySelectorAll('.cns-tag, .cbtn')];
@@ -748,10 +797,40 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         const t = seg(q, mode === 'desk' ? .16 : .21, .88) * Math.max(0, (vid.duration || 9) - .05);
         if (vid.readyState >= 1 && !vid.seeking && Math.abs(vid.currentTime - t) > .015) { try { vid.currentTime = t; } catch (e) {} }
         bits.forEach((b, i) => { const v = easeOut(seg(q, .84 + i * .025, .9 + i * .025)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
+        ui.style.pointerEvents = q > .9 && q < 1 ? 'auto' : 'none';
+        const on = q > .12 && q < 1;
+        if (on !== navOn) { navOn = on; nav.textContent = on ? 'Conceal-N-Strike →' : 'Wild Card →'; nav.href = on ? '/conceal-n-strike' : '/wildcard'; }
+        if (rail && q > .1 && q < 1) { railA.forEach((a, i) => a.classList.toggle('on', i === 3)); rail.classList.add('cn'); rail.classList.remove('wc', 'sn'); }
+      },
+      destroy() { removeEventListener('touchstart', prime); vid.removeAttribute('src'); vid.load(); }
+    };
+  }
+
+  // ================= MIDI Fart Sniffer beat (galvanized lid, then the scrubbed teaser) =================
+  function mfs(root) {
+    const $ = s => root.querySelector(s);
+    const sc = $('#mfs'), vid = $('#mfsVid'), ui = $('#mfsUi'), bits = [...ui.querySelectorAll('.mfs-tag, .mbtn')];
+    const lid = $('#mfsLid'), nav = $('#nav'), rail = $('#rail'), railA = rail ? [...rail.querySelectorAll('a')] : [];
+    vid.src = vid.dataset.src; vid.load();
+    const prime = () => { const pr = vid.play(); if (pr && pr.then) pr.then(() => vid.pause()).catch(() => {}); else vid.pause(); };
+    addEventListener('touchstart', prime, { once: true, passive: true });
+    let navOn = false;
+    return {
+      render(q) {
+        const shut = easeIO(seg(q, .02, .12));
+        const open = easeIO(seg(q, .14, .26));
+        const y = (-1 + shut) * 110 - open * 120;
+        lid.style.visibility = shut > 0.001 && open < 0.999 ? 'visible' : 'hidden';
+        lid.style.transform = `translateY(${y}%)`;
+        show(sc, q >= .16 ? 1 : 0);
+        const t = seg(q, .2, .9) * Math.max(0, (vid.duration || 9) - .05);
+        if (vid.readyState >= 1 && !vid.seeking && Math.abs(vid.currentTime - t) > .015) { try { vid.currentTime = t; } catch (e) {} }
+        bits.forEach((b, i) => { const v = easeOut(seg(q, .84 + i * .025, .92 + i * .02)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
         ui.style.pointerEvents = q > .9 ? 'auto' : 'none';
         const on = q > .12;
-        if (on !== navOn) { navOn = on; nav.textContent = on ? 'Conceal-N-Strike →' : 'Wild Card →'; nav.href = on ? '/conceal-n-strike' : '/wildcard'; }
-        if (rail) { if (q > .1) railA.forEach((a, i) => a.classList.toggle('on', i === 3)); rail.classList.toggle('cn', q > .1); if (q > .1) rail.classList.remove('wc'); }
+        if (on) { nav.textContent = 'MIDI Fart Sniffer →'; nav.href = '/midi-fart-sniffer'; }
+        navOn = on;
+        if (rail && q > .1) { railA.forEach((a, i) => a.classList.toggle('on', i === 4)); rail.classList.add('sn'); rail.classList.remove('wc', 'cn'); }
       },
       destroy() { removeEventListener('touchstart', prime); vid.removeAttribute('src'); vid.load(); }
     };
@@ -792,19 +871,23 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     app.appendChild(tpl.content.cloneNode(true));
     const root = app.firstElementChild;
     root.querySelectorAll('.stripTxt').forEach(el => el.textContent = UNIT.repeat(8));
-    if (isStatic) root.querySelectorAll('.cns-vid').forEach(v => { v.poster = v.dataset.end; });
+    if (isStatic) root.querySelectorAll('video[data-end]').forEach(v => { v.poster = v.dataset.end; });
     const a = active = { mode, static: isStatic, root, scroller: root.querySelector('#scroller'), stage: root.querySelector('#stage'), cur: 0 };
     root.style.setProperty('--sh', a.stage.offsetHeight + 'px');
     goTo(keep, false);
     if (isStatic) return;
-    const base = (mode === 'port' ? port : desk)(root), cn = cns(root, mode), K = mode === 'port' ? K_PORT : K_DESK, bar = root.querySelector('#bar');
+    const base = (mode === 'port' ? port : desk)(root), cn = cns(root, mode), mf = mfs(root), bar = root.querySelector('#bar');
+    const range = mode === 'port' ? RANGE_PORT : RANGE_DESK;
+    const K1 = (mode === 'port' ? FILM_PORT : FILM_DESK) / range;
+    const K2 = (mode === 'port' ? CNS_PORT : CNS_DESK) / range;
     a.renderer = {
       render(P, now, dp, dt) {
-        base.render(Math.min(1, P / K), now, P < K ? dp / K : 0, dt); // original beats run on 0..K
-        cn.render(clamp((P - K) / (1 - K)), now);
+        base.render(Math.min(1, P / K1), now, P < K1 ? dp / K1 : 0, dt);
+        cn.render(clamp((P - K1) / (K2 - K1)));
+        mf.render(clamp((P - K2) / (1 - K2)));
         bar.style.transform = `scaleX(${P})`;
       },
-      destroy() { base.destroy(); cn.destroy(); }
+      destroy() { base.destroy(); cn.destroy(); mf.destroy(); }
     };
     a.cur = targetOf(a);
     let last = performance.now(), prev = a.cur;

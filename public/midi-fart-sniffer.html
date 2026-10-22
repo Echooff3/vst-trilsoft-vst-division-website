@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google tag (gtag.js): page views only, ad features and Google signals off -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HGXGD2WJZ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HGXGD2WJZ5', { allow_google_signals: false, allow_ad_personalization_signals: false });
+</script>
+<title>MIDI Fart Sniffer: groove browser · Tril$oft VST Division</title>
+<meta name="description" content="MIDI Fart Sniffer plays a folder of drum MIDI into your drums, locked to the host tempo and bar.">
+<script>
+(function(d){var p=matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: reduce)').matches?' static':'');})(document.documentElement);
+</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Comic+Neue:wght@700&family=Unbounded:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tour.css">
+<style>
+:root{
+  --slime:#B6E23A; --slime-2:#7CFF3A; --rot:#E23B2F; --card:#F4E2B0; --ink:#1A120C; --can:#C5C8C2; --can-2:#8E958F; --pit:#1C2420; --pit-2:#24302A; --bone:#F6F1E4;
+  --display:"Titan One",Impact,sans-serif; --body:"Comic Neue","Comic Sans MS",system-ui,sans-serif;
+}
+html{background:#14110e}
+body{font-family:var(--body);color:var(--bone);background:#14110e;line-height:1.45;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.pbar{background:linear-gradient(90deg,var(--slime),var(--rot))}
+nav.top{position:fixed;inset:0 0 auto 0;z-index:60;height:74px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 2.4vw;background:rgba(20,17,14,.94);border-bottom:4px solid var(--slime)}
+.ts{display:inline-flex;align-items:center;gap:10px;font-family:"Unbounded",sans-serif;font-weight:800;font-size:15px;color:#fff;white-space:nowrap}
+.ts i{font-style:normal;color:#FF5B1F}
+.ts small{font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:.14em;color:#b7b0a2}
+nav.top .r{display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--display);font-size:20px;letter-spacing:.03em;line-height:1;padding:16px 22px 14px;color:var(--ink);background:var(--slime);border-radius:12px;box-shadow:0 5px 0 var(--ink);white-space:nowrap}
+.btn:hover{filter:brightness(1.06)} .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.btn.ghost{background:#241c16;color:var(--slime);box-shadow:0 5px 0 #000}
+nav.top .btn{font-size:16px;padding:12px 16px 10px}
+nav.top .plug small{font-size:12px}
+.px{font-family:var(--display);font-size:18px;color:var(--slime);white-space:nowrap}
+.stage{background:#14110e}
+#uibox{border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.55),0 10px 0 #0b0907}
+.is-port #uibox{border-radius:0;box-shadow:none}
+#rail button span{font-family:var(--display);font-size:13px;letter-spacing:.04em;color:var(--slime);background:rgba(20,17,14,.9);padding:2px 8px;border-radius:8px}
+#rail button i{background:#6d6458;border-radius:3px}
+#rail button.on i{background:var(--slime)}
+.card{background:#241c16;border:3px solid #3a2e24;border-radius:16px;padding:26px 28px 24px;box-shadow:0 8px 0 #0b0907}
+.card .tag{display:inline-block;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--slime);border-radius:999px;padding:4px 10px}
+.card h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,2.4vw,40px);line-height:1.05;color:#fff;margin:14px 0 10px}
+.card h2 em{font-style:normal;color:var(--slime)}
+.card p{font-size:17px;color:#efe6d6;max-width:520px}
+.card p+p{margin-top:10px}
+.card b{color:#fff}
+.keys{list-style:none;display:grid;gap:8px;margin-top:14px}
+.keys li{display:flex;align-items:baseline;gap:10px;font-size:15.5px;color:#efe6d6}
+kbd{flex:none;font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--ink);background:var(--slime);border-radius:8px;padding:3px 8px;white-space:nowrap}
+.tip{margin-top:12px;font-size:15px;color:#cbbfa8}
+.tip b{color:var(--slime)}
+.scene{display:grid;place-items:center;text-align:center;padding:110px 6vw 40px;background:radial-gradient(900px 520px at 50% 42%,#2a241c,#14110e 72%)}
+.scene>div{position:relative}
+.scene .tag{display:inline-block;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--ink);background:var(--slime);border-radius:999px;padding:6px 12px}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(52px,7vw,108px);line-height:.92;color:var(--slime);-webkit-text-stroke:8px var(--ink);paint-order:stroke fill;margin:18px 0 16px}
+.tagline{font-family:var(--display);font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#fff}
+.tagline em{font-style:normal;color:var(--slime)}
+.scene .sub{font-size:18px;color:#efe6d6;max-width:640px;margin:14px auto 0}
+.scene .cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.hint{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:34px;font-weight:700;letter-spacing:.22em;font-size:12px;color:var(--slime)}
+.hint i{display:block;width:3px;height:40px;background:linear-gradient(var(--slime),transparent);animation:drip 1.5s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.fine{margin-top:18px;font-size:14px;letter-spacing:.08em;color:#b7b0a2}
+footer{background:#0e0c0a;padding:26px 2.4vw;padding-bottom:max(26px,env(safe-area-inset-bottom));border-top:4px solid var(--slime);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-size:15px;color:#b7b0a2}
+footer nav{display:flex;gap:20px;flex-wrap:wrap} footer a:hover{color:var(--slime)}
+
+#ui{font-family:var(--body);color:var(--ink);background:#c5c8c2;user-select:none}
+.galv{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 2px,transparent 2px 7px),repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 1px,transparent 1px 12px);pointer-events:none}
+.title{position:absolute;z-index:3;font-family:var(--display);line-height:.9;color:var(--slime);-webkit-text-stroke:5px var(--ink);paint-order:stroke fill}
+.sid{position:absolute;z-index:3}
+.pit{position:absolute;z-index:2;background:var(--pit);color:#e7ffb0;border-radius:12px;box-shadow:inset 0 0 0 3px #0e1411}
+.plate{position:absolute;z-index:2;background:#f4e2b0;border-radius:14px;box-shadow:0 7px 0 var(--ink);overflow:hidden}
+.banner{position:absolute;z-index:3;display:flex;align-items:center;justify-content:space-between;background:var(--rot);color:#fff8e8;font-family:var(--display);padding:0 12px}
+.chip{position:absolute;z-index:3;background:var(--pit);color:#e7ffb0;border-radius:10px;box-shadow:0 4px 0 #0e1411;padding:6px 8px 5px}
+.chip b{display:block;font-family:var(--display);font-weight:400;font-size:15px;line-height:1.1;color:#e7ffb0}
+.chip.on{background:var(--slime);color:var(--ink)} .chip.on b{color:var(--ink)}
+.chip small{display:block;font-size:10px;letter-spacing:.08em;font-weight:700;opacity:.7}
+.grow{position:absolute;z-index:4;display:flex;justify-content:space-between;align-items:center;border-radius:8px;padding:0 8px;font-weight:700;background:var(--pit-2);color:#d5e7c4}
+.grow.on{background:var(--slime);color:var(--ink)}
+.grow small{font-size:12px}
+.filt{position:absolute;z-index:4;background:#0e1411;color:#6d7a72;border-radius:8px;font-weight:700;display:flex;align-items:center;padding:0 10px}
+.filt.go{color:var(--slime);box-shadow:0 0 0 2px var(--slime)}
+.lane{position:absolute;z-index:4}
+.lane .nm{position:absolute;left:0;top:12px;width:72px;font-weight:800;font-size:12px}
+.lane .nm.mute{text-decoration:line-through;opacity:.4}
+.lane .rail{position:absolute;left:78px;right:8px;top:18px;height:7px;border-radius:4px;background:rgba(26,18,12,.16)}
+.hit{position:absolute;top:8px;width:12px;height:22px;margin-left:-6px;border-radius:5px;background:#2f6b22}
+.hit.puff{top:0;height:32px;width:18px;margin-left:-9px;background:#3f9a2c}
+.lane.mute .hit{background:#8a7a62}
+.head{position:absolute;z-index:5;width:3px;background:var(--rot);top:0;bottom:28px}
+.tube{position:absolute;z-index:4;height:14px;border-radius:8px;background:linear-gradient(90deg,#7CFF3A,#3d8f22);box-shadow:inset 0 0 0 2px var(--ink)}
+.star{position:absolute;z-index:5;width:34px;height:34px;border-radius:50%;background:#f4e2b0;color:var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:16px}
+.star.on{background:var(--slime)}
+.burst{position:absolute;z-index:5;width:52px;height:52px;background:var(--ink);color:var(--slime);display:grid;place-items:center;font-family:var(--display);font-size:14px;border-radius:8px;transform:rotate(8deg)}
+.tabs{position:absolute;z-index:4;display:flex;gap:6px}
+.tabs span{font-family:var(--display);font-size:14px;padding:6px 8px;border-radius:8px;color:#9bb096}
+.tabs span.on{background:var(--slime);color:var(--ink)}
+.ov{position:absolute;inset:0;z-index:12;display:grid;place-items:center}
+.ov.off{opacity:0;visibility:hidden;pointer-events:none}
+.installer{background:rgba(12,10,8,.9)}
+.installer .box{width:560px;max-width:92%;background:#241c16;border:3px solid var(--slime);border-radius:16px;padding:22px 24px;color:#efe6d6}
+.installer h4{font-family:var(--display);font-size:28px;color:#fff;font-weight:400}
+.installer li{display:flex;justify-content:space-between;gap:12px;margin-top:8px;padding:8px 10px;background:#1c2420;border-radius:8px;font-weight:700}
+.installer li small{color:#9bb096;font-weight:700}
+.installer li .ck{color:transparent}
+.installer li.done .ck{color:var(--slime)}
+.prompt{background:rgba(12,10,8,.88)}
+.prompt .box{width:460px;max-width:92%;background:#241c16;border:3px solid var(--slime);border-radius:16px;padding:22px;color:#efe6d6}
+.prompt h4{font-family:var(--display);font-weight:400;font-size:26px;color:#fff}
+.prompt .field{margin-top:12px;background:#0e0c0a;border-radius:8px;padding:8px 10px;font-weight:700;color:#6d6458}
+.prompt .field.go{color:var(--slime)}
+.note{position:absolute;z-index:8;background:var(--ink);color:var(--slime);font-family:var(--display);font-size:16px;padding:8px 12px;border-radius:10px;opacity:0}
+.note.on{opacity:1}
+
+.is-port nav.top{height:var(--hdr);padding:0 14px;padding-top:env(safe-area-inset-top)}
+.is-port .ts small{display:none}
+.is-port nav.top .btn{font-size:14px;padding:10px 12px 8px}
+.is-port nav.top .plug span{display:none}
+.is-port .copy{padding:12px 14px max(12px,env(safe-area-inset-bottom))}
+.is-port .beat{top:8px;bottom:8px;left:12px;right:12px}
+.is-port .card{height:100%;padding:16px 16px 14px;overflow:hidden}
+.is-port .card h2{font-size:clamp(24px,6.4vw,34px)}
+.is-port .card p,.is-port .keys li{font-size:14.5px}
+.is-port .scene{padding:84px 20px 28px}
+.is-port .hero h1{font-size:min(12vw,86px);-webkit-text-stroke:4px var(--ink)}
+.is-port .btn{font-size:18px;padding:14px 18px 12px}
+html.static nav.top{position:sticky}
+html.static .scene{padding:48px 20px}
+</style>
+</head>
+<body>
+<div class="pbar"></div>
+<nav class="top">
+  <a href="/" class="ts" title="Back to Tril$oft">← <span>TRIL<i>$</i>OFT</span> <small>VST DIV · 003</small></a>
+  <div class="r">
+    <a href="/conceal-n-strike" class="btn ghost plug" title="Other plug-in: Conceal-N-Strike">DIV-002 <span>Conceal-N-Strike</span> →</a>
+    <a href="#" class="btn" data-stripe data-product="midi-fart-sniffer">Buy Now</a>
+    <!-- Price is TRILOSOFT.prices["midi-fart-sniffer"] in /js/site-config.js. Empty stays hidden. -->
+    <span class="px" data-price hidden></span>
+  </div>
+</nav>
+
+<main id="scroller" class="scroller">
+  <div id="stage" class="stage">
+    <section class="scene hero first" id="hero">
+      <div>
+        <span class="tag">DIV-003 · Groove browser</span>
+        <h1>MIDI FART<br>SNIFFER</h1>
+        <p class="tagline">Weird VSTs <em>no one asked for.</em></p>
+        <p class="sub">A folder of drum MIDI. Click a groove. It plays out to your drums, locked to the tempo and the bar. Scroll it. Sniffin' Sid will show you the dumpster.</p>
+        <div class="cta"><a class="btn" href="#" data-stripe data-product="midi-fart-sniffer">Buy Now →</a><a class="btn ghost" href="#" data-goto="install">Show me the dumpster</a></div>
+        <div class="hint"><i></i>SCROLL</div>
+      </div>
+    </section>
+
+    <div id="uibox"><div id="ui"></div></div>
+
+    <div class="copy">
+      <article class="beat" data-beat="install"><div class="card"><span class="tag">01 · Setup</span>
+        <h2>Run the <em>installer</em></h2>
+        <p>One macOS installer drops every format: <b>VST3</b>, <b>CLAP</b>, an <b>Audio Unit</b>, the <b>standalone app</b>, and the <b>Max for Live</b> device.</p>
+        <p class="tip"><b>Skip what you don't play.</b> Customize the Installation Type step and leave the rest in the can.</p></div></article>
+
+      <article class="beat" data-beat="daw"><div class="card"><span class="tag">02 · Setup</span>
+        <h2>It feeds your <em>drums</em></h2>
+        <p>MIDI Fart Sniffer does not replace EZdrummer, Battery, or a Drum Rack. It plays MIDI into them. Put it where that MIDI can reach the instrument.</p>
+        <p class="tip"><b>No host clock?</b> The standalone app still sniffs. HOST tempo reads the file, and you send MIDI out a port.</p></div></article>
+
+      <article class="beat" data-beat="activate"><div class="card"><span class="tag">03 · Setup</span>
+        <h2>Activate <em>once</em></h2>
+        <p>First launch asks for the code from your purchase email. Paste it. After that the license stays on the machine.</p>
+        <ul class="keys"><li><kbd>FART-XXXX-XXXX-XXXX-XXXX</kbd></li></ul></div></article>
+
+      <article class="beat" data-beat="dumpster"><div class="card"><span class="tag">04 · Dumpster</span>
+        <h2>Open a <em>folder</em></h2>
+        <p><b>DUMPSTER</b> is the folder on show. <b>▲</b> goes up. <b>OPEN</b> picks another. Type in the box to filter. <b>FAVES</b> is every groove you starred, from any folder, shared by every instance.</p></div></article>
+
+      <article class="beat" data-beat="sniff"><div class="card"><span class="tag">05 · Sniff</span>
+        <h2>Click it. <em>Arrow down.</em></h2>
+        <p>Click a groove and, with <b>AUTO</b> on, it plays. Click it again to stop. The next groove picks up from the same beat of the bar, so a folder stays in time.</p>
+        <p class="tip"><b>Standalone app:</b> Down loads the next one. Inside a host, click. The search box has to own the keyboard in there.</p></div></article>
+
+      <article class="beat" data-beat="card"><div class="card"><span class="tag">06 · The card</span>
+        <h2>Every groove gets a <em>card</em></h2>
+        <p>Lanes are the drums, General MIDI names when it knows them. Hits puff as the playhead goes by. Click a lane name to mute that drum. Click the slime tube to jump. The star faves it.</p></div></article>
+
+      <article class="beat" data-beat="tempo"><div class="card"><span class="tag">07 · Tempo</span>
+        <h2><em>HOST</em>, FILE, or SET</h2>
+        <p><b>HOST</b> follows the DAW. <b>FILE</b> uses the tempo in the MIDI file, or a "126BPM" in the name. <b>SET</b> is the box. Drag it. <b>TIME</b> is half or double.</p>
+        <p><b>LAUNCH</b> waits for the next beat or bar, then stays locked to the host. <b>NOW</b> starts immediately and runs free.</p></div></article>
+
+      <article class="beat" data-beat="output"><div class="card"><span class="tag">08 · Output</span>
+        <h2>Where the <em>MIDI</em> goes</h2>
+        <p><b>CHANNEL</b> puts every note on one channel, or <b>FILE</b> leaves them where the groove put them. <b>VELOCITY</b> scales them, 0 to 200%.</p>
+        <p><b>ALSO SEND TO</b> copies that MIDI to a port: an IAC bus, a drum machine, or <b>VIRTUAL PORT</b>. Other apps see an input named MIDI Fart Sniffer. That's how the standalone app records into a DAW.</p></div></article>
+
+      <article class="beat" data-beat="drag"><div class="card"><span class="tag">09 · Drag</span>
+        <h2>Drag the card <em>into the DAW</em></h2>
+        <p>On a Mac, drag the banner that says <b>DRAG ME</b>, or any groove in the list, onto a track in Live, GarageBand, or Logic. It drops the original MIDI file.</p>
+        <p class="tip"><b>The file, not the edit.</b> Lane mutes, channel, and velocity stay in the plug-in. They don't bake into the clip.</p></div></article>
+
+      <article class="beat" data-beat="kit"><div class="card"><span class="tag">10 · Preview</span>
+        <h2>Drums, or <em>farts</em></h2>
+        <p><b>PREVIEW KIT</b> is optional. <b>OFF</b> in a host, because your drum plug-in is the sound. <b>DRUMS</b> is a small kit for a quick listen. <b>FARTS</b> is the other one. The standalone app opens on DRUMS.</p></div></article>
+
+      <article class="beat" data-beat="ableton"><div class="card"><span class="tag">11 · Ableton</span>
+        <h2>Two ways into <em>Live</em></h2>
+        <p>Live won't put a third-party plug-in in the MIDI-effect slot. The slick way needs Suite or Max for Live: drop <b>MIDI Fart Sniffer.amxd</b> in front of the drums and click <b>OPEN THE DUMPSTER</b>. Your own playing still passes through.</p>
+        <p>Or two tracks. Sniffer on one, drums on the other. Set the drums' <b>MIDI From</b> to the Sniffer track, then pick <b>MIDI Fart Sniffer</b> under that, and monitor In.</p></div></article>
+
+      <article class="beat" data-beat="logic"><div class="card"><span class="tag">12 · Logic</span>
+        <h2>Use the <em>MIDI FX</em> slot</h2>
+        <p>The Audio Unit shows up as an instrument and as a MIDI processor. Put it in the <b>MIDI FX</b> slot of a drum track and it plays that track's instrument.</p>
+        <p class="tip"><b>You can still play.</b> Notes you send in pass straight through to the output.</p></div></article>
+    </div>
+
+    <section class="scene" id="cta">
+      <div>
+        <span class="tag">That's the can</span>
+        <h2 class="tagline" style="font-size:clamp(40px,5vw,72px);margin:16px 0">A folder of MIDI.<br>Go <em>sniff.</em></h2>
+        <div class="cta"><a class="btn" style="font-size:26px;padding:18px 28px 16px" href="#" data-stripe data-product="midi-fart-sniffer">Buy Now →</a></div>
+        <p class="fine" data-price hidden></p>
+        <p class="fine">VST3 · CLAP · Audio Unit · Max for Live · Standalone · macOS</p>
+      </div>
+    </section>
+    <div id="rail"></div>
+  </div>
+</main>
+
+<footer>
+  <a href="/" class="ts"><span>TRIL<i>$</i>OFT</span> <small>VST DIVISION</small></a>
+  <nav><a href="/">All plug-ins</a><a href="/wildcard">Wild Card</a><a href="/conceal-n-strike">Conceal-N-Strike</a><a href="/privacy">Privacy</a><a href="/refunds">Refunds</a></nav>
+  <span>© 2026 Tril$oft · MIDI Fart Sniffer is DIV-003</span>
+</footer>
+<script src="/tour.js"></script>
+<script>
+(() => {
+const W = 1120, H = 740;
+const ui = document.getElementById('ui');
+const H$ = (h) => { ui.insertAdjacentHTML('beforeend', h); return ui.lastElementChild; };
+const GROOVES = [
+  { name: 'dusty-break-126.mid', bpm: 126 },
+  { name: 'alley-shuffle.mid', bpm: 98 },
+  { name: 'can-lid-funk.mid', bpm: 110 },
+  { name: 'sids-backbeat.mid', bpm: 104 },
+  { name: 'dumpster-16ths.mid', bpm: 128 },
+  { name: 'rotten-clave.mid', bpm: 100 }
+];
+const LANES = [
+  ['KICK', [0.02, 0.5]],
+  ['SNARE', [0.25, 0.75]],
+  ['HAT', [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875]],
+  ['TOM', [0.62]],
+  ['CLAP', [0.25, 0.75]]
+];
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const seg = (a, x, y) => clamp((a - x) / (y - x));
+const sm = (t) => t * t * (3 - 2 * t);
+
+H$(`<div class="galv"></div>`);
+H$(`<svg class="sid" style="left:16px;top:8px" width="64" height="64" viewBox="0 0 120 120" aria-hidden="true"><path d="M18 58c-14 4-16 28-4 34 10 5 18-6 18-16z" fill="#6d4a32"/><path d="M102 58c14 4 16 28 4 34-10 5-18-6-18-16z" fill="#6d4a32"/><ellipse cx="60" cy="62" rx="40" ry="36" fill="#c9844a"/><ellipse cx="60" cy="74" rx="26" ry="18" fill="#f0c48a"/><ellipse cx="42" cy="56" rx="8" ry="9" fill="#fff"/><ellipse cx="78" cy="56" rx="8" ry="9" fill="#fff"/><ellipse cx="44" cy="57" rx="4" ry="5" fill="#1a120c"/><ellipse cx="80" cy="57" rx="4" ry="5" fill="#1a120c"/><ellipse cx="60" cy="72" rx="10" ry="7" fill="#2a1a14"/><path d="M48 84c6 8 18 8 24 0" fill="none" stroke="#1a120c" stroke-width="3" stroke-linecap="round"/></svg>`);
+H$(`<div class="title" style="left:92px;top:18px;font-size:34px">MIDI FART<br>SNIFFER</div>`);
+H$(`<div class="pit" id="pit" style="left:16px;top:88px;width:340px;height:470px"></div>`);
+const tabs = H$(`<div class="tabs" id="tabs" style="left:28px;top:100px;width:316px"><span data-tab="dump">DUMPSTER</span><span data-tab="faves">FAVES</span><span style="margin-left:auto">▲  OPEN</span></div>`);
+const filt = H$(`<div class="filt" id="filt" style="left:28px;top:142px;width:316px;height:36px"></div>`);
+const grows = GROOVES.map((g, i) => H$(`<div class="grow" data-i="${i}" style="left:28px;top:${188 + i * 52}px;width:316px;height:44px"><span>${g.name}</span><small>${g.bpm}</small></div>`));
+H$(`<div class="plate" id="card" style="left:372px;top:88px;width:732px;height:470px"></div>`);
+const banner = H$(`<div class="banner" id="banner" style="left:372px;top:88px;width:732px;height:52px"><span>DRAG ME</span><span id="gname"></span><span></span></div>`);
+const star = H$(`<div class="star" id="star" style="left:1048px;top:96px">★</div>`);
+const burst = H$(`<div class="burst" id="burst" style="left:1036px;top:156px">003</div>`);
+const lanes = LANES.map((lane, i) => {
+  const top = 156 + i * 68;
+  const el = H$(`<div class="lane" data-lane="${i}" style="left:388px;top:${top}px;width:680px;height:60px"><div class="nm">${lane[0]}</div><div class="rail"></div></div>`);
+  lane[1].forEach((h) => el.insertAdjacentHTML('beforeend', `<div class="hit" data-h="${h}" style="left:${78 + h * 590}px"></div>`));
+  return el;
+});
+const head = H$(`<div class="head" id="head" style="left:466px;top:156px;height:330px"></div>`);
+const tube = H$(`<div class="tube" id="tube" style="left:388px;top:524px;width:700px"></div>`);
+const chip = (id, x, y, w, label) => H$(`<div class="chip" id="c-${id}" style="left:${x}px;top:${y}px;width:${w}px;height:52px"><small>${label}</small><b></b></div>`);
+chip('tempo', 16, 572, 250, 'TEMPO');
+chip('time', 276, 572, 150, 'TIME');
+chip('launch', 436, 572, 200, 'LAUNCH');
+chip('chan', 646, 572, 220, 'CHANNEL');
+chip('vel', 876, 572, 228, 'VELOCITY');
+chip('port', 16, 636, 520, 'ALSO SEND TO');
+chip('kit', 546, 636, 558, 'PREVIEW KIT');
+const note = H$(`<div class="note" id="note" style="left:392px;top:500px"></div>`);
+const inst = H$(`<div class="ov installer off" id="inst"><div class="box"><h4>Install MIDI Fart Sniffer</h4><ul>
+  <li><span class="ck">✓</span>VST3 plug-in<small>Plug-Ins/VST3</small></li>
+  <li><span class="ck">✓</span>CLAP plug-in<small>Plug-Ins/CLAP</small></li>
+  <li><span class="ck">✓</span>Audio Unit<small>Plug-Ins/Components</small></li>
+  <li><span class="ck">✓</span>Standalone app<small>Applications</small></li>
+  <li><span class="ck">✓</span>Max for Live device<small>User Library</small></li>
+</ul></div></div>`);
+const prm = H$(`<div class="ov prompt off" id="prm"><div class="box"><h4>Activate MIDI Fart Sniffer</h4><p>The code from your purchase email.</p><div class="field" id="pfield"></div></div></div>`);
+
+const $ = (id) => document.getElementById(id);
+const setT = (el, t) => { if (el._t !== t) { el.textContent = t; el._t = t; } };
+const boxOf = (el, pad = 8) => {
+  const x = parseFloat(el.style.left), y = parseFloat(el.style.top), w = parseFloat(el.style.width) || el.offsetWidth, h = parseFloat(el.style.height) || el.offsetHeight;
+  return [x - pad, y - pad, w + pad * 2, h + pad * 2, 10];
+};
+const center = (el) => { const r = boxOf(el, 0); return [r[0] + r[2] / 2, r[1] + r[3] / 2]; };
+function point(st, a, from, to, t0, t1, t2) {
+  const u = sm(seg(a, t0, t1));
+  st.cur = { x: from[0] + (to[0] - from[0]) * u, y: from[1] + (to[1] - from[1]) * u, down: a >= t1 && a < t2 };
+  return a >= t1;
+}
+
+const base = () => ({
+  installer: -1, prompt: 0, code: '', busy: false,
+  tab: 'dump', filter: '', sel: 0, playing: false, head: 0.02,
+  mutes: {}, fave: false, tempo: 'HOST', time: '1x', launch: 'LAUNCH',
+  channel: 'FILE', velocity: 100, port: 'OFF', kit: 'OFF',
+  note: '', drag: 0, cur: null, press: null, hov: null, focus: null
+});
+
+const DUMP = [16, 88, 340, 470, 12];
+const CARD = [372, 88, 732, 470, 14];
+const CODE = 'FART-7K3M-Q9TX-4HPA';
+const beats = [
+  { id: 'hero', scene: 'hero', len: .7 },
+  { id: 'install', rail: 'Install', len: 1, apply(st, a, d) { st.installer = d ? -1 : a; } },
+  { id: 'daw', rail: 'Drums' },
+  { id: 'activate', rail: 'Activate', focus: [300, 230, 520, 250, 14], len: 1.15,
+    apply(st, a, d) { if (d) { st.prompt = 0; return; } st.prompt = 1 - seg(a, .82, .98); st.code = CODE.slice(0, Math.round(CODE.length * seg(a, .08, .7))); } },
+  { id: 'dumpster', rail: 'Dumpster', focus: DUMP, cam: [0, 70, 420, 520], camPort: [0, 70, 380, 500], len: 1.35,
+    apply(st, a, d) {
+      if (d) { st.filter = 'break'; st.sel = 0; return; }
+      const word = 'break';
+      st.filter = word.slice(0, Math.round(word.length * seg(a, .15, .5)));
+      if (a < .62) point(st, a, [200, 400], center(filt), .05, .2, .55);
+      else if (a < .82) { st.tab = 'faves'; point(st, a, center(filt), [120, 118], .62, .76, .82); }
+      else st.tab = 'dump';
+    } },
+  { id: 'sniff', rail: 'Sniff', focus: [20, 180, 332, 280, 10], cam: [0, 70, 760, 520], camPort: [0, 80, 370, 360], len: 1.3,
+    apply(st, a, d) {
+      st.tab = 'dump'; st.filter = '';
+      if (d) { st.sel = 2; st.playing = true; st.head = 0.5; return; }
+      const i = a < .45 ? 0 : a < .75 ? 1 : 2;
+      st.sel = i; st.playing = true; st.head = (a * 2) % 1;
+      const g = grows[i];
+      point(st, a, center(grows[0]), center(g), a < .45 ? 0 : a < .75 ? .45 : .75, a < .45 ? .2 : a < .75 ? .6 : .9, 1);
+    } },
+  { id: 'card', rail: 'Card', focus: CARD, cam: [360, 70, 760, 520], camPort: [360, 80, 760, 420], len: 1.35,
+    apply(st, a, d) {
+      st.playing = true; st.head = (a * 1.6) % 1;
+      if (d) { st.mutes = { 2: true }; st.fave = true; return; }
+      if (point(st, a, [700, 300], [424, 312], .05, .28, .36)) st.mutes = { 2: true };
+      if (a > .55) { point(st, a, [424, 312], center(star), .58, .8, .88); if (a >= .82) st.fave = true; }
+    } },
+  { id: 'tempo', rail: 'Tempo', focus: [8, 560, 640, 76, 10], cam: [0, 520, 700, 220], camPort: [0, 540, 1120, 180], len: 1.4,
+    apply(st, a, d) {
+      if (d) { st.tempo = 'HOST'; st.launch = 'LAUNCH'; st.time = '1/2'; return; }
+      if (a < .3) st.tempo = 'FILE';
+      else if (a < .55) st.tempo = 'SET';
+      else st.tempo = 'HOST';
+      if (a > .4 && a < .7) st.time = '2x';
+      if (a >= .7) st.time = '1/2';
+      st.launch = a > .62 ? 'LAUNCH' : 'NOW';
+      const el = $('c-tempo');
+      point(st, a, [200, 400], center(el), 0, .2, .9);
+    } },
+  { id: 'output', rail: 'Output', focus: [8, 624, 1104, 80, 10], cam: [0, 540, 1120, 200], camPort: [0, 560, 1120, 170], len: 1.3,
+    apply(st, a, d) {
+      if (d) { st.channel = '10'; st.velocity = 60; st.port = 'VIRTUAL PORT'; return; }
+      st.channel = a > .25 ? '10' : 'FILE';
+      st.velocity = a > .4 ? Math.round(100 - 40 * sm(seg(a, .4, .7))) : 100;
+      st.port = a > .72 ? 'VIRTUAL PORT' : 'OFF';
+      point(st, a, center($('c-chan')), center($('c-port')), .15, .8, .95);
+    } },
+  { id: 'drag', rail: 'Drag', focus: [372, 80, 732, 70, 12], cam: [360, 60, 760, 180], camPort: [300, 70, 800, 160], len: 1.15,
+    apply(st, a, d) {
+      if (d) { st.drag = 0; return; }
+      st.drag = seg(a, .35, .85);
+      const b = center(banner);
+      st.cur = { x: b[0] + st.drag * 180, y: b[1] + st.drag * 40, down: a > .3 && a < .9, drag: a > .35 };
+    } },
+  { id: 'kit', rail: 'Kit', focus: [538, 624, 574, 76, 10], cam: [500, 540, 620, 200], camPort: [0, 560, 1120, 170], len: 1.1,
+    apply(st, a, d) {
+      if (d) { st.kit = 'FARTS'; return; }
+      st.kit = a < .35 ? 'OFF' : a < .7 ? 'DRUMS' : 'FARTS';
+      point(st, a, [400, 500], center($('c-kit')), 0, .3, .95);
+    } },
+  { id: 'ableton', rail: 'Ableton', len: 1.25,
+    apply(st, a, d) { st.note = a < .5 ? 'MAX FOR LIVE · OPEN THE DUMPSTER' : 'TWO TRACKS · MIDI FROM'; if (d) st.note = ''; } },
+  { id: 'logic', rail: 'Logic', len: 1,
+    apply(st, a, d) { st.note = d ? '' : 'LOGIC · MIDI FX SLOT'; } },
+  { id: 'cta', rail: 'Buy', scene: 'cta' }
+];
+
+function render(st) {
+  inst.classList.toggle('off', !(st.installer >= 0));
+  if (st.installer >= 0) inst.querySelectorAll('li').forEach((li, i) => li.classList.toggle('done', st.installer > .12 + i * .16));
+  prm.classList.toggle('off', !(st.prompt > 0));
+  prm.style.opacity = st.prompt > 0 ? String(st.prompt) : '';
+  const field = $('pfield');
+  field.classList.toggle('go', !!st.code);
+  setT(field, st.code || 'FART-XXXX-XXXX-XXXX-XXXX');
+  tabs.querySelectorAll('[data-tab]').forEach((t) => t.classList.toggle('on', t.dataset.tab === st.tab));
+  filt.classList.toggle('go', !!st.filter);
+  setT(filt, st.filter || 'filter the folder');
+  const word = st.filter.toLowerCase();
+  grows.forEach((g, i) => {
+    const show = !word || GROOVES[i].name.includes(word);
+    g.style.display = show ? '' : 'none';
+    g.classList.toggle('on', i === st.sel && show);
+  });
+  let y = 188;
+  grows.forEach((g) => { if (g.style.display !== 'none') { g.style.top = y + 'px'; y += 52; } });
+  setT($('gname'), GROOVES[st.sel].name.replace('.mid', ''));
+  lanes.forEach((lane, i) => {
+    const mute = !!st.mutes[i];
+    lane.classList.toggle('mute', mute);
+    lane.querySelector('.nm').classList.toggle('mute', mute);
+    lane.querySelectorAll('.hit').forEach((hit) => {
+      const h = parseFloat(hit.dataset.h);
+      const d = Math.min(Math.abs(h - st.head), 1 - Math.abs(h - st.head));
+      hit.classList.toggle('puff', st.playing && d < 0.04);
+    });
+  });
+  head.style.left = (466 + st.head * 590) + 'px';
+  star.classList.toggle('on', st.fave);
+  const map = { tempo: st.tempo, time: st.time, launch: st.launch, chan: st.channel, vel: st.velocity + '%', port: st.port, kit: st.kit };
+  Object.keys(map).forEach((id) => {
+    const el = $('c-' + id);
+    setT(el.querySelector('b'), String(map[id]));
+    el.classList.toggle('on', (id === 'tempo' && st.tempo === 'HOST') || (id === 'launch' && st.launch === 'LAUNCH') || (id === 'port' && st.port !== 'OFF') || (id === 'kit' && st.kit !== 'OFF'));
+  });
+  note.classList.toggle('on', !!st.note);
+  setT(note, st.note);
+  banner.style.transform = st.drag ? `translate(${st.drag * 24}px,${st.drag * 8}px)` : '';
+}
+
+Tour({ W, H, beats, base, render, vh: 96, vhPort: 90, maxZoom: 1.7, maxZoomPort: 2.05, ring: '#B6E23A', dim: 'rgba(12,10,8,.62)' });
+})();
+</script>
+<script src="/js/site-config.js"></script>
+<script src="/js/checkout.js"></script>
+<script>
+(function () {
+  var raw = window.TRILOSOFT && window.TRILOSOFT.prices && window.TRILOSOFT.prices['midi-fart-sniffer'];
+  var price = String(raw || '').trim();
+  if (!price) return;
+  document.querySelectorAll('[data-price]').forEach(function (el) {
+    el.hidden = false;
+    el.textContent = price;
+  });
+})();
+</script>
+</body>
+</html>
