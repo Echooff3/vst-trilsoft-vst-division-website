@@ -15,7 +15,7 @@
 ## Policies
 
 - [Privacy](https://vst.trilsoft.com/privacy): Tril$oft sets no cookies of its own and does not collect visitor data.
-- [Refunds](https://vst.trilsoft.com/refunds): No refunds on digital products, but email help@trilsoft.com and reasonable requests get made right.
+- [Refunds](https://vst.trilsoft.com/refunds): Digital sales are final, with no automatic refunds. If a plug-in won't install, activate, or work as the page says, email help@trilsoft.com.
 
 ## How it works
 
