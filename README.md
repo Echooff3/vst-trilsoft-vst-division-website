@@ -57,7 +57,9 @@ window.TRILOSOFT = {
 
 `server.js` copies `paymentLinks.wildcard` into each Wild Card Buy Now `href`, including the homepage fallback inside `<noscript>`. The button is an ordinary link.
 
-To go live, set `PAYMENT_LINK_WILDCARD`, `PAYMENT_LINK_CONCEAL_N_STRIKE`, or `PAYMENT_LINK_MIDI_FART_SNIFFER` on the Railway service to the live Payment Link. The server uses that variable in place of the value in the file, both in `/js/site-config.js` and in the HTML `href`s, and one plug-in's link is never copied onto the other. Hyphens in a slug become underscores in the variable name (`conceal-n-strike` → `PAYMENT_LINK_CONCEAL_N_STRIKE`). MIDI Fart Sniffer's link starts empty. Its price is the empty `prices["midi-fart-sniffer"]` string in that same file; the page draws nothing until that string is set.
+To go live, set `PAYMENT_LINK_WILDCARD` or `PAYMENT_LINK_CONCEAL_N_STRIKE` on the Railway service to the live Payment Link. The server uses that variable in place of the value in the file, both in `/js/site-config.js` and in the HTML `href`s, and one plug-in's link is never copied onto the other. Hyphens in a slug become underscores in the variable name (`conceal-n-strike` → `PAYMENT_LINK_CONCEAL_N_STRIKE`).
+
+MIDI Fart Sniffer is free. Its page and the homepage section use a Get Free Key form, not Buy Now. The form POSTs JSON `{"product":"fart-sniffer","email":"...","website":""}` to `{licenseBase}/api/free-key`. `licenseBase` in `site-config.js` is `https://vst-license.trilsoft.com`. `website` is a hidden honeypot. The price on the page is the word Free.
 
 `API_BASE_URL` is only the fallback for a plug-in with no payment link. Leave it empty and those buttons stay on the page. When it is an `http` or `https` origin (the `API_BASE_URL` environment variable overrides the file), a click POSTs `{API_BASE_URL}/checkout?product=<id>` with JSON `{ "product": "<id>" }` and follows a returned `url` (`checkoutUrl` and `checkout_url` too), or submits a form POST so the API can answer with a redirect. `products` maps the button's `data-product` slug to that id.
 

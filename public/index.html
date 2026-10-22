@@ -330,13 +330,26 @@ html.static .mfs-lid{display:none}
 .mbtn:hover{filter:brightness(1.05)} .mbtn:active{transform:translateY(3px);box-shadow:0 2px 0 #1A120C}
 .mbtn.slime{background:#B6E23A}
 .mfs-tag{font-family:"Titan One",Impact,sans-serif;font-size:13px;letter-spacing:.08em;color:#1A120C;background:#B6E23A;border-radius:999px;padding:6px 12px}
+.mfs-ui .keyform{position:relative;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;width:min(680px,100%)}
+.mfs-ui .keyform input[type=email]{flex:1;min-width:min(220px,100%);font-family:"Comic Neue","Comic Sans MS",sans-serif;font-weight:700;font-size:16px;color:#1A120C;background:#F6F1E4;border:3px solid #1A120C;border-radius:12px;padding:12px 14px;min-height:48px}
+.mfs-ui .keyform .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.mfs-ui .keyform button{border:0;cursor:pointer}
+.mfs-ui .keyform button:disabled{opacity:.55}
+.mfs-ui .keynote{flex-basis:100%;margin:0;text-align:center;font-family:"Comic Neue","Comic Sans MS",sans-serif;font-weight:700;font-size:16px}
+.mfs-ui .keynote.ok{color:#B6E23A}
+.mfs-ui .keynote.bad{color:#ffb4a8}
+.mfs-ui .keynote[hidden]{display:none}
+.mfs-ui .keyfine{margin:0;max-width:520px;text-align:center;font-family:"Comic Neue","Comic Sans MS",sans-serif;font-weight:700;font-size:14px;color:#F4E2B0}
+.mfs-ui .keyfine a{color:#B6E23A}
+.mfs-ui .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .mfs-lid{position:absolute;left:0;right:0;top:0;height:100%;z-index:8;visibility:hidden;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8vh;
   background:#9aa19c repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 2px,transparent 2px 8px);box-shadow:0 12px 0 #1A120C}
 .mfs-lid span{font-family:"Titan One",Impact,sans-serif;font-size:22px;color:#B6E23A;-webkit-text-stroke:5px #1A120C;paint-order:stroke fill}
 .v-desk .mfs-ui{bottom:max(11vh,64px)}
 @media (max-height:560px){ .v-desk .mfs-ui{bottom:34px} .v-desk .mfs-tag{display:none} .v-desk .mbtn{font-size:16px;padding:12px 16px 10px} }
 .v-port .mfs-ui{bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px))}
-.v-port .mfs-row{flex-direction:column;width:100%;max-width:440px;gap:12px}
+.v-port .mfs-row,.v-port .mfs-ui .keyform{flex-direction:column;width:100%;max-width:440px;gap:12px}
+.v-port .mfs-ui .keyform input[type=email],.v-port .mfs-ui .keyform button{width:100%}
 .v-port .mbtn{width:100%;min-height:58px;font-size:min(4.2vw,20px);padding-inline:12px}
 @media (min-width:600px){
   .v-port .mfs-ui{bottom:7svh}
@@ -449,8 +462,15 @@ html.static .cns-wipe,html.static .cns-door{display:none}
       <video class="mfs-vid" id="mfsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
         data-src="/assets/mfs-teaser-desk.mp4" poster="/assets/mfs-teaser-desk-start.jpg" data-end="/assets/mfs-teaser-desk-end.jpg"></video>
       <div class="mfs-ui" id="mfsUi">
-        <span class="mfs-tag">DIV-003 · VST3 · CLAP · AU</span>
-        <div class="mfs-row"><a href="/midi-fart-sniffer" class="mbtn">Check out MIDI Fart Sniffer →</a><a href="#" data-stripe data-product="midi-fart-sniffer" class="mbtn slime">Buy Now</a></div>
+        <span class="mfs-tag">DIV-003 · Free</span>
+        <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
+          <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
+          <button type="submit" class="mbtn slime">Get Free Key</button>
+          <p class="keynote" role="status" aria-live="polite" hidden></p>
+        </form>
+        <p class="keyfine">The email is only used to send the key and is stored hashed. <a href="/privacy">Privacy</a>.</p>
+        <div class="mfs-row"><a href="/midi-fart-sniffer" class="mbtn">Check out MIDI Fart Sniffer →</a></div>
       </div>
     </section>
     <div class="mfs-lid" id="mfsLid" aria-hidden="true"><span>DIV-003 // MIDI Fart Sniffer</span></div>
@@ -553,8 +573,15 @@ html.static .cns-wipe,html.static .cns-door{display:none}
       <video class="mfs-vid" id="mfsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
         data-src="/assets/mfs-teaser-port.mp4" poster="/assets/mfs-teaser-port-start.jpg" data-end="/assets/mfs-teaser-port-end.jpg"></video>
       <div class="mfs-ui" id="mfsUi">
-        <span class="mfs-tag">DIV-003 · VST3 · CLAP · AU</span>
-        <div class="mfs-row"><a href="/midi-fart-sniffer" class="mbtn">Check out MIDI Fart Sniffer →</a><a href="#" data-stripe data-product="midi-fart-sniffer" class="mbtn slime">Buy Now</a></div>
+        <span class="mfs-tag">DIV-003 · Free</span>
+        <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
+          <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
+          <button type="submit" class="mbtn slime">Get Free Key</button>
+          <p class="keynote" role="status" aria-live="polite" hidden></p>
+        </form>
+        <p class="keyfine">The email is only used to send the key and is stored hashed. <a href="/privacy">Privacy</a>.</p>
+        <div class="mfs-row"><a href="/midi-fart-sniffer" class="mbtn">Check out MIDI Fart Sniffer →</a></div>
       </div>
     </section>
     <div class="mfs-lid" id="mfsLid" aria-hidden="true"><span>DIV-003 // MIDI Fart Sniffer</span></div>
@@ -809,7 +836,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
   // ================= MIDI Fart Sniffer beat (galvanized lid, then the scrubbed teaser) =================
   function mfs(root) {
     const $ = s => root.querySelector(s);
-    const sc = $('#mfs'), vid = $('#mfsVid'), ui = $('#mfsUi'), bits = [...ui.querySelectorAll('.mfs-tag, .mbtn')];
+    const sc = $('#mfs'), vid = $('#mfsVid'), ui = $('#mfsUi'), bits = [...ui.querySelectorAll('.mfs-tag, .keyform, .keyfine, .mfs-row')];
     const lid = $('#mfsLid'), nav = $('#nav'), rail = $('#rail'), railA = rail ? [...rail.querySelectorAll('a')] : [];
     vid.src = vid.dataset.src; vid.load();
     const prime = () => { const pr = vid.play(); if (pr && pr.then) pr.then(() => vid.pause()).catch(() => {}); else vid.pause(); };
@@ -920,5 +947,6 @@ html.static .cns-wipe,html.static .cns-door{display:none}
 </script>
 <script src="/js/site-config.js"></script>
 <script src="/js/checkout.js"></script>
+<script src="/js/free-key.js"></script>
 </body>
 </html>

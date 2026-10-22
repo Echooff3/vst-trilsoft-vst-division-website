@@ -6,7 +6,7 @@
 
 - [Wild Card](https://vst.trilsoft.com/wildcard): DJ scratch VST for MIDI DJ controllers, tested with the Hercules DJControl Starlight. $13.
 - [Conceal-N-Strike](https://vst.trilsoft.com/conceal-n-strike): 64-step turntablism sequencer where each step has a platter CONCEAL move and a fader STRIKE cut. $15 launch price, $19 after launch.
-- [MIDI Fart Sniffer](https://vst.trilsoft.com/midi-fart-sniffer): MIDI groove browser. Point it at a folder of drum MIDI and it plays the groove into your drums, locked to the host tempo and bar. VST3, CLAP, Audio Unit, Max for Live, and a standalone macOS app.
+- [MIDI Fart Sniffer](https://vst.trilsoft.com/midi-fart-sniffer): MIDI groove browser. Point it at a folder of drum MIDI and it plays the groove into your drums, locked to the host tempo and bar. VST3, CLAP, Audio Unit, Max for Live, and a standalone macOS app. Free. The page emails the key; that address is only used to send the key and is stored hashed.
 
 ## Support
 
@@ -22,4 +22,4 @@
 
 - [Wild Card](https://vst.trilsoft.com/wildcard): Run the installer, put it on a MIDI track, activate with the code from your purchase email, load a sample, then scratch on a Hercules DJControl Starlight or by scrolling the record.
 - [Conceal-N-Strike](https://vst.trilsoft.com/conceal-n-strike): Run the installer, drop it on an instrument track, activate with the code from your purchase email, then program each of 64 steps with a platter CONCEAL move and a fader STRIKE cut.
-- [MIDI Fart Sniffer](https://vst.trilsoft.com/midi-fart-sniffer): Run the installer, activate with the code from your purchase email, open a folder of drum MIDI, click a groove, and route the MIDI into a drum instrument. In Live use the Max for Live device or a second track's MIDI From. In Logic use the MIDI FX slot.
+- [MIDI Fart Sniffer](https://vst.trilsoft.com/midi-fart-sniffer): Enter an email on the page and the key is sent there. The address is only used to send the key and is stored hashed. Run the installer, activate with that code, open a folder of drum MIDI, click a groove, and route the MIDI into a drum instrument. In Live use the Max for Live device or a second track's MIDI From. In Logic use the MIDI FX slot.

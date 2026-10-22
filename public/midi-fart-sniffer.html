@@ -30,17 +30,33 @@ d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: red
 html{background:#14110e}
 body{font-family:var(--body);color:var(--bone);background:#14110e;line-height:1.45;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 .pbar{background:linear-gradient(90deg,var(--slime),var(--rot))}
-nav.top{position:fixed;inset:0 0 auto 0;z-index:60;height:74px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 2.4vw;background:rgba(20,17,14,.94);border-bottom:4px solid var(--slime)}
+nav.top{position:fixed;inset:0 0 auto 0;z-index:60;min-height:74px;height:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 2.4vw;background:rgba(20,17,14,.94);border-bottom:4px solid var(--slime)}
 .ts{display:inline-flex;align-items:center;gap:10px;font-family:"Unbounded",sans-serif;font-weight:800;font-size:15px;color:#fff;white-space:nowrap}
 .ts i{font-style:normal;color:#FF5B1F}
 .ts small{font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:.14em;color:#b7b0a2}
-nav.top .r{display:flex;align-items:center;gap:12px}
+nav.top .r{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--display);font-size:20px;letter-spacing:.03em;line-height:1;padding:16px 22px 14px;color:var(--ink);background:var(--slime);border-radius:12px;box-shadow:0 5px 0 var(--ink);white-space:nowrap}
 .btn:hover{filter:brightness(1.06)} .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
 .btn.ghost{background:#241c16;color:var(--slime);box-shadow:0 5px 0 #000}
 nav.top .btn{font-size:16px;padding:12px 16px 10px}
 nav.top .plug small{font-size:12px}
 .px{font-family:var(--display);font-size:18px;color:var(--slime);white-space:nowrap}
+.hero-px{margin-top:18px;font-size:22px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.keyform{position:relative;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.keyform input[type=email]{font-family:var(--body);font-weight:700;font-size:16px;line-height:1;color:var(--ink);background:var(--bone);border:3px solid var(--ink);border-radius:12px;padding:14px 14px 12px;min-width:min(240px,100%);min-height:48px}
+.keyform .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.keyform button:disabled{opacity:.55}
+.keynote{flex-basis:100%;margin:0;font-weight:700;font-size:15px}
+.keynote.ok{color:var(--slime)}
+.keynote.bad{color:#ffb4a8}
+.keynote[hidden]{display:none}
+.keyfine{margin-top:12px;font-size:14px;color:#cbbfa8}
+.keyfine a{color:var(--slime)}
+button.btn{border:0;cursor:pointer}
+nav.top .keyform{justify-content:flex-end}
+nav.top .keyform input[type=email]{min-width:0;width:min(220px,46vw);padding:10px 12px;min-height:44px;font-size:15px}
+nav.top .keynote{text-align:right}
 .stage{background:#14110e}
 #uibox{border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.55),0 10px 0 #0b0907}
 .is-port #uibox{border-radius:0;box-shadow:none}
@@ -122,7 +138,12 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap} footer a:hover{color:var(--slim
 .note{position:absolute;z-index:8;background:var(--ink);color:var(--slime);font-family:var(--display);font-size:16px;padding:8px 12px;border-radius:10px;opacity:0}
 .note.on{opacity:1}
 
-.is-port nav.top{height:var(--hdr);padding:0 14px;padding-top:env(safe-area-inset-top)}
+.is-port{--hdr:128px}
+.is-port nav.top{height:auto;min-height:62px;padding:8px 14px;padding-top:max(8px,env(safe-area-inset-top));align-items:flex-start}
+.is-port nav.top .keyform{width:100%}
+.is-port nav.top .keyform input[type=email]{flex:1;width:auto}
+.is-port .keyform{width:100%}
+.is-port .keyform input[type=email]{flex:1}
 .is-port .ts small{display:none}
 .is-port nav.top .btn{font-size:14px;padding:10px 12px 8px}
 .is-port nav.top .plug span{display:none}
@@ -131,7 +152,7 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap} footer a:hover{color:var(--slim
 .is-port .card{height:100%;padding:16px 16px 14px;overflow:hidden}
 .is-port .card h2{font-size:clamp(24px,6.4vw,34px)}
 .is-port .card p,.is-port .keys li{font-size:14.5px}
-.is-port .scene{padding:84px 20px 28px}
+.is-port .scene{padding:calc(var(--hdr) + 16px) 20px 28px}
 .is-port .hero h1{font-size:min(12vw,86px);-webkit-text-stroke:4px var(--ink)}
 .is-port .btn{font-size:18px;padding:14px 18px 12px}
 html.static nav.top{position:sticky}
@@ -144,9 +165,13 @@ html.static .scene{padding:48px 20px}
   <a href="/" class="ts" title="Back to Tril$oft">← <span>TRIL<i>$</i>OFT</span> <small>VST DIV · 003</small></a>
   <div class="r">
     <a href="/conceal-n-strike" class="btn ghost plug" title="Other plug-in: Conceal-N-Strike">DIV-002 <span>Conceal-N-Strike</span> →</a>
-    <a href="#" class="btn" data-stripe data-product="midi-fart-sniffer">Buy Now</a>
-    <!-- Price is TRILOSOFT.prices["midi-fart-sniffer"] in /js/site-config.js. Empty stays hidden. -->
-    <span class="px" data-price hidden></span>
+    <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
+      <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
+      <button type="submit" class="btn">Get Free Key</button>
+      <p class="keynote" role="status" aria-live="polite" hidden></p>
+    </form>
+    <span class="px">Free</span>
   </div>
 </nav>
 
@@ -158,7 +183,15 @@ html.static .scene{padding:48px 20px}
         <h1>MIDI FART<br>SNIFFER</h1>
         <p class="tagline">Weird VSTs <em>no one asked for.</em></p>
         <p class="sub">A folder of drum MIDI. Click a groove. It plays out to your drums, locked to the tempo and the bar. Scroll it. Sniffin' Sid will show you the dumpster.</p>
-        <div class="cta"><a class="btn" href="#" data-stripe data-product="midi-fart-sniffer">Buy Now →</a><a class="btn ghost" href="#" data-goto="install">Show me the dumpster</a></div>
+        <p class="px hero-px">Free</p>
+        <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
+          <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
+          <button type="submit" class="btn">Get Free Key</button>
+          <p class="keynote" role="status" aria-live="polite" hidden></p>
+        </form>
+        <p class="keyfine">The email is only used to send the key and is stored hashed. <a href="/privacy">Privacy</a>.</p>
+        <div class="cta"><a class="btn ghost" href="#" data-goto="install">Show me the dumpster</a></div>
         <div class="hint"><i></i>SCROLL</div>
       </div>
     </section>
@@ -178,7 +211,7 @@ html.static .scene{padding:48px 20px}
 
       <article class="beat" data-beat="activate"><div class="card"><span class="tag">03 · Setup</span>
         <h2>Activate <em>once</em></h2>
-        <p>First launch asks for the code from your purchase email. Paste it. After that the license stays on the machine.</p>
+        <p>First launch asks for the code from your email. Paste it. After that the license stays on the machine.</p>
         <ul class="keys"><li><kbd>FART-XXXX-XXXX-XXXX-XXXX</kbd></li></ul></div></article>
 
       <article class="beat" data-beat="dumpster"><div class="card"><span class="tag">04 · Dumpster</span>
@@ -228,8 +261,14 @@ html.static .scene{padding:48px 20px}
       <div>
         <span class="tag">That's the can</span>
         <h2 class="tagline" style="font-size:clamp(40px,5vw,72px);margin:16px 0">A folder of MIDI.<br>Go <em>sniff.</em></h2>
-        <div class="cta"><a class="btn" style="font-size:26px;padding:18px 28px 16px" href="#" data-stripe data-product="midi-fart-sniffer">Buy Now →</a></div>
-        <p class="fine" data-price hidden></p>
+        <p class="px hero-px">Free</p>
+        <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
+          <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
+          <button type="submit" class="btn">Get Free Key</button>
+          <p class="keynote" role="status" aria-live="polite" hidden></p>
+        </form>
+        <p class="keyfine">The email is only used to send the key and is stored hashed. <a href="/privacy">Privacy</a>.</p>
         <p class="fine">VST3 · CLAP · Audio Unit · Max for Live · Standalone · macOS</p>
       </div>
     </section>
@@ -446,16 +485,23 @@ Tour({ W, H, beats, base, render, vh: 96, vhPort: 90, maxZoom: 1.7, maxZoomPort:
 })();
 </script>
 <script src="/js/site-config.js"></script>
-<script src="/js/checkout.js"></script>
+<script src="/js/free-key.js"></script>
 <script>
 (function () {
-  var raw = window.TRILOSOFT && window.TRILOSOFT.prices && window.TRILOSOFT.prices['midi-fart-sniffer'];
-  var price = String(raw || '').trim();
-  if (!price) return;
-  document.querySelectorAll('[data-price]').forEach(function (el) {
-    el.hidden = false;
-    el.textContent = price;
-  });
+  function fitHdr() {
+    var nav = document.querySelector('nav.top');
+    if (!nav) return;
+    if (!document.documentElement.classList.contains('is-port')) return;
+    document.documentElement.style.setProperty('--hdr', nav.offsetHeight + 'px');
+    if (window.__tour && window.__tour.fitCards) window.__tour.fitCards();
+  }
+  var nav = document.querySelector('nav.top');
+  fitHdr();
+  addEventListener('resize', fitHdr);
+  if (document.fonts) document.fonts.ready.then(fitHdr);
+  if (nav && window.MutationObserver) {
+    new MutationObserver(fitHdr).observe(nav, { subtree: true, childList: true, characterData: true, attributes: true });
+  }
 })();
 </script>
 </body>
