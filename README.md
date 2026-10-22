@@ -23,6 +23,8 @@ Then open [http://localhost:8080](http://localhost:8080).
 | `/conceal-n-strike.html` | Same Conceal-N-Strike page |
 | `/midi-fart-sniffer` | MIDI Fart Sniffer |
 | `/midi-fart-sniffer.html` | Same MIDI Fart Sniffer page |
+
+Paid plug-ins are listed before MIDI Fart Sniffer. The free section stays last.
 | `/privacy` | Privacy policy |
 | `/refunds` | Refund policy |
 | `/llms.txt` | Short site summary for language models |

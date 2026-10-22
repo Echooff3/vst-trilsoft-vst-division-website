@@ -157,7 +157,7 @@ html.static .bg-purple,html.static .hint,html.static .bar,html.static .rail,html
 html.static .bg-dark{position:absolute;inset:0 0 auto 0;height:200vh;height:200svh}
 @media (prefers-reduced-motion:reduce){ .hint i{animation:none} }
 /* ================= DESKTOP / LANDSCAPE ================= */
-.v-desk .scroller{height:1600vh} /* film 620 + Conceal-N-Strike 440 + MIDI Fart Sniffer 440, plus the 100vh stage */
+.v-desk .scroller{height:1600vh} /* film 620 + paid plug-ins (Conceal-N-Strike 440) + free MIDI Fart Sniffer 440 last, plus the 100vh stage. Insert future paid plug-ins above #mfs. */
 .v-desk .s1 .inner{text-align:center;padding:0 24px;max-width:1200px}
 .v-desk .s1 .kicker{display:inline-block;margin-bottom:28px;color:var(--signal)}
 .v-desk .s1 h1{font-family:var(--display);font-weight:800;font-size:clamp(46px,8vw,124px);line-height:1;letter-spacing:-.035em}
@@ -207,7 +207,7 @@ html.static .v-desk .strip{transform:rotate(-1.2deg)!important}
 html.static .v-desk .wc-title span{transform:rotate(-3deg) skew(-4deg)!important}
 /* ================= PORTRAIT (tablet portrait → phone) ================= */
 .v-port{--hdr:64px}
-.v-port .scroller{height:1640vh;height:1640svh}
+.v-port .scroller{height:1640vh;height:1640svh} /* film 660 + paid 440 + free MIDI Fart Sniffer 440 last, plus the 100vh stage. The free section stays last. */
 .v-port header.top{height:var(--hdr);padding:0 20px;padding-top:env(safe-area-inset-top)}
 .v-port .wordmark b{font-size:16px}
 .v-port .navlink{font-size:11px;padding:11px 14px;min-height:40px;display:inline-flex;align-items:center}
@@ -322,14 +322,14 @@ html.static .scene.cns,html.static .scene.mfs{visibility:visible!important;min-h
 html.static .mfs-lid{display:none}
 
 /* ================= MIDI Fart Sniffer beat (both layouts) ================= */
-.scene.mfs{z-index:7;visibility:hidden;place-items:stretch;background:#8E918A}
+.scene.mfs{z-index:7;visibility:hidden;place-items:stretch;background:#8C949B}
 .mfs-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .mfs-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
 .mfs-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
 .mbtn{display:inline-flex;align-items:center;justify-content:center;font-family:"Titan One",Impact,sans-serif;font-size:20px;letter-spacing:.03em;line-height:1;padding:14px 22px 12px;color:#1C140C;background:#F6E7C1;border:3px solid #1C140C;border-radius:999px;box-shadow:4px 4px 0 #1C140C;touch-action:manipulation}
 .mbtn:hover{filter:brightness(1.05)} .mbtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #1C140C}
-.mbtn.slime{background:#7CFF3A}
-.mfs-tag{font-family:"Titan One",Impact,sans-serif;font-size:13px;letter-spacing:.08em;color:#1C140C;background:#7CFF3A;border:3px solid #1C140C;border-radius:999px;box-shadow:3px 3px 0 #1C140C;padding:6px 12px}
+.mbtn.slime{background:#8FDC2C}
+.mfs-tag{font-family:"Titan One",Impact,sans-serif;font-size:13px;letter-spacing:.08em;color:#1A1220;background:#8FDC2C;border:3px solid #1A1220;border-radius:999px;box-shadow:3px 3px 0 #1A1220;padding:6px 12px}
 .mfs-ui .keyform{position:relative;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;width:min(680px,100%)}
 .mfs-ui .keyform input[type=email]{flex:1;min-width:min(220px,100%);font-family:"Comic Neue","Comic Sans MS",sans-serif;font-weight:700;font-size:16px;color:#1C140C;background:#FFF6DE;border:3px solid #1C140C;border-radius:999px;padding:12px 16px;min-height:48px}
 .mfs-ui .keyform .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
@@ -342,17 +342,19 @@ html.static .mfs-lid{display:none}
 .mfs-ui .keyfine{margin:0;max-width:560px;text-align:center;font-family:"Comic Neue","Comic Sans MS",sans-serif;font-weight:700;font-size:14px;color:#1C140C;background:#F6E7C1;border:3px solid #1C140C;border-radius:14px;box-shadow:3px 3px 0 #1C140C;padding:8px 12px}
 .mfs-ui .keyfine a{color:#5A28B8}
 .mfs-ui .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.mfs-lid{position:absolute;left:0;right:0;top:0;height:100%;z-index:8;visibility:hidden;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8vh;
-  background:#7CFF3A;box-shadow:0 8px 0 #1C140C}
-.mfs-lid::after{content:"";position:absolute;left:0;right:0;bottom:-26px;height:32px;pointer-events:none;background:
-  radial-gradient(16px 20px at 6% 0,#7CFF3A 98%,transparent 100%),
-  radial-gradient(22px 28px at 18% 0,#7CFF3A 98%,transparent 100%),
-  radial-gradient(14px 18px at 31% 0,#7CFF3A 98%,transparent 100%),
-  radial-gradient(24px 30px at 46% 0,#7CFF3A 98%,transparent 100%),
-  radial-gradient(16px 22px at 61% 0,#7CFF3A 98%,transparent 100%),
-  radial-gradient(20px 26px at 76% 0,#7CFF3A 98%,transparent 100%),
-  radial-gradient(14px 18px at 90% 0,#7CFF3A 98%,transparent 100%)}
-.mfs-lid span{font-family:"Titan One",Impact,sans-serif;font-size:22px;color:#FFE14A;-webkit-text-stroke:5px #1C140C;paint-order:stroke fill}
+/* Concrete slab. Slime drips hang off the bottom and lead as it slides down over the paid section, then the slab lifts. */
+.mfs-lid{position:absolute;left:0;right:0;top:0;height:100%;z-index:8;visibility:hidden;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10vh;will-change:transform;
+  background:#8C949B;
+  background-image:radial-gradient(rgba(255,255,255,.28) .7px,transparent .9px),radial-gradient(rgba(0,0,0,.2) .7px,transparent .9px);
+  background-size:5px 6px,9px 11px}
+.mfs-lid::after{content:"";position:absolute;left:-3%;right:-3%;bottom:-96px;height:124px;pointer-events:none;background:#8FDC2C;
+  clip-path:polygon(0 0,100% 0,100% 20%,97.2% 20%,95.4% 78%,92.6% 20%,87.4% 20%,84.2% 100%,80% 20%,74.6% 20%,71.8% 64%,68% 20%,62.2% 20%,58.4% 90%,54% 20%,48.2% 20%,44.6% 72%,40.2% 20%,34.4% 20%,30.6% 100%,26% 20%,20.2% 20%,16.8% 58%,12.6% 20%,7.4% 20%,4.2% 86%,1.2% 20%,0 20%);
+  filter:drop-shadow(0 4px 0 #1A1220)}
+.mfs-lid span{position:relative;z-index:1;font-family:"Titan One",Impact,sans-serif;font-size:clamp(28px,4.4vw,64px);line-height:.9;letter-spacing:.02em;color:#F7D21E;-webkit-text-stroke:7px #1A1220;paint-order:stroke fill;text-align:center}
+/* Reduced motion stacks the sections. The lid does not travel; drips still mark the threshold into the free section. */
+html.static .scene.mfs::before{content:"";position:absolute;left:-2%;right:-2%;top:0;height:78px;z-index:4;pointer-events:none;background:#8FDC2C;
+  clip-path:polygon(0 0,100% 0,100% 28%,97.2% 28%,95.4% 100%,92.6% 28%,87.4% 28%,84.2% 100%,80% 28%,74.6% 28%,71.8% 78%,68% 28%,62.2% 28%,58.4% 100%,54% 28%,48.2% 28%,44.6% 82%,40.2% 28%,34.4% 28%,30.6% 100%,26% 28%,20.2% 28%,16.8% 70%,12.6% 28%,7.4% 28%,4.2% 100%,1.2% 28%,0 28%);
+  filter:drop-shadow(0 3px 0 #1A1220)}
 .v-desk .mfs-ui{bottom:max(11vh,64px)}
 @media (max-height:560px){ .v-desk .mfs-ui{bottom:34px} .v-desk .mfs-tag{display:none} .v-desk .mbtn{font-size:16px;padding:12px 16px 10px} }
 .v-port .mfs-ui{bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px))}
@@ -377,6 +379,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
   </symbol></defs></svg>
 <div id="app"></div>
 <noscript><style>.nojs{min-height:100vh;display:grid;place-items:center;text-align:center;padding:40px 24px}.nojs h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,8vw,110px);line-height:1;letter-spacing:-.03em}.nojs h1 em{font-style:normal;color:var(--signal)}.nojs p{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}</style>
+<!-- Paid plug-ins first. MIDI Fart Sniffer stays last. Do not add a free teaser above the paid plug-ins. -->
 <div class="nojs"><div><span class="mono" style="color:var(--signal)">Tril$oft VST Division</span><h1>Weird VSTs <em>no one</em> asked for.</h1><p><a class="btn btn-lime" href="/wildcard">Check out Wild Card →</a><a class="btn btn-white" href="#" data-stripe data-product="wildcard">Buy Now</a><a class="btn btn-lime" href="/conceal-n-strike">Conceal-N-Strike →</a><a class="btn btn-lime" href="/midi-fart-sniffer">MIDI Fart Sniffer →</a></p></div></div></noscript>
 <template id="tpl-desk"><div class="v-desk">
 <div class="bar" id="bar"></div>
@@ -384,6 +387,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
   <a href="#top" class="logo" aria-label="Tril$oft VST Division home"><svg width="38" height="38"><use href="#mark"/></svg><span class="wordmark"><b>TRIL<i>$</i>OFT</b><small>VST DIVISION</small></span></a>
   <a href="/wildcard" class="navlink" id="nav">Wild Card →</a>
 </header>
+<!-- Paid plug-ins first. MIDI Fart Sniffer stays last; insert a new paid rail link before it. -->
 <nav class="rail" id="rail" aria-label="Sections">
   <a href="#" data-go="0.071"><span>01 WEIRD</span><i></i></a>
   <a href="#" data-go="0.182"><span>02 DIVISION</span><i></i></a>
@@ -424,6 +428,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
           <span class="word div"><span class="l">D</span><span class="l">I</span><span class="l">V</span><span class="l">I</span><span class="l">S</span><span class="l">I</span><span class="l">O</span><span class="l">N</span></span>
         </div>
         <div class="rule" id="rule"><hr></div>
+        <!-- Paid plug-ins first. MIDI Fart Sniffer stays last in this list. -->
         <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
       </div>
     </section>
@@ -465,6 +470,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
       </div>
     </section>
     <div class="cns-wipe" id="cnsWipe" aria-hidden="true"></div>
+    <!-- Free section. MIDI Fart Sniffer stays last, after every paid plug-in. Insert future paid scenes above #mfs. -->
     <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
       <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
       <video class="mfs-vid" id="mfsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
@@ -534,6 +540,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
           <span class="word div"><span class="l">D</span><span class="l">I</span><span class="l">V</span><span class="l">I</span><span class="l">S</span><span class="l">I</span><span class="l">O</span><span class="l">N</span></span>
         </div>
         <div class="rule" id="rule"><hr></div>
+        <!-- Paid plug-ins first. MIDI Fart Sniffer stays last in this list. -->
         <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
       </div>
     </section>
@@ -576,6 +583,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     </section>
     <div class="cns-door t" id="doorT" aria-hidden="true"><span class="cns-tag">Authorized personnel only</span></div>
     <div class="cns-door b" id="doorB" aria-hidden="true"><span class="cns-tag">DIV-002 // Conceal-N-Strike</span></div>
+    <!-- Free section. MIDI Fart Sniffer stays last, after every paid plug-in. Insert future paid scenes above #mfs. -->
     <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
       <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
       <video class="mfs-vid" id="mfsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
@@ -797,10 +805,20 @@ html.static .cns-wipe,html.static .cns-door{display:none}
 
   // ================= Conceal-N-Strike beat (shared; desktop = diagonal hazard sweep, portrait = blast doors) =================
   // q = 0..1 progress inside one teaser's slice of the scroller. Each Remotion mp4 is scrubbed by currentTime
-  // (encoded with a 6-frame GOP so seeks stay cheap). Scroll distances of the older sections stay put;
-  // MIDI Fart Sniffer is another 440vh after Conceal-N-Strike.
-  const FILM_DESK = 620, CNS_DESK = 1060, RANGE_DESK = 1500;
-  const FILM_PORT = 660, CNS_PORT = 1100, RANGE_PORT = 1540;
+  // (encoded with a 6-frame GOP so seeks stay cheap). Scroll distances of the older sections stay put.
+  // Paid plug-ins come first. The free MIDI Fart Sniffer section stays last: append a future paid
+  // section's vh to PAID_* and insert its scene above #mfs. Distances stay 620/1060/1500 and 660/1100/1540.
+  const sum = (xs) => xs.reduce((s, n) => s + n, 0);
+  const FILM_DESK = 620;
+  const PAID_DESK = [440]; // Conceal-N-Strike. Append future paid sections here.
+  const MFS_DESK = 440; // free section. Stays after every paid plug-in.
+  const RANGE_DESK = FILM_DESK + sum(PAID_DESK) + MFS_DESK; // 1500
+  const MFS_AT_DESK = FILM_DESK + sum(PAID_DESK); // 1060 — start of the free section
+  const FILM_PORT = 660;
+  const PAID_PORT = [440]; // Conceal-N-Strike. Append future paid sections here.
+  const MFS_PORT = 440; // free section. Stays after every paid plug-in.
+  const RANGE_PORT = FILM_PORT + sum(PAID_PORT) + MFS_PORT; // 1540
+  const MFS_AT_PORT = FILM_PORT + sum(PAID_PORT); // 1100 — start of the free section
   function cns(root, mode) {
     const $ = s => root.querySelector(s);
     const sc = $('#cns'), vid = $('#cnsVid'), ui = $('#cnsUi'), bits = [...ui.querySelectorAll('.cns-tag, .cbtn')];
@@ -841,7 +859,8 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     };
   }
 
-  // ================= MIDI Fart Sniffer beat (slime lid, then the scrubbed teaser) =================
+  // ================= MIDI Fart Sniffer beat (concrete slab with leading slime drips, then the scrubbed teaser) =================
+  // The free section stays last. This transition runs only after every paid plug-in.
   function mfs(root) {
     const $ = s => root.querySelector(s);
     const sc = $('#mfs'), vid = $('#mfsVid'), ui = $('#mfsUi'), bits = [...ui.querySelectorAll('.mfs-tag, .keyform, .keyfine, .mfs-row')];
@@ -852,9 +871,9 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     let navOn = false;
     return {
       render(q) {
-        const shut = easeIO(seg(q, .02, .12));
-        const open = easeIO(seg(q, .14, .26));
-        const y = (-1 + shut) * 110 - open * 120;
+        const shut = easeIO(seg(q, 0, .16));
+        const open = easeIO(seg(q, .18, .34));
+        const y = (-1 + shut) * 128 - open * 142;
         lid.style.visibility = shut > 0.001 && open < 0.999 ? 'visible' : 'hidden';
         lid.style.transform = `translateY(${y}%)`;
         show(sc, q >= .16 ? 1 : 0);
@@ -914,7 +933,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     const base = (mode === 'port' ? port : desk)(root), cn = cns(root, mode), mf = mfs(root), bar = root.querySelector('#bar');
     const range = mode === 'port' ? RANGE_PORT : RANGE_DESK;
     const K1 = (mode === 'port' ? FILM_PORT : FILM_DESK) / range;
-    const K2 = (mode === 'port' ? CNS_PORT : CNS_DESK) / range;
+    const K2 = (mode === 'port' ? MFS_AT_PORT : MFS_AT_DESK) / range;
     a.renderer = {
       render(P, now, dp, dt) {
         base.render(Math.min(1, P / K1), now, P < K1 ? dp / K1 : 0, dt);

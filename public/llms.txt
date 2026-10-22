@@ -4,6 +4,8 @@
 
 ## Plug-ins
 
+Paid plug-ins are listed first. MIDI Fart Sniffer stays last.
+
 - [Wild Card](https://vst.trilsoft.com/wildcard): DJ scratch VST for MIDI DJ controllers, tested with the Hercules DJControl Starlight. $13.
 - [Conceal-N-Strike](https://vst.trilsoft.com/conceal-n-strike): 64-step turntablism sequencer where each step has a platter CONCEAL move and a fader STRIKE cut. $15 launch price, $19 after launch.
 - [MIDI Fart Sniffer](https://vst.trilsoft.com/midi-fart-sniffer): MIDI groove browser. Point it at a folder of drum MIDI and it plays the groove into your drums, locked to the host tempo and bar. VST3, CLAP, Audio Unit, Max for Live, and a standalone macOS app. Free. The page emails the key; that address is only used to send the key and is stored hashed.

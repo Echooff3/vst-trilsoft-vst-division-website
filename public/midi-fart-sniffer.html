@@ -24,7 +24,7 @@ d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: red
 <link rel="stylesheet" href="/tour.css">
 <style>
 :root{
-  --slime:#7CFF3A; --slime-2:#3CB043; --rot:#E23B3B; --card:#F6E7C1; --ink:#1C140C; --paper:#FFF6DE; --purple:#7A3EE0; --pink:#F7C4D8; --yellow:#FFE14A; --concrete:#8E918A;
+  --slime:#8FDC2C; --slime-2:#3CB043; --rot:#E82D2D; --card:#FFF6DC; --ink:#1A1220; --paper:#FFF6DC; --purple:#7C40C6; --pink:#FFCDE3; --yellow:#F7D21E; --blue:#2472D8; --concrete:#8C949B;
   --display:"Titan One",Impact,sans-serif; --body:"Comic Neue","Comic Sans MS",system-ui,sans-serif;
 }
 html{background:var(--concrete)}
@@ -118,24 +118,28 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap} footer a:hover{color:var(--yell
 .sidcard img{display:block;width:100%;height:78px;object-fit:cover;object-position:center 18%}
 .sidcard span{display:block;text-align:center;font-family:var(--display);font-size:11px;letter-spacing:.06em;background:var(--ink);color:var(--yellow);padding:3px 0 2px}
 .pill{position:absolute;z-index:4;display:flex;align-items:center;justify-content:center;border:3px solid var(--ink);border-radius:999px;box-shadow:3px 3px 0 var(--ink);font-family:var(--display);font-size:14px;color:#fff}
-.pill.go{background:#3CB043;color:var(--ink)}
-.pill.stop{background:var(--rot)}
+.pill.go{background:var(--slime);color:var(--ink)}
+.pill.stop{background:var(--card);color:var(--ink)}
+.pill.stop i{width:12px;height:12px;background:var(--rot);border:2px solid var(--ink);margin-right:6px}
+.pill.loop{background:var(--blue)}
+.pill.auto{background:var(--purple)}
 .pill.cream{background:var(--card);color:var(--ink);font-size:12px}
 .panel{position:absolute;z-index:2;background:var(--card);border:3px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink)}
 .plab{position:absolute;z-index:3;font-family:var(--display);font-size:14px;letter-spacing:.06em}
-.frame{position:absolute;z-index:2;background:var(--purple);border:4px solid var(--ink);border-radius:18px;box-shadow:6px 6px 0 var(--ink)}
-.now{position:absolute;z-index:3;font-family:var(--display);color:#fff;letter-spacing:.08em;font-size:16px}
+.frame{position:absolute;z-index:2;background:var(--yellow);border:4px solid var(--ink);border-radius:18px;box-shadow:6px 6px 0 var(--ink)}
+.now{position:absolute;z-index:3;font-family:var(--display);color:var(--ink);letter-spacing:.08em;font-size:16px;text-align:center}
+.badge16{position:absolute;z-index:6;width:52px;height:52px;background:var(--yellow);color:var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:14px;clip-path:polygon(50% 0,63% 18%,84% 10%,78% 32%,100% 40%,80% 54%,96% 74%,72% 72%,70% 96%,50% 82%,30% 96%,28% 72%,4% 74%,20% 54%,0 40%,22% 32%,16% 10%,37% 18%);filter:drop-shadow(2px 2px 0 var(--ink))}
 .pink{position:absolute;z-index:3;background:var(--pink);border:3px solid var(--ink);border-radius:12px;background-image:repeating-linear-gradient(90deg,transparent 0,transparent calc(16.66% - 2px),rgba(28,20,12,.28) calc(16.66% - 2px),rgba(28,20,12,.28) 16.66%)}
-.banner{position:absolute;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--yellow);color:var(--ink);font-family:var(--display);border:3px solid var(--ink);border-radius:10px;box-shadow:3px 3px 0 var(--ink);padding:0 12px}
+.banner{position:absolute;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;color:var(--ink);font-family:var(--display);border:3px solid var(--ink);border-radius:10px;box-shadow:3px 3px 0 var(--ink);padding:0 12px}
 .banner #gname{font-family:var(--body);font-size:13px;max-width:62%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .chip{position:absolute;z-index:3;background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);padding:6px 8px 5px}
 .chip b{display:block;font-family:var(--display);font-weight:400;font-size:16px;line-height:1.1;color:var(--ink)}
 .chip.on{background:var(--slime)}
 .chip small{display:block;font-size:10px;letter-spacing:.08em;font-weight:700}
 .grow{position:absolute;z-index:4;display:flex;align-items:center;gap:8px;border-radius:10px;padding:0 8px;font-weight:700;background:var(--paper);color:var(--ink);border:2px solid var(--ink);font-size:13px}
-.grow.on{background:#d7f5c4;box-shadow:3px 3px 0 var(--ink)}
-.grow i{width:10px;height:10px;border-radius:10px;background:#3B6FE0;border:2px solid var(--ink);flex:none}
-.grow.on i{background:#3CB043}
+.grow.on{background:var(--slime);box-shadow:3px 3px 0 var(--ink)}
+.grow i{width:10px;height:10px;border-radius:10px;background:var(--blue);border:2px solid var(--ink);flex:none}
+.grow.on i{background:var(--ink)}
 .grow span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;min-width:0}
 .grow small{margin-left:auto;font-size:12px}
 .filt{position:absolute;z-index:4;background:var(--paper);color:#8a7d68;border:3px solid var(--ink);border-radius:999px;font-weight:700;display:flex;align-items:center;padding:0 12px}
@@ -147,16 +151,21 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap} footer a:hover{color:var(--yell
 .hit{position:absolute;top:10px;width:14px;height:14px;margin-left:-7px;border-radius:20px;border:2px solid var(--ink)}
 .hit.puff{top:6px;width:18px;height:18px;margin-left:-9px}
 .lane.mute .hit{background:#8a7a62!important}
+.lane.kick{background:var(--rot);border-radius:8px;color:#fff}
+.lane.kick .nm{color:#fff}
 .head{position:absolute;z-index:5;width:4px;background:#C6E000;box-shadow:0 0 0 2px var(--ink)}
 .head::before{content:"";position:absolute;top:-8px;left:-6px;width:16px;height:16px;border-radius:50%;background:#C6E000;border:2px solid var(--ink)}
 .tube{position:absolute;z-index:4;height:18px;border-radius:999px;background:var(--ink);overflow:hidden;border:3px solid var(--ink)}
 .tube i{display:block;height:100%;width:0;background:linear-gradient(90deg,#C6FF4A,#3CB043)}
 .meta{position:absolute;z-index:4;font-weight:700;font-size:12px;color:#fff}
-.star{position:absolute;z-index:5;border-radius:10px;background:var(--yellow);color:var(--ink);border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:16px;box-shadow:2px 2px 0 var(--ink)}
+.star{position:absolute;z-index:5;border-radius:8px;background:#fff;color:var(--ink);border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:16px;box-shadow:2px 2px 0 var(--ink)}
 .star.on{background:var(--slime)}
+.dragtab{background:var(--ink);color:#fff;border-radius:6px;padding:3px 7px;font-size:12px}
+.stats{position:absolute;z-index:4;display:flex;gap:6px;justify-content:center}
+.stats span{background:var(--ink);color:#fff;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700}
 .tabs{position:absolute;z-index:4;display:flex;align-items:center;gap:6px}
 .tabs span{font-family:var(--display);font-size:13px;padding:4px 8px;border-radius:999px;color:var(--ink);background:var(--paper);border:2px solid var(--ink)}
-.tabs span.on{background:#3CB043;color:#fff}
+.tabs span.on{background:var(--slime);color:var(--ink)}
 .up{margin-left:auto;font-family:var(--display);font-size:13px}
 .ov{position:absolute;inset:0;z-index:12;display:grid;place-items:center;background:rgba(28,20,12,.62)}
 .ov.off{opacity:0;visibility:hidden;pointer-events:none}
@@ -228,7 +237,7 @@ html.static .scene{padding:48px 20px}
       <div>
         <span class="tag">DIV-003 · Groove browser</span>
         <h1>MIDI FART<br>SNIFFER</h1>
-        <img class="shot" src="/assets/mfs-screenshot.webp" width="1180" height="792" alt="The MIDI Fart Sniffer window: dumpster list, pink lane card, and Sniffin' Sid.">
+        <img class="shot" src="/assets/mfs-screenshot.webp" width="1180" height="792" alt="MIDI Fart Sniffer v0.1.0, with a yellow Now Sniffing card and a groove playing.">
         <p class="tagline">Weird VSTs <em>no one asked for.</em></p>
         <p class="sub">A folder of drum MIDI. Click a groove. It plays out to your drums, locked to the tempo and the bar. Scroll it. Sniffin' Sid will show you the dumpster.</p>
         <p class="px hero-px">Free</p>
@@ -326,6 +335,7 @@ html.static .scene{padding:48px 20px}
 
 <footer>
   <a href="/" class="ts"><span>TRIL<i>$</i>OFT</span> <small>VST DIVISION</small></a>
+  <!-- Paid plug-ins first. This page is the free one, so it is not repeated here. -->
   <nav><a href="/">All plug-ins</a><a href="/wildcard">Wild Card</a><a href="/conceal-n-strike">Conceal-N-Strike</a><a href="/privacy">Privacy</a><a href="/refunds">Refunds</a></nav>
   <span>© 2026 Tril$oft · MIDI Fart Sniffer is DIV-003</span>
 </footer>
@@ -337,18 +347,18 @@ const ui = document.getElementById('ui');
 const H$ = (h) => { ui.insertAdjacentHTML('beforeend', h); return ui.lastElementChild; };
 const GROOVES = [
   { name: 'dusty-break-126.mid', bpm: 126 },
-  { name: 'alley-shuffle.mid', bpm: 98 },
-  { name: 'can-lid-funk.mid', bpm: 110 },
-  { name: 'sids-backbeat.mid', bpm: 104 },
-  { name: 'dumpster-16ths.mid', bpm: 128 },
-  { name: 'rotten-clave.mid', bpm: 100 }
+  { name: '98bpmWrathBeat8.mid', bpm: 98 },
+  { name: '107bpm6-4SymbolismBeat2.mid', bpm: 107 },
+  { name: '107bpm6-4SymbolismBeat4.mid', bpm: 107 },
+  { name: '107bpm6-4SymbolismBeat6.mid', bpm: 107 },
+  { name: '107bpm6-4SymbolismBeat8.mid', bpm: 107 }
 ];
 const LANES = [
-  ['KICK', '#E23B3B', [0.02, 0.5]],
+  ['CRASH', '#2472D8', [0.08]],
+  ['SPLASH', '#5BA4FF', [0.22]],
+  ['HAT OPEN', '#F7D21E', [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875]],
   ['SNARE', '#F08A3A', [0.25, 0.75]],
-  ['HAT', '#E6B325', [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875]],
-  ['TOM', '#E070B0', [0.62]],
-  ['CLAP', '#7A3EE0', [0.25, 0.75]]
+  ['KICK', '#E82D2D', [0.02, 0.5]]
 ];
 const DOTS = ['#E23B3B', '#F08A3A', '#E6B325', '#E070B0', '#7A3EE0', '#3B6FE0'];
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -363,30 +373,31 @@ H$(`<div class="dripbar"></div>`);
 H$(`<div class="title" style="left:16px;top:36px;font-size:32px">MIDI FART SNIFFER</div>`);
 H$(`<div class="ribbon" style="left:16px;top:78px;width:420px;height:28px">SNIFF OUT A GROOVE · PIPE IT TO YOUR DRUMS</div>`);
 H$(`<div class="pill go" style="left:460px;top:40px;width:118px;height:40px">▶ RIP IT</div>`);
-H$(`<div class="pill stop" style="left:590px;top:40px;width:128px;height:40px">■ HOLD IT</div>`);
-H$(`<div class="pill cream" style="left:732px;top:44px;width:92px;height:34px">✓ LOOP</div>`);
-H$(`<div class="pill cream" style="left:834px;top:44px;width:92px;height:34px">✓ AUTO</div>`);
+H$(`<div class="pill stop" style="left:590px;top:40px;width:128px;height:40px"><i></i>HOLD IT</div>`);
+H$(`<div class="pill loop" style="left:732px;top:44px;width:92px;height:34px">✓ LOOP</div>`);
+H$(`<div class="pill auto" style="left:834px;top:44px;width:92px;height:34px">✓ AUTO</div>`);
 H$(`<div class="sidcard" style="left:990px;top:8px;width:174px"><img src="/assets/sniffin-sid.webp" alt=""><span>SNIFFIN' SID</span></div>`);
 H$(`<div class="panel" id="pit" style="left:12px;top:126px;width:300px;height:620px"></div>`);
 const tabs = H$(`<div class="tabs" id="tabs" style="left:24px;top:140px;width:276px;height:32px"><span data-tab="dump">DUMPSTER</span><span data-tab="faves">FAVES</span><span class="up">▲ OPEN</span></div>`);
 const filt = H$(`<div class="filt" id="filt" style="left:24px;top:186px;width:276px;height:36px"></div>`);
 const grows = GROOVES.map((g, i) => H$(`<div class="grow" data-i="${i}" style="left:${GX}px;top:${GY0 + i * GSTEP}px;width:${GW}px;height:${GH}px"><i style="background:${DOTS[i]}"></i><span>${g.name}</span><small>${g.bpm}</small></div>`));
 H$(`<div class="frame" id="card" style="left:326px;top:126px;width:530px;height:620px"></div>`);
-H$(`<div class="now" style="left:348px;top:140px">NOW SNIFFING</div>`);
+H$(`<div class="badge16" style="left:304px;top:108px">16b</div>`);
+H$(`<div class="now" style="left:348px;top:140px;width:470px">NOW SNIFFING</div>`);
 const star = H$(`<div class="star" id="star" style="left:792px;top:136px;width:36px;height:36px">★</div>`);
 H$(`<div class="pink" style="left:340px;top:178px;width:500px;height:250px"></div>`);
 const lanes = LANES.map((lane, i) => {
   const top = LANE_T0 + i * LANE_STEP;
-  const el = H$(`<div class="lane" data-lane="${i}" style="left:${LANE_L}px;top:${top}px;width:${LANE_W}px;height:44px"><div class="nm">${lane[0]}</div><div class="rail"></div></div>`);
+  const el = H$(`<div class="lane${lane[0] === 'KICK' ? ' kick' : ''}" data-lane="${i}" style="left:${LANE_L}px;top:${top}px;width:${LANE_W}px;height:44px"><div class="nm">${lane[0]}</div><div class="rail"></div></div>`);
   lane[2].forEach((h) => el.insertAdjacentHTML('beforeend', `<div class="hit" data-h="${h}" style="left:${TRACK + h * TRACK_W}px;background:${lane[1]}"></div>`));
   return el;
 });
 const head = H$(`<div class="head" id="head" style="left:${HEAD_X}px;top:${LANE_T0}px;height:${LANE_STEP * 5 - 6}px"></div>`);
-const banner = H$(`<div class="banner" id="banner" style="left:340px;top:456px;width:500px;height:52px"><span>DRAG ME</span><span id="gname"></span></div>`);
-const meta = H$(`<div class="meta" id="meta" style="left:348px;top:524px;width:486px;height:22px"></div>`);
-const path = H$(`<div id="path" style="position:absolute;z-index:4;left:348px;top:660px;width:486px;font-size:11px;font-weight:700;color:#fff"></div>`);
+const banner = H$(`<div class="banner" id="banner" style="left:340px;top:456px;width:500px;height:52px"><span id="gname"></span><span class="dragtab">DRAG ME</span></div>`);
+const meta = H$(`<div class="stats" id="meta" style="left:348px;top:518px;width:486px;height:24px"></div>`);
+const path = H$(`<div id="path" style="position:absolute;z-index:4;left:348px;top:660px;width:486px;font-size:11px;font-weight:700;color:#1A1220"></div>`);
 const tube = H$(`<div class="tube" id="tube" style="left:348px;top:700px;width:486px"><i id="tubefill"></i></div>`);
-H$(`<div style="position:absolute;z-index:4;left:24px;top:690px;width:276px;font-weight:700;font-size:12px;line-height:1.3">675 grooves<br>Up/Down sniffs the next one</div>`);
+H$(`<div style="position:absolute;z-index:4;left:24px;top:700px;width:276px;font-weight:700;font-size:12px;line-height:1.3;display:flex;justify-content:space-between;gap:8px"><span>675 grooves</span><span style="text-align:right">Drag a groove into your DAW</span></div>`);
 H$(`<div class="panel" style="left:868px;top:126px;width:296px;height:210px"></div>`);
 H$(`<div class="plab" style="left:884px;top:136px">TEMPO</div>`);
 H$(`<div class="panel" style="left:868px;top:348px;width:296px;height:180px"></div>`);
@@ -426,9 +437,9 @@ function point(st, a, from, to, t0, t1, t2) {
 
 const base = () => ({
   installer: -1, prompt: 0, code: '', busy: false,
-  tab: 'dump', filter: '', sel: 0, playing: false, head: 0.02,
-  mutes: {}, fave: false, tempo: 'HOST', time: '1x', launch: 'LAUNCH',
-  channel: 'FILE', velocity: 100, port: 'OFF', kit: 'OFF',
+  tab: 'dump', filter: '', sel: 2, playing: true, head: 0.62,
+  mutes: {}, fave: false, tempo: 'FILE', time: '1x', launch: 'NOW',
+  channel: 'FILE', velocity: 100, port: 'OFF', kit: 'DRUMS',
   note: '', drag: 0, cur: null, press: null, hov: null, focus: null
 });
 
@@ -463,7 +474,7 @@ const beats = [
     apply(st, a, d) {
       st.playing = true; st.head = (a * 1.6) % 1;
       if (d) { st.mutes = { 2: true }; st.fave = true; return; }
-      if (point(st, a, [560, 340], [378, 300], .05, .28, .36)) st.mutes = { 2: true };
+      if (point(st, a, [560, 340], [390, 300], .05, .28, .36)) st.mutes = { 2: true };
       if (a > .55) { point(st, a, [378, 300], center(star), .58, .8, .88); if (a >= .82) st.fave = true; }
     } },
   { id: 'tempo', rail: 'Tempo', focus: [868, 126, 296, 210, 14], cam: [830, 90, 350, 280], camPort: [820, 90, 360, 280], len: 1.4,
@@ -526,8 +537,8 @@ function render(st) {
   let y = GY0;
   grows.forEach((g) => { if (g.style.display !== 'none') { g.style.top = y + 'px'; y += GSTEP; } });
   setT($('gname'), GROOVES[st.sel].name.replace('.mid', ''));
-  setT(meta, GROOVES[st.sel].bpm + ' BPM · 4/4 · 4 BARS · CH 1');
-  setT(path, '~/Music/Dumpster/' + GROOVES[st.sel].name);
+  meta.innerHTML = ['<span>' + GROOVES[st.sel].bpm + ' BPM</span>', '<span>4/4</span>', '<span>6 BARS</span>', '<span>106 HITS</span>', '<span>CH 1</span>'].join('');
+  setT(path, '~/Music/EZdrummer/User MIDI/' + GROOVES[st.sel].name);
   lanes.forEach((lane, i) => {
     const mute = !!st.mutes[i];
     lane.classList.toggle('mute', mute);
@@ -541,7 +552,8 @@ function render(st) {
   head.style.left = (HEAD_X + st.head * TRACK_W) + 'px';
   $('tubefill').style.width = Math.round((st.playing ? st.head : 0.08) * 100) + '%';
   star.classList.toggle('on', st.fave);
-  const map = { tempo: st.tempo, time: st.time, launch: st.launch, chan: st.channel, vel: st.velocity + '%', port: st.port, kit: st.kit };
+  const timeLabel = st.time === '1/2' ? 'HALF' : String(st.time).toUpperCase();
+  const map = { tempo: st.tempo, time: timeLabel, launch: st.launch, chan: st.channel, vel: st.velocity + '%', port: st.port === 'OFF' ? 'NOWHERE ELSE' : st.port, kit: st.kit };
   Object.keys(map).forEach((id) => {
     const el = $('c-' + id);
     setT(el.querySelector('b'), String(map[id]));
