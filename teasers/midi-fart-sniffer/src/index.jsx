@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Composition, continueRender, delayRender, registerRoot, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Composition, Img, continueRender, delayRender, registerRoot, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 
 if (typeof FontFace !== 'undefined') {
   const fontsReady = delayRender('fonts');
@@ -15,6 +15,17 @@ if (typeof FontFace !== 'undefined') {
   });
 }
 
+const INK = '#1C140C';
+const SLIME = '#7CFF3A';
+const CREAM = '#F6E7C1';
+const PAPER = '#FFF6DE';
+const YELLOW = '#FFE14A';
+const PURPLE = '#7A3EE0';
+const PINK = '#F7C4D8';
+const RED = '#E23B3B';
+const GREEN = '#3CB043';
+const CONCRETE = '#8E918A';
+
 const GROOVES = [
   ['dusty-break-126.mid', '126'],
   ['alley-shuffle.mid', '98'],
@@ -25,141 +36,174 @@ const GROOVES = [
 ];
 
 const LANES = [
-  ['KICK', [0.02, 0.5]],
-  ['SNARE', [0.25, 0.75]],
-  ['HAT', [0, 0.12, 0.25, 0.37, 0.5, 0.62, 0.75, 0.87]],
-  ['TOM', [0.62]],
-  ['CLAP', [0.25, 0.75]],
+  ['KICK', '#E23B3B', [0.05, 0.5]],
+  ['SNARE', '#F08A3A', [0.25, 0.75]],
+  ['HAT', '#E6B325', [0, 0.12, 0.25, 0.37, 0.5, 0.62, 0.75, 0.87]],
+  ['TOM', '#E070B0', [0.62]],
+  ['CLAP', '#6A3CC4', [0.25, 0.75]],
 ];
 
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const seg = (p, a, b) => clamp((p - a) / (b - a));
-const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-function Sid({ size = 120 }) {
+const display = { fontFamily: 'Titan One, Impact, sans-serif', fontWeight: 400 };
+const body = { fontFamily: 'Comic Neue, Comic Sans MS, sans-serif', fontWeight: 700 };
+
+function drips(h) {
+  const bumps = [6, 18, 29, 41, 54, 67, 79, 91];
   return (
-    <svg width={size} height={size} viewBox="0 0 120 120" aria-hidden="true">
-      <ellipse cx="60" cy="108" rx="28" ry="8" fill="rgba(0,0,0,.25)" />
-      <path d="M18 58c-14 4-16 28-4 34 10 5 18-6 18-16z" fill="#6d4a32" />
-      <path d="M102 58c14 4 16 28 4 34-10 5-18-6-18-16z" fill="#6d4a32" />
-      <ellipse cx="60" cy="62" rx="40" ry="36" fill="#c9844a" />
-      <ellipse cx="60" cy="74" rx="26" ry="18" fill="#f0c48a" />
-      <ellipse cx="42" cy="56" rx="8" ry="9" fill="#fff" />
-      <ellipse cx="78" cy="56" rx="8" ry="9" fill="#fff" />
-      <ellipse cx="44" cy="57" rx="4" ry="5" fill="#1a120c" />
-      <ellipse cx="80" cy="57" rx="4" ry="5" fill="#1a120c" />
-      <ellipse cx="60" cy="72" rx="10" ry="7" fill="#2a1a14" />
-      <ellipse cx="60" cy="70" rx="6" ry="4" fill="#5c4034" />
-      <path d="M48 84c6 8 18 8 24 0" fill="none" stroke="#1a120c" strokeWidth="3" strokeLinecap="round" />
-      <path d="M70 84c2 10-6 16-12 12" fill="#e23b4a" />
-      <path d="M22 40c8-16 22-10 24 2" fill="none" stroke="#1a120c" strokeWidth="3" />
-      <path d="M98 40c-8-16-22-10-24 2" fill="none" stroke="#1a120c" strokeWidth="3" />
-    </svg>
+    <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: h + 26, zIndex: 6, pointerEvents: 'none' }}>
+      <div style={{ height: h, background: SLIME, borderBottom: `3px solid ${INK}` }} />
+      {bumps.map((x, i) => (
+        <div key={x} style={{ position: 'absolute', left: `${x}%`, top: h - 2, width: 14 + (i % 3) * 8, height: 16 + (i % 4) * 6, borderRadius: '0 0 20px 20px', background: SLIME, border: `3px solid ${INK}`, borderTop: 'none' }} />
+      ))}
+    </div>
+  );
+}
+
+function Pill({ children, bg, color = '#fff', style }) {
+  return (
+    <div style={{ ...display, display: 'flex', alignItems: 'center', justifyContent: 'center', background: bg, color, border: `3px solid ${INK}`, borderRadius: 999, boxShadow: `3px 3px 0 ${INK}`, letterSpacing: 0.4, ...style }}>
+      {children}
+    </div>
   );
 }
 
 function Window({ p, portrait }) {
-  const typed = 'break'.slice(0, Math.round(seg(p, 0.12, 0.28) * 5));
+  const typing = seg(p, 0.12, 0.28);
+  const typed = p < 0.34 ? 'break'.slice(0, Math.round(typing * 5)) : '';
   const showBreak = typed.length > 0;
-  const sel = p < 0.34 ? 0 : p < 0.46 ? 1 : 2;
+  const sel = p < 0.36 ? 0 : p < 0.5 ? 1 : 2;
   const playing = p > 0.32;
-  const head = playing ? (p * 3.2) % 1 : 0.02;
+  const head = playing ? (p * 3.1) % 1 : 0.08;
   const muted = p > 0.55 ? 2 : -1;
   const tempo = p < 0.62 ? 'FILE' : p < 0.7 ? 'SET' : 'HOST';
   const launch = p > 0.74;
   const port = p > 0.82;
   const kit = p < 0.9 ? 'OFF' : 'FARTS';
-  // Frame 0 is already the window. The homepage lid does the entrance,
-  // and the start poster has to show the plug-in, not an empty frame.
   const enter = 1;
   const rows = GROOVES.filter((g, i) => !showBreak || i === 0 || g[0].includes('break'));
+  const groove = GROOVES[showBreak ? 0 : sel];
 
-  const shell = {
-    width: portrait ? 660 : 1180,
-    height: portrait ? 1180 : 660,
-    transform: `translateY(${(1 - enter) * 40}px) scale(${0.96 + enter * 0.04})`,
-    opacity: enter,
-  };
+  const shell = portrait
+    ? { width: 600, height: 1120 }
+    : { width: 1100, height: 640 };
+
+  const titleSize = portrait ? 28 : 34;
 
   return (
-    <div style={{ ...shell, background: 'linear-gradient(180deg,#d7dbd6,#9aa19c)', borderRadius: 18, boxShadow: '0 30px 0 #1a120c, 0 40px 80px rgba(0,0,0,.45)', position: 'relative', overflow: 'hidden', color: '#1a120c', fontFamily: 'Comic Neue, Comic Sans MS, sans-serif' }}>
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 7px), repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 1px,transparent 1px 11px)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', left: 18, right: 18, top: 14, height: portrait ? 92 : 72, display: 'flex', alignItems: 'center', gap: 14 }}>
-        <Sid size={portrait ? 84 : 68} />
-        <div>
-          <div style={{ fontFamily: 'Titan One, Impact, sans-serif', fontSize: portrait ? 42 : 36, lineHeight: 0.9, color: '#e7ff4a', WebkitTextStroke: '6px #1a120c', paintOrder: 'stroke fill', letterSpacing: 0.5 }}>MIDI FART SNIFFER</div>
-          <div style={{ marginTop: 4, fontWeight: 700, letterSpacing: 1, fontSize: 14 }}>DIV-003 · point it at the drum MIDI</div>
-        </div>
+    <div style={{ ...shell, ...body, position: 'relative', background: CONCRETE, borderRadius: 22, border: `4px solid ${INK}`, boxShadow: `8px 8px 0 ${INK}`, overflow: 'hidden', color: INK, transform: `scale(${0.98 + enter * 0.02})`, opacity: enter, backgroundImage: 'radial-gradient(rgba(255,255,255,.22) 0.7px, transparent 0.8px), radial-gradient(rgba(0,0,0,.18) 0.7px, transparent 0.8px)', backgroundSize: '5px 6px, 9px 11px' }}>
+      {drips(portrait ? 14 : 12)}
+
+      <div style={{ position: 'absolute', left: 16, top: portrait ? 28 : 22, right: portrait ? 118 : 140 }}>
+        <div style={{ ...display, fontSize: titleSize, lineHeight: 0.9, color: YELLOW, WebkitTextStroke: '6px #1C140C', paintOrder: 'stroke fill' }}>MIDI FART SNIFFER</div>
+        <div style={{ marginTop: 6, display: 'inline-flex', alignItems: 'center', height: 26, padding: '0 10px', background: RED, color: '#fff', border: `3px solid ${INK}`, borderRadius: 8, boxShadow: `3px 3px 0 ${INK}`, ...display, fontSize: 12, letterSpacing: 0.6 }}>SNIFF OUT A GROOVE</div>
       </div>
-      <div style={{ position: 'absolute', left: 18, top: portrait ? 118 : 98, width: portrait ? 624 : 360, bottom: portrait ? 620 : 18, background: '#1c2420', borderRadius: 12, padding: 12, color: '#e7ffb0', boxShadow: 'inset 0 0 0 3px #0e1411' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Titan One, Impact, sans-serif', letterSpacing: 1 }}>
-          <span>DUMPSTER</span><span style={{ fontSize: 12, opacity: 0.7 }}>▲ OPEN</span>
-        </div>
-        <div style={{ marginTop: 8, background: '#0e1411', borderRadius: 8, padding: '8px 10px', color: typed ? '#e7ff4a' : '#6d7a72', fontWeight: 700 }}>{typed || 'filter the folder'}</div>
-        <div style={{ marginTop: 8, display: 'grid', gap: 6 }}>
-          {rows.map((g, i) => {
-            const on = GROOVES.indexOf(g) === (showBreak ? 0 : sel);
-            return (
-              <div key={g[0]} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 10px', borderRadius: 8, background: on ? '#b6e23a' : '#24302a', color: on ? '#1a120c' : '#d5e7c4', fontWeight: 700, transform: `translateX(${on ? 6 : 0}px)` }}>
-                <span>{g[0]}</span><span>{g[1]}</span>
-              </div>
-            );
-          })}
-        </div>
+
+      <div style={{ position: 'absolute', right: 14, top: portrait ? 22 : 20, width: portrait ? 96 : 112, background: CREAM, border: `3px solid ${INK}`, borderRadius: 12, boxShadow: `4px 4px 0 ${INK}`, overflow: 'hidden' }}>
+        <Img src={staticFile('sid.webp')} style={{ width: '100%', height: portrait ? 72 : 78, objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }} />
+        <div style={{ ...display, textAlign: 'center', fontSize: 10, letterSpacing: 0.6, background: INK, color: YELLOW, padding: '3px 0 2px' }}>SNIFFIN' SID</div>
       </div>
-      <div style={{ position: 'absolute', left: portrait ? 18 : 394, right: 18, top: portrait ? 560 : 98, height: portrait ? 430 : 420, background: '#f4e2b0', borderRadius: 14, boxShadow: '0 8px 0 #1a120c', overflow: 'hidden' }}>
-        <div style={{ height: 54, background: '#e23b2f', color: '#fff8e8', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 14px', fontFamily: 'Titan One, Impact, sans-serif', fontSize: 22 }}>
-          <span>DRAG ME</span>
-          <span>{GROOVES[showBreak ? 0 : sel][0].replace('.mid', '')}</span>
-          <span style={{ width: 36, height: 36, borderRadius: '50%', background: '#f4e2b0', color: '#1a120c', display: 'grid', placeItems: 'center', fontSize: 16 }}>★</span>
-        </div>
-        <div style={{ position: 'absolute', right: 16, top: 64, width: 54, height: 54, background: '#1a120c', color: '#e7ff4a', borderRadius: 8, display: 'grid', placeItems: 'center', fontFamily: 'Titan One, Impact, sans-serif', transform: 'rotate(8deg)' }}>003</div>
-        <div style={{ position: 'absolute', left: 12, right: 12, top: 70, bottom: 36 }}>
-          {LANES.map((lane, i) => (
-            <div key={lane[0]} style={{ position: 'absolute', left: 0, right: 0, top: i * 58, height: 52, opacity: muted === i ? 0.28 : 1 }}>
-              <div style={{ position: 'absolute', left: 0, top: 16, width: 78, fontWeight: 800, fontSize: 13 }}>{lane[0]}</div>
-              <div style={{ position: 'absolute', left: 84, right: 0, top: 22, height: 8, background: 'rgba(26,18,12,.15)', borderRadius: 4 }} />
-              {lane[1].map((h) => {
-                const near = Math.abs(((h - head + 1) % 1)) < 0.06 || Math.abs(((head - h + 1) % 1)) < 0.06;
-                return <div key={h} style={{ position: 'absolute', left: `calc(84px + (100% - 84px) * ${h})`, top: near ? 6 : 14, width: near ? 22 : 14, height: near ? 40 : 24, marginLeft: -7, borderRadius: 6, background: muted === i ? '#8a7a62' : '#2f6b22' }} />;
-              })}
+
+      <div style={{ position: 'absolute', left: 16, top: portrait ? 108 : 96, display: 'flex', gap: 8 }}>
+        <Pill bg={playing ? GREEN : SLIME} style={{ height: 36, padding: '0 14px', fontSize: 14, color: INK }}>▶ RIP IT</Pill>
+        <Pill bg={RED} style={{ height: 36, padding: '0 14px', fontSize: 14 }}>■ HOLD IT</Pill>
+        <Pill bg={CREAM} color={INK} style={{ height: 32, padding: '0 12px', fontSize: 12, alignSelf: 'center' }}>✓ LOOP</Pill>
+        <Pill bg={CREAM} color={INK} style={{ height: 32, padding: '0 12px', fontSize: 12, alignSelf: 'center' }}>✓ AUTO</Pill>
+      </div>
+
+      <Dump x={14} y={portrait ? 160 : 148} w={portrait ? 572 : 268} h={portrait ? 250 : 476} rows={rows} typed={typed} showBreak={showBreak} sel={sel} />
+
+      <Card x={14} y={portrait ? 422 : 148} w={portrait ? 572 : 470} h={portrait ? 390 : 476} groove={groove} head={head} muted={muted} playing={playing} portrait={portrait} />
+
+      <Side x={portrait ? 14 : 760} y={portrait ? 824 : 148} w={portrait ? 572 : 326} h={portrait ? 280 : 476} portrait={portrait} tempo={tempo} launch={launch} port={port} kit={kit} />
+    </div>
+  );
+}
+
+function Dump({ x, y, w, h, rows, typed, showBreak, sel }) {
+  return (
+    <div style={{ position: 'absolute', left: x, top: y, width: w, height: h, background: CREAM, border: `3px solid ${INK}`, borderRadius: 16, boxShadow: `5px 5px 0 ${INK}`, padding: 10, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span style={{ ...display, fontSize: 13, background: GREEN, color: '#fff', border: `2px solid ${INK}`, borderRadius: 999, padding: '3px 8px' }}>DUMPSTER</span>
+        <span style={{ ...display, fontSize: 13, background: PAPER, border: `2px solid ${INK}`, borderRadius: 999, padding: '3px 8px' }}>FAVES</span>
+        <span style={{ marginLeft: 'auto', ...display, fontSize: 12 }}>▲ OPEN</span>
+      </div>
+      <div style={{ marginTop: 8, height: 32, borderRadius: 999, border: `3px solid ${INK}`, background: PAPER, display: 'flex', alignItems: 'center', padding: '0 12px', color: typed ? INK : '#8a7d68', fontSize: 14 }}>{typed || 'sniff for a groove...'}</div>
+      <div style={{ marginTop: 8, display: 'grid', gap: 6 }}>
+        {rows.slice(0, 6).map((g) => {
+          const on = GROOVES.indexOf(g) === (showBreak ? 0 : sel);
+          return (
+            <div key={g[0]} style={{ display: 'flex', alignItems: 'center', gap: 8, height: 32, padding: '0 8px', borderRadius: 10, border: `2px solid ${INK}`, background: on ? '#d7f5c4' : PAPER, boxShadow: on ? `3px 3px 0 ${INK}` : 'none', fontSize: 13 }}>
+              <i style={{ width: 10, height: 10, borderRadius: 10, background: on ? GREEN : '#3B6FE0', border: `2px solid ${INK}`, flex: 'none' }} />
+              <span style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{g[0]}</span>
+              <span style={{ marginLeft: 'auto' }}>{g[1]}</span>
             </div>
-          ))}
-          <div style={{ position: 'absolute', top: 0, bottom: 0, left: `calc(84px + (100% - 84px) * ${head})`, width: 3, background: '#e23b2f' }} />
-        </div>
-        <div style={{ position: 'absolute', left: 12, right: 12, bottom: 10, height: 16, borderRadius: 8, background: 'linear-gradient(90deg,#7CFF3A,#3d8f22)', boxShadow: 'inset 0 0 0 2px #1a120c' }} />
+          );
+        })}
       </div>
-      <div style={{ position: 'absolute', left: portrait ? 18 : 394, right: 18, bottom: portrait ? 18 : 18, height: portrait ? 150 : 118, display: portrait ? 'grid' : 'flex', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-        <Chip label="TEMPO" value={tempo} hot={tempo === 'HOST'} />
-        <Chip label="LAUNCH" value={launch ? 'BAR' : 'NOW'} hot={launch} />
-        <Chip label="ALSO SEND TO" value={port ? 'VIRTUAL PORT' : 'OFF'} hot={port} />
-        <Chip label="PREVIEW KIT" value={kit} hot={kit === 'FARTS'} />
+      <div style={{ marginTop: 'auto', paddingTop: 8, fontSize: 12, lineHeight: 1.25 }}>675 grooves<br />Up/Down sniffs the next one</div>
+    </div>
+  );
+}
+
+function Card({ x, y, w, h, groove, head, muted, playing, portrait }) {
+  const laneH = portrait ? 46 : 52;
+  const top = portrait ? 46 : 52;
+  return (
+    <div style={{ position: 'absolute', left: x, top: y, width: w, height: h, background: PURPLE, border: `4px solid ${INK}`, borderRadius: 18, boxShadow: `5px 5px 0 ${INK}`, overflow: 'hidden' }}>
+      <div style={{ ...display, color: '#fff', fontSize: portrait ? 16 : 18, letterSpacing: 1, padding: '10px 14px 0' }}>NOW SNIFFING</div>
+      <div style={{ position: 'absolute', right: 12, top: 10, width: 28, height: 28, borderRadius: 8, background: YELLOW, border: `2px solid ${INK}`, display: 'grid', placeItems: 'center', ...display, fontSize: 14 }}>★</div>
+      <div style={{ position: 'absolute', left: 12, right: 12, top, bottom: portrait ? 78 : 86, background: PINK, border: `3px solid ${INK}`, borderRadius: 12, overflow: 'hidden', backgroundImage: 'repeating-linear-gradient(90deg, transparent 0, transparent calc(16.66% - 2px), rgba(28,20,12,.28) calc(16.66% - 2px), rgba(28,20,12,.28) 16.66%)' }}>
+        {LANES.map((lane, i) => (
+          <div key={lane[0]} style={{ position: 'absolute', left: 0, right: 0, top: 8 + i * laneH, height: laneH - 6, opacity: muted === i ? 0.35 : 1 }}>
+            <div style={{ position: 'absolute', left: 6, top: 8, width: 62, fontSize: 11, textDecoration: muted === i ? 'line-through' : 'none' }}>{lane[0]}</div>
+            <div style={{ position: 'absolute', left: 72, right: 10, top: 16, height: 3, background: 'rgba(28,20,12,.18)', borderRadius: 2 }} />
+            {lane[2].map((hit) => {
+              const near = playing && Math.min(Math.abs(hit - head), 1 - Math.abs(hit - head)) < 0.05;
+              const s = near ? 16 : 11;
+              return <div key={hit} style={{ position: 'absolute', left: `calc(72px + (100% - 86px) * ${hit})`, top: near ? 6 : 10, width: s, height: s, marginLeft: -s / 2, borderRadius: 20, background: lane[1], border: `2px solid ${INK}` }} />;
+            })}
+          </div>
+        ))}
+        <div style={{ position: 'absolute', top: 0, bottom: 0, left: `calc(72px + (100% - 86px) * ${head})`, width: 3, background: '#C6E000', boxShadow: `0 0 0 2px ${INK}` }} />
+      </div>
+      <div style={{ position: 'absolute', left: 12, right: 12, bottom: portrait ? 40 : 44, height: 32, background: YELLOW, border: `3px solid ${INK}`, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10px', ...display, fontSize: 13 }}>
+        <span>DRAG ME</span>
+        <span style={{ ...body, fontSize: 12, maxWidth: '62%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{groove[0].replace('.mid', '')}</span>
+      </div>
+      <div style={{ position: 'absolute', left: 12, right: 12, bottom: 12, height: 16, borderRadius: 999, background: INK, overflow: 'hidden' }}>
+        <div style={{ width: `${Math.round(head * 100)}%`, height: '100%', background: `linear-gradient(90deg, #C6FF4A, ${GREEN})` }} />
       </div>
     </div>
   );
 }
 
-function Chip({ label, value, hot }) {
+function Side({ x, y, w, h, portrait, tempo, launch, port, kit }) {
+  const items = [
+    ['TEMPO', tempo, tempo === 'HOST'],
+    ['LAUNCH', launch ? 'BAR' : 'NOW', launch],
+    ['ALSO SEND TO', port ? 'VIRTUAL PORT' : 'OFF', port],
+    ['PREVIEW KIT', kit, kit === 'FARTS'],
+  ];
   return (
-    <div style={{ flex: 1, background: hot ? '#b6e23a' : '#1c2420', color: hot ? '#1a120c' : '#e7ffb0', borderRadius: 10, padding: '8px 10px', boxShadow: '0 4px 0 #0e1411' }}>
-      <div style={{ fontSize: 11, letterSpacing: 1, fontWeight: 800, opacity: 0.7 }}>{label}</div>
-      <div style={{ fontFamily: 'Titan One, Impact, sans-serif', fontSize: 18 }}>{value}</div>
+    <div style={{ position: 'absolute', left: x, top: y, width: w, height: h, display: 'grid', gridTemplateColumns: portrait ? '1fr 1fr' : '1fr', gridTemplateRows: portrait ? '1fr 1fr' : '1fr 1fr 1fr 1fr', gap: 8 }}>
+      {items.map(([label, value, hot]) => (
+        <div key={label} style={{ background: CREAM, border: `3px solid ${INK}`, borderRadius: 14, boxShadow: `4px 4px 0 ${INK}`, padding: '8px 10px 10px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ fontSize: 11, letterSpacing: 0.8 }}>{label}</div>
+          <div style={{ marginTop: 6, ...display, fontSize: portrait ? 16 : 18, background: hot ? SLIME : PAPER, border: `3px solid ${INK}`, borderRadius: 10, padding: '6px 8px', boxShadow: `2px 2px 0 ${INK}` }}>{value}</div>
+        </div>
+      ))}
     </div>
   );
 }
 
 function Teaser({ portrait }) {
   const frame = useCurrentFrame();
-  const { width, height, durationInFrames } = useVideoConfig();
+  const { durationInFrames } = useVideoConfig();
   const p = frame / (durationInFrames - 1);
   return (
-    <AbsoluteFill style={{ background: '#14110e', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 40%, #2a2418, #14110e 70%)' }} />
-      {Array.from({ length: 8 }).map((_, i) => {
-        const y = ((i * 137 + frame * (6 + (i % 3))) % (height + 40)) - 20;
-        const x = (i * 97) % width;
-        return <div key={i} style={{ position: 'absolute', left: x, top: y, width: 8, height: 5, borderRadius: 4, background: '#1a120c', opacity: 0.55 }} />;
-      })}
+    <AbsoluteFill style={{ background: CONCRETE, alignItems: 'center', justifyContent: 'center', backgroundImage: 'radial-gradient(rgba(255,255,255,.2) 0.7px, transparent 0.8px), radial-gradient(rgba(0,0,0,.16) 0.7px, transparent 0.8px)', backgroundSize: '5px 6px, 8px 11px' }}>
       <Window p={p} portrait={portrait} />
     </AbsoluteFill>
   );
