@@ -111,6 +111,13 @@ kbd{flex:none;font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--in
 .scene{display:grid;place-items:center;text-align:center;padding:118px 6vw 36px;background:transparent}
 .scene>div{position:relative}
 .scene .tag{display:inline-block;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--ink);background:var(--slime);border:2px solid var(--ink);border-radius:999px;padding:6px 12px}
+/* Closing kicker sits on its own line, centered over the headline. A shared inline-block line parks the pill to the left of the red box. The stack has a definite width so the red box cannot grow past the scene and slide off-center. */
+#cta>div{width:min(720px,100%)}
+#cta .tag{display:block;width:max-content;max-width:100%;margin-inline:auto;box-sizing:border-box}
+#cta h2.tagline{display:block;width:fit-content;max-width:100%;box-sizing:border-box;font-size:clamp(40px,5vw,72px)}
+@media (max-width:720px){
+  #cta h2.tagline{font-size:clamp(28px,8.4vw,44px)}
+}
 .hero h1{font-family:var(--display);font-weight:400;font-size:clamp(52px,7vw,108px);line-height:.92;color:var(--yellow);-webkit-text-stroke:8px var(--ink);paint-order:stroke fill;margin:18px 0 12px}
 .shot{display:block;width:auto;height:auto;max-width:min(760px,94%);max-height:100px;margin:8px auto 0;object-fit:contain;border:4px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink);background:#9a9c96}
 .tagline{font-family:var(--display);font-size:clamp(22px,2.4vw,34px);line-height:1.15;color:#fff;background:var(--rot);border:3px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 var(--ink);display:inline-block;padding:8px 14px 6px;margin-top:12px}
@@ -350,7 +357,7 @@ html.static .scene{padding:48px 20px}
     <section class="scene" id="cta">
       <div>
         <span class="tag">That's the can</span>
-        <h2 class="tagline" style="font-size:clamp(40px,5vw,72px);margin:16px 0">A folder of MIDI.<br>Go <em>sniff.</em></h2>
+        <h2 class="tagline" style="margin:16px auto">A folder of MIDI.<br>Go <em>sniff.</em></h2>
         <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
           <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
           <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
