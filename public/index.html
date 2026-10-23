@@ -40,6 +40,7 @@ d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: red
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Black+Ops+One&family=Comic+Neue:wght@700&family=Share+Tech+Mono&family=Titan+One&family=Unbounded:wght@400;600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/footer.css">
 <style>
 :root{
   --ink:#09090B; --char:#111114; --panel:#16161B;
@@ -156,11 +157,6 @@ em.w,.w em{font-style:normal;background:linear-gradient(90deg,rgba(255,91,31,cal
 .after .lab{text-align:center;padding:70px 20px}
 .after .lab span{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#F5A623;padding:10px 18px;border:1px dashed rgba(245,166,35,.45);background:rgba(13,14,16,.7);border-radius:999px}
 .after .lab span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 10px var(--signal)}
-footer{background:var(--ink);border-top:1px solid var(--line);padding:28px clamp(20px,4vw,56px);padding-bottom:max(28px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--dim)}
-footer .legals{display:flex;gap:18px;align-items:center}
-footer a{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation}
-footer a.legal{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
-footer a.legal:hover{color:var(--bone)}
 
 /* reduced motion (both versions): no pin, static stacked sections */
 html.static .scroller{height:auto!important}
@@ -514,9 +510,11 @@ html.static .cns-wipe,html.static .cns-door{display:none}
 <section class="after">
   <div class="lab"><span>More weird ones in the lab</span></div>
   <footer>
-    <a href="#top" class="logo"><svg width="28" height="28"><use href="#mark"/></svg><span class="wordmark"><b style="font-size:15px">TRIL<i>$</i>OFT</b></span></a>
-    <span>© 2026 Tril$oft · VST is a trademark of Steinberg Media Technologies GmbH.</span>
-    <span class="legals"><a class="legal" href="/privacy">Privacy</a><a class="legal" href="/faq">FAQ</a></span>
+    <p>© 2026 Tril$oft · VST is a trademark of Steinberg Media Technologies GmbH.</p>
+    <nav>
+      <a href="/privacy">Privacy</a>
+      <a href="/faq">FAQ</a>
+    </nav>
   </footer>
 </section>
 </main>
@@ -627,9 +625,11 @@ html.static .cns-wipe,html.static .cns-door{display:none}
 <section class="after">
   <div class="lab"><span>More weird ones in the lab</span></div>
   <footer>
-    <a href="#top" class="logo"><svg width="28" height="28"><use href="#mark"/></svg><span class="wordmark"><b style="font-size:15px">TRIL<i>$</i>OFT</b></span></a>
-    <span>© 2026 Tril$oft · VST is a trademark of Steinberg Media Technologies GmbH.</span>
-    <span class="legals"><a class="legal" href="/privacy">Privacy</a><a class="legal" href="/faq">FAQ</a></span>
+    <p>© 2026 Tril$oft · VST is a trademark of Steinberg Media Technologies GmbH.</p>
+    <nav>
+      <a href="/privacy">Privacy</a>
+      <a href="/faq">FAQ</a>
+    </nav>
   </footer>
 </section>
 </main>

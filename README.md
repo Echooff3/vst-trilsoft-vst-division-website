@@ -116,6 +116,7 @@ public/
   tour.css              scroll tutorial styles
   tour.js               scroll tutorial engine
   404.html
+  footer.css            shared footer, same markup on every page
   favicon.svg
   assets/               images, root-addressed
   js/site-config.js     the only purchase config

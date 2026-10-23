@@ -36,14 +36,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Unbounded:wght@800&family=Inter:wght@500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/footer.css">
 <style>
 :root{--ink:#09090B;--bone:#EEE9E0;--mute:#8C8996;--signal:#FF5B1F;--wc-ink:#100524;--lime:#9CFF2E}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%;background:var(--ink);color:var(--bone)}
-body{font-family:Inter,system-ui,sans-serif;min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:32px 20px;
+body{font-family:Inter,system-ui,sans-serif;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;
   background-image:radial-gradient(900px 560px at 50% 30%,rgba(255,91,31,.17),transparent 70%),linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);
   background-size:auto,64px 64px,64px 64px}
-main{text-align:center;max-width:680px}
+main{flex:1;display:grid;place-items:center;padding:32px 20px;text-align:center;width:min(680px,100%);margin:0 auto}
 .mark{display:inline-flex;align-items:center;gap:12px;margin-bottom:28px;color:inherit;text-decoration:none}
 .wordmark{font-family:Unbounded,system-ui,sans-serif;font-weight:800;font-size:19px;letter-spacing:-.01em}
 .wordmark i{font-style:normal;color:var(--signal)}
@@ -77,5 +78,13 @@ p{color:var(--mute);font-size:18px}
     <a class="btn btn-white" href="/midi-fart-sniffer">MIDI Fart Sniffer</a>
   </div>
 </main>
+<footer>
+  <p>© 2026 Tril$oft</p>
+  <nav>
+    <a href="/">All plug-ins</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</footer>
 </body>
 </html>

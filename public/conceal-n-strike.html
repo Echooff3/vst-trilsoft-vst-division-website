@@ -38,8 +38,9 @@ d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: red
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Share+Tech+Mono&family=Chakra+Petch:wght@400;500;600;700&family=Unbounded:wght@800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Share+Tech+Mono&family=Chakra+Petch:wght@400;500;600;700&family=Unbounded:wght@800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/tour.css">
+<link rel="stylesheet" href="/footer.css">
 <style>
 :root{
   --amber:#F5A623; --cyan:#3EC6F0; --red:#FF4A2B; --ink:#0D0E10; --deep:#141517; --panel:#222428; --line:#34373C; --text:#E7E9EC; --dim:#8A9097;
@@ -111,8 +112,6 @@ kbd.a{color:var(--amber);border-color:rgba(255,176,31,.55)}
 .hint i{display:block;width:2px;height:44px;background:linear-gradient(var(--amber),transparent);animation:drip 1.6s ease-in-out infinite;transform-origin:top}
 @keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 .fine{margin-top:20px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
-footer{background:#0D0E10;padding:30px 2.6vw;padding-bottom:max(30px,env(safe-area-inset-bottom));border-top:6px solid transparent;border-image:var(--haz) 6;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--dim)}
-footer nav{display:flex;gap:24px;flex-wrap:wrap} footer a:hover{color:var(--amber)}
 
 /* ---------- recreated plug-in UI (src/editor.rs, 1160 × 780) ---------- */
 #ui{font-family:var(--mono);color:var(--TEXT);user-select:none;background:#c4cdd5 url(/assets/camo-light.png) 0 0/720px;image-rendering:pixelated}
@@ -364,10 +363,9 @@ html.static .scene{padding:60px 20px}
 </main>
 
 <footer>
-  <a href="/" class="ts"><span>TRIL<i>$</i>OFT</span> <small>VST DIVISION</small></a>
+  <p>© 2026 Tril$oft · Conceal-N-Strike is DIV-002</p>
   <!-- Paid plug-ins first. MIDI Fart Sniffer stays last. -->
   <nav><a href="/">All plug-ins</a><a href="/wildcard">Wild Card</a><a href="/midi-fart-sniffer">MIDI Fart Sniffer</a><a href="/privacy">Privacy</a><a href="/faq">FAQ</a></nav>
-  <span>© 2026 Tril$oft · Conceal-N-Strike is DIV-002</span>
 </footer>
 <script src="/tour.js"></script>
 <script>

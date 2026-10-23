@@ -41,6 +41,7 @@ d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: red
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Rubik:wght@400;500;700&family=Unbounded:wght@800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/tour.css">
+<link rel="stylesheet" href="/footer.css">
 <style>
 :root{
   /* site palette */
@@ -135,8 +136,6 @@ kbd.v{background:var(--white)}
 .rsteps p a{color:var(--lime-s);text-decoration:underline}
 .ctl .req .btn{font-size:22px}
 
-footer{background:var(--INK);padding:30px 2.6vw;padding-bottom:max(30px,env(safe-area-inset-bottom));border-top:4px solid var(--lime-s);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--lav-2)}
-footer nav{display:flex;gap:24px} footer a:hover{color:var(--lime-s)}
 
 /* ---------- recreated plug-in UI (src/editor.rs, 980 × 640) ---------- */
 #ui{font-family:var(--comic);color:var(--PAPER);user-select:none}
@@ -369,10 +368,9 @@ html.static .scene{padding:60px 20px}
 </main>
 
 <footer>
-  <a href="/" class="ts"><span>TRIL<i>$</i>OFT</span> <small>VST DIVISION</small></a>
+  <p>© 2026 Tril$oft · Wild Card is DIV-001</p>
   <!-- Paid plug-ins first. MIDI Fart Sniffer stays last. -->
   <nav><a href="/">All plug-ins</a><a href="/conceal-n-strike">Conceal-N-Strike</a><a href="/midi-fart-sniffer">MIDI Fart Sniffer</a><a href="/privacy">Privacy</a><a href="/faq">FAQ</a></nav>
-  <span>© 2026 Tril$oft · Wild Card is DIV-001</span>
 </footer>
 <script src="/tour.js"></script>
 <script>
