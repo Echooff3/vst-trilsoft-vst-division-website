@@ -8,6 +8,7 @@
  *
  * Clean URLs: /plugin and /plugin/ serve public/plugin.html when that
  * file exists, and /plugin.html still serves the file directly.
+ * /refunds and /refunds.html redirect to /faq#refunds.
  * HTML is revalidated; images are cached for a week; responses are
  * gzip-compressed when the client accepts it and the type is text.
  *
@@ -82,6 +83,16 @@ async function isFile(abs) {
   } catch (err) {
     return false;
   }
+}
+
+const REDIRECTS = new Map([
+  ['/refunds', '/faq#refunds'],
+  ['/refunds.html', '/faq#refunds'],
+]);
+
+function redirectTo(pathname) {
+  const trimmed = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
+  return REDIRECTS.get(trimmed) || '';
 }
 
 async function resolveRequest(pathname) {
@@ -349,6 +360,21 @@ async function handle(req, res) {
   } catch (err) {
     res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Bad request');
+    return;
+  }
+
+  const target = redirectTo(pathname);
+  if (target) {
+    const body = 'Moved to ' + target + '\n';
+    res.writeHead(301, {
+      Location: target,
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Content-Length': Buffer.byteLength(body),
+      'Cache-Control': 'public, max-age=0, must-revalidate',
+      'X-Content-Type-Options': 'nosniff',
+    });
+    if (req.method === 'HEAD') res.end();
+    else res.end(body);
     return;
   }
 

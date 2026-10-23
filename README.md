@@ -26,7 +26,8 @@ Then open [http://localhost:8080](http://localhost:8080).
 
 Paid plug-ins are listed before MIDI Fart Sniffer. The free section stays last.
 | `/privacy` | Privacy policy |
-| `/refunds` | Refund policy |
+| `/faq` | FAQ. Refunds live at `/faq#refunds`. Installers live at `/faq#installers`. |
+| `/refunds` | Redirects to `/faq#refunds` (`/refunds.html` too) |
 | `/llms.txt` | Short site summary for language models |
 
 ## Deploy on Railway
@@ -109,7 +110,8 @@ public/
   conceal-n-strike.html Conceal-N-Strike
   midi-fart-sniffer.html MIDI Fart Sniffer
   privacy.html          privacy policy
-  refunds.html          refund policy
+  faq.html              FAQ, including the refund policy
+  refunds.html          redirect stub for /faq#refunds
   llms.txt              llmstxt.org summary
   tour.css              scroll tutorial styles
   tour.js               scroll tutorial engine

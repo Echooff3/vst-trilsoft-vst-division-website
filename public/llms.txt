@@ -17,8 +17,10 @@ Paid plug-ins are listed first. MIDI Fart Sniffer stays last.
 
 ## Policies
 
+- [FAQ](https://vst.trilsoft.com/faq): Answers on the plug-ins, formats, keys, installers, refunds, and contact. Nothing is hidden in a toggle.
 - [Privacy](https://vst.trilsoft.com/privacy): Tril$oft sets no cookies of its own and does not collect visitor data.
-- [Refunds](https://vst.trilsoft.com/refunds): Digital sales are final, with no automatic refunds. If a plug-in won't install, activate, or work as the page says, email help@trilsoft.com.
+- [Refunds](https://vst.trilsoft.com/faq#refunds): Digital sales are final, with no automatic refunds. If a plug-in won't install, activate, or work as the page says, email help@trilsoft.com. Replies come as life permits.
+- [Installers](https://vst.trilsoft.com/faq#installers): The latest installer for every plug-in is kept on one page, https://github.com/Echooff3/vst-public-releases/releases. Per plug-in: wildcard-latest, conceal-n-strike-latest, midi-fart-sniffer-latest. Paid plug-ins need the key from the Buy Now email. MIDI Fart Sniffer's key comes from Get Free Key.
 
 ## How it works
 
