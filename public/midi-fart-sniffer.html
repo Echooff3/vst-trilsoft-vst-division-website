@@ -69,7 +69,6 @@ nav.top .r{display:flex;align-items:center;justify-content:flex-end;gap:12px;fle
 nav.top .btn{font-size:16px;padding:10px 16px 8px}
 nav.top .plug small{font-size:12px}
 .px{font-family:var(--display);font-size:18px;color:var(--ink);white-space:nowrap}
-.hero-px{margin-top:14px;font-size:28px;color:var(--yellow);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .keyform{position:relative;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
 .keyform input[type=email]{font-family:var(--body);font-weight:700;font-size:16px;line-height:1;color:var(--ink);background:var(--paper);border:3px solid var(--ink);border-radius:999px;padding:14px 16px 12px;min-width:min(240px,100%);min-height:48px}
@@ -85,6 +84,12 @@ button.btn{cursor:pointer}
 nav.top .keyform{justify-content:flex-end}
 nav.top .keyform input[type=email]{min-width:0;width:min(220px,46vw);padding:10px 14px;min-height:44px;font-size:15px}
 nav.top .keynote{text-align:right}
+.scene .keyform{flex-direction:column;flex-wrap:nowrap;align-items:stretch;width:min(420px,100%);margin:14px auto 0;gap:10px}
+.scene .keyform label{display:block;width:100%;min-width:0}
+.scene .keyform input[type=email]{width:100%;min-width:0}
+.scene .keyform .btn{width:100%;min-height:48px}
+.scene .keyform .keynote{width:100%;text-align:center}
+.scene .keyfine{max-width:420px;margin-left:auto;margin-right:auto}
 .stage{background:transparent}
 #uibox{border-radius:18px;border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
 .is-port #uibox{border-radius:0;border-left:0;border-right:0;box-shadow:none}
@@ -223,11 +228,9 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap} footer a:hover{color:var(--yell
 .is-port .shot{max-height:64px;border-width:3px;box-shadow:4px 4px 0 var(--ink)}
 .is-port .tagline{font-size:18px;padding:4px 10px 3px;margin-top:8px}
 .is-port .scene .sub{font-size:15px;line-height:1.3;margin-top:8px}
-.is-port .hero-px{margin-top:8px;font-size:22px}
-.is-port .scene .keyform{flex-wrap:wrap;justify-content:center;gap:8px;width:min(520px,100%);margin-inline:auto}
-.is-port .scene .keyform label{flex:1 1 150px;min-width:0;display:block}
-.is-port .scene .keyform input[type=email]{width:100%;min-width:0;padding:10px 12px;min-height:44px}
-.is-port .scene .keyform .btn{flex:1 1 132px;min-height:44px;font-size:15px;padding:10px 14px 8px}
+.is-port .scene .keyform{width:min(420px,100%);margin-top:10px}
+.is-port .scene .keyform input[type=email]{padding:10px 12px;min-height:48px}
+.is-port .scene .keyform .btn{min-height:48px;font-size:18px;padding:12px 16px 10px}
 .is-port .hero .btn{font-size:15px;padding:10px 12px 8px}
 .is-port .keyfine{margin-top:8px;font-size:13px;line-height:1.25}
 .is-port .scene .cta{margin-top:10px}
@@ -241,7 +244,6 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap} footer a:hover{color:var(--yell
   .is-port nav.top{padding:6px 12px;padding-top:max(6px,env(safe-area-inset-top));gap:8px}
   .is-port nav.top .keyform,.is-port nav.top .px{display:none}
   .is-port .ts{font-size:13px;gap:6px}
-  .is-port .hero-px{display:inline-block;margin:8px auto 0;font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;line-height:1.2;color:var(--ink);background:var(--slime);-webkit-text-stroke:0;paint-order:normal;border:2px solid var(--ink);border-radius:999px;padding:3px 10px 2px;box-shadow:2px 2px 0 var(--ink)}
 }
 html.static nav.top{position:sticky}
 html.static .scene{padding:48px 20px}
@@ -272,7 +274,6 @@ html.static .scene{padding:48px 20px}
         <img class="shot" src="/assets/mfs-screenshot.webp" width="1180" height="792" alt="MIDI Fart Sniffer v0.1.0, with a yellow Now Sniffing card and a groove playing.">
         <p class="tagline">Weird VSTs <em>no one asked for.</em></p>
         <p class="sub">A folder of drum MIDI. Click a groove. It plays out to your drums, locked to the tempo and the bar. Scroll it. Sniffin' Sid will show you the dumpster.</p>
-        <p class="px hero-px">Free</p>
         <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
           <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
           <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
@@ -350,7 +351,6 @@ html.static .scene{padding:48px 20px}
       <div>
         <span class="tag">That's the can</span>
         <h2 class="tagline" style="font-size:clamp(40px,5vw,72px);margin:16px 0">A folder of MIDI.<br>Go <em>sniff.</em></h2>
-        <p class="px hero-px">Free</p>
         <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
           <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
           <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
