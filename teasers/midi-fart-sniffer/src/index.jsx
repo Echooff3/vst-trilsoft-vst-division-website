@@ -49,13 +49,15 @@ const seg = (p, a, b) => clamp((p - a) / (b - a));
 const display = { fontFamily: 'Titan One, Impact, sans-serif', fontWeight: 400 };
 const body = { fontFamily: 'Comic Neue, Comic Sans MS, sans-serif', fontWeight: 700 };
 
-function drips(h) {
+function drips(h, short) {
   const bumps = [6, 18, 29, 41, 54, 67, 79, 91];
+  const bumpH = (i) => (short ? 10 + (i % 3) * 3 : 16 + (i % 4) * 6);
+  const tallest = short ? 16 : 34;
   return (
-    <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: h + 26, zIndex: 6, pointerEvents: 'none' }}>
+    <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: h + tallest, zIndex: 6, pointerEvents: 'none' }}>
       <div style={{ height: h, background: SLIME, borderBottom: `3px solid ${INK}` }} />
       {bumps.map((x, i) => (
-        <div key={x} style={{ position: 'absolute', left: `${x}%`, top: h - 2, width: 14 + (i % 3) * 8, height: 16 + (i % 4) * 6, borderRadius: '0 0 20px 20px', background: SLIME, border: `3px solid ${INK}`, borderTop: 'none' }} />
+        <div key={x} style={{ position: 'absolute', left: `${x}%`, top: h - 2, width: short ? 12 + (i % 3) * 4 : 14 + (i % 3) * 8, height: bumpH(i), borderRadius: '0 0 16px 16px', background: SLIME, border: `3px solid ${INK}`, borderTop: 'none' }} />
       ))}
     </div>
   );
@@ -87,36 +89,40 @@ function Window({ p, portrait }) {
 
   const shell = portrait
     ? { width: 600, height: 1120 }
-    : { width: 1100, height: 640 };
+    : { width: 1200, height: 660 };
 
   const titleSize = portrait ? 28 : 34;
+  // Desktop columns: browser | Now Sniffing | tempo/output/kit. The card used to share the browser's x and cover it.
+  const cols = portrait
+    ? { dump: [14, 160, 572, 250], card: [14, 422, 572, 390], side: [14, 824, 572, 280] }
+    : { dump: [16, 158, 292, 486], card: [320, 158, 500, 486], side: [832, 158, 352, 486] };
 
   return (
     <div style={{ ...shell, ...body, position: 'relative', background: CONCRETE, borderRadius: 22, border: `4px solid ${INK}`, boxShadow: `8px 8px 0 ${INK}`, overflow: 'hidden', color: INK, transform: `scale(${0.98 + enter * 0.02})`, opacity: enter, backgroundImage: 'radial-gradient(rgba(255,255,255,.22) 0.7px, transparent 0.8px), radial-gradient(rgba(0,0,0,.18) 0.7px, transparent 0.8px)', backgroundSize: '5px 6px, 9px 11px' }}>
-      {drips(portrait ? 14 : 12)}
+      {drips(portrait ? 14 : 8, !portrait)}
 
-      <div style={{ position: 'absolute', left: 16, top: portrait ? 28 : 22, right: portrait ? 118 : 140 }}>
+      <div style={{ position: 'absolute', left: 16, top: portrait ? 28 : 40, right: portrait ? 118 : 168 }}>
         <div style={{ ...display, fontSize: titleSize, lineHeight: 0.9, color: YELLOW, WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill' }}>MIDI FART SNIFFER</div>
         <div style={{ marginTop: 6, display: 'inline-flex', alignItems: 'center', height: 26, padding: '0 10px', background: RED, color: '#fff', border: `3px solid ${INK}`, borderRadius: 8, boxShadow: `3px 3px 0 ${INK}`, ...display, fontSize: 12, letterSpacing: 0.6 }}>SNIFF OUT A GROOVE</div>
       </div>
 
-      <div style={{ position: 'absolute', right: 14, top: portrait ? 22 : 20, width: portrait ? 96 : 112, background: CREAM, border: `3px solid ${INK}`, borderRadius: 12, boxShadow: `4px 4px 0 ${INK}`, overflow: 'hidden' }}>
-        <Img src={staticFile('sid.webp')} style={{ width: '100%', height: portrait ? 72 : 78, objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }} />
+      <div style={{ position: 'absolute', right: 16, top: portrait ? 22 : 36, width: portrait ? 96 : 124, background: CREAM, border: `3px solid ${INK}`, borderRadius: 12, boxShadow: `4px 4px 0 ${INK}`, overflow: 'hidden' }}>
+        <Img src={staticFile('sid.webp')} style={{ width: '100%', height: portrait ? 72 : 72, objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }} />
         <div style={{ ...display, textAlign: 'center', fontSize: 10, letterSpacing: 0.6, background: INK, color: YELLOW, padding: '3px 0 2px' }}>SNIFFIN' SID</div>
       </div>
 
-      <div style={{ position: 'absolute', left: 16, top: portrait ? 108 : 96, display: 'flex', gap: 8 }}>
+      <div style={{ position: 'absolute', left: 16, top: portrait ? 108 : 112, display: 'flex', gap: 8 }}>
         <Pill bg={SLIME} color={INK} style={{ height: 36, padding: '0 14px', fontSize: 14 }}>▶ RIP IT</Pill>
         <Pill bg={CREAM} color={INK} style={{ height: 36, padding: '0 14px', fontSize: 14 }}><i style={{ width: 12, height: 12, background: RED, border: `2px solid ${INK}`, marginRight: 6 }} />HOLD IT</Pill>
         <Pill bg={BLUE} style={{ height: 32, padding: '0 12px', fontSize: 12, alignSelf: 'center' }}>✓ LOOP</Pill>
         <Pill bg={PURPLE} style={{ height: 32, padding: '0 12px', fontSize: 12, alignSelf: 'center' }}>✓ AUTO</Pill>
       </div>
 
-      <Dump x={14} y={portrait ? 160 : 148} w={portrait ? 572 : 268} h={portrait ? 250 : 476} rows={rows} typed={typed} showBreak={showBreak} sel={sel} />
+      <Dump x={cols.dump[0]} y={cols.dump[1]} w={cols.dump[2]} h={cols.dump[3]} rows={rows} typed={typed} showBreak={showBreak} sel={sel} />
 
-      <Card x={14} y={portrait ? 422 : 148} w={portrait ? 572 : 470} h={portrait ? 390 : 476} groove={groove} head={head} muted={muted} playing={playing} portrait={portrait} />
+      <Card x={cols.card[0]} y={cols.card[1]} w={cols.card[2]} h={cols.card[3]} groove={groove} head={head} muted={muted} playing={playing} portrait={portrait} />
 
-      <Side x={portrait ? 14 : 760} y={portrait ? 824 : 148} w={portrait ? 572 : 326} h={portrait ? 280 : 476} portrait={portrait} tempo={tempo} launch={launch} port={port} kit={kit} />
+      <Side x={cols.side[0]} y={cols.side[1]} w={cols.side[2]} h={cols.side[3]} portrait={portrait} tempo={tempo} launch={launch} port={port} kit={kit} />
     </div>
   );
 }
@@ -195,7 +201,7 @@ function Side({ x, y, w, h, portrait, tempo, port, kit }) {
     <div style={{ position: 'absolute', left: x, top: y, width: w, height: h, display: 'grid', gridTemplateRows: '1.15fr 1.15fr 0.9fr', gap: 8 }}>
       <div style={{ background: CREAM, border: `3px solid ${INK}`, borderRadius: 14, boxShadow: `4px 4px 0 ${INK}`, padding: 8 }}>
         <div style={{ ...display, fontSize: 13 }}>TEMPO</div>
-        <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
           <Mini on={tempo === 'FILE' || tempo === 'HOST'} bg={BLUE} color="#fff">{tempo === 'HOST' ? 'HOST' : 'FILE'}</Mini>
           <Mini on={tempo === 'SET'} bg={SLIME}>SET</Mini>
           <span style={{ marginLeft: 'auto', fontSize: 11 }}>TIME</span>

@@ -342,6 +342,9 @@ html.static .mfs-lid{display:none}
 /* ================= MIDI Fart Sniffer beat (both layouts) ================= */
 .scene.mfs{z-index:7;visibility:hidden;place-items:stretch;background:#8C949B}
 .mfs-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.v-desk .scene.mfs{--mfs-dock:340px}
+.v-desk .mfs-vid{object-fit:contain;object-position:center center;top:12px;right:auto;bottom:auto;left:20px;width:calc(100% - 40px);height:calc(100% - 12px - var(--mfs-dock))}
+html.static .v-desk .mfs-vid{top:84px;height:calc(100% - 84px - var(--mfs-dock))}
 .mfs-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
 .mfs-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
 .mbtn{display:inline-flex;align-items:center;justify-content:center;font-family:"Titan One",Impact,sans-serif;font-size:20px;letter-spacing:.03em;line-height:1;padding:14px 22px 12px;color:#1C140C;background:#F6E7C1;border:3px solid #1C140C;border-radius:999px;box-shadow:4px 4px 0 #1C140C;touch-action:manipulation}
@@ -892,7 +895,9 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         const shut = easeIO(seg(q, 0, .16));
         const open = easeIO(seg(q, .18, .34));
         const y = (-1 + shut) * 128 - open * 142;
-        lid.style.visibility = shut > 0.001 && open < 0.999 ? 'visible' : 'hidden';
+        const dockBottom = innerHeight <= 560 ? 34 : Math.max(innerHeight * 0.11, 64);
+        sc.style.setProperty('--mfs-dock', (ui.offsetHeight + dockBottom + 16) + 'px');
+        lid.style.visibility = shut > 0.001 && open < 0.92 ? 'visible' : 'hidden';
         lid.style.transform = `translateY(${y}%)`;
         show(sc, q >= .16 ? 1 : 0);
         const t = seg(q, .2, .9) * Math.max(0, (vid.duration || 9) - .05);
