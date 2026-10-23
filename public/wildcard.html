@@ -183,12 +183,20 @@ footer nav{display:flex;gap:24px} footer a:hover{color:var(--lime-s)}
 .installer .barx i{display:block;height:100%;background:var(--VIOLET);width:0}
 
 /* ---------- desktop / portrait tweaks ---------- */
-.is-port nav.top{height:var(--hdr);padding:0 14px;padding-top:env(safe-area-inset-top)}
+.is-port{--hdr:calc(56px + env(safe-area-inset-top, 0px))}
+.is-port nav.top{height:var(--hdr);padding:0 12px;padding-top:env(safe-area-inset-top);align-items:center}
 .is-port .ts small{display:none}
-.is-port nav.top .r{gap:10px}
-.is-port nav.top .btn{font-size:16px;padding:8px 12px 6px}
+.is-port nav.top .r{gap:8px;flex-wrap:nowrap;min-width:0}
+.is-port nav.top .btn{font-size:15px;padding:7px 10px 5px}
 .is-port nav.top .px{font-size:13px;padding:2px 5px 0}
 .is-port nav.top .plug span{display:none}
+@media (max-width:430px){
+  .is-port nav.top .r{gap:6px}
+  .is-port nav.top .btn{font-size:13px;padding:6px 8px 4px;border-width:2px;box-shadow:2px 2px 0 var(--INK)}
+  .is-port nav.top .plug{font-size:13px}
+  .is-port nav.top .px{font-size:12px;padding:1px 4px 0}
+  .is-port .ts{font-size:13px;gap:6px}
+}
 .is-port .copy{padding:14px 14px max(14px,env(safe-area-inset-bottom))}
 .is-port .beat{top:14px;bottom:14px;left:14px;right:14px}
 .is-port .card{height:100%;padding:18px 18px 16px;border-radius:16px;box-shadow:6px 6px 0 var(--INK);overflow:hidden}

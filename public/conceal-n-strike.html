@@ -188,15 +188,24 @@ footer nav{display:flex;gap:24px;flex-wrap:wrap} footer a:hover{color:var(--ambe
 .installer .barx{margin-top:16px;height:10px;background:#0a0c0f;border:1px solid var(--GUN_HI)}
 .installer .barx i{display:block;height:100%;background:var(--AMBER);width:0}
 
-.is-port nav.top{height:var(--hdr);padding:0 14px;padding-top:env(safe-area-inset-top)}
+.is-port{--hdr:calc(60px + env(safe-area-inset-top, 0px))}
+.is-port nav.top{height:var(--hdr);padding:0 12px;padding-top:env(safe-area-inset-top);align-items:center}
 .is-port .ts small{display:none}
-.is-port nav.top .r{gap:8px}
-.is-port nav.top .btn{font-size:13px;padding:10px 12px 9px}
+.is-port nav.top .r{gap:8px;flex-wrap:nowrap;min-width:0}
+.is-port nav.top .btn{font-size:13px;padding:8px 10px 7px}
 .is-port nav.top .plug span{display:none}
-.is-port{--hdr:86px}
-.is-port nav.top .px{position:absolute;left:14px;right:14px;bottom:7px;flex-direction:row;align-items:baseline;justify-content:flex-end;gap:8px}
-.is-port nav.top .px b{font-size:14px}
+.is-port nav.top .px{position:static;flex:none;flex-direction:row;align-items:baseline;gap:6px}
+.is-port nav.top .px b{font-size:13px}
 .is-port nav.top .px small{font-size:9px}
+@media (max-width:720px){
+  .is-port{--hdr:calc(48px + env(safe-area-inset-top, 0px))}
+  .is-port nav.top{padding:0 10px;padding-top:env(safe-area-inset-top)}
+  .is-port nav.top .r{gap:6px}
+  .is-port nav.top .btn{font-size:12px;padding:7px 8px 6px;--c:7px}
+  .is-port nav.top .px .long,.is-port nav.top .px small{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .is-port nav.top .px b{font-size:13px;letter-spacing:.02em}
+  .is-port .ts{font-size:13px;gap:6px}
+}
 .is-port .copy{padding:14px 14px max(14px,env(safe-area-inset-bottom))}
 .is-port .beat{top:14px;bottom:14px;left:14px;right:14px}
 .is-port .card{height:100%;padding:18px 18px 16px;overflow:hidden}
@@ -219,7 +228,7 @@ html.static .scene{padding:60px 20px}
   <div class="r">
     <span class="btnwrap"><a href="/wildcard" class="btn gh plug" title="Other plug-in: Wild Card">DIV-001 <span>Wild Card</span> →</a></span>
     <span class="btnwrap"><a href="#" class="btn" data-stripe data-product="conceal-n-strike">Buy Now</a></span>
-    <span class="px"><b>$15 launch price</b><small>goes to $19 after launch</small></span>
+    <span class="px"><b><span class="amt">$15</span><span class="long"> launch price </span></b><small>goes to $19 after launch</small></span>
   </div>
 </nav>
 
