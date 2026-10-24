@@ -51,11 +51,13 @@ window.TRILOSOFT = {
   paymentLinks: {
     wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
     "conceal-n-strike": "https://buy.stripe.com/test_aFa5kF5C67X42GOfSL9R601",
+    bruno: "https://buy.stripe.com/test_aFacN74y2918ftA6ib9R602",
   },
   API_BASE_URL: "",
   products: {
     wildcard: "wildcard",
     "conceal-n-strike": "conceal-n-strike",
+    bruno: "bruno",
   },
 };
 ```
@@ -66,7 +68,7 @@ To go live, set `PAYMENT_LINK_WILDCARD` or `PAYMENT_LINK_CONCEAL_N_STRIKE` on th
 
 MIDI Fart Sniffer is free. Its page and the homepage section use a Get Free Key form, not Buy Now. The form POSTs JSON `{"product":"fart-sniffer","email":"...","website":""}` to `{licenseBase}/api/free-key`. `licenseBase` in `site-config.js` is `https://vst-license.trilsoft.com`. `website` is a hidden honeypot. The price on the page is the word Free.
 
-Bruno is stubbed: `paymentLinks.bruno` is `""`, so his Buy Now buttons stay on the page, and his page shows "Price TBA" in the bar. Set `PAYMENT_LINK_BRUNO` (or the value in the file) to publish his link, and put the price in `public/bruno.html`.
+Bruno is $50. `paymentLinks.bruno` is his Stripe Payment Link, and the bar on `public/bruno.html` shows `$50`. Set `PAYMENT_LINK_BRUNO` on the service to replace the link in the file. An empty value is what keeps a Buy Now button on the page, so don't clear his entry.
 
 `API_BASE_URL` is only the fallback for a plug-in with no payment link. Leave it empty and those buttons stay on the page. When it is an `http` or `https` origin (the `API_BASE_URL` environment variable overrides the file), a click POSTs `{API_BASE_URL}/checkout?product=<id>` with JSON `{ "product": "<id>" }` and follows a returned `url` (`checkoutUrl` and `checkout_url` too), or submits a form POST so the API can answer with a redirect. `products` maps the button's `data-product` slug to that id.
 
