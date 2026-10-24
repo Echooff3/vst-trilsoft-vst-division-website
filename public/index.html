@@ -903,7 +903,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     addEventListener('touchstart', prime, { once: true, passive: true }); // iOS needs a gesture before it decodes for seeking
     let navOn = false;
     return {
-      render(q) {
+      render(q, next = 0) { // next: how far into the following section, which covers this one
         let covered;
         if (mode === 'desk') {
           const w = easeIO(seg(q, .03, .17)), W = innerWidth, H = innerHeight, sl = .18 * W;
@@ -924,7 +924,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         const t = seg(q, mode === 'desk' ? .16 : .21, .88) * Math.max(0, (vid.duration || 9) - .05);
         if (vid.readyState >= 1 && !vid.seeking && Math.abs(vid.currentTime - t) > .015) { try { vid.currentTime = t; } catch (e) {} }
         bits.forEach((b, i) => { const v = easeOut(seg(q, .84 + i * .025, .9 + i * .025)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
-        ui.style.pointerEvents = q > .9 && q < 1 ? 'auto' : 'none';
+        ui.style.pointerEvents = q > .9 && (q < 1 || next < .1) ? 'auto' : 'none';
         const on = q > .12 && q < 1;
         if (on !== navOn) { navOn = on; nav.textContent = on ? 'Conceal-N-Strike →' : 'Wild Card →'; nav.href = on ? '/conceal-n-strike' : '/wildcard'; }
         if (rail && q > .1 && q < 1) { railA.forEach((a, i) => a.classList.toggle('on', i === 3)); rail.classList.add('cn'); rail.classList.remove('wc', 'sn'); }
@@ -946,7 +946,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     const prime = () => { const pr = vid.play(); if (pr && pr.then) pr.then(() => { primed = true; vid.pause(); }).catch(() => {}); else { primed = true; vid.pause(); } };
     addEventListener('touchstart', prime, { once: true, passive: true });
     return {
-      render(q) {
+      render(q, next = 0) { // next: how far into the Fart Sniffer section, whose lid covers this one
         if (!primed && q >= .15 && q < 1 && performance.now() - tried > 1000) { tried = performance.now(); prime(); }
         const c = easeIO(seg(q, .02, .14)) * (1 - easeIO(seg(q, .2, .34))); // 0 open → 1 shut
         cl.style.transform = `translateX(${(c - 1) * 102}%)`; cr.style.transform = `translateX(${(1 - c) * 102}%)`;
@@ -960,7 +960,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         const t = seg(q, .22, .88) * Math.max(0, (vid.duration || 9) - .05);
         if (vid.readyState >= 1 && !vid.seeking && Math.abs(vid.currentTime - t) > .015) { try { vid.currentTime = t; } catch (e) {} }
         bits.forEach((b, i) => { const v = easeOut(seg(q, .84 + i * .025, .9 + i * .025)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
-        ui.style.pointerEvents = q > .9 && q < 1 ? 'auto' : 'none';
+        ui.style.pointerEvents = q > .9 && (q < 1 || next < .14) ? 'auto' : 'none';
         if (q > 0 && q < 1) {
           const [label, href] = q > .12 ? ['Bruno →', '/bruno'] : ['Conceal-N-Strike →', '/conceal-n-strike'];
           if (nav.textContent !== label) { nav.textContent = label; nav.href = href; }
@@ -1055,8 +1055,8 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     a.renderer = {
       render(P, now, dp, dt) {
         base.render(Math.min(1, P / K1), now, P < K1 ? dp / K1 : 0, dt);
-        cn.render(clamp((P - K1) / (KB - K1)));
-        br.render(clamp((P - KB) / (K2 - KB)));
+        cn.render(clamp((P - K1) / (KB - K1)), clamp((P - KB) / (K2 - KB)));
+        br.render(clamp((P - KB) / (K2 - KB)), clamp((P - K2) / (1 - K2)));
         mf.render(clamp((P - K2) / (1 - K2)));
         bar.style.transform = `scaleX(${P})`;
       },
