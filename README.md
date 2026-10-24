@@ -21,6 +21,8 @@ Then open [http://localhost:8080](http://localhost:8080).
 | `/wildcard.html` | Same Wild Card page |
 | `/conceal-n-strike` | Conceal-N-Strike |
 | `/conceal-n-strike.html` | Same Conceal-N-Strike page |
+| `/bruno` | Bruno |
+| `/bruno.html` | Same Bruno page |
 | `/midi-fart-sniffer` | MIDI Fart Sniffer |
 | `/midi-fart-sniffer.html` | Same MIDI Fart Sniffer page |
 
@@ -63,6 +65,8 @@ window.TRILOSOFT = {
 To go live, set `PAYMENT_LINK_WILDCARD` or `PAYMENT_LINK_CONCEAL_N_STRIKE` on the Railway service to the live Payment Link. The server uses that variable in place of the value in the file, both in `/js/site-config.js` and in the HTML `href`s, and one plug-in's link is never copied onto the other. Hyphens in a slug become underscores in the variable name (`conceal-n-strike` → `PAYMENT_LINK_CONCEAL_N_STRIKE`).
 
 MIDI Fart Sniffer is free. Its page and the homepage section use a Get Free Key form, not Buy Now. The form POSTs JSON `{"product":"fart-sniffer","email":"...","website":""}` to `{licenseBase}/api/free-key`. `licenseBase` in `site-config.js` is `https://vst-license.trilsoft.com`. `website` is a hidden honeypot. The price on the page is the word Free.
+
+Bruno is stubbed: `paymentLinks.bruno` is `""`, so his Buy Now buttons stay on the page, and his page shows "Price TBA" in the bar. Set `PAYMENT_LINK_BRUNO` (or the value in the file) to publish his link, and put the price in `public/bruno.html`.
 
 `API_BASE_URL` is only the fallback for a plug-in with no payment link. Leave it empty and those buttons stay on the page. When it is an `http` or `https` origin (the `API_BASE_URL` environment variable overrides the file), a click POSTs `{API_BASE_URL}/checkout?product=<id>` with JSON `{ "product": "<id>" }` and follows a returned `url` (`checkoutUrl` and `checkout_url` too), or submits a form POST so the API can answer with a redirect. `products` maps the button's `data-product` slug to that id.
 
@@ -108,6 +112,7 @@ public/
   index.html            homepage
   wildcard.html         Wild Card
   conceal-n-strike.html Conceal-N-Strike
+  bruno.html            Bruno
   midi-fart-sniffer.html MIDI Fart Sniffer
   privacy.html          privacy policy
   faq.html              FAQ, including the refund policy
@@ -117,6 +122,8 @@ public/
   tour.js               scroll tutorial engine
   mfs-window.css        MIDI Fart Sniffer's window, rebuilt from the plug-in (with js/mfs-window.js);
                         the tour page and the homepage teaser both draw it
+  js/bruno-window.js    Bruno's window, redrawn on a canvas from the plug-in's egui code, with the
+                        mood pad's real dots; assets/fonts/bruno holds his three typefaces (OFL)
   404.html
   footer.css            shared footer, same markup on every page
   favicon.svg
@@ -124,6 +131,7 @@ public/
   js/site-config.js     the only purchase config
   js/checkout.js
 server.js               static server; Railway start command
+teasers/bruno           Remotion source for Bruno's homepage teaser, the same way
 teasers/midi-fart-sniffer  Remotion source for the homepage teaser: `npm run render`
                         (syncs the window from public/, renders, re-encodes with a 6-frame GOP)
 tools/make-mfs-steel.py the plug-in's galvanized steel as mfs-can.webp and mfs-steel.webp

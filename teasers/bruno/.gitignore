@@ -1,0 +1,4 @@
+out/
+node_modules/
+# copied from ../../public by sync.mjs
+public/

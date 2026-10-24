@@ -73,7 +73,15 @@
       const bw = box.clientWidth, bh = box.clientHeight;
       const cap = PORT ? (cfg.maxZoomPort || 2.2) : (cfg.maxZoom || 2);
       const s = Math.min(bw / (r[2] + pad * 2), bh / (r[3] + pad * 2), cap);
-      return { s, cx: r[0] + r[2] / 2, cy: r[1] + r[3] / 2 };
+      let cx = r[0] + r[2] / 2, cy = r[1] + r[3] / 2;
+      // clampCam: keep the view inside the UI, so a camera on an edge
+      // doesn't show the empty box past it.
+      if (cfg.clampCam) {
+        const hw = bw / (2 * s), hh = bh / (2 * s);
+        cx = hw * 2 >= W ? W / 2 : clamp(cx, hw, W - hw);
+        cy = hh * 2 >= H ? H / 2 : clamp(cy, hh, H - hh);
+      }
+      return { s, cx, cy };
     }
     const norm = f => !f ? null : (typeof f[0] === 'number' ? [f] : f);
     const focusOf = (b, st) => norm(st.focus || (PORT && b.focusPort) || b.focus || null);

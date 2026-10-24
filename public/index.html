@@ -12,11 +12,11 @@
   gtag('config', 'G-HGXGD2WJZ5', { allow_google_signals: false, allow_ad_personalization_signals: false });
 </script>
 <title>Tril$oft VST Division — Weird VSTs no one asked for</title>
-<meta name="description" content="Weird VSTs no one asked for. A scratch deck, a turntablism sequencer, and a groove browser from the Tril$oft VST Division.">
+<meta name="description" content="Weird VSTs no one asked for. A scratch deck, a turntablism sequencer, an auto-drummer, and a groove browser from the Tril$oft VST Division.">
 <link rel="canonical" href="https://vst.trilsoft.com/">
 <meta name="theme-color" content="#09090B">
 <meta property="og:title" content="Tril$oft VST Division — Weird VSTs no one asked for">
-<meta property="og:description" content="Weird VSTs no one asked for. A scratch deck, a turntablism sequencer, and a groove browser from the Tril$oft VST Division.">
+<meta property="og:description" content="Weird VSTs no one asked for. A scratch deck, a turntablism sequencer, an auto-drummer, and a groove browser from the Tril$oft VST Division.">
 <meta property="og:url" content="https://vst.trilsoft.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tril$oft VST Division">
@@ -27,7 +27,7 @@
 <meta property="og:image:alt" content="Tril$oft VST Division. Weird VSTs no one asked for.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tril$oft VST Division — Weird VSTs no one asked for">
-<meta name="twitter:description" content="Weird VSTs no one asked for. A scratch deck, a turntablism sequencer, and a groove browser from the Tril$oft VST Division.">
+<meta name="twitter:description" content="Weird VSTs no one asked for. A scratch deck, a turntablism sequencer, an auto-drummer, and a groove browser from the Tril$oft VST Division.">
 <meta name="twitter:image" content="https://vst.trilsoft.com/assets/og/home.jpg">
 <meta name="twitter:image:alt" content="Tril$oft VST Division. Weird VSTs no one asked for.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -39,7 +39,7 @@ d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: red
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Black+Ops+One&family=Comic+Neue:wght@700&family=Share+Tech+Mono&family=Titan+One&family=Unbounded:wght@400;600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Black+Ops+One&family=Rye&family=Comic+Neue:wght@700&family=Share+Tech+Mono&family=Titan+One&family=Unbounded:wght@400;600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/footer.css">
 <style>
 :root{
@@ -171,7 +171,7 @@ html.static .bg-purple,html.static .hint,html.static .bar,html.static .rail,html
 html.static .bg-dark{position:absolute;inset:0 0 auto 0;height:200vh;height:200svh}
 @media (prefers-reduced-motion:reduce){ .hint i{animation:none} }
 /* ================= DESKTOP / LANDSCAPE ================= */
-.v-desk .scroller{height:1600vh} /* film 620 + paid plug-ins (Conceal-N-Strike 440) + free MIDI Fart Sniffer 440 last, plus the 100vh stage. Insert future paid plug-ins above #mfs. */
+.v-desk .scroller{height:2040vh} /* film 620 + paid plug-ins (Conceal-N-Strike 440, Bruno 440) + free MIDI Fart Sniffer 440 last, plus the 100vh stage. Insert future paid plug-ins above #mfs. */
 .v-desk .s1 .inner{text-align:center;padding:0 24px;max-width:1200px}
 .v-desk .s1 .kicker{display:inline-block;margin-bottom:28px;color:var(--signal)}
 .v-desk .s1 h1{font-family:var(--display);font-weight:800;font-size:clamp(46px,8vw,124px);line-height:1;letter-spacing:-.035em}
@@ -221,7 +221,7 @@ html.static .v-desk .strip{transform:rotate(-1.2deg)!important}
 html.static .v-desk .wc-title span{transform:rotate(-3deg) skew(-4deg)!important}
 /* ================= PORTRAIT (tablet portrait → phone) ================= */
 .v-port{--hdr:64px}
-.v-port .scroller{height:1640vh;height:1640svh} /* film 660 + paid 440 + free MIDI Fart Sniffer 440 last, plus the 100vh stage. The free section stays last. */
+.v-port .scroller{height:2080vh;height:2080svh} /* film 660 + paid 440 + 440 + free MIDI Fart Sniffer 440 last, plus the 100vh stage. The free section stays last. */
 .v-port header.top{height:var(--hdr);padding:0 20px;padding-top:env(safe-area-inset-top)}
 .v-port .wordmark b{font-size:16px}
 .v-port .navlink{font-size:11px;padding:11px 14px;min-height:40px;display:inline-flex;align-items:center}
@@ -335,6 +335,37 @@ html.static .v-port .strip{transform:rotate(-1.2deg)!important}
 html.static .scene.cns,html.static .scene.mfs{visibility:visible!important;min-height:100vh;min-height:100svh}
 html.static .mfs-lid{display:none}
 
+/* ================= Bruno beat (both layouts): his curtains close over Conceal-N-Strike, then open on him ================= */
+.scene.bru{z-index:6;visibility:hidden;place-items:stretch;background:#7a1f1a}
+.bru-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bru-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
+.bru-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.bbtn{display:inline-flex;align-items:center;justify-content:center;font-family:"Titan One",Impact,sans-serif;font-size:20px;letter-spacing:.03em;line-height:1;padding:15px 24px 13px;color:#1c1512;background:#f6eacf;border:3px solid #1c1512;border-radius:12px;box-shadow:4px 5px 0 #1c1512;touch-action:manipulation}
+.bbtn:hover{filter:brightness(1.05)} .bbtn:active{transform:translate(2px,2px);box-shadow:2px 3px 0 #1c1512}
+.bbtn.buy{background:#e0a526}
+.bru-tag{font-family:"Titan One",Impact,sans-serif;font-size:13px;letter-spacing:.08em;color:#f6eacf;-webkit-text-stroke:3px #1c1512;paint-order:stroke fill;background:#3f7f7a;border:3px solid #1c1512;border-radius:8px;box-shadow:3px 3px 0 #1c1512;padding:6px 12px 5px}
+.bru-cur{position:absolute;top:0;bottom:0;width:51%;z-index:7;visibility:hidden;pointer-events:none;will-change:transform;
+  background:#7a1f1a repeating-linear-gradient(90deg,rgba(181,50,42,.95) 0 34px,rgba(181,50,42,0) 34px 62px);box-shadow:0 0 0 3px #1c1512,0 0 70px rgba(0,0,0,.6)}
+.bru-cur.l{left:0} .bru-cur.r{right:0}
+.bru-val{position:absolute;inset:0;z-index:7;visibility:hidden;pointer-events:none;display:grid;place-items:center;overflow:hidden}
+.bru-val::before{content:"";position:absolute;left:0;right:0;top:0;height:66px;transform:translateY(var(--drop,-100%));
+  background:radial-gradient(circle at 30px 34px,#e0a526 0 28px,#1c1512 28px 31px,transparent 31px) 0 0/60px 66px repeat-x,linear-gradient(#e0a526,#e0a526) 0 0/100% 34px no-repeat}
+.bru-val span{position:relative;margin:0 20px;font-family:"Rye",Georgia,serif;font-size:clamp(30px,5vw,78px);line-height:1;color:#b5322a;-webkit-text-stroke:7px #1c1512;paint-order:stroke fill;text-shadow:.05em .07em 0 #e0a526;text-align:center;padding:.32em .5em .26em;background:#f6eacf;border:4px solid #1c1512;border-radius:16px;box-shadow:7px 8px 0 #1c1512}
+.v-desk .rail.br a{color:rgba(246,234,207,.6)}
+.v-desk .rail.br a.on{color:#e0a526}
+.v-desk .bru-ui{bottom:max(11vh,64px)}
+@media (max-height:560px){ .v-desk .bru-ui{bottom:34px} .v-desk .bru-tag{display:none} .v-desk .bbtn{font-size:16px;padding:12px 16px 10px} }
+.v-port .bru-ui{bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px))}
+.v-port .bru-row{flex-direction:column;width:100%;max-width:440px;gap:12px}
+.v-port .bbtn{width:100%;min-height:58px;font-size:min(4.2vw,20px);padding-inline:12px}
+@media (min-width:600px){
+  .v-port .bru-ui{bottom:7svh}
+  .v-port .bru-row{flex-direction:row;max-width:720px;gap:18px}
+  .v-port .bbtn{flex:1;min-height:70px;font-size:min(2.6vw,22px)}
+}
+html.static .scene.bru{visibility:visible!important;min-height:100vh;min-height:100svh}
+html.static .bru-cur,html.static .bru-val{display:none}
+
 /* ================= MIDI Fart Sniffer beat (both layouts) ================= */
 .scene.mfs{z-index:7;visibility:hidden;place-items:stretch;background:#A6B0B8 url(/assets/mfs-steel.webp) 0 0/240px 240px}
 .mfs-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -392,7 +423,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
 <div id="app"></div>
 <noscript><style>.nojs{min-height:100vh;display:grid;place-items:center;text-align:center;padding:40px 24px}.nojs h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,8vw,110px);line-height:1;letter-spacing:-.03em}.nojs h1 em{font-style:normal;color:var(--signal)}.nojs p{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}</style>
 <!-- Paid plug-ins first. MIDI Fart Sniffer stays last. Do not add a free teaser above the paid plug-ins. -->
-<div class="nojs"><div><span class="mono" style="color:var(--signal)">Tril$oft VST Division</span><h1>Weird VSTs <em>no one</em> asked for.</h1><p><a class="btn btn-lime" href="/wildcard">Check out Wild Card →</a><a class="btn btn-white" href="#" data-stripe data-product="wildcard">Buy Now</a><a class="btn btn-lime" href="/conceal-n-strike">Conceal-N-Strike →</a><a class="btn btn-lime" href="/midi-fart-sniffer">MIDI Fart Sniffer →</a></p></div></div></noscript>
+<div class="nojs"><div><span class="mono" style="color:var(--signal)">Tril$oft VST Division</span><h1>Weird VSTs <em>no one</em> asked for.</h1><p><a class="btn btn-lime" href="/wildcard">Check out Wild Card →</a><a class="btn btn-white" href="#" data-stripe data-product="wildcard">Buy Now</a><a class="btn btn-lime" href="/conceal-n-strike">Conceal-N-Strike →</a><a class="btn btn-lime" href="/bruno">Bruno →</a><a class="btn btn-lime" href="/midi-fart-sniffer">MIDI Fart Sniffer →</a></p></div></div></noscript>
 <template id="tpl-desk"><div class="v-desk">
 <div class="bar" id="bar"></div>
 <header class="top">
@@ -401,11 +432,12 @@ html.static .cns-wipe,html.static .cns-door{display:none}
 </header>
 <!-- Paid plug-ins first. MIDI Fart Sniffer stays last; insert a new paid rail link before it. -->
 <nav class="rail" id="rail" aria-label="Sections">
-  <a href="#" data-go="0.071"><span>01 WEIRD</span><i></i></a>
-  <a href="#" data-go="0.182"><span>02 DIVISION</span><i></i></a>
-  <a href="#" data-go="0.413"><span>03 WILD CARD</span><i></i></a>
-  <a href="#" data-go="0.707"><span>04 CONCEAL-N-STRIKE</span><i></i></a>
-  <a href="#" data-go="1"><span>05 FART SNIFFER</span><i></i></a>
+  <a href="#" data-go="0.055"><span>01 WEIRD</span><i></i></a>
+  <a href="#" data-go="0.141"><span>02 DIVISION</span><i></i></a>
+  <a href="#" data-go="0.319"><span>03 WILD CARD</span><i></i></a>
+  <a href="#" data-go="0.546"><span>04 CONCEAL-N-STRIKE</span><i></i></a>
+  <a href="#" data-go="0.773"><span>05 BRUNO</span><i></i></a>
+  <a href="#" data-go="1"><span>06 FART SNIFFER</span><i></i></a>
 </nav>
 <main id="top">
 <div class="scroller" id="scroller">
@@ -441,7 +473,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         </div>
         <div class="rule" id="rule"><hr></div>
         <!-- Paid plug-ins first. MIDI Fart Sniffer stays last in this list. -->
-        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-004 · Bruno</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
       </div>
     </section>
     <section class="scene s3 wc" id="s3" aria-label="Wild Card">
@@ -482,6 +514,19 @@ html.static .cns-wipe,html.static .cns-door{display:none}
       </div>
     </section>
     <div class="cns-wipe" id="cnsWipe" aria-hidden="true"></div>
+    <!-- Paid: Bruno (DIV-004). The curtains close over Conceal-N-Strike, then open on him. -->
+    <section class="scene bru" id="bru" aria-label="Bruno">
+      <h2 class="sr">Bruno: an auto-drummer that plays your drums, locked to the DAW. Phrases, fills, and sections, on keyswitches.</h2>
+      <video class="bru-vid" id="bruVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/bruno-teaser-desk.mp4" poster="/assets/bruno-teaser-desk-start.jpg" data-end="/assets/bruno-teaser-desk-end.jpg"></video>
+      <div class="bru-ui" id="bruUi">
+        <span class="bru-tag">DIV-004 · VST3 · CLAP · AU</span>
+        <div class="bru-row"><a href="/bruno" class="bbtn">Check out Bruno →</a><a href="#" data-stripe data-product="bruno" class="bbtn buy">Buy Now</a></div>
+      </div>
+    </section>
+    <div class="bru-cur l" id="bruCurL" aria-hidden="true"></div>
+    <div class="bru-cur r" id="bruCurR" aria-hidden="true"></div>
+    <div class="bru-val" id="bruVal" aria-hidden="true"><span>DIV-004 // BRUNO</span></div>
     <!-- Free section. MIDI Fart Sniffer stays last, after every paid plug-in. Insert future paid scenes above #mfs. -->
     <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
       <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
@@ -555,7 +600,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         </div>
         <div class="rule" id="rule"><hr></div>
         <!-- Paid plug-ins first. MIDI Fart Sniffer stays last in this list. -->
-        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-004 · Bruno</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
       </div>
     </section>
     <section class="scene p3 wc" id="p3" aria-label="Wild Card">
@@ -597,6 +642,19 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     </section>
     <div class="cns-door t" id="doorT" aria-hidden="true"><span class="cns-tag">Authorized personnel only</span></div>
     <div class="cns-door b" id="doorB" aria-hidden="true"><span class="cns-tag">DIV-002 // Conceal-N-Strike</span></div>
+    <!-- Paid: Bruno (DIV-004). The curtains close over Conceal-N-Strike, then open on him. -->
+    <section class="scene bru" id="bru" aria-label="Bruno">
+      <h2 class="sr">Bruno: an auto-drummer that plays your drums, locked to the DAW. Phrases, fills, and sections, on keyswitches.</h2>
+      <video class="bru-vid" id="bruVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/bruno-teaser-port.mp4" poster="/assets/bruno-teaser-port-start.jpg" data-end="/assets/bruno-teaser-port-end.jpg"></video>
+      <div class="bru-ui" id="bruUi">
+        <span class="bru-tag">DIV-004 · VST3 · CLAP · AU</span>
+        <div class="bru-row"><a href="/bruno" class="bbtn">Check out Bruno →</a><a href="#" data-stripe data-product="bruno" class="bbtn buy">Buy Now</a></div>
+      </div>
+    </section>
+    <div class="bru-cur l" id="bruCurL" aria-hidden="true"></div>
+    <div class="bru-cur r" id="bruCurR" aria-hidden="true"></div>
+    <div class="bru-val" id="bruVal" aria-hidden="true"><span>DIV-004 // BRUNO</span></div>
     <!-- Free section. MIDI Fart Sniffer stays last, after every paid plug-in. Insert future paid scenes above #mfs. -->
     <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
       <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
@@ -823,18 +881,18 @@ html.static .cns-wipe,html.static .cns-door{display:none}
   // q = 0..1 progress inside one teaser's slice of the scroller. Each Remotion mp4 is scrubbed by currentTime
   // (encoded with a 6-frame GOP so seeks stay cheap). Scroll distances of the older sections stay put.
   // Paid plug-ins come first. The free MIDI Fart Sniffer section stays last: append a future paid
-  // section's vh to PAID_* and insert its scene above #mfs. Distances stay 620/1060/1500 and 660/1100/1540.
+  // section's vh to PAID_* and insert its scene above #mfs. Distances: 620/1060/1500/1940 and 660/1100/1540/1980.
   const sum = (xs) => xs.reduce((s, n) => s + n, 0);
   const FILM_DESK = 620;
-  const PAID_DESK = [440]; // Conceal-N-Strike. Append future paid sections here.
+  const PAID_DESK = [440, 440]; // Conceal-N-Strike, Bruno. Append future paid sections here.
   const MFS_DESK = 440; // free section. Stays after every paid plug-in.
-  const RANGE_DESK = FILM_DESK + sum(PAID_DESK) + MFS_DESK; // 1500
-  const MFS_AT_DESK = FILM_DESK + sum(PAID_DESK); // 1060 — start of the free section
+  const RANGE_DESK = FILM_DESK + sum(PAID_DESK) + MFS_DESK; // 1940
+  const MFS_AT_DESK = FILM_DESK + sum(PAID_DESK); // 1500 — start of the free section
   const FILM_PORT = 660;
-  const PAID_PORT = [440]; // Conceal-N-Strike. Append future paid sections here.
+  const PAID_PORT = [440, 440]; // Conceal-N-Strike, Bruno. Append future paid sections here.
   const MFS_PORT = 440; // free section. Stays after every paid plug-in.
-  const RANGE_PORT = FILM_PORT + sum(PAID_PORT) + MFS_PORT; // 1540
-  const MFS_AT_PORT = FILM_PORT + sum(PAID_PORT); // 1100 — start of the free section
+  const RANGE_PORT = FILM_PORT + sum(PAID_PORT) + MFS_PORT; // 1980
+  const MFS_AT_PORT = FILM_PORT + sum(PAID_PORT); // 1540 — start of the free section
   function cns(root, mode) {
     const $ = s => root.querySelector(s);
     const sc = $('#cns'), vid = $('#cnsVid'), ui = $('#cnsUi'), bits = [...ui.querySelectorAll('.cns-tag, .cbtn')];
@@ -875,6 +933,43 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     };
   }
 
+  // ================= Bruno beat (paid, DIV-004): his curtains close over Conceal-N-Strike, then open on the scrubbed teaser =================
+  function bru(root) {
+    const $ = s => root.querySelector(s);
+    const sc = $('#bru'), vid = $('#bruVid'), ui = $('#bruUi'), bits = [...ui.querySelectorAll('.bru-tag, .bbtn')];
+    const cl = $('#bruCurL'), cr = $('#bruCurR'), val = $('#bruVal'), title = val.querySelector('span'), nav = $('#nav');
+    const rail = $('#rail'), railA = rail ? [...rail.querySelectorAll('a')] : [];
+    vid.src = vid.dataset.src; vid.load();
+    const prime = () => { const pr = vid.play(); if (pr && pr.then) pr.then(() => vid.pause()).catch(() => {}); else vid.pause(); };
+    addEventListener('touchstart', prime, { once: true, passive: true });
+    return {
+      render(q) {
+        const c = easeIO(seg(q, .02, .14)) * (1 - easeIO(seg(q, .2, .34))); // 0 open → 1 shut
+        cl.style.transform = `translateX(${(c - 1) * 102}%)`; cr.style.transform = `translateX(${(1 - c) * 102}%)`;
+        cl.style.visibility = cr.style.visibility = c > .001 ? 'visible' : 'hidden';
+        val.style.visibility = q > 0 && q < .34 ? 'visible' : 'hidden';
+        val.style.setProperty('--drop', `${((1 - easeOut(seg(q, 0, .08))) + easeIO(seg(q, .24, .34))) * -110}%`);
+        const ti = easeOut(seg(q, .1, .16));
+        title.style.opacity = ti * (1 - seg(q, .19, .23));
+        title.style.transform = `scale(${.7 + .3 * ti}) rotate(-2deg)`;
+        show(sc, q >= .15 ? 1 : 0); // stays up under the Fart Sniffer's lid
+        const t = seg(q, .22, .88) * Math.max(0, (vid.duration || 9) - .05);
+        if (vid.readyState >= 1 && !vid.seeking && Math.abs(vid.currentTime - t) > .015) { try { vid.currentTime = t; } catch (e) {} }
+        bits.forEach((b, i) => { const v = easeOut(seg(q, .84 + i * .025, .9 + i * .025)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
+        ui.style.pointerEvents = q > .9 && q < 1 ? 'auto' : 'none';
+        if (q > 0 && q < 1) {
+          const [label, href] = q > .12 ? ['Bruno →', '/bruno'] : ['Conceal-N-Strike →', '/conceal-n-strike'];
+          if (nav.textContent !== label) { nav.textContent = label; nav.href = href; }
+        }
+        if (rail) {
+          if (q > .1 && q < 1) { railA.forEach((a, i) => a.classList.toggle('on', i === 4)); rail.classList.add('br'); rail.classList.remove('wc', 'cn', 'sn'); }
+          else rail.classList.remove('br');
+        }
+      },
+      destroy() { removeEventListener('touchstart', prime); vid.removeAttribute('src'); vid.load(); }
+    };
+  }
+
   // ================= MIDI Fart Sniffer beat (concrete slab with leading slime drips, then the scrubbed teaser) =================
   // The free section stays last. This transition runs only after every paid plug-in.
   function mfs(root) {
@@ -902,7 +997,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         const on = q > .12;
         if (on) { nav.textContent = 'MIDI Fart Sniffer →'; nav.href = '/midi-fart-sniffer'; }
         navOn = on;
-        if (rail && q > .1) { railA.forEach((a, i) => a.classList.toggle('on', i === 4)); rail.classList.add('sn'); rail.classList.remove('wc', 'cn'); }
+        if (rail && q > .1) { railA.forEach((a, i) => a.classList.toggle('on', i === 5)); rail.classList.add('sn'); rail.classList.remove('wc', 'cn'); }
       },
       destroy() { removeEventListener('touchstart', prime); vid.removeAttribute('src'); vid.load(); }
     };
@@ -948,18 +1043,20 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     root.style.setProperty('--sh', a.stage.offsetHeight + 'px');
     goTo(keep, false);
     if (isStatic) return;
-    const base = (mode === 'port' ? port : desk)(root), cn = cns(root, mode), mf = mfs(root), bar = root.querySelector('#bar');
+    const base = (mode === 'port' ? port : desk)(root), cn = cns(root, mode), br = bru(root), mf = mfs(root), bar = root.querySelector('#bar');
     const range = mode === 'port' ? RANGE_PORT : RANGE_DESK;
     const K1 = (mode === 'port' ? FILM_PORT : FILM_DESK) / range;
+    const KB = ((mode === 'port' ? FILM_PORT : FILM_DESK) + (mode === 'port' ? PAID_PORT : PAID_DESK)[0]) / range; // Conceal-N-Strike → Bruno
     const K2 = (mode === 'port' ? MFS_AT_PORT : MFS_AT_DESK) / range;
     a.renderer = {
       render(P, now, dp, dt) {
         base.render(Math.min(1, P / K1), now, P < K1 ? dp / K1 : 0, dt);
-        cn.render(clamp((P - K1) / (K2 - K1)));
+        cn.render(clamp((P - K1) / (KB - K1)));
+        br.render(clamp((P - KB) / (K2 - KB)));
         mf.render(clamp((P - K2) / (1 - K2)));
         bar.style.transform = `scaleX(${P})`;
       },
-      destroy() { base.destroy(); cn.destroy(); mf.destroy(); }
+      destroy() { base.destroy(); cn.destroy(); br.destroy(); mf.destroy(); }
     };
     a.cur = targetOf(a);
     let last = performance.now(), prev = a.cur;

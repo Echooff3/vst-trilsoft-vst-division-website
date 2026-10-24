@@ -12,7 +12,8 @@
      is PAYMENT_LINK_WILDCARD and conceal-n-strike is
      PAYMENT_LINK_CONCEAL_N_STRIKE. The value must be https. On Railway,
      set the variable to publish a link without a code change.
-     MIDI Fart Sniffer is free and has no payment link.
+     MIDI Fart Sniffer is free and has no payment link. Bruno's link is
+     still empty (a stub): Buy Now stays on the page until it's set.
 
    licenseBase
      Origin of the license server. Get Free Key POSTs JSON to
@@ -32,12 +33,14 @@ window.TRILOSOFT = {
   paymentLinks: {
     wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
     "conceal-n-strike": "https://buy.stripe.com/test_aFa5kF5C67X42GOfSL9R601",
+    bruno: "",
   },
   licenseBase: "https://vst-license.trilsoft.com",
   API_BASE_URL: "",
   products: {
     wildcard: "wildcard",
     "conceal-n-strike": "conceal-n-strike",
+    bruno: "bruno",
     "midi-fart-sniffer": "fart-sniffer",
   },
 };

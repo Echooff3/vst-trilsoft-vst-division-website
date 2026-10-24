@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google tag (gtag.js): page views only, ad features and Google signals off -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HGXGD2WJZ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HGXGD2WJZ5', { allow_google_signals: false, allow_ad_personalization_signals: false });
+</script>
+<title>Bruno: the auto-drummer · Tril$oft VST Division</title>
+<meta name="description" content="Bruno is an auto-drummer that plays MIDI into your drum plug-in, locked to the host's tempo and bars, in phrases, with fills, on keyswitches.">
+<link rel="canonical" href="https://vst.trilsoft.com/bruno">
+<meta name="theme-color" content="#b5322a">
+<meta property="og:title" content="Bruno: the auto-drummer · Tril$oft VST Division">
+<meta property="og:description" content="Bruno is an auto-drummer that plays MIDI into your drum plug-in, locked to the host's tempo and bars, in phrases, with fills, on keyswitches.">
+<meta property="og:url" content="https://vst.trilsoft.com/bruno">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tril$oft VST Division">
+<meta property="og:image" content="https://vst.trilsoft.com/assets/og/bruno.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Bruno, the drummer who takes no guff, on his stage next to his plug-in window.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bruno: the auto-drummer · Tril$oft VST Division">
+<meta name="twitter:description" content="Bruno is an auto-drummer that plays MIDI into your drum plug-in, locked to the host's tempo and bars, in phrases, with fills, on keyswitches.">
+<meta name="twitter:image" content="https://vst.trilsoft.com/assets/og/bruno.jpg">
+<meta name="twitter:image:alt" content="Bruno, the drummer who takes no guff, on his stage next to his plug-in window.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>
+(function(d){var p=matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: reduce)').matches?' static':'');})(document.documentElement);
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=Titan+One&family=Comic+Neue:wght@700&family=Unbounded:wght@800&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/bruno/Rye-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/assets/fonts/bruno/TitanOne-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/assets/fonts/bruno/ComicNeue-Bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/tour.css">
+<link rel="stylesheet" href="/footer.css">
+<style>
+:root{
+  --ink:#1c1512; --paper:#f6eacf; --paper-d:#e2cd9f; --red:#b5322a; --red-d:#7a1f1a; --mustard:#e0a526; --orange:#e87828; --teal:#3f7f7a; --teal-d:#244e4a;
+  --rye:"Rye",Georgia,serif; --display:"Titan One",Impact,sans-serif; --body:"Comic Neue","Comic Sans MS",system-ui,sans-serif;
+}
+/* Old paper going yellow at the edges, and the iris closing in, like his window. */
+html{background:var(--paper)}
+body{font-family:var(--body);font-weight:700;color:var(--ink);background:var(--paper) radial-gradient(ellipse at 50% 45%,rgba(246,234,207,0) 50%,rgba(176,140,70,.32) 100%) fixed;line-height:1.45;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(circle at 50% 50%,transparent 62%,rgba(28,21,18,.22) 100%)}
+.pbar{background:linear-gradient(90deg,var(--red),var(--mustard),var(--teal))}
+/* The bar is his curtain, with the stage's mustard valance under it. */
+nav.top{position:fixed;inset:0 0 auto 0;z-index:60;min-height:74px;height:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 2.4vw;background:var(--red) repeating-linear-gradient(90deg,rgba(122,31,26,.55) 0 14px,transparent 14px 26px);border-bottom:3px solid var(--ink)}
+nav.top::after{content:"";position:absolute;left:0;right:0;top:100%;height:20px;pointer-events:none;background:radial-gradient(circle at 15px 0,var(--mustard) 0 12.5px,var(--ink) 12.5px 15px,transparent 15px) 0 0/30px 20px repeat-x}
+.ts{display:inline-flex;align-items:center;gap:10px;font-family:"Unbounded",sans-serif;font-weight:800;font-size:15px;color:var(--paper);white-space:nowrap}
+.ts i{font-style:normal;color:var(--mustard)}
+.ts small{font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:.14em;color:rgba(246,234,207,.75)}
+nav.top .r{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--display);font-size:20px;letter-spacing:.02em;line-height:1;padding:14px 22px 12px;color:var(--paper);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;background:var(--teal);border:3px solid var(--ink);border-radius:12px;box-shadow:4px 5px 0 var(--ink);white-space:nowrap;position:relative}
+.btn::after{content:"";position:absolute;left:12px;top:5px;width:min(30%,56px);height:4px;border-radius:2px;background:rgba(255,255,255,.55);pointer-events:none}
+.btn:hover{filter:brightness(1.07)} .btn:active{transform:translate(2px,2px);box-shadow:2px 3px 0 var(--ink)}
+.btn.buy{background:var(--mustard);color:var(--ink);-webkit-text-stroke:0}
+.btn.ghost{background:var(--paper);color:var(--ink);-webkit-text-stroke:0}
+nav.top .btn{font-size:16px;padding:10px 16px 8px}
+.px{display:flex;flex-direction:column;align-items:flex-start;gap:2px;font-family:var(--display);font-size:18px;line-height:1.05;color:var(--paper);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;white-space:nowrap}
+.px small{font-family:var(--body);font-size:11.5px;letter-spacing:.08em;-webkit-text-stroke:0;color:rgba(246,234,207,.85)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.stage{background:transparent}
+#uibox{border-radius:16px;border:3px solid var(--ink);box-shadow:7px 8px 0 var(--ink);background:var(--paper)}
+.is-port #uibox{border-radius:0;border-left:0;border-right:0;box-shadow:none}
+#rail button span{font-family:var(--display);font-size:13px;letter-spacing:.04em;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);padding:2px 9px;border-radius:7px;box-shadow:2px 3px 0 var(--ink)}
+#rail button i{background:var(--ink);border-radius:50%}
+#rail button.on i{background:var(--red);box-shadow:0 0 0 2px var(--ink)}
+/* copy cards: his panels, a title card stuck on the corner */
+.card{position:relative;background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:30px 28px 24px;box-shadow:6px 7px 0 var(--ink);color:var(--ink);font-weight:700}
+.card .tag{position:absolute;left:16px;top:-15px;font-family:var(--display);font-weight:400;font-size:14px;letter-spacing:.04em;color:var(--paper);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;background:var(--red);border:2.5px solid var(--ink);border-radius:7px;box-shadow:2px 3px 0 var(--ink);padding:4px 11px 3px}
+.card .tag.teal{background:var(--teal)} .card .tag.mus{background:var(--mustard)} .card .tag.ink{background:var(--ink)}
+.card h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,2.4vw,40px);line-height:1.05;color:var(--ink);margin:6px 0 12px}
+.card h2 em{font-family:var(--rye);font-style:normal;color:var(--red);font-size:1.08em}
+.card p{font-size:17px;color:var(--ink);max-width:520px}
+.card p+p{margin-top:10px}
+.keys{list-style:none;display:grid;gap:8px;margin-top:14px}
+.keys li{display:flex;align-items:baseline;gap:10px;font-size:15.5px;color:var(--ink)}
+kbd{flex:none;font-family:var(--display);font-weight:400;font-size:13px;letter-spacing:.04em;color:var(--ink);background:#fff;border:2.5px solid var(--ink);border-radius:8px;box-shadow:2px 3px 0 var(--ink);padding:3px 8px 2px;white-space:nowrap}
+.tip{margin-top:12px;font-size:15px;color:#4a3a2c}
+.tip b{color:var(--teal-d)}
+.scene{display:grid;place-items:center;text-align:center;padding:118px 6vw 36px;background:transparent}
+.scene>div{position:relative}
+.scene .tag{display:inline-block;font-family:var(--display);font-weight:400;letter-spacing:.05em;font-size:15px;color:var(--paper);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;background:var(--teal);border:2.5px solid var(--ink);border-radius:8px;box-shadow:3px 4px 0 var(--ink);padding:6px 12px 4px}
+/* the title card: Rye, red, a mustard drop and fat ink */
+.headline{position:relative;display:inline-block;font-family:var(--rye);font-weight:400;line-height:.95;letter-spacing:.01em;color:var(--red);-webkit-text-stroke:var(--sw) var(--ink);paint-order:stroke fill;--sw:10px}
+.headline .sh{position:absolute;left:.07em;top:.09em;color:var(--mustard);z-index:-1;white-space:nowrap}
+.guff{display:inline-block;font-family:var(--display);font-size:clamp(15px,1.35vw,20px);letter-spacing:.07em;color:var(--paper);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill}
+.tagline{font-family:var(--display);font-size:clamp(20px,2vw,30px);line-height:1.15;color:var(--ink);display:inline-block;margin-top:14px}
+.tagline em{font-style:normal;color:var(--red)}
+.scene .sub{font-size:18px;color:var(--ink);max-width:560px;margin:14px 0 0}
+.scene .cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:22px}
+.price{font-family:var(--display);font-size:18px;color:var(--ink)}
+.price small{display:block;font-family:var(--body);font-size:13px;color:#5b4a3a}
+.hint{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:14px;font-family:var(--display);letter-spacing:.2em;font-size:12px;color:var(--ink)}
+.hint i{display:block;width:12px;height:12px;border-radius:50%;background:var(--red);border:2.5px solid var(--ink);animation:hop .7s cubic-bezier(.3,0,.5,1) infinite alternate}
+@keyframes hop{to{transform:translateY(14px) scaleY(.85)}}
+.fine{margin-top:18px;font-size:14px;letter-spacing:.08em;color:#4a3a2c}
+
+/* hero: copy on the left, Bruno on his stage on the right */
+.hero .hero-in{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,64px);align-items:center;width:min(1180px,100%);text-align:left}
+.hero .headline{font-size:clamp(84px,10.5vw,170px);margin:14px 0 8px}
+.hero .hint{align-items:flex-start}
+.poster{position:relative;justify-self:center;width:min(380px,31vw);aspect-ratio:5/7;transform:rotate(-3deg);filter:drop-shadow(8px 10px 0 var(--ink));animation:sway 4.4s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(-1.5deg) translateY(-6px)}}
+.poster .frame{position:absolute;inset:0;border-radius:18px;border:3px solid var(--ink);overflow:hidden;background:var(--red-d)}
+.poster .curtain{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(181,50,42,.92) 0 13px,rgba(122,31,26,.0) 13px 24px)}
+.poster .burst{position:absolute;left:50%;top:44%;width:180%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(224,165,38,.55) 0 9deg,rgba(232,120,40,.32) 9deg 18deg);-webkit-mask:radial-gradient(circle,#000 22%,transparent 46%);mask:radial-gradient(circle,#000 22%,transparent 46%);animation:spin 60s linear infinite}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.poster .boards{position:absolute;left:0;right:0;bottom:0;height:17%;background:#8a5a32 repeating-linear-gradient(180deg,transparent 0 11px,rgba(28,21,18,.5) 11px 13px);border-top:3px solid var(--ink)}
+.poster .val{position:absolute;left:0;right:0;top:0;height:8%;background:var(--mustard);border-bottom:2px solid rgba(28,21,18,.4)}
+.poster .val::after{content:"";position:absolute;left:0;right:0;top:100%;height:26px;background:radial-gradient(circle at 50% 0,var(--mustard) 0 15px,var(--ink) 15px 17px,transparent 17px) 0 0/11.11% 26px repeat-x}
+.poster .bruno{position:absolute;left:50%;bottom:6%;height:72%;transform:translateX(-50%);animation:breathe 2.6s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes breathe{50%{transform:translateX(-50%) scaleY(1.015)}}
+.poster .shadow{position:absolute;left:24%;right:24%;bottom:4.5%;height:4%;border-radius:50%;background:rgba(28,21,18,.35)}
+.poster .say{position:absolute;left:7%;right:7%;top:12%;padding:9px 10px 7px;text-align:center;font-family:var(--display);font-size:clamp(13px,1.3vw,19px);color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:999px}
+.poster .say::after{content:"";position:absolute;left:44%;top:100%;border:11px solid transparent;border-top:18px solid var(--ink)}
+.poster .say::before{content:"";position:absolute;left:calc(44% + 4px);top:calc(100% - 1px);border:7px solid transparent;border-top:12px solid #fff;z-index:1}
+.poster .title{position:absolute;left:-5%;right:-5%;bottom:-5%;text-align:center}
+.poster .title b{display:inline-block;font-family:var(--display);font-weight:400;font-size:clamp(14px,1.4vw,20px);color:var(--ink);background:var(--paper);border:3px solid var(--ink);border-radius:8px;box-shadow:3px 4px 0 var(--ink);padding:6px 14px 4px;transform:rotate(2deg)}
+.poster .div{position:absolute;right:-6%;top:-4%;font-family:var(--display);font-size:clamp(13px,1.2vw,18px);color:var(--paper);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;background:var(--teal);border:3px solid var(--ink);border-radius:10px;padding:6px 11px 4px;transform:rotate(7deg);box-shadow:3px 4px 0 var(--ink)}
+
+/* closing scene */
+#cta>div{width:min(760px,100%)}
+#cta .tag{display:block;width:max-content;max-width:100%;margin-inline:auto}
+#cta .headline{font-size:clamp(46px,6vw,92px);margin:18px 0 6px;white-space:nowrap}
+#cta .cta{justify-content:center}
+#cta .btn.buy{font-size:28px;padding:22px 42px 20px}
+
+/* overlays inside the window (window pixels, scaled with the camera) */
+.ov{position:absolute;left:0;top:0;width:1100px;height:736px;z-index:12;display:grid;place-items:center;background:rgba(28,21,18,.6);font-family:var(--body);font-weight:700;transition:opacity .3s}
+.ov.off{opacity:0;visibility:hidden;pointer-events:none}
+.ov .box{background:var(--paper);border:3px solid var(--ink);border-radius:14px;box-shadow:7px 8px 0 var(--ink);padding:24px 26px;color:var(--ink)}
+.installer .box{width:540px}
+.installer h4{font-family:var(--rye);font-weight:400;font-size:28px}
+.installer li{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:9px;padding:9px 12px;background:#fff;border:2.5px solid var(--ink);border-radius:10px;box-shadow:2px 3px 0 var(--ink);list-style:none;font-size:16px}
+.installer li small{color:#5b4a3a;font-size:13px}
+.installer li .ck{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);margin-right:8px;color:transparent;font-size:13px}
+.installer li.done .ck{background:var(--teal);color:var(--paper)}
+/* the license client's prompt, in his colours (editor.rs prompt_style) */
+.prompt{background:rgba(28,21,18,.84)}
+.prompt .box{width:430px;border:2px solid var(--mustard);border-radius:10px;box-shadow:none;padding:24px}
+.prompt h4{font-family:"BrunoRye",var(--rye);font-weight:400;font-size:21px}
+.prompt p{font-size:14px;color:rgba(28,21,18,.65);margin-top:6px}
+.prompt .field{margin-top:14px;background:#fff;border:1px solid rgba(28,21,18,.3);border-radius:3px;padding:6px 8px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:17px;font-weight:400;color:rgba(28,21,18,.4)}
+.prompt .field.go{color:var(--ink)}
+.prompt .row{display:flex;justify-content:space-between;margin-top:14px}
+.prompt .row span{font-size:14px;padding:7px 14px;border-radius:3px}
+.prompt .paste{background:var(--mustard)}
+.prompt .act{background:var(--red);color:var(--paper);opacity:.5}
+.prompt .act.go{opacity:1}
+/* a MIDI keyboard, for the keyswitch beat */
+.kb{position:absolute;left:470px;top:518px;width:268px;height:92px;z-index:11;transition:opacity .3s,transform .3s}
+.kb.off{opacity:0;transform:translateY(10px)}
+.kb .keys2{position:absolute;inset:0;background:var(--ink);border:3px solid var(--ink);border-radius:8px;box-shadow:5px 6px 0 rgba(28,21,18,.8);overflow:hidden}
+.kb .w{position:absolute;top:0;bottom:0;width:calc(100% / 7 - 2px);background:#fffaf0;border-radius:0 0 5px 5px}
+.kb .b{position:absolute;top:0;height:58%;width:calc(100% / 12);background:#2b211c;border-radius:0 0 4px 4px;z-index:1}
+.kb .on{background:var(--mustard)!important}
+.kb .lbl{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);font-family:var(--display);font-size:20px;color:var(--paper);-webkit-text-stroke:5px var(--ink);paint-order:stroke fill;white-space:nowrap}
+/* the take leaving as a MIDI clip */
+.clip{position:absolute;left:0;top:0;z-index:13;display:flex;align-items:center;gap:8px;padding:8px 12px 7px;background:var(--paper);border:3px solid var(--ink);border-radius:9px;box-shadow:4px 5px 0 var(--ink);font-family:var(--display);font-size:15px;color:var(--ink);white-space:nowrap;pointer-events:none;transition:opacity .2s}
+.clip.off{opacity:0}
+.clip i{display:block;width:44px;height:22px;border-radius:4px;background:var(--red) repeating-linear-gradient(90deg,transparent 0 5px,rgba(246,234,207,.85) 5px 7px,transparent 7px 11px);border:2px solid var(--ink)}
+/* Ableton: the Max for Live device in front of the drums (scripts/make-m4l.py) */
+.live{background:rgba(28,21,18,.55)}
+.live .rack{display:flex;gap:6px;padding:10px;background:#3B3B3B;border:2px solid #111;border-radius:6px;box-shadow:7px 8px 0 var(--ink);font-family:Inter,Arial,sans-serif}
+.live .dev{position:relative;background:#262626;border:1px solid #111;border-radius:3px;padding-top:22px}
+.live .dev>.t{position:absolute;left:0;right:0;top:0;height:20px;display:flex;align-items:center;gap:6px;padding:0 8px;background:#7FB5CC;color:#111;font-size:11px;font-weight:600}
+.live .dev>.t i{width:10px;height:10px;border-radius:50%;background:#F3C12B;border:1px solid #111}
+.live .m4l{width:214px;height:198px}
+.live .m4l .face{position:absolute;left:6px;top:24px;width:200px;height:169px;background:var(--paper);border:2px solid var(--ink)}
+.live .m4l .face b{position:absolute;left:8px;top:6px;font-family:"Arial Black",Arial,sans-serif;font-size:24px;line-height:1.1;color:var(--red)}
+.live .m4l .k{position:absolute;display:grid;place-items:center;font-family:"Arial Black",Arial,sans-serif;font-size:12px;color:var(--ink);border:2px solid var(--ink);border-radius:6px}
+.live .m4l .k.prs{filter:brightness(1.25);box-shadow:inset 0 0 0 2px var(--paper)}
+.live .drums{width:300px;height:198px}
+.live .drums .face{position:absolute;inset:28px 6px 6px;background:repeating-linear-gradient(90deg,#333 0 36px,#2c2c2c 36px 72px);display:grid;place-items:center;color:#bbb;font-size:13px}
+.live .arrow{align-self:center;color:#ddd;font-size:26px;padding:0 4px}
+.live .cap,.logic .cap{position:absolute;left:50%;transform:translateX(-50%);font-family:var(--display);font-size:22px;color:var(--paper);-webkit-text-stroke:5px var(--ink);paint-order:stroke fill;white-space:nowrap}
+/* Logic: the channel strip's MIDI FX slot */
+.logic{background:rgba(28,21,18,.55)}
+.logic .strip{width:220px;padding:12px;background:#2F3136;border:2px solid #111;border-radius:6px;box-shadow:7px 8px 0 var(--ink);font-family:Inter,Arial,sans-serif;color:#ddd;font-size:12px}
+.logic .strip h5{font-size:11px;font-weight:600;color:#999;margin:10px 0 4px;letter-spacing:.06em}
+.logic .slot{height:24px;border-radius:4px;background:#45474D;display:flex;align-items:center;padding:0 8px;font-size:12px}
+.logic .slot.hi{background:#5D6CC0;color:#fff;box-shadow:0 0 0 2px var(--mustard)}
+.logic .cap{position:static;transform:none;margin-top:16px;text-align:center}
+
+.is-port{--hdr:calc(64px + env(safe-area-inset-top, 0px))}
+.is-port nav.top{height:auto;min-height:52px;padding:8px 14px;padding-top:max(8px,env(safe-area-inset-top));align-items:center;flex-wrap:nowrap;gap:10px}
+.is-port nav.top .r{flex:1;flex-wrap:nowrap;justify-content:flex-end;min-width:0;gap:8px}
+.is-port .ts small{display:none}
+.is-port nav.top .btn{font-size:13px;padding:8px 10px 7px}
+.is-port nav.top .btn::after{display:none}
+.is-port nav.top .plug{font-size:12px;padding:6px 9px 5px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.is-port nav.top .plug span{display:none}
+.is-port nav.top .px{font-size:15px}
+.is-port nav.top .px small{display:none}
+.is-port .copy{padding:18px 14px max(12px,env(safe-area-inset-bottom))}
+.is-port .beat{top:18px;bottom:8px;left:12px;right:12px}
+.is-port .card{height:100%;padding:12px 16px 14px;overflow:hidden}
+.is-port .card .tag{position:static;display:inline-block;margin-bottom:2px;font-size:12px;-webkit-text-stroke:3px var(--ink)}
+.is-port .card h2{font-size:clamp(24px,6.4vw,34px)}
+.is-port .card p,.is-port .keys li{font-size:14.5px}
+.is-port .scene{padding:calc(var(--hdr) + 22px) 20px 28px}
+.is-port .hero .hero-in{grid-template-columns:1fr;text-align:center;gap:10px}
+.is-port .hero .hero-copy{order:2}
+.is-port .poster{order:1;width:min(170px,38vw);margin-bottom:6px}
+.is-port .poster .say{font-size:9px;padding:5px 6px 4px;border-width:2px}
+.is-port .poster .title b{font-size:11px;padding:3px 8px 2px}
+.is-port .poster .div{font-size:10px;-webkit-text-stroke:3px var(--ink);padding:3px 6px 2px}
+.is-port .hero .headline{font-size:min(19vw,104px);--sw:7px;margin:4px 0 6px}
+.is-port .guff{font-size:14px;-webkit-text-stroke:4px var(--ink)}
+.is-port .tagline{font-size:17px;margin-top:8px}
+.is-port .scene .sub{font-size:15px;line-height:1.3;margin:8px auto 0}
+.is-port .scene .cta{justify-content:center;margin-top:12px}
+.is-port .hero .hint{align-items:center}
+.is-port .btn{font-size:18px;padding:14px 18px 12px}
+.is-port #cta .headline{font-size:min(10.5vw,60px);--sw:6px}
+.is-port #cta .btn.buy{font-size:22px;padding:16px 28px 14px}
+@media (max-width:720px){
+  .is-port{--hdr:calc(52px + env(safe-area-inset-top, 0px))}
+  .is-port nav.top{padding:6px 12px;padding-top:max(6px,env(safe-area-inset-top));gap:8px}
+  .is-port nav.top .plug,.is-port nav.top .px{display:none}
+  .is-port .ts{font-size:13px;gap:6px}
+}
+@media (max-height:740px){ .is-desk .poster{width:min(310px,26vw)} .is-desk .hero .headline{font-size:clamp(70px,8.6vw,130px)} .is-desk .hero .sub{display:none} }
+html.static nav.top{position:sticky}
+html.static .scene{padding:48px 20px}
+html.static .poster,html.static .poster .burst,html.static .poster .bruno{animation:none}
+</style>
+</head>
+<body>
+<div class="pbar"></div>
+<nav class="top">
+  <a href="/" class="ts" title="Back to Tril$oft">← <span>TRIL<i>$</i>OFT</span> <small>VST DIV · 004</small></a>
+  <div class="r">
+    <a href="/conceal-n-strike" class="btn ghost plug" title="Other plug-in: Conceal-N-Strike">DIV-002 <span>Conceal-N-Strike</span> →</a>
+    <a href="#" class="btn buy" data-stripe data-product="bruno">Buy Now</a>
+    <!-- Price: a stub until Bruno's payment link is set (js/site-config.js). -->
+    <span class="px">Price TBA<small>coming soon</small></span>
+  </div>
+</nav>
+
+<main id="scroller" class="scroller">
+  <div id="stage" class="stage">
+    <section class="scene hero first" id="hero">
+      <div class="hero-in">
+        <div class="hero-copy">
+          <span class="tag">DIV-004 · Auto-drummer</span><br>
+          <h1 class="headline"><span class="sh" aria-hidden="true">BRUNO</span>BRUNO</h1><br>
+          <p class="guff">THE DRUMMER WHO TAKES NO GUFF</p><br>
+          <p class="tagline">Weird VSTs <em>no one asked for.</em></p>
+          <p class="sub">An auto-drummer that plays MIDI into your drum plug-in, locked to the DAW's tempo and bars. Phrases, fills, and eight sections, called from keyswitches. Every bar he plays drags out as a MIDI clip.</p>
+          <div class="cta"><a class="btn buy" href="#" data-stripe data-product="bruno">Buy Now →</a><a class="btn ghost" href="#" data-goto="install">Meet Bruno</a></div>
+          <div class="hint"><i></i>SCROLL</div>
+        </div>
+        <div class="poster" aria-hidden="true">
+          <div class="frame"><div class="curtain"></div><div class="burst"></div><div class="boards"></div><div class="shadow"></div><img class="bruno" src="/assets/bruno-art.webp" alt=""><div class="val"></div></div>
+          <div class="say">QUIT STALLIN'!</div>
+          <div class="div">DIV-004</div>
+          <div class="title"><b>BRUNO · DRUMS</b></div>
+        </div>
+      </div>
+    </section>
+
+    <div id="uibox"><div id="ui"></div></div>
+
+    <div class="copy">
+      <article class="beat" data-beat="install"><div class="card"><span class="tag">01 · SETUP</span>
+        <h2>Run the <em>installer</em></h2>
+        <p>One macOS installer drops every format: <b>VST3</b>, <b>CLAP</b>, an <b>Audio Unit</b>, the <b>standalone app</b>, and the <b>Max for Live</b> device.</p>
+        <p class="tip"><b>Skip what you don't play.</b> Customize the Installation Type step and leave the rest out.</p></div></article>
+
+      <article class="beat" data-beat="drums"><div class="card"><span class="tag">02 · SETUP</span>
+        <h2>He plays <em>your</em> drums</h2>
+        <p>Bruno doesn't make the sound. He plays MIDI into the drum plug-in you already like: EZdrummer, Superior Drummer, GetGood, Battery, a Drum Rack. Locked to the DAW's tempo and bars, in phrases, with fills.</p>
+        <p class="tip"><b>No DAW?</b> The standalone app plays him through its preview kit.</p></div></article>
+
+      <article class="beat" data-beat="activate"><div class="card"><span class="tag">03 · SETUP</span>
+        <h2>Activate <em>once</em></h2>
+        <p>The first launch asks for the code from your purchase email. Paste it in and the license stays on the machine.</p>
+        <ul class="keys"><li><kbd>BRUN-XXXX-XXXX-XXXX-XXXX</kbd></li></ul></div></article>
+
+      <article class="beat" data-beat="start"><div class="card"><span class="tag teal">04 · START</span>
+        <h2>Count him <em>in</em></h2>
+        <p>The big button starts him. Press it again and he finishes on the next downbeat, with a crash. <b>START WITH HOST</b> starts him with the DAW's transport. Stopping the DAW always stops him.</p>
+        <p class="tip"><b>Standalone app:</b> Space starts and stops him.</p></div></article>
+
+      <article class="beat" data-beat="mood"><div class="card"><span class="tag teal">05 · HIS MOOD</span>
+        <h2>Calm to <em>furious</em></h2>
+        <p>The pad is his mood. Left to right is calm to furious, bottom to top is simple to fancy. Every dot is a groove from the section, and he plays the one nearest the puck. A move lands on the next bar.</p>
+        <p class="tip"><b>Double-click</b> the pad to put the puck back.</p></div></article>
+
+      <article class="beat" data-beat="sections"><div class="card"><span class="tag">06 · SECTIONS</span>
+        <h2>Call the <em>section</em></h2>
+        <p>Eight of them, <b>INTRO</b> to <b>BREAKDOWN</b>. Click one and it blinks until the next bar, then he's there. With FILLS up, he fills into it. <b>PHRASE</b> shows where he is in the phrase.</p>
+        <p class="tip"><b>Standalone app:</b> keys 1 to 8.</p></div></article>
+
+      <article class="beat" data-beat="fills"><div class="card"><span class="tag mus">07 · HOW HARD</span>
+        <h2>Fills, up to <em>mania</em></h2>
+        <p><b>FILLS</b> at 0 is none. A little gives a short fill at the end of each phrase. Halfway, a full bar there and a short one halfway through. More, every other bar. All the way up, every bar is a fill: <b>FILL MANIA</b>.</p>
+        <p class="tip"><b>FILL!</b> asks for one right now. In the standalone app, so does F.</p></div></article>
+
+      <article class="beat" data-beat="take"><div class="card"><span class="tag mus">08 · VARIATION</span>
+        <h2>Same take, or <em>new</em></h2>
+        <p><b>VARIATION</b> at 0 plays the library as written. Up from there: looser timing and velocity, ghost notes, extra kicks, open hats, swapped crashes.</p>
+        <p><b>SAME TAKE</b> plays the same performance every time the song plays, so a bounce matches what you heard. <b>REROLL</b> deals a different one. <b>NEW TAKE</b> rolls new dice every start.</p></div></article>
+
+      <article class="beat" data-beat="phrasing"><div class="card"><span class="tag">09 · PHRASING</span>
+        <h2>Bars and <em>tempo</em></h2>
+        <p><b>BARS</b>: 4, 8, or 16 a phrase. <b>START</b>: wait for the next <b>BAR</b> or <b>BEAT</b>, or go <b>NOW</b>.</p>
+        <p><b>TEMPO</b>: <b>HOST</b> follows the DAW. <b>SET</b> is the box: drag it. <b>HALF</b> and <b>DOUBLE</b> play it at half or double time.</p></div></article>
+
+      <article class="beat" data-beat="keys"><div class="card"><span class="tag mus">10 · KEYSWITCHES</span>
+        <h2>Boss him from <em>the keys</em></h2>
+        <ul class="keys"><li><kbd>C-1</kbd>Start him, or stop him</li><li><kbd>C#-1</kbd>A fill, now</li><li><kbd>D-1 – A-1</kbd>Sections 1 to 8</li></ul>
+        <p class="tip"><b>FROM</b> and <b>CHANNEL</b> move them. <b>Last heard</b> shows the last one, so a wrong octave is easy to spot. Every other note passes straight through.</p></div></article>
+
+      <article class="beat" data-beat="strip"><div class="card"><span class="tag ink">11 · THE TAKE</span>
+        <h2>Drag the <em>take</em></h2>
+        <p>Every bar he plays lands on the film strip, by the DAW's bar. Play a bar again and it's replaced. Grab <b>DRAG ME</b> and drop it on a track: a MIDI clip that starts at its first bar, with your output notes and channel.</p>
+        <p class="tip"><b>CLEAR</b> empties the strip.</p></div></article>
+
+      <article class="beat" data-beat="output"><div class="card"><span class="tag">12 · OUTPUT</span>
+        <h2>Where the <em>MIDI</em> goes</h2>
+        <p><b>CH</b> is the channel he plays on (10, for drums). The percentage scales velocity.</p>
+        <p>The box under them copies the MIDI to a port: an IAC bus, a drum machine, or <b>VIRTUAL PORT "Bruno"</b>, which other apps see as an input. The light flashes when MIDI goes out.</p></div></article>
+
+      <article class="beat" data-beat="map"><div class="card"><span class="tag teal">13 · MAP</span>
+        <h2>Your drums, <em>your notes</em></h2>
+        <p><b>MAP</b> sets the note each drum goes out on. It's General MIDI unless you change it, for drum plug-ins that put things elsewhere. Drag a note or click ‹ ›. <b>GENERAL MIDI</b> puts it all back.</p></div></article>
+
+      <article class="beat" data-beat="kit"><div class="card"><span class="tag teal">14 · KIT</span>
+        <h2>A kit to <em>hear him</em></h2>
+        <p>The preview kit is real drums: The Aasimonster, by DrumGizmo.org. It's <b>OFF</b> in a DAW, where your drum plug-in is the sound, and on in the standalone app. The slider is its volume.</p></div></article>
+
+      <article class="beat" data-beat="ableton"><div class="card"><span class="tag">15 · ABLETON</span>
+        <h2>Right in front of <em>the drums</em></h2>
+        <p>Live won't put a third-party plug-in in the MIDI-effect slot, so the installer brings a <b>Max for Live</b> device. Drop it before your drums. <b>OPEN BRUNO</b> shows the window. <b>PLAY</b>, <b>STOP</b> and <b>FILL!</b> work without it.</p>
+        <p class="tip"><b>No Max for Live?</b> Bruno on one track, drums on another: set the drums' <b>MIDI From</b> to Bruno's track, pick <b>Bruno</b> under it, monitor In.</p></div></article>
+
+      <article class="beat" data-beat="logic"><div class="card"><span class="tag">16 · LOGIC</span>
+        <h2>Use the <em>MIDI FX</em> slot</h2>
+        <p>The Audio Unit shows up as an instrument and as a MIDI processor. Put it in the <b>MIDI FX</b> slot of a drum track and he plays that track's instrument.</p>
+        <p class="tip"><b>Keyswitches from the region.</b> Put C-1 and friends in the MIDI region and he follows the song.</p></div></article>
+    </div>
+
+    <section class="scene" id="cta">
+      <div>
+        <span class="tag">THAT'S THE ACT</span>
+        <h2 class="headline"><span class="sh" aria-hidden="true">QUIT STALLIN'.</span>QUIT STALLIN'.</h2><br>
+        <p class="tagline">Your drums. <em>His attitude.</em></p>
+        <div class="cta"><a class="btn buy" href="#" data-stripe data-product="bruno">Buy Now →</a></div>
+        <p class="fine">VST3 · CLAP · Audio Unit · Max for Live · Standalone · macOS</p>
+        <p class="fine" style="margin-top:6px;letter-spacing:.04em">Preview drums: The Aasimonster by DrumGizmo.org, CC BY 4.0.</p>
+      </div>
+    </section>
+    <div id="rail"></div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 Tril$oft · Bruno is DIV-004</p>
+  <!-- Paid plug-ins first, MIDI Fart Sniffer last. -->
+  <nav><a href="/">All plug-ins</a><a href="/wildcard">Wild Card</a><a href="/conceal-n-strike">Conceal-N-Strike</a><a href="/midi-fart-sniffer">MIDI Fart Sniffer</a><a href="/privacy">Privacy</a><a href="/faq">FAQ</a></nav>
+</footer>
+<script src="/tour.js"></script>
+<script src="/js/bruno-window.js"></script>
+<script>
+(() => {
+const W = 1100, H = 736;
+const ui = document.getElementById('ui');
+const host = document.createElement('div');
+ui.appendChild(host);
+const win = BrunoWindow(host, { base: '/' });
+const add = h => { ui.insertAdjacentHTML('beforeend', h); return ui.lastElementChild; };
+const inst = add(`<div class="ov installer off"><div class="box"><h4>Install Bruno</h4><ul>
+  <li><span><span class="ck">✓</span>VST3 plug-in</span><small>Plug-Ins/VST3</small></li>
+  <li><span><span class="ck">✓</span>CLAP plug-in</span><small>Plug-Ins/CLAP</small></li>
+  <li><span><span class="ck">✓</span>Audio Unit</span><small>Plug-Ins/Components</small></li>
+  <li><span><span class="ck">✓</span>Standalone app</span><small>Applications</small></li>
+  <li><span><span class="ck">✓</span>Max for Live device</span><small>Application Support</small></li>
+</ul></div></div>`);
+const prm = add(`<div class="ov prompt off"><div class="box"><h4>Activate Bruno</h4><p>Enter the activation code from your purchase email.</p>
+  <div class="field" id="pfield">BRUN-XXXX-XXXX-XXXX-XXXX</div><div class="row"><span class="paste">Paste</span><span class="act" id="pact">Activate</span></div></div></div>`);
+const KEYS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const kb = add(`<div class="kb off"><div class="keys2">${[0, 2, 4, 5, 7, 9, 11].map((n, i) => `<div class="w" data-n="${n}" style="left:calc(${i} * 100% / 7 + 1px)"></div>`).join('')}${[[1, 1], [3, 2], [6, 4], [8, 5], [10, 6]].map(([n, i]) => `<div class="b" data-n="${n}" style="left:calc(${i} * 100% / 7 - 100% / 24)"></div>`).join('')}</div><div class="lbl"></div></div>`);
+const clip = add(`<div class="clip off"><i></i><span></span></div>`);
+const live = add(`<div class="ov live off"><div style="position:relative">
+  <div class="cap" style="top:-56px">ABLETON LIVE · DRUM TRACK</div>
+  <div class="rack">
+    <div class="dev m4l"><div class="t"><i></i>Bruno</div><div class="face"><b>BRUNO</b>
+      <div class="k" id="lvopen" style="left:8px;top:44px;width:184px;height:32px;background:var(--mustard)">OPEN BRUNO</div>
+      <div class="k" id="lvplay" style="left:8px;top:84px;width:88px;height:28px;background:var(--teal)">PLAY</div>
+      <div class="k" id="lvstop" style="left:104px;top:84px;width:88px;height:28px;background:var(--red)">STOP</div>
+      <div class="k" id="lvfill" style="left:8px;top:120px;width:184px;height:28px;background:var(--orange)">FILL!</div></div></div>
+    <div class="arrow">→</div>
+    <div class="dev drums"><div class="t"><i></i>Your drums</div><div class="face">EZdrummer · Battery · Drum Rack</div></div>
+  </div></div></div>`);
+const logic = add(`<div class="ov logic off"><div><div class="strip"><b style="font-size:13px;color:#fff">Drums</b>
+  <h5>SETTING</h5><div class="slot">Drum Kit</div>
+  <h5>MIDI FX</h5><div class="slot hi">Bruno</div>
+  <h5>INSTRUMENT</h5><div class="slot">Your drums</div>
+  <h5>AUDIO FX</h5><div class="slot"></div></div><div class="cap">LOGIC · MIDI FX SLOT</div></div></div>`);
+
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const seg = (a, x, y) => clamp((a - x) / (y - x));
+const sm = t => t * t * (3 - 2 * t);
+const lerp = (a, b, t) => a + (b - a) * t;
+const ctr = win.ctr;
+function point(st, a, from, to, t0, t1, t2) {
+  const u = sm(seg(a, t0, t1));
+  st.cur = { x: from[0] + (to[0] - from[0]) * u, y: from[1] + (to[1] - from[1]) * u, down: a >= t1 && a < t2 };
+  return a >= t1;
+}
+// A click: move from `from` to `to` over t0..t1, press until t2, then `fx`.
+function click(st, a, from, to, t0, t1, t2, name, fx) {
+  if (a < t0) return false;
+  point(st, a, from, to, t0, t1, t2);
+  if (a >= t0 + (t1 - t0) * .6 && a < t1) st.hover = name;
+  if (a >= t1 && a < t2) st.press = name;
+  if (a >= t1 && fx) fx();
+  return a >= t1;
+}
+const pad = (r, p = 0, rad = 14) => [r[0] - p, r[1] - p, r[2] + 2 * p, r[3] + 2 * p, rad];
+
+const base = () => Object.assign(win.base(), {
+  installer: -1, prompt: 0, code: '', live: 0, lv: null, logic: 0, kbKey: -1, kbOn: 0, clip: null,
+  section: 1, playing: false, rec: 0, takeMode: 'SAME', takeLen: 0
+});
+const CODE = 'BRUN-7K3M-Q9TX-4HPA-2VNE';
+const beats = [
+  { id: 'hero', scene: 'hero', len: .7 },
+  { id: 'install', rail: 'Install', len: 1, apply(st, a, d) { st.installer = d ? -1 : a; } },
+  { id: 'drums', rail: 'Drums', focus: pad(win.rect('stage'), 0, 14), cam: win.rect('window'),
+    apply(st, a, d) { if (!d && a > .15) { st.playing = true; st.rec = 1; } } },
+  { id: 'activate', rail: 'Activate', len: 1.15,
+    apply(st, a, d) { if (d) return; st.prompt = 1; st.code = CODE.slice(0, Math.round(CODE.length * seg(a, .1, .62))); } },
+  { id: 'start', rail: 'Start', focus: [pad(win.rect('follow'), 4, 18), pad(win.rect('play'), 4, 38)], cam: [410, 0, 690, 112], camPort: [420, 0, 680, 112], len: 1.3,
+    apply(st, a, d) {
+      if (d) { st.follow = true; st.playing = true; st.rec = 1; return; }
+      click(st, a, [700, 300], ctr('follow'), .02, .16, .22, 'follow', () => (st.follow = true));
+      if (a >= .3) click(st, a, ctr('follow'), ctr('play'), .3, .46, .52, 'play', () => (st.armed = true));
+      if (a >= .64) { st.armed = false; st.playing = true; st.rec = 1; }
+    } },
+  { id: 'mood', rail: 'His mood', focus: pad(win.rect('mood'), 2, 14), cam: [296, 88, 396, 404], camPort: [300, 96, 390, 400], len: 1.4,
+    apply(st, a, d) {
+      const to = [.74, .64];
+      if (d) { st.x = to[0]; st.y = to[1]; return; }
+      const p0 = win.padAt(.5, .3);
+      point(st, a, [500, 470], p0, 0, .14, 1);
+      const u = sm(seg(a, .2, .78));
+      st.x = lerp(.5, to[0], u); st.y = lerp(.3, to[1], u) + Math.sin(u * Math.PI) * .08;
+      if (a >= .14) { const p = win.padAt(st.x, st.y); st.cur = { x: p[0], y: p[1], down: a < .84 }; }
+    } },
+  { id: 'sections', rail: 'Sections', focus: pad(win.rect('sections'), 2, 14), cam: [690, 86, 404, 222], camPort: [690, 86, 404, 222], len: 1.4,
+    apply(st, a, d) {
+      if (d) { st.section = 3; return; }
+      click(st, a, [880, 290], ctr('sec3'), .02, .16, .22, 'sec3', () => (st.pending = 3));
+      if (a >= .42) { st.section = 3; st.pending = -1; }
+      if (a >= .5) click(st, a, ctr('sec3'), ctr('sec2'), .5, .62, .68, 'sec2', () => (st.pending = 2));
+      if (a >= .66) click(st, a, ctr('sec2'), ctr('sec3'), .7, .8, .86, 'sec3', () => (st.pending = -1));
+      if (a >= .8) st.section = 3;
+    } },
+  { id: 'fills', rail: 'Fills', focus: [pad(win.rect('stage'), 0, 14), pad(win.rect('knobs'), 0, 14)], cam: [10, 90, 1084, 400], camPort: [690, 300, 404, 190], len: 1.5,
+    apply(st, a, d) {
+      if (d) { st.fill = .5; return; }
+      const k = [796, 388];
+      point(st, a, [900, 200], k, 0, .14, 1);
+      if (a >= .14) {
+        st.fill = a < .64 ? lerp(.35, 1, sm(seg(a, .18, .44))) : lerp(1, .5, sm(seg(a, .64, .8)));
+        st.cur = { x: k[0] + 10, y: k[1] - 120 * (st.fill - .35), down: a < .82 };
+        st.press = a < .82 ? 'fillknob' : null;
+      }
+    } },
+  { id: 'take', rail: 'Variation', focus: [pad(win.rect('take'), 4, 14), pad(win.rect('reroll'), 4, 14), pad(win.rect('varknob'), 0, 60)], cam: [416, 0, 680, 490], camPort: [690, 0, 404, 490], len: 1.5,
+    apply(st, a, d) {
+      if (d) { st.variation = .55; st.rec = 1; return; }
+      const k = [986, 388];
+      point(st, a, [800, 250], k, 0, .12, .42);
+      if (a >= .12 && a < .42) { st.variation = lerp(.25, .55, sm(seg(a, .16, .36))); st.cur = { x: k[0] + 10, y: k[1] - 120 * (st.variation - .25), down: true }; }
+      if (a >= .36) st.variation = .55;
+      if (a >= .42) click(st, a, [k[0] + 10, k[1] - 36], win.seg('take', 1, 2), .42, .54, .6, 'take', () => (st.takeMode = 'NEW'));
+      if (a >= .62) click(st, a, win.seg('take', 1, 2), win.seg('take', 0, 2), .62, .7, .76, 'take', () => (st.takeMode = 'SAME'));
+      if (a >= .78) click(st, a, win.seg('take', 0, 2), ctr('reroll'), .78, .88, .95, 'reroll');
+    } },
+  { id: 'phrasing', rail: 'Phrasing', focus: [pad(win.rect('tempo'), 0, 14), pad(win.rect('phrasing'), 0, 14)], cam: [8, 596, 452, 120], camPort: [8, 596, 452, 120], len: 1.5,
+    apply(st, a, d) {
+      if (d) { st.phrase = 16; st.launch = 'BEAT'; return; }
+      let p = [300, 560];
+      const steps = [[win.seg('bars', 2, 3), .02, .12, () => (st.phrase = 16)], [win.seg('launch', 1, 3), .2, .3, () => (st.launch = 'BEAT')],
+        [win.seg('tempoSrc', 1, 2), .38, .46, () => (st.tempoSrc = 'SET')], [ctr('bpm'), .52, .58, null], [win.seg('tempoSrc', 0, 2), .84, .92, () => (st.tempoSrc = 'HOST')]];
+      for (const [to, t0, t1, fx] of steps) { if (a < t0) break; point(st, a, p, to, t0, t1, t1 + .06); if (a >= t1 && fx) fx(); p = to; }
+      if (a >= .58) { st.setBpm = 160 + Math.round(24 * sm(seg(a, .6, .76))); }
+      if (a >= .6 && a < .8) st.cur = { x: ctr('bpm')[0], y: ctr('bpm')[1] - 30 * sm(seg(a, .6, .76)), down: true };
+    } },
+  { id: 'keys', rail: 'Keyswitches', focus: [pad(win.rect('keys'), 0, 14), pad(win.rect('sections'), 0, 14)], cam: [446, 92, 646, 620], camPort: [446, 300, 646, 420], len: 1.5,
+    apply(st, a, d) {
+      if (d) { st.section = 4; st.lastKey = 18; return; }
+      st.kbOn = 1;
+      if (a >= .1 && a < .2) { st.kbKey = 1; st.lastKey = 13; st.filling = true; }
+      else if (a >= .2) st.lastKey = 13;
+      if (a >= .2 && a < .44) st.filling = true;
+      if (a >= .5 && a < .6) st.kbKey = 6;
+      if (a >= .5) { st.lastKey = 18; st.pending = a < .74 ? 4 : -1; }
+      if (a >= .74) st.section = 4;
+    } },
+  { id: 'strip', rail: 'The take', focus: pad(win.rect('takestrip'), 0, 14), cam: [8, 486, 1084, 120], camPort: [560, 486, 534, 120], len: 1.3,
+    apply(st, a, d) {
+      if (d) return;
+      st.takeLen = 22;
+      const dm = ctr('dragme');
+      point(st, a, [700, 640], dm, 0, .2, 1);
+      if (a >= .1 && a < .2) st.hover = 'dragme';
+      if (a >= .2 && a < .3) st.press = 'dragme';
+      const u = sm(seg(a, .28, .86));
+      if (a >= .28) { st.cur = { x: dm[0] - 300 * u, y: dm[1] + 110 * u, down: true, drag: true }; st.clip = { x: st.cur.x + 14, y: st.cur.y + 10, o: a < .95 }; }
+    } },
+  { id: 'output', rail: 'Output', focus: pad(win.rect('output'), 0, 14), cam: [560, 548, 540, 178], camPort: [560, 548, 540, 178], len: 1.4,
+    apply(st, a, d) {
+      if (d) { st.velocity = .9; st.port = 'VIRTUAL'; return; }
+      const v = ctr('vel');
+      point(st, a, [600, 600], v, 0, .14, .4);
+      if (a >= .14) { st.velocity = lerp(1, .9, sm(seg(a, .16, .34))); if (a < .4) st.cur = { x: v[0], y: v[1] + 20 * sm(seg(a, .16, .34)), down: true }; }
+      if (a >= .4) click(st, a, [v[0], v[1] + 20], ctr('port'), .4, .52, .58, 'port', () => (st.portsOpen = true));
+      if (a >= .58 && a < .84) { const it = [800, 580 - 4 + 15 + 30]; point(st, a, ctr('port'), it, .58, .74, .84); st.portHover = a > .68 ? 1 : -1; }
+      if (a >= .84) { st.portsOpen = false; st.port = 'VIRTUAL'; st.cur = { x: 800, y: 621, down: false }; }
+    } },
+  { id: 'map', rail: 'Map', focus: pad(win.rect('notemap'), -2, 14), cam: [262, 104, 576, 442], camPort: [262, 104, 576, 442], len: 1.4,
+    apply(st, a, d) {
+      if (d) return;
+      st.mapOpen = true;
+      const kick = [270 + 18 + 108 + 13, 120 + 50 + 14], plus = [kick[0] + 116, kick[1]], gm = [270 + 18 + 85, 120 + 420 - 30], done = [270 + 560 - 68, 120 + 420 - 30];
+      st.notes = {};
+      click(st, a, [560, 300], plus, 0, .12, .17, 'plus0', () => (st.notes = { 0: 37 }));
+      if (a >= .22) click(st, a, plus, plus, .22, .24, .29, 'plus0', () => (st.notes = { 0: 38 }));
+      if (a >= .38) click(st, a, plus, gm, .38, .54, .6, 'gm', () => (st.notes = {}));
+      if (a >= .66) click(st, a, gm, done, .66, .82, .88, 'done', () => (st.mapOpen = a < .9));
+    } },
+  { id: 'kit', rail: 'Kit', focus: pad(win.rect('kit'), 0, 14), cam: [940, 596, 156, 120], camPort: [880, 596, 216, 120], len: 1.15,
+    apply(st, a, d) {
+      if (d) { st.kit = 'DRUMS'; st.vol = .65; return; }
+      click(st, a, [900, 560], win.seg('kitsegs', 1, 2), 0, .2, .28, 'kit', () => (st.kit = 'DRUMS'));
+      if (a >= .4) {
+        const r = win.rect('vol');
+        point(st, a, win.seg('kitsegs', 1, 2), [r[0] + r[2] * .8, r[1] + 8], .4, .54, 1);
+        if (a >= .54) { st.vol = lerp(.8, .65, sm(seg(a, .58, .82))); st.cur = { x: r[0] + r[2] * st.vol, y: r[1] + 8, down: a < .88 }; }
+      }
+    } },
+  { id: 'ableton', rail: 'Ableton', cam: [290, 230, 520, 290], camPort: [262, 226, 576, 296], len: 1.45,
+    apply(st, a, d) {
+      if (d) return;
+      st.live = 1;
+      const at = id => { const e = document.getElementById(id), r = e.getBoundingClientRect(), u = ui.getBoundingClientRect(), s = u.width / W; return [(r.left - u.left + r.width / 2) / s, (r.top - u.top + r.height / 2) / s]; };
+      const o = at('lvopen'), s = at('lvstop'), p = at('lvplay'), f = at('lvfill');
+      st.lv = null;
+      if (point(st, a, [590, 640], o, .04, .18, .24)) st.lv = a < .24 ? 'open' : null;
+      if (a > .28) { point(st, a, o, s, .28, .4, .46); if (a >= .4) { st.lv = a < .46 ? 'stop' : null; st.playing = false; } }
+      if (a > .52) { point(st, a, s, p, .52, .62, .68); if (a >= .62) { st.lv = a < .68 ? 'play' : null; st.playing = true; } }
+      if (a > .74) { point(st, a, p, f, .74, .84, .9); if (a >= .84) st.lv = a < .9 ? 'fill' : null; }
+    } },
+  { id: 'logic', rail: 'Logic', cam: [400, 150, 300, 440], camPort: [380, 150, 340, 440], len: 1, apply(st, a, d) { if (!d) st.logic = 1; } },
+  { id: 'cta', rail: 'Buy', scene: 'cta' }
+];
+
+function render(st) {
+  const t = (st.now || 0) / 1000;
+  const u = ui.getBoundingClientRect().width / W;
+  win.setScale(Math.min(3.5, u * (window.devicePixelRatio || 1)));
+  st.time = t;
+  // He plays in real time: the song loops every four phrases.
+  const loop = st.phrase * 4 * 4;
+  if (st.playing) st.pos = (t * st.bpm / 60) % loop;
+  const n = Math.floor(st.pos / 4);
+  if (st.rec || st.takeLen) {
+    const last = st.playing ? n : Math.max(n, 15), first = st.takeLen ? Math.max(0, last - st.takeLen) : 0, bars = [];
+    for (let b = first; b <= last; b++) bars.push([b, st.section, st.fill >= .97 || (st.fill >= .3 && b % st.phrase === st.phrase - 1)]);
+    st.takeBars = bars;
+  }
+  st.take = st.takeMode;
+  win.draw(st);
+  inst.classList.toggle('off', !(st.installer >= 0));
+  if (st.installer >= 0) inst.querySelectorAll('li').forEach((li, i) => li.classList.toggle('done', st.installer > .12 + i * .16));
+  prm.classList.toggle('off', !(st.prompt > 0));
+  const field = document.getElementById('pfield');
+  field.classList.toggle('go', !!st.code);
+  if (field._t !== st.code) { field._t = st.code; field.textContent = st.code || 'BRUN-XXXX-XXXX-XXXX-XXXX'; }
+  document.getElementById('pact').classList.toggle('go', st.code && st.code.length > 20);
+  kb.classList.toggle('off', !st.kbOn);
+  kb.querySelectorAll('[data-n]').forEach(k => k.classList.toggle('on', +k.dataset.n === st.kbKey));
+  const lbl = kb.querySelector('.lbl'), txt = st.kbKey === 1 ? 'C#-1 · FILL' : st.kbKey === 6 ? 'F#-1 · DOUBLE BASS' : '';
+  if (lbl._t !== txt) { lbl._t = txt; lbl.textContent = txt; }
+  clip.classList.toggle('off', !(st.clip && st.clip.o));
+  if (st.clip) { clip.style.transform = `translate(${st.clip.x}px,${st.clip.y}px)`; const nm = `Bruno bars ${st.takeBars.length ? st.takeBars[0][0] + 1 : 1}-${st.takeBars.length ? st.takeBars[st.takeBars.length - 1][0] + 1 : 1}.mid`; if (clip._t !== nm) { clip._t = nm; clip.querySelector('span').textContent = nm; } }
+  live.classList.toggle('off', !st.live);
+  ['open', 'play', 'stop', 'fill'].forEach(k => document.getElementById('lv' + k).classList.toggle('prs', st.lv === k));
+  logic.classList.toggle('off', !st.logic);
+}
+
+Tour({ W, H, beats, base, render, vh: 96, vhPort: 90, maxZoom: 1.9, maxZoomPort: 2.3, ring: '#e0a526', ringW: 4, dim: 'rgba(28,21,18,.55)', clampCam: true });
+})();
+</script>
+<script src="/js/site-config.js"></script>
+<script src="/js/checkout.js"></script>
+<script>
+(function () {
+  function fitHdr() {
+    var nav = document.querySelector('nav.top');
+    if (!nav || !document.documentElement.classList.contains('is-port')) return;
+    document.documentElement.style.setProperty('--hdr', nav.offsetHeight + 'px');
+    if (window.__tour && window.__tour.fitCards) window.__tour.fitCards();
+  }
+  fitHdr();
+  addEventListener('resize', fitHdr);
+  if (document.fonts) document.fonts.ready.then(fitHdr);
+})();
+</script>
+</body>
+</html>
