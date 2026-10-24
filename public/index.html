@@ -940,10 +940,14 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     const cl = $('#bruCurL'), cr = $('#bruCurR'), val = $('#bruVal'), title = val.querySelector('span'), nav = $('#nav');
     const rail = $('#rail'), railA = rail ? [...rail.querySelectorAll('a')] : [];
     vid.src = vid.dataset.src; vid.load();
-    const prime = () => { const pr = vid.play(); if (pr && pr.then) pr.then(() => vid.pause()).catch(() => {}); else vid.pause(); };
+    // iOS shows a scrubbed video's frames only once it has played. If the
+    // first touch didn't get it going, try again while the section is up.
+    let primed = false, tried = 0;
+    const prime = () => { const pr = vid.play(); if (pr && pr.then) pr.then(() => { primed = true; vid.pause(); }).catch(() => {}); else { primed = true; vid.pause(); } };
     addEventListener('touchstart', prime, { once: true, passive: true });
     return {
       render(q) {
+        if (!primed && q >= .15 && q < 1 && performance.now() - tried > 1000) { tried = performance.now(); prime(); }
         const c = easeIO(seg(q, .02, .14)) * (1 - easeIO(seg(q, .2, .34))); // 0 open → 1 shut
         cl.style.transform = `translateX(${(c - 1) * 102}%)`; cr.style.transform = `translateX(${(1 - c) * 102}%)`;
         cl.style.visibility = cr.style.visibility = c > .001 ? 'visible' : 'hidden';

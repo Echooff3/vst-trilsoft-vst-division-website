@@ -2,7 +2,8 @@
    read as a still too). Draws the real window from the site's
    /js/bruno-window.js (copied in by sync.mjs), so it matches the tour.
 
-   0.00 the curtain, a turning sunburst, BRUNO drops in letter by letter
+   0.00 BRUNO on his title card in front of a turning sunburst (frame 0 is
+        the poster, so it has to read on its own); he pops up to talk
    0.20 the window drops in; PLAY, he counts in and plays
    0.40 push into his mood: the puck goes furious
    0.54 crank the fills: FILL MANIA
@@ -244,12 +245,12 @@ function Teaser({ portrait }) {
       {/* opener */}
       {p < .3 ? (
         <AbsoluteFill style={{ transform: `translateY(${-titleOut * VH * .8}px)`, opacity: 1 - titleOut * .6 }}>
-          <Sunburst size={P ? 1500 : 1600} spin={t * 8} style={{ left: '50%', top: P ? '40%' : '46%', opacity: out(seg(p, 0, .06)) }} />
-          <Title size={titleSize} p0={.03} p={p} t={t} style={{ left: '50%', top: P ? VH * .29 : VH * .22, transform: 'translateX(-50%)' }} />
-          <Guff size={P ? 30 : 36} style={{ left: '50%', top: P ? VH * .29 + titleSize * 1.12 : VH * .22 + titleSize * 1.1, transform: `translateX(-50%) translateY(${(1 - out(seg(p, .12, .17))) * VH}px) rotate(-1.5deg)` }} />
+          <Sunburst size={P ? 1500 : 1600} spin={t * 8} style={{ left: '50%', top: P ? '40%' : '46%' }} />
+          <Title size={titleSize} p0={-.2} p={p} t={t} style={{ left: '50%', top: P ? VH * .29 : VH * .22, transform: 'translateX(-50%)' }} />
+          <Guff size={P ? 30 : 36} style={{ left: '50%', top: P ? VH * .29 + titleSize * 1.12 : VH * .22 + titleSize * 1.1, transform: 'translateX(-50%) rotate(-1.5deg)' }} />
           {/* Bruno pops up to have his say */}
-          <img src={staticFile('bruno-art.webp')} style={{ position: 'absolute', height: P ? 520 : 340, left: P ? VW * .5 - 190 : VW - 290, bottom: -30, transform: `translateY(${(1 - back(seg(p, .1, .16))) * 520}px)` }} />
-          {p > .14 ? <Balloon text="QUIT STALLIN'!" size={P ? 30 : 26} style={P ? { left: 40, bottom: 440, transform: `scale(${back(seg(p, .14, .17))}) rotate(-3deg)` } : { right: 270, bottom: 130, transform: `scale(${back(seg(p, .14, .17))}) rotate(-3deg)`, transformOrigin: '100% 100%' }} /> : null}
+          <img src={staticFile('bruno-art.webp')} style={{ position: 'absolute', height: P ? 520 : 340, left: P ? VW * .5 - 190 : VW - 290, bottom: -30, transform: `translateY(${(1 - back(seg(p, .05, .11))) * 520}px)` }} />
+          {p > .09 ? <Balloon text="QUIT STALLIN'!" size={P ? 30 : 26} style={P ? { left: 40, bottom: 440, transform: `scale(${back(seg(p, .09, .12))}) rotate(-3deg)` } : { right: 270, bottom: 130, transform: `scale(${back(seg(p, .09, .12))}) rotate(-3deg)`, transformOrigin: '100% 100%' }} /> : null}
         </AbsoluteFill>
       ) : null}
       {/* the window */}
@@ -271,7 +272,7 @@ function Teaser({ portrait }) {
           <Guff size={P ? 26 : 30} style={P ? { left: '50%', top: 720, transform: `translateX(-50%) rotate(-1.5deg) translateY(${(1 - out(seg(p, .9, .96))) * 400}px)` } : { left: 82, top: 340, transform: `rotate(-1.5deg) translateX(${(1 - out(seg(p, .9, .96))) * -900}px)` }} />
         </AbsoluteFill>
       ) : null}
-      <Valance w={VW} drop={p < .2 ? out(seg(p, 0, .05)) : 1} />
+      <Valance w={VW} drop={1} />
     </AbsoluteFill>
   );
 }
