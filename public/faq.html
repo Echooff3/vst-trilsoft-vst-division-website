@@ -125,32 +125,33 @@ p.meta{margin-top:28px;color:var(--dim);font-family:"JetBrains Mono",ui-monospac
   <ul class="specs">
     <li><b>Wild Card</b><span>VST3 · CLAP · Audio Unit · Standalone · macOS</span></li>
     <li><b>Conceal-N-Strike</b><span>VST3 · CLAP · Audio Unit · Standalone · macOS</span></li>
-    <li><b>Bruno</b><span>VST3 · CLAP · Audio Unit · Max for Live · Standalone · macOS</span></li>
+    <li><b>Bruno</b><span>VST3 · CLAP · Audio Unit (instrument and MIDI FX) · Standalone · Max for Live device in /Library/Application Support/Trilsoft/Bruno · macOS. The drum kit is built in.</span></li>
     <li><b>MIDI Fart Sniffer</b><span>VST3 · CLAP · Audio Unit · Max for Live · Standalone · macOS</span></li>
   </ul>
   <p>The Audio Unit is what Logic Pro and GarageBand load. Wild Card and Conceal-N-Strike also include a standalone app, the same instrument in its own window. MIDI Fart Sniffer's standalone app still sniffs without a host clock.</p>
 
   <h3 id="skip-a-format">Can I leave a format out?</h3>
-  <p>Yes. On the Installation Type step, hit Customize and skip the ones you don't want. Same move on all three.</p>
+  <p>Yes. On the Installation Type step, hit Customize and skip the ones you don't want. Same move on all four.</p>
 
   <h2 id="installers"><span>03</span> Where do I get the latest installers?</h2>
-  <p>Each link is the newest signed and notarized universal macOS installer for that plug-in. The address stays put, and the file updates. All three are 0.1.0 right now. macOS only.</p>
+  <p>Each link is the newest signed and notarized universal macOS installer for that plug-in. The address stays put, and the file updates. Wild Card, Conceal-N-Strike, and Bruno are 0.1.0. MIDI Fart Sniffer is 0.1.1. macOS only.</p>
   <ul class="picks">
     <li><a href="https://github.com/Echooff3/vst-public-releases/releases/download/wildcard-latest/Wild-Card-macOS.pkg">Wild Card for macOS (.pkg, universal)<span>0.1.0</span></a></li>
     <li><a href="https://github.com/Echooff3/vst-public-releases/releases/download/conceal-n-strike-latest/Conceal-N-Strike-macOS.pkg">Conceal-N-Strike for macOS (.pkg, universal)<span>0.1.0</span></a></li>
-    <li><a href="https://github.com/Echooff3/vst-public-releases/releases/download/midi-fart-sniffer-latest/MIDI-Fart-Sniffer-macOS.pkg">MIDI Fart Sniffer for macOS (.pkg, universal)<span>0.1.0</span></a></li>
+    <li><a href="https://github.com/Echooff3/vst-public-releases/releases/download/bruno-latest/Bruno-macOS.pkg">Bruno for macOS (.pkg, universal)<span>0.1.0</span></a></li>
+    <li><a href="https://github.com/Echooff3/vst-public-releases/releases/download/midi-fart-sniffer-latest/MIDI-Fart-Sniffer-macOS.pkg">MIDI Fart Sniffer for macOS (.pkg, universal)<span>0.1.1</span></a></li>
     <li><a href="https://github.com/Echooff3/vst-public-releases/releases">All versions<span>History</span></a></li>
   </ul>
-  <p>Bookmark a plug-in link, or bookmark <a href="https://github.com/Echooff3/vst-public-releases/releases">All versions</a>, and you can pick up an update when one ships. Wild Card and Conceal-N-Strike need the license key from the Buy Now email. MIDI Fart Sniffer's key comes from Get Free Key.</p>
+  <p>Bookmark a plug-in link, or bookmark <a href="https://github.com/Echooff3/vst-public-releases/releases">All versions</a>, and you can pick up an update when one ships. Wild Card, Conceal-N-Strike, and Bruno need the license key from the Buy Now email. MIDI Fart Sniffer's key comes from Get Free Key.</p>
 
   <h3 id="updates">How do I pick up an update?</h3>
   <p>There isn't a separate updater. The plug-in links above always serve the newest installer. <a href="https://github.com/Echooff3/vst-public-releases/releases">All versions</a> is the release history.</p>
 
   <h2 id="keys"><span>04</span> Keys</h2>
   <h3 id="activate">How do I activate a plug-in?</h3>
-  <p>Wild Card and Conceal-N-Strike put the activation code in the Buy Now email, and on the thank-you page right after checkout. First launch asks for it. Paste it and hit <b>Activate</b>. After that the license is checked offline. If the host swallows the paste shortcut, use the <b>PASTE</b> control.</p>
+  <p>Wild Card, Conceal-N-Strike, and Bruno put the activation code in the Buy Now email, and on the thank-you page right after checkout. First launch asks for it. Paste it and hit <b>Activate</b>. After that the license is checked offline. If the host swallows the paste shortcut, use the <b>PASTE</b> control.</p>
   <p>MIDI Fart Sniffer asks for the code from the Get Free Key email. Paste it. After that the license stays on the machine.</p>
-  <p>The codes look like <kbd>WILD-XXXX-XXXX-XXXX-XXXX</kbd>, <kbd>CONC-XXXX-XXXX-XXXX-XXXX</kbd>, and <kbd>FART-XXXX-XXXX-XXXX-XXXX</kbd>.</p>
+  <p>The codes look like <kbd>WILD-XXXX-XXXX-XXXX-XXXX</kbd>, <kbd>CONC-XXXX-XXXX-XXXX-XXXX</kbd>, <kbd>BRUN-XXXX-XXXX-XXXX-XXXX</kbd>, and <kbd>FART-XXXX-XXXX-XXXX-XXXX</kbd>.</p>
 
   <h3 id="email">What happens to my email address?</h3>
   <p>Checkout happens on Stripe's page. The license server uses the address once to send the key, then stores a keyed hash and a masked form like b•••@e•••.com. It does not keep the real address. Get Free Key works the same way: the address is used once to send the key, then only the hash and the mask are kept. The full write-up is on the <a href="/privacy">privacy</a> page.</p>
@@ -176,7 +177,7 @@ p.meta{margin-top:28px;color:var(--dim);font-family:"JetBrains Mono",ui-monospac
   <h3 id="map-a-controller">Can you map another DJ controller?</h3>
   <p>Wild Card is tested with the Hercules DJControl Starlight. For another controller, email <a href="mailto:help@trilsoft.com?subject=Wild%20Card%20Mapper%20Request">help@trilsoft.com</a> with the subject Wild Card Mapper Request and the name, make, and model. That's the only requirement. We may follow up with beta builds for you to test. Once it checks out, the controller gets added to the supported list.</p>
 
-  <p class="meta">FAQ last updated October 23, 2026.</p>
+  <p class="meta">FAQ last updated October 24, 2026.</p>
 </main>
 <footer>
   <p>© 2026 Tril$oft</p>
