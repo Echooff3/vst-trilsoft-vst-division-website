@@ -106,6 +106,9 @@ kbd{flex:none;font-family:var(--display);font-weight:400;font-size:13px;letter-s
 .hint i{display:block;width:12px;height:12px;border-radius:50%;background:var(--red);border:2.5px solid var(--ink);animation:hop .7s cubic-bezier(.3,0,.5,1) infinite alternate}
 @keyframes hop{to{transform:translateY(14px) scaleY(.85)}}
 .fine{margin-top:18px;font-size:14px;letter-spacing:.08em;color:#4a3a2c}
+.fine a,.card a{color:var(--teal-d);text-decoration:underline;text-underline-offset:2px}
+.fine a:hover,.card a:hover{color:var(--red-d)}
+#cta .fine.credit{max-width:36em;margin-left:auto;margin-right:auto;line-height:1.45;letter-spacing:.02em}
 
 /* hero: copy on the left, Bruno on his stage on the right */
 .hero .hero-in{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,64px);align-items:center;width:min(1180px,100%);text-align:left}
@@ -340,7 +343,8 @@ html.static .poster,html.static .poster .burst,html.static .poster .bruno{animat
 
       <article class="beat" data-beat="kit"><div class="card"><span class="tag teal">14 · KIT</span>
         <h2>A kit to <em>hear him</em></h2>
-        <p>The preview kit is real drums: The Aasimonster, by DrumGizmo.org. It's <b>OFF</b> in a DAW, where your drum plug-in is the sound, and on in the standalone app. The slider is its volume.</p></div></article>
+        <p>The preview kit is real drums. It's <b>OFF</b> in a DAW, where your drum plug-in is the sound, and on in the standalone app. The slider is its volume.</p>
+        <p class="tip">Preview drums: The Aasimonster by <a href="https://drumgizmo.org">DrumGizmo.org</a>, licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Mixed to stereo and trimmed for Bruno.</p></div></article>
 
       <article class="beat" data-beat="ableton"><div class="card"><span class="tag">15 · ABLETON</span>
         <h2>Right in front of <em>the drums</em></h2>
@@ -360,7 +364,7 @@ html.static .poster,html.static .poster .burst,html.static .poster .bruno{animat
         <p class="tagline">Your drums. <em>His attitude.</em></p>
         <div class="cta"><a class="btn buy" href="#" data-stripe data-product="bruno">Buy Now →</a></div>
         <p class="fine">VST3 · CLAP · Audio Unit · Max for Live · Standalone · macOS</p>
-        <p class="fine" style="margin-top:6px;letter-spacing:.04em">Preview drums: The Aasimonster by DrumGizmo.org, CC BY 4.0.</p>
+        <p class="fine credit" style="margin-top:6px">Preview drums: The Aasimonster by <a href="https://drumgizmo.org">DrumGizmo.org</a>, licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Mixed to stereo and trimmed for Bruno.</p>
       </div>
     </section>
     <div id="rail"></div>
