@@ -1,247 +1,280 @@
-import React from 'react';
-import { AbsoluteFill, Composition, Img, continueRender, delayRender, registerRoot, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+/* MIDI Fart Sniffer teaser for the homepage (scrubbed by scroll, so every
+   frame has to read as a still too). Draws the real window from the site's
+   /js/mfs-window.js (copied in by sync.mjs), so it matches the tour.
 
-if (typeof FontFace !== 'undefined') {
-  const fontsReady = delayRender('fonts');
-  Promise.all([
+   0.00 slime pours, the title slams in
+   0.20 the window drops in; a groove gets clicked
+   0.36 push into the card: the lanes puff as it plays
+   0.55 the next groove, same beat of the bar
+   0.60 DRAG ME: the groove leaves as a MIDI clip
+   0.78 the window falls away; title + Sniffin' Sid's card to finish
+        (kept clear of where the homepage puts its key form) */
+import React, { useLayoutEffect, useRef } from 'react';
+import { AbsoluteFill, Composition, continueRender, delayRender, registerRoot, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import '../public/mfs-window.js';
+
+const waitFor = (label, p) => { const h = delayRender(label); p.catch(e => console.error(e)).finally(() => continueRender(h)); };
+let CSS = '';
+if (typeof window !== 'undefined') {
+  waitFor('fonts', Promise.all([
     new FontFace('Titan One', `url(${staticFile('fonts/TitanOne-Regular.ttf')})`).load(),
     new FontFace('Comic Neue', `url(${staticFile('fonts/ComicNeue-Bold.ttf')})`, { weight: '700' }).load(),
-  ]).then((faces) => {
-    faces.forEach((face) => document.fonts.add(face));
-    continueRender(fontsReady);
-  }).catch((err) => {
-    console.error(err);
-    continueRender(fontsReady);
-  });
+  ]).then(faces => faces.forEach(f => document.fonts.add(f))));
+  waitFor('css', fetch(staticFile('mfs-window.css')).then(r => r.text()).then(t => { CSS = t; }));
+  ['sid.webp', 'mfs-can.webp', 'mfs-steel.webp'].forEach(f => waitFor(f, new Promise(res => { const i = new Image(); i.onload = i.onerror = res; i.src = staticFile(f); })));
 }
 
-const INK = '#1A1220';
-const SLIME = '#8FDC2C';
-const CREAM = '#FFF6DC';
-const PAPER = '#FFF6DC';
-const YELLOW = '#F7D21E';
-const PINK = '#FFCDE3';
-const RED = '#E82D2D';
-const BLUE = '#2472D8';
-const PURPLE = '#7C40C6';
-const CONCRETE = '#8C949B';
-
-const GROOVES = [
-  ['dusty-break-126.mid', '126'],
-  ['98bpmWrathBeat8.mid', '98'],
-  ['107bpm6-4SymbolismBeat2.mid', '107'],
-  ['107bpm6-4SymbolismBeat4.mid', '107'],
-  ['107bpm6-4SymbolismBeat6.mid', '107'],
-  ['107bpm6-4SymbolismBeat8.mid', '107'],
-];
-
-const LANES = [
-  ['CRASH', BLUE, [0.08]],
-  ['SPLASH', '#5BA4FF', [0.22]],
-  ['HAT OPEN', YELLOW, [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875]],
-  ['SNARE', '#F08A3A', [0.25, 0.75]],
-  ['KICK', RED, [0.05, 0.5]],
-];
-
+const INK = '#1A1220', PAPER = '#FFF6DC', PAPER_D = '#E8D5A4', SLIME = '#8FDC2C', SLIME_D = '#4A8C10', PUKE = '#F7D21E', GUM = '#FF5CA8', RED = '#E82D2D', GRAPE = '#7C40C6';
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const seg = (p, a, b) => clamp((p - a) / (b - a));
+const io = t => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const out = t => 1 - Math.pow(1 - t, 3);
+const back = t => { const c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+const lerp = (a, b, t) => a + (b - a) * t;
+const titan = { fontFamily: 'Titan One, Impact, sans-serif', fontWeight: 400, lineHeight: 1, whiteSpace: 'nowrap' };
+const stroke = w => ({ WebkitTextStroke: `${w}px ${INK}`, paintOrder: 'stroke fill' });
 
-const display = { fontFamily: 'Titan One, Impact, sans-serif', fontWeight: 400 };
-const body = { fontFamily: 'Comic Neue, Comic Sans MS, sans-serif', fontWeight: 700 };
-
-function drips(h, short) {
-  const bumps = [6, 18, 29, 41, 54, 67, 79, 91];
-  const bumpH = (i) => (short ? 10 + (i % 3) * 3 : 16 + (i % 4) * 6);
-  const tallest = short ? 16 : 34;
+// ---------- pieces ----------
+function Steel() {
   return (
-    <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: h + tallest, zIndex: 6, pointerEvents: 'none' }}>
-      <div style={{ height: h, background: SLIME, borderBottom: `3px solid ${INK}` }} />
-      {bumps.map((x, i) => (
-        <div key={x} style={{ position: 'absolute', left: `${x}%`, top: h - 2, width: short ? 12 + (i % 3) * 4 : 14 + (i % 3) * 8, height: bumpH(i), borderRadius: '0 0 16px 16px', background: SLIME, border: `3px solid ${INK}`, borderTop: 'none' }} />
-      ))}
+    <AbsoluteFill style={{ background: `#A6B0B8 url(${staticFile('mfs-steel.webp')}) 0 0/240px 240px` }}>
+      <AbsoluteFill style={{ background: 'radial-gradient(ellipse at 50% 45%, transparent 40%, rgba(26,18,32,.38) 100%)' }} />
+    </AbsoluteFill>
+  );
+}
+
+// Slime across the top, the drips stretching as it pours.
+function Slime({ w, grow, band = 26 }) {
+  const drips = [];
+  for (let x = 30, i = 0; x < w; i++) {
+    const r = Math.abs(Math.sin(i * 12.9898) * 43758.5453) % 1;
+    drips.push([x, 18 + r * 70, 10 + (r * 7) % 8]);
+    x += 54 + ((r * 97) % 60);
+  }
+  const g = clamp(grow);
+  const stems = (pad, fill) => drips.map(([x, len, wd], i) => {
+    const L = len * g, tip = band + L;
+    return (
+      <g key={i}>
+        <path d={`M${x - wd * .75 - pad} ${band - 2} L${x + wd * .75 + pad} ${band - 2} L${x + wd * .5 + pad} ${tip - wd * .3} L${x - wd * .5 - pad} ${tip - wd * .3} Z`} fill={fill} />
+        <circle cx={x} cy={tip} r={wd * .62 + pad} fill={fill} />
+      </g>
+    );
+  });
+  return (
+    <svg width={w} height={band + 120} style={{ position: 'absolute', left: 0, top: 0 }}>
+      <rect x="0" y="3" width={w} height={band} fill={INK} />{stems(3, INK)}
+      <rect x="0" y="0" width={w} height={band} fill={SLIME} />{stems(0, SLIME)}
+      {drips.map(([x, len, wd], i) => <circle key={i} cx={x - wd * .2} cy={band + len * g - wd * .2} r={wd * .16} fill="rgba(255,255,255,.7)" />)}
+      <line x1="0" y1="7" x2={w} y2="7" stroke="rgba(212,247,114,.8)" strokeWidth="3" />
+    </svg>
+  );
+}
+
+function Headline({ size, lines, style }) {
+  const sw = size / 6.2, off = [size * .09, size * .11];
+  const text = lines.map((l, i) => <div key={i}>{l}</div>);
+  return (
+    <div style={{ position: 'absolute', ...titan, fontSize: size, lineHeight: .92, ...style }}>
+      <div style={{ position: 'absolute', left: off[0], top: off[1], color: GUM, ...stroke(sw) }}>{text}</div>
+      <div style={{ position: 'relative', color: PUKE, ...stroke(sw) }}>{text}</div>
     </div>
   );
 }
 
-function Pill({ children, bg, color = '#fff', style }) {
+function Dymo({ text, size, style }) {
   return (
-    <div style={{ ...display, display: 'flex', alignItems: 'center', justifyContent: 'center', background: bg, color, border: `3px solid ${INK}`, borderRadius: 999, boxShadow: `3px 3px 0 ${INK}`, letterSpacing: 0.4, ...style }}>
-      {children}
+    <div style={{ position: 'absolute', ...titan, fontSize: size, color: '#F4F4F0', textShadow: '0 1.5px 0 rgba(26,18,32,.5)', background: RED, borderRadius: 4, padding: `${size * .45}px ${size * 1.1}px ${size * .35}px`, boxShadow: '3px 4px 0 rgba(26,18,32,.65)', ...style }}>
+      <div style={{ position: 'absolute', left: 6, right: 6, top: 3, height: 2, background: 'rgba(255,255,255,.35)' }} />{text}
     </div>
   );
 }
 
-function Window({ p, portrait }) {
-  const typing = seg(p, 0.12, 0.28);
-  const typed = p < 0.34 ? 'break'.slice(0, Math.round(typing * 5)) : '';
-  const showBreak = typed.length > 0;
-  const sel = p < 0.36 ? 0 : p < 0.5 ? 1 : 2;
-  const playing = p > 0.32;
-  const head = playing ? (p * 3.1) % 1 : 0.08;
-  const muted = p > 0.55 ? 2 : -1;
-  const tempo = p < 0.62 ? 'FILE' : p < 0.7 ? 'SET' : 'HOST';
-  const launch = p > 0.74;
-  const port = p > 0.82;
-  const kit = p < 0.72 ? 'DRUMS' : p < 0.9 ? 'OFF' : 'FARTS';
-  const enter = 1;
-  const rows = GROOVES.filter((g, i) => !showBreak || i === 0 || g[0].includes('break'));
-  const groove = GROOVES[showBreak ? 0 : sel];
-
-  const shell = portrait
-    ? { width: 600, height: 1120 }
-    : { width: 1200, height: 660 };
-
-  const titleSize = portrait ? 28 : 34;
-  // Desktop columns: browser | Now Sniffing | tempo/output/kit. The card used to share the browser's x and cover it.
-  const cols = portrait
-    ? { dump: [14, 160, 572, 250], card: [14, 422, 572, 390], side: [14, 824, 572, 280] }
-    : { dump: [16, 158, 292, 486], card: [320, 158, 500, 486], side: [832, 158, 352, 486] };
-
+function Sticker({ text, size = 30, color = PAPER, style }) {
   return (
-    <div style={{ ...shell, ...body, position: 'relative', background: CONCRETE, borderRadius: 22, border: `4px solid ${INK}`, boxShadow: `8px 8px 0 ${INK}`, overflow: 'hidden', color: INK, transform: `scale(${0.98 + enter * 0.02})`, opacity: enter, backgroundImage: 'radial-gradient(rgba(255,255,255,.22) 0.7px, transparent 0.8px), radial-gradient(rgba(0,0,0,.18) 0.7px, transparent 0.8px)', backgroundSize: '5px 6px, 9px 11px' }}>
-      {drips(portrait ? 14 : 8, !portrait)}
-
-      <div style={{ position: 'absolute', left: 16, top: portrait ? 28 : 40, right: portrait ? 118 : 168 }}>
-        <div style={{ ...display, fontSize: titleSize, lineHeight: 0.9, color: YELLOW, WebkitTextStroke: `6px ${INK}`, paintOrder: 'stroke fill' }}>MIDI FART SNIFFER</div>
-        <div style={{ marginTop: 6, display: 'inline-flex', alignItems: 'center', height: 26, padding: '0 10px', background: RED, color: '#fff', border: `3px solid ${INK}`, borderRadius: 8, boxShadow: `3px 3px 0 ${INK}`, ...display, fontSize: 12, letterSpacing: 0.6 }}>SNIFF OUT A GROOVE</div>
-      </div>
-
-      <div style={{ position: 'absolute', right: 16, top: portrait ? 22 : 36, width: portrait ? 96 : 124, background: CREAM, border: `3px solid ${INK}`, borderRadius: 12, boxShadow: `4px 4px 0 ${INK}`, overflow: 'hidden' }}>
-        <Img src={staticFile('sid.webp')} style={{ width: '100%', height: portrait ? 72 : 72, objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }} />
-        <div style={{ ...display, textAlign: 'center', fontSize: 10, letterSpacing: 0.6, background: INK, color: YELLOW, padding: '3px 0 2px' }}>SNIFFIN' SID</div>
-      </div>
-
-      <div style={{ position: 'absolute', left: 16, top: portrait ? 108 : 112, display: 'flex', gap: 8 }}>
-        <Pill bg={SLIME} color={INK} style={{ height: 36, padding: '0 14px', fontSize: 14 }}>▶ RIP IT</Pill>
-        <Pill bg={CREAM} color={INK} style={{ height: 36, padding: '0 14px', fontSize: 14 }}><i style={{ width: 12, height: 12, background: RED, border: `2px solid ${INK}`, marginRight: 6 }} />HOLD IT</Pill>
-        <Pill bg={BLUE} style={{ height: 32, padding: '0 12px', fontSize: 12, alignSelf: 'center' }}>✓ LOOP</Pill>
-        <Pill bg={PURPLE} style={{ height: 32, padding: '0 12px', fontSize: 12, alignSelf: 'center' }}>✓ AUTO</Pill>
-      </div>
-
-      <Dump x={cols.dump[0]} y={cols.dump[1]} w={cols.dump[2]} h={cols.dump[3]} rows={rows} typed={typed} showBreak={showBreak} sel={sel} />
-
-      <Card x={cols.card[0]} y={cols.card[1]} w={cols.card[2]} h={cols.card[3]} groove={groove} head={head} muted={muted} playing={playing} portrait={portrait} />
-
-      <Side x={cols.side[0]} y={cols.side[1]} w={cols.side[2]} h={cols.side[3]} portrait={portrait} tempo={tempo} launch={launch} port={port} kit={kit} />
+    <div style={{ position: 'absolute', ...titan, fontSize: size, color: INK, background: color, border: `4px solid ${INK}`, borderRadius: 12, boxShadow: `5px 6px 0 ${INK}`, padding: `${size * .35}px ${size * .55}px ${size * .25}px`, ...style }}>
+      {text}
     </div>
   );
 }
 
-function Dump({ x, y, w, h, rows, typed, showBreak, sel }) {
+// Sniffin' Sid's trading card (as on the /midi-fart-sniffer hero).
+function Card({ w, style }) {
+  const h = w * 1.4, b = w * .07;
   return (
-    <div style={{ position: 'absolute', left: x, top: y, width: w, height: h, background: CREAM, border: `3px solid ${INK}`, borderRadius: 16, boxShadow: `5px 5px 0 ${INK}`, padding: 10, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        <span style={{ ...display, fontSize: 13, background: SLIME, color: INK, border: `2px solid ${INK}`, borderRadius: 999, padding: '3px 8px' }}>DUMPSTER</span>
-        <span style={{ ...display, fontSize: 13, background: PAPER, border: `2px solid ${INK}`, borderRadius: 999, padding: '3px 8px' }}>FAVES</span>
-        <span style={{ marginLeft: 'auto', ...display, fontSize: 12 }}>▲ OPEN</span>
-      </div>
-      <div style={{ marginTop: 8, height: 32, borderRadius: 999, border: `3px solid ${INK}`, background: PAPER, display: 'flex', alignItems: 'center', padding: '0 12px', color: typed ? INK : '#8a7d68', fontSize: 14 }}>{typed || 'sniff for a groove...'}</div>
-      <div style={{ marginTop: 8, display: 'grid', gap: 6 }}>
-        {rows.slice(0, 6).map((g) => {
-          const on = GROOVES.indexOf(g) === (showBreak ? 0 : sel);
-          return (
-            <div key={g[0]} style={{ display: 'flex', alignItems: 'center', gap: 8, height: 32, padding: '0 8px', borderRadius: 10, border: `2px solid ${INK}`, background: on ? SLIME : PAPER, boxShadow: on ? `3px 3px 0 ${INK}` : 'none', fontSize: 13 }}>
-              <i style={{ width: 10, height: 10, borderRadius: 10, background: on ? INK : BLUE, border: `2px solid ${INK}`, flex: 'none' }} />
-              <span style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{g[0]}</span>
-              <span style={{ marginLeft: 'auto' }}>{g[1]}</span>
-            </div>
-          );
-        })}
-      </div>
-      <div style={{ marginTop: 'auto', paddingTop: 8, display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: 12, lineHeight: 1.25 }}><span>675 grooves</span><span>Drag a groove into your DAW</span></div>
+    <div style={{ position: 'absolute', width: w, height: h, filter: `drop-shadow(${w * .03}px ${w * .035}px 0 ${INK})`, ...style }}>
+      <div style={{ position: 'absolute', inset: 0, borderRadius: w * .06, border: `4px solid ${INK}`, background: GRAPE }} />
+      <div style={{ position: 'absolute', inset: w * .022, borderRadius: w * .045, border: `4px solid ${PAPER}` }} />
+      <div style={{ position: 'absolute', left: 0, right: 0, top: h * .03, textAlign: 'center', ...titan, fontSize: w * .07, color: PAPER, ...stroke(w * .018) }}>DIV-003 · FREE</div>
+      <div style={{ position: 'absolute', left: b, right: b, top: h * .12, bottom: h * .22, borderRadius: w * .04, border: `4px solid ${INK}`, background: `${PUKE} url(${staticFile('sid.webp')}) center 20%/cover` }} />
+      <svg viewBox="-34 -34 68 68" style={{ position: 'absolute', left: -w * .07, top: -w * .07, width: w * .26, height: w * .26, overflow: 'visible' }}>
+        <path d={burst(3, 4)} fill={INK} /><path d={burst(0, 0)} fill={PUKE} stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+        <text x="0" y="7" textAnchor="middle" fontFamily="Titan One" fontSize="19" fill={INK}>3a</text>
+      </svg>
+      <Ribbon w={w * 1.02} h={h * .13} text="SNIFFIN' SID" style={{ left: -w * .01, bottom: h * .085 }} />
+    </div>
+  );
+}
+function burst(dx, dy, r = 30, n = 12) {
+  let d = '';
+  for (let i = 0; i < n * 2; i++) { const a = i * Math.PI / n - Math.PI / 2, rr = i % 2 ? r * .78 : r; d += (i ? 'L' : 'M') + (dx + Math.cos(a) * rr).toFixed(1) + ' ' + (dy + Math.sin(a) * rr).toFixed(1); }
+  return d + 'Z';
+}
+function Ribbon({ w, h, text, style }) {
+  const t = h * .7, top = h * .28, bot = h * 1.28, mid = (top + bot) / 2;
+  const tail = side => {
+    const x0 = side < 0 ? 0 : w, o = x0 + side * t, n = x0 + side * t * .55;
+    const pts = (dx, dy) => [[x0, top], [o, top], [n, mid], [o, bot], [x0, bot]].map(p => `${p[0] + dx},${p[1] + dy}`).join(' ');
+    return <g><polygon points={pts(3, 4)} fill={INK} /><polygon points={pts(0, 0)} fill={PAPER_D} stroke={INK} strokeWidth="3" strokeLinejoin="round" /></g>;
+  };
+  return (
+    <div style={{ position: 'absolute', width: w, height: h, ...style }}>
+      <svg width={w + t * 2 + 16} height={bot + 12} viewBox={`${-t - 8} 0 ${w + t * 2 + 16} ${bot + 12}`} style={{ position: 'absolute', left: -t - 8, top: 0, overflow: 'visible' }}>
+        {tail(-1)}{tail(1)}
+        <rect x="5" y="6" width={w} height={h} rx="5" fill={INK} /><rect x="0" y="0" width={w} height={h} rx="5" fill={PAPER} stroke={INK} strokeWidth="3" />
+      </svg>
+      <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', ...titan, fontSize: h * .52, color: INK, paddingTop: h * .06 }}>{text}</div>
     </div>
   );
 }
 
-function Card({ x, y, w, h, groove, head, muted, playing, portrait }) {
-  const laneH = portrait ? 46 : 52;
-  const top = portrait ? 46 : 52;
+// The tour's cursor (arrow, or the grabbing hand).
+function Cursor({ x, y, s, down, hand }) {
   return (
-    <div style={{ position: 'absolute', left: x, top: y, width: w, height: h, background: YELLOW, border: `4px solid ${INK}`, borderRadius: 18, boxShadow: `5px 5px 0 ${INK}`, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', left: -6, top: -4, width: 46, height: 46, background: YELLOW, color: INK, display: 'grid', placeItems: 'center', ...display, fontSize: 13, clipPath: 'polygon(50% 0, 63% 18%, 84% 10%, 78% 32%, 100% 40%, 80% 54%, 96% 74%, 72% 72%, 70% 96%, 50% 82%, 30% 96%, 28% 72%, 4% 74%, 20% 54%, 0 40%, 22% 32%, 16% 10%, 37% 18%)', filter: `drop-shadow(2px 2px 0 ${INK})` }}>16b</div>
-      <div style={{ ...display, color: INK, fontSize: portrait ? 16 : 18, letterSpacing: 1, padding: '12px 14px 0', textAlign: 'center' }}>NOW SNIFFING</div>
-      <div style={{ position: 'absolute', right: 12, top: 10, width: 28, height: 28, borderRadius: 8, background: '#fff', border: `2px solid ${INK}`, display: 'grid', placeItems: 'center', ...display, fontSize: 14 }}>★</div>
-      <div style={{ position: 'absolute', left: 12, right: 12, top, bottom: portrait ? 78 : 86, background: PINK, border: `3px solid ${INK}`, borderRadius: 12, overflow: 'hidden', backgroundImage: 'repeating-linear-gradient(90deg, transparent 0, transparent calc(16.66% - 2px), rgba(28,20,12,.28) calc(16.66% - 2px), rgba(28,20,12,.28) 16.66%)' }}>
-        {LANES.map((lane, i) => (
-          <div key={lane[0]} style={{ position: 'absolute', left: 4, right: 4, top: 8 + i * laneH, height: laneH - 6, opacity: muted === i ? 0.35 : 1, background: lane[0] === 'KICK' ? RED : 'transparent', borderRadius: 8, color: lane[0] === 'KICK' ? '#fff' : INK }}>
-            <div style={{ position: 'absolute', left: 6, top: 6, width: 70, fontSize: 11, textDecoration: muted === i ? 'line-through' : 'none' }}>{lane[0]}</div>
-            <div style={{ position: 'absolute', left: 72, right: 10, top: 16, height: 3, background: 'rgba(28,20,12,.18)', borderRadius: 2 }} />
-            {lane[2].map((hit) => {
-              const near = playing && Math.min(Math.abs(hit - head), 1 - Math.abs(hit - head)) < 0.05;
-              const s = near ? 16 : 11;
-              return <div key={hit} style={{ position: 'absolute', left: `calc(72px + (100% - 86px) * ${hit})`, top: near ? 6 : 10, width: s, height: s, marginLeft: -s / 2, borderRadius: 20, background: lane[1], border: `2px solid ${INK}` }} />;
-            })}
-          </div>
-        ))}
-        <div style={{ position: 'absolute', top: 0, bottom: 0, left: `calc(72px + (100% - 86px) * ${head})`, width: 3, background: '#C6E000', boxShadow: `0 0 0 2px ${INK}` }} />
-      </div>
-      <div style={{ position: 'absolute', left: 12, right: 12, bottom: portrait ? 58 : 64, height: 28, background: '#fff', border: `3px solid ${INK}`, borderRadius: 8, display: 'flex', alignItems: 'center', padding: '0 8px', ...display, fontSize: 12 }}>
-        <span style={{ ...body, fontSize: 12, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{groove[0].replace('.mid', '')}</span>
-        <span style={{ marginLeft: 'auto', background: INK, color: '#fff', borderRadius: 6, padding: '2px 6px', fontSize: 10 }}>DRAG ME</span>
-      </div>
-      <div style={{ position: 'absolute', left: 12, right: 12, bottom: portrait ? 36 : 40, display: 'flex', gap: 4, justifyContent: 'center' }}>
-        {[`${groove[1]} BPM`, '4/4', '6 BARS', '106 HITS', 'CH 1'].map((bit) => (
-          <span key={bit} style={{ background: INK, color: '#fff', borderRadius: 999, padding: '2px 6px', fontSize: 9 }}>{bit}</span>
-        ))}
-      </div>
-      <div style={{ position: 'absolute', left: 12, right: 12, bottom: 12, height: 16, borderRadius: 999, background: '#E7D7A4', border: `2px solid ${INK}`, overflow: 'hidden' }}>
-        <div style={{ width: `${Math.round(head * 100)}%`, height: '100%', background: `linear-gradient(90deg, ${SLIME}, #3CB043)` }} />
+    <svg width="60" height="60" viewBox="0 0 60 60" style={{ position: 'absolute', left: x, top: y, transform: `scale(${s})`, transformOrigin: '0 0', overflow: 'visible', zIndex: 50 }}>
+      {down ? <circle cx="6" cy="4" r="16" fill="none" stroke={INK} strokeWidth="3" /> : null}
+      {hand
+        ? <path d="M8 4 v24 l-5-5 q-4 0 -2 5 l10 13 h16 l4-14 v-10 q0-4-4-4 q-2 0-3 2 q0-4-4-4 q-2 0-3 2 q0-4-4-4 q-2 0-2 2 v-7 q0-4-4-4 q-3 0-3 4z" fill="#fff" stroke="#000" strokeWidth="2.4" strokeLinejoin="round" />
+        : <path d="M4 2 L4 34 L12 26 L18 40 L24 37 L18 24 L30 24 Z" fill="#fff" stroke="#000" strokeWidth="2.5" strokeLinejoin="round" />}
+    </svg>
+  );
+}
+
+// A MIDI clip leaving for the DAW.
+function Clip({ name, style }) {
+  return (
+    <div style={{ position: 'absolute', width: 260, height: 74, borderRadius: 8, background: '#7FB5CC', border: `3px solid ${INK}`, boxShadow: `5px 6px 0 ${INK}`, overflow: 'hidden', ...style }}>
+      <div style={{ height: 22, background: '#5E93AB', ...titan, fontSize: 13, color: INK, padding: '5px 8px 0' }}>{name}</div>
+      {Array.from({ length: 16 }).map((_, i) => <i key={i} style={{ position: 'absolute', left: 10 + i * 15, top: 30 + ((i * 7) % 4) * 9, width: 9, height: 6, borderRadius: 2, background: INK }} />)}
+    </div>
+  );
+}
+
+// The window itself, driven by update(state) every frame.
+function Win({ st, transform }) {
+  const host = useRef(null), win = useRef(null);
+  useLayoutEffect(() => {
+    if (!win.current) win.current = window.MfsWindow(host.current, { cssText: CSS, sid: staticFile('sid.webp'), can: staticFile('mfs-can.webp') });
+    win.current.update(st);
+  });
+  return (
+    <div style={{ position: 'absolute', left: 0, top: 0, width: 1180, height: 760, transformOrigin: '0 0', transform, filter: `drop-shadow(10px 12px 0 ${INK})` }}>
+      <div style={{ position: 'absolute', inset: -4, border: `4px solid ${INK}`, borderRadius: 16, overflow: 'hidden' }}>
+        <div ref={host} style={{ position: 'absolute', left: 0, top: 0 }} />
       </div>
     </div>
   );
 }
 
-function Mini({ children, on, bg, color = INK }) {
-  return <span style={{ ...display, fontSize: 11, padding: '4px 8px', borderRadius: 8, border: `2px solid ${INK}`, background: on ? (bg || BLUE) : PAPER, color: on ? color : INK }}>{children}</span>;
-}
-
-function Side({ x, y, w, h, portrait, tempo, port, kit }) {
-  const send = port ? 'VIRTUAL PORT' : 'NOWHERE ELSE';
-  return (
-    <div style={{ position: 'absolute', left: x, top: y, width: w, height: h, display: 'grid', gridTemplateRows: '1.15fr 1.15fr 0.9fr', gap: 8 }}>
-      <div style={{ background: CREAM, border: `3px solid ${INK}`, borderRadius: 14, boxShadow: `4px 4px 0 ${INK}`, padding: 8 }}>
-        <div style={{ ...display, fontSize: 13 }}>TEMPO</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
-          <Mini on={tempo === 'FILE' || tempo === 'HOST'} bg={BLUE} color="#fff">{tempo === 'HOST' ? 'HOST' : 'FILE'}</Mini>
-          <Mini on={tempo === 'SET'} bg={SLIME}>SET</Mini>
-          <span style={{ marginLeft: 'auto', fontSize: 11 }}>TIME</span>
-          <Mini>HALF</Mini>
-          <Mini on bg={BLUE} color="#fff">1X</Mini>
-          <Mini>2X</Mini>
-        </div>
-        <div style={{ marginTop: 6, background: '#fff', border: `3px solid ${INK}`, borderRadius: 10, textAlign: 'center', ...display, fontSize: portrait ? 18 : 22 }}>107.0</div>
-      </div>
-      <div style={{ background: CREAM, border: `3px solid ${INK}`, borderRadius: 14, boxShadow: `4px 4px 0 ${INK}`, padding: 8 }}>
-        <div style={{ ...display, fontSize: 13 }}>OUTPUT</div>
-        <div style={{ display: 'flex', gap: 8, marginTop: 6, alignItems: 'center' }}>
-          <Mini on bg="#fff">FILE</Mini>
-          <span style={{ fontSize: 11 }}>VELOCITY 100%</span>
-          <span style={{ flex: 1, height: 10, borderRadius: 99, background: '#E7D7A4', border: `2px solid ${INK}`, overflow: 'hidden' }}><i style={{ display: 'block', width: '70%', height: '100%', background: '#F2A7C8' }} /></span>
-        </div>
-        <div style={{ marginTop: 8, fontSize: 11 }}>ALSO SEND TO</div>
-        <div style={{ marginTop: 4, background: '#fff', border: `2px solid ${INK}`, borderRadius: 8, padding: '4px 8px', fontSize: 12 }}>{send}</div>
-        <div style={{ marginTop: 4, fontSize: 10 }}>The host gets the MIDI either way.</div>
-      </div>
-      <div style={{ background: CREAM, border: `3px solid ${INK}`, borderRadius: 14, boxShadow: `4px 4px 0 ${INK}`, padding: 8 }}>
-        <div style={{ ...display, fontSize: 13 }}>PREVIEW KIT</div>
-        <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
-          <Mini on={kit === 'OFF'}>OFF</Mini>
-          <Mini on={kit === 'DRUMS'} bg={SLIME}>DRUMS</Mini>
-          <Mini on={kit === 'FARTS'} bg={SLIME}>FARTS</Mini>
-        </div>
-        <div style={{ marginTop: 6, fontSize: 11 }}>VOLUME −3.0 dB</div>
-      </div>
-    </div>
-  );
-}
+// ---------- the film ----------
+const FILES = () => window.MfsWindow.FILES;
+const GROOVES = () => window.MfsWindow.GROOVES;
+const rowY = f => 232 + FILES().indexOf(f) * 28 + 13;
+// A camera: a rect of the window centred in the frame.
+const cam = (vw, vh, r, m, oy = 0) => { const s = Math.min(vw / (r[2] + m * 2), vh / (r[3] + m * 2)); return { s, x: vw / 2 - (r[0] + r[2] / 2) * s, y: vh / 2 + oy - (r[1] + r[3] / 2) * s }; };
+const mixCam = (a, b, t) => { const s = Math.exp(lerp(Math.log(a.s), Math.log(b.s), t)); return { s, x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t) }; };
 
 function Teaser({ portrait }) {
   const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  const p = frame / (durationInFrames - 1);
+  const { durationInFrames, width: VW, height: VH, fps } = useVideoConfig();
+  const p = frame / (durationInFrames - 1), t = frame / fps;
+  const P = portrait;
+
+  // the window's story
+  const punk = 'dumpster-punk-174.mid', funk = 'stank-funk-96.mid';
+  const st = { time: t, playing: false, loaded: punk, faves: ['toilet-tom-fill-140.mid', funk], tempo: 'HOST', kit: 'OFF', launch: 'BAR', cursor: null, hover: null };
+  const T0 = .31, T1 = .56;
+  if (p >= T0) { st.playing = true; const g = GROOVES().find(x => x.file === (p >= T1 ? funk : punk)); st.pos = ((t - T0 * 9) * g.bpm / 60) % g.len; }
+  if (p >= T1) st.loaded = funk;
+  if (p > .27 && p < T0) st.hover = punk;
+  if (p > .52 && p < T1) st.hover = funk;
+  const dragA = seg(p, .63, .74);
+  st.drag = p > .62 && p < .78 ? io(dragA) : 0;
+  st.dragHot = p > .6 && p < .78;
+
+  // cameras (window coords)
+  const full = cam(VW, VH, [0, 0, 1180, 760], P ? 16 : 40, P ? -40 : 10);
+  const lanes = cam(VW, VH, [420, 150, 440, 400], P ? 10 : 30, P ? -60 : 0);
+  const list = cam(VW, VH, P ? [0, 100, 600, 640] : [10, 100, 870, 650], P ? 10 : 30, P ? -40 : 0);
+  const banner = cam(VW, VH, [400, 460, 520, 300], P ? 8 : 30, P ? -60 : 0);
+  let c = full;
+  if (p >= .36 && p < .54) c = mixCam(full, lanes, io(seg(p, .36, .42)));
+  else if (p >= .54 && p < .6) c = mixCam(lanes, list, io(seg(p, .51, .55)));
+  else if (p >= .6 && p < .78) c = mixCam(list, banner, io(seg(p, .58, .63)));
+  else if (p >= .78) c = mixCam(banner, full, io(seg(p, .76, .8)));
+  // entrance and exit
+  const enter = out(seg(p, .18, .3)), leave = io(seg(p, .8, .9));
+  const ey = (1 - enter) * VH * 1.1 + leave * VH * 1.2, rot = (1 - enter) * 9 + leave * -7;
+  const transform = `translate(${c.x}px, ${c.y + ey}px) rotate(${rot}deg) scale(${c.s})`;
+
+  // the cursor (window coords, then through the camera)
+  let cur = null;
+  const toScreen = (x, y) => ({ x: c.x + x * c.s, y: c.y + ey + y * c.s });
+  const rowX = 160;
+  if (p > .24 && p < .36) { const u = io(seg(p, .24, .3)); cur = { ...toScreen(lerp(300, rowX, u), lerp(640, rowY(punk), u)), down: p > .3 && p < .33 }; }
+  if (p > .5 && p < .6) { const u = io(seg(p, .5, .55)); cur = { ...toScreen(lerp(rowX, rowX + 20, u), lerp(rowY(punk), rowY(funk), u)), down: p > .55 && p < .58 }; }
+  if (p > .6 && p < .78) {
+    const dm = [783, 514], u = io(seg(p, .6, .63));
+    const from = [rowX + 20, rowY(funk)];
+    const at = p < .63 ? [lerp(from[0], dm[0], u), lerp(from[1], dm[1], u)] : [dm[0] + st.drag * 30, dm[1] + st.drag * 10];
+    cur = { ...toScreen(at[0], at[1]), down: p > .62, hand: p > .63 };
+  }
+  // the clip that leaves for the DAW, in screen space
+  const clipT = seg(p, .66, .78);
+  const clipFrom = toScreen(560, 520);
+  const clipTo = P ? { x: VW * .1, y: VH * .82 } : { x: VW * .62, y: VH * .78 };
+
+  // opening and closing titles
+  const pour = seg(p, 0, .12), slam = seg(p, .04, .13), titleOut = io(seg(p, .2, .28));
+  const endIn = seg(p, .82, .92), cardIn = seg(p, .85, .95);
+  const caption = p > .32 && p < .42 ? 'CLICK A GROOVE' : p > .43 && p < .53 ? 'IT PLAYS YOUR DRUMS' : p > .555 && p < .61 ? 'NEXT ONE, SAME BEAT' : p > .64 && p < .77 ? 'DRAG IT INTO YOUR DAW' : '';
+  const capPop = caption ? back(clamp(((p - ({ 'CLICK A GROOVE': .32, 'IT PLAYS YOUR DRUMS': .43, 'NEXT ONE, SAME BEAT': .555, 'DRAG IT INTO YOUR DAW': .64 })[caption]) / .02))) : 0;
+
+  const titleSize = P ? 104 : 118;
   return (
-    <AbsoluteFill style={{ background: CONCRETE, alignItems: 'center', justifyContent: 'center', backgroundImage: 'radial-gradient(rgba(255,255,255,.2) 0.7px, transparent 0.8px), radial-gradient(rgba(0,0,0,.16) 0.7px, transparent 0.8px)', backgroundSize: '5px 6px, 8px 11px' }}>
-      <Window p={p} portrait={portrait} />
+    <AbsoluteFill style={{ overflow: 'hidden' }}>
+      <Steel />
+      {/* opener */}
+      {p < .3 ? (
+        <AbsoluteFill style={{ transform: `translateY(${-titleOut * VH * .7}px) scale(${1 - titleOut * .3})`, opacity: 1 - titleOut }}>
+          <Headline size={titleSize} lines={P ? ['MIDI', 'FART', 'SNIFFER'] : ['MIDI FART', 'SNIFFER']}
+            style={{ left: '50%', top: P ? VH * .3 : VH * .26, textAlign: 'center', transform: `translateX(-50%) scale(${back(slam) * (slam > 0 ? 1 : 0)}) rotate(${(1 - slam) * -8 - 2}deg)` }} />
+          <Dymo text="SNIFF OUT A GROOVE · PIPE IT TO YOUR DRUMS" size={P ? 20 : 24}
+            style={{ left: '50%', top: P ? VH * .62 : VH * .66, transform: `translateX(-50%) translateX(${(1 - out(seg(p, .1, .16))) * -VW}px) rotate(-1.5deg)` }} />
+        </AbsoluteFill>
+      ) : null}
+      {/* the window */}
+      {p > .17 && p < .92 ? <Win st={st} transform={transform} /> : null}
+      {cur ? <Cursor x={cur.x} y={cur.y} s={P ? 1.3 : 1.5} down={cur.down} hand={cur.hand} /> : null}
+      {clipT > 0 && clipT < 1 ? (
+        <Clip name={funk.replace('.mid', '')} style={{ left: lerp(clipFrom.x, clipTo.x, io(clipT)), top: lerp(clipFrom.y, clipTo.y, io(clipT)), transform: `rotate(${lerp(0, -8, clipT)}deg) scale(${lerp(.6, 1.1, out(clipT))})`, opacity: clipT > .85 ? 1 - (clipT - .85) / .15 : 1 }} />
+      ) : null}
+      {caption ? (
+        <Sticker text={caption} size={P ? 30 : 34} color={caption.startsWith('DRAG') ? PUKE : caption.startsWith('NEXT') ? '#BDE7FF' : SLIME}
+          style={P ? { left: '50%', top: VH * .8, transform: `translateX(-50%) rotate(-3deg) scale(${capPop})` } : { left: 60, top: VH - 140, transform: `rotate(-3deg) scale(${capPop})`, transformOrigin: '0 100%' }} />
+      ) : null}
+      {/* finish */}
+      {p > .8 ? (
+        <AbsoluteFill>
+          <Headline size={P ? 92 : 104} lines={['MIDI FART', 'SNIFFER']}
+            style={P ? { left: '50%', top: 540, textAlign: 'center', transform: `translateX(-50%) scale(${back(endIn)})` } : { left: 80, top: 118, transform: `scale(${back(endIn)}) rotate(-2deg)`, transformOrigin: '0 50%' }} />
+          {P ? null : <Dymo text="SNIFF OUT A GROOVE · PIPE IT TO YOUR DRUMS" size={20}
+            style={P ? { left: '50%', top: 742, transform: `translateX(-50%) rotate(-1.5deg) translateY(${(1 - out(seg(p, .88, .95))) * 300}px)` } : { left: 92, top: 352, transform: `rotate(-1.5deg) translateX(${(1 - out(seg(p, .88, .95))) * -900}px)` }}/>}
+          <Card w={P ? 280 : 330}
+            style={P ? { left: (VW - 280) / 2, top: 112, transform: `rotate(${-5 + (1 - cardIn) * 25}deg) translateY(${(1 - out(cardIn)) * -900}px)` } : { left: VW - 470, top: 96, transform: `rotate(${4 + (1 - cardIn) * 20}deg) translateX(${(1 - out(cardIn)) * 700}px)` }} />
+        </AbsoluteFill>
+      ) : null}
+      <Slime w={VW} grow={pour * (1 - .35 * seg(p, .3, .5)) + .35 * seg(p, .8, .95)} band={P ? 22 : 26} />
     </AbsoluteFill>
   );
 }

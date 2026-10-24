@@ -3,7 +3,9 @@
   "private": true,
   "description": "Remotion teasers for the MIDI Fart Sniffer homepage section. Not served by the site.",
   "scripts": {
-    "render": "remotion render src/index.jsx MfsDesk ../../public/assets/mfs-teaser-desk.mp4 --gl=swiftshader && remotion render src/index.jsx MfsPort ../../public/assets/mfs-teaser-port.mp4 --gl=swiftshader"
+    "sync": "node sync.mjs",
+    "render": "node sync.mjs && remotion render src/index.jsx MfsDesk out/desk.mp4 && remotion render src/index.jsx MfsPort out/port.mp4 && ./encode.sh out/desk.mp4 ../../public/assets/mfs-teaser-desk && ./encode.sh out/port.mp4 ../../public/assets/mfs-teaser-port",
+    "studio": "node sync.mjs && remotion studio src/index.jsx"
   },
   "dependencies": {
     "@remotion/bundler": "^4.0.536",

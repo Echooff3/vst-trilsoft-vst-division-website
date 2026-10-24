@@ -115,6 +115,8 @@ public/
   llms.txt              llmstxt.org summary
   tour.css              scroll tutorial styles
   tour.js               scroll tutorial engine
+  mfs-window.css        MIDI Fart Sniffer's window, rebuilt from the plug-in (with js/mfs-window.js);
+                        the tour page and the homepage teaser both draw it
   404.html
   footer.css            shared footer, same markup on every page
   favicon.svg
@@ -122,6 +124,9 @@ public/
   js/site-config.js     the only purchase config
   js/checkout.js
 server.js               static server; Railway start command
+teasers/midi-fart-sniffer  Remotion source for the homepage teaser: `npm run render`
+                        (syncs the window from public/, renders, re-encodes with a 6-frame GOP)
+tools/make-mfs-steel.py the plug-in's galvanized steel as mfs-can.webp and mfs-steel.webp
 Dockerfile
 railway.toml
 ```

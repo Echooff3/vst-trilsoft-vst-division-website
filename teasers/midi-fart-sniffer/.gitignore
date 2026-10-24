@@ -1,0 +1,6 @@
+out/
+# copied from ../../public by sync.mjs
+public/mfs-window.css
+public/mfs-window.js
+public/mfs-can.webp
+public/mfs-steel.webp

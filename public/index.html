@@ -336,11 +336,8 @@ html.static .scene.cns,html.static .scene.mfs{visibility:visible!important;min-h
 html.static .mfs-lid{display:none}
 
 /* ================= MIDI Fart Sniffer beat (both layouts) ================= */
-.scene.mfs{z-index:7;visibility:hidden;place-items:stretch;background:#8C949B}
+.scene.mfs{z-index:7;visibility:hidden;place-items:stretch;background:#A6B0B8 url(/assets/mfs-steel.webp) 0 0/240px 240px}
 .mfs-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.v-desk .scene.mfs{--mfs-dock:340px}
-.v-desk .mfs-vid{object-fit:contain;object-position:center center;top:12px;right:auto;bottom:auto;left:20px;width:calc(100% - 40px);height:calc(100% - 12px - var(--mfs-dock))}
-html.static .v-desk .mfs-vid{top:84px;height:calc(100% - 84px - var(--mfs-dock))}
 .mfs-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
 .mfs-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
 .mbtn{display:inline-flex;align-items:center;justify-content:center;font-family:"Titan One",Impact,sans-serif;font-size:20px;letter-spacing:.03em;line-height:1;padding:14px 22px 12px;color:#1C140C;background:#F6E7C1;border:3px solid #1C140C;border-radius:999px;box-shadow:4px 4px 0 #1C140C;touch-action:manipulation}
@@ -361,9 +358,7 @@ html.static .v-desk .mfs-vid{top:84px;height:calc(100% - 84px - var(--mfs-dock))
 .mfs-ui .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Concrete slab. Slime drips hang off the bottom and lead as it slides down over the paid section, then the slab lifts. */
 .mfs-lid{position:absolute;left:0;right:0;top:0;height:100%;z-index:8;visibility:hidden;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10vh;will-change:transform;
-  background:#8C949B;
-  background-image:radial-gradient(rgba(255,255,255,.28) .7px,transparent .9px),radial-gradient(rgba(0,0,0,.2) .7px,transparent .9px);
-  background-size:5px 6px,9px 11px}
+  background:#A6B0B8 url(/assets/mfs-steel.webp) 0 0/240px 240px}
 .mfs-lid::after{content:"";position:absolute;left:-3%;right:-3%;bottom:-96px;height:124px;pointer-events:none;background:#8FDC2C;
   clip-path:polygon(0 0,100% 0,100% 20%,97.2% 20%,95.4% 78%,92.6% 20%,87.4% 20%,84.2% 100%,80% 20%,74.6% 20%,71.8% 64%,68% 20%,62.2% 20%,58.4% 90%,54% 20%,48.2% 20%,44.6% 72%,40.2% 20%,34.4% 20%,30.6% 100%,26% 20%,20.2% 20%,16.8% 58%,12.6% 20%,7.4% 20%,4.2% 86%,1.2% 20%,0 20%);
   filter:drop-shadow(0 4px 0 #1A1220)}
