@@ -6,14 +6,14 @@
 
 Paid plug-ins are listed first. MIDI Fart Sniffer stays last.
 
-- [Wild Card](https://vst.trilsoft.com/wildcard): DJ scratch VST for MIDI DJ controllers, tested with the Hercules DJControl Starlight. $13.
-- [Conceal-N-Strike](https://vst.trilsoft.com/conceal-n-strike): 64-step turntablism sequencer where each step has a platter CONCEAL move and a fader STRIKE cut. $15 launch price, $19 after launch.
-- [Bruno](https://vst.trilsoft.com/bruno): Auto-drummer. Plays MIDI into your drum plug-in, locked to the host's tempo and bars, in phrases, with fills and eight sections, on keyswitches. Every bar he plays drags out as a MIDI clip. VST3, CLAP, Audio Unit, Max for Live, and a standalone macOS app. $50.
-- [MIDI Fart Sniffer](https://vst.trilsoft.com/midi-fart-sniffer): MIDI groove browser. Point it at a folder of drum MIDI and it plays the groove into your drums, locked to the host tempo and bar. VST3, CLAP, Audio Unit, Max for Live, and a standalone macOS app. Free. The page emails the key; that address is only used to send the key and is stored hashed.
+- [Wild Card](https://vst.trilsoft.com/wildcard): DJ scratch VST for MIDI DJ controllers, tested with the Hercules DJControl Starlight. $13. Version 0.1.0. macOS only. The page has a Buy Now button.
+- [Conceal-N-Strike](https://vst.trilsoft.com/conceal-n-strike): 64-step turntablism sequencer where each step has a platter CONCEAL move and a fader STRIKE cut. $15 launch price, $19 after launch. Version 0.1.0. macOS only. The page has a Buy Now button.
+- [Bruno](https://vst.trilsoft.com/bruno): Auto-drummer. Plays MIDI into your drum plug-in, locked to the host's tempo and bars, in phrases, with fills and eight sections, on keyswitches. Every bar he plays drags out as a MIDI clip. VST3, CLAP, Audio Unit, Max for Live, and a standalone macOS app. $50. Version 0.1.0. macOS only. The page has a Buy Now button.
+- [MIDI Fart Sniffer](https://vst.trilsoft.com/midi-fart-sniffer): MIDI groove browser. Point it at a folder of drum MIDI and it plays the groove into your drums, locked to the host tempo and bar. VST3, CLAP, Audio Unit, Max for Live, and a standalone macOS app. Free. The page emails the key; that address is only used to send the key and is stored hashed. Version 0.1.1. macOS only.
 
 ## Support
 
-- [Help](https://vst.trilsoft.com/privacy): Questions go to help@trilsoft.com.
+- [Help](https://vst.trilsoft.com/faq#contact): Questions go to help@trilsoft.com.
 - [Wild Card mapping](https://vst.trilsoft.com/wildcard): Controller mapping requests use the subject "Wild Card Mapper Request" to help@trilsoft.com.
 
 ## Policies
@@ -21,6 +21,7 @@ Paid plug-ins are listed first. MIDI Fart Sniffer stays last.
 - [FAQ](https://vst.trilsoft.com/faq): Answers on the plug-ins, formats, keys, installers, refunds, and contact. Nothing is hidden in a toggle.
 - [Privacy](https://vst.trilsoft.com/privacy): Tril$oft sets no cookies of its own and does not collect visitor data.
 - [Refunds](https://vst.trilsoft.com/faq#refunds): Digital sales are final, with no automatic refunds. If a plug-in won't install, activate, or work as the page says, email help@trilsoft.com. Replies come as life permits.
+- [Credits](https://vst.trilsoft.com/faq#credits): Bruno's preview drums: The Aasimonster by DrumGizmo.org (https://drumgizmo.org), licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Mixed to stereo and trimmed for Bruno.
 - [Installers](https://vst.trilsoft.com/faq#installers): macOS only. Wild Card, Conceal-N-Strike, and Bruno are 0.1.0. MIDI Fart Sniffer is 0.1.1. Stable newest installers: Wild Card https://github.com/Echooff3/vst-public-releases/releases/download/wildcard-latest/Wild-Card-macOS.pkg, Conceal-N-Strike https://github.com/Echooff3/vst-public-releases/releases/download/conceal-n-strike-latest/Conceal-N-Strike-macOS.pkg, Bruno https://github.com/Echooff3/vst-public-releases/releases/download/bruno-latest/Bruno-macOS.pkg, MIDI Fart Sniffer https://github.com/Echooff3/vst-public-releases/releases/download/midi-fart-sniffer-latest/MIDI-Fart-Sniffer-macOS.pkg. All versions: https://github.com/Echooff3/vst-public-releases/releases. Paid plug-ins need the key from the Buy Now email. MIDI Fart Sniffer's key comes from Get Free Key.
 
 ## How it works
