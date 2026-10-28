@@ -28,6 +28,7 @@ Then open [http://localhost:8080](http://localhost:8080).
 
 Paid plug-ins are listed before MIDI Fart Sniffer. The free section stays last.
 | `/privacy` | Privacy policy |
+| `/support` | Support. Email help@trilsoft.com. |
 | `/faq` | FAQ. Refunds live at `/faq#refunds`. Installers live at `/faq#installers`. |
 | `/refunds` | Redirects to `/faq#refunds` (`/refunds.html` too) |
 | `/llms.txt` | Short site summary for language models |
