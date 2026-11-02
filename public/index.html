@@ -171,7 +171,7 @@ html.static .bg-purple,html.static .hint,html.static .bar,html.static .rail,html
 html.static .bg-dark{position:absolute;inset:0 0 auto 0;height:200vh;height:200svh}
 @media (prefers-reduced-motion:reduce){ .hint i{animation:none} }
 /* ================= DESKTOP / LANDSCAPE ================= */
-.v-desk .scroller{height:2040vh} /* film 620 + paid plug-ins (Conceal-N-Strike 440, Bruno 440) + free MIDI Fart Sniffer 440 last, plus the 100vh stage. Insert future paid plug-ins above #mfs. */
+.v-desk .scroller{height:2480vh} /* film 620 + paid plug-ins (Conceal-N-Strike 440, Bruno 440, Mac 440) + free MIDI Fart Sniffer 440 last, plus the 100vh stage. Insert future paid plug-ins above #mfs. */
 .v-desk .s1 .inner{text-align:center;padding:0 24px;max-width:1200px}
 .v-desk .s1 .kicker{display:inline-block;margin-bottom:28px;color:var(--signal)}
 .v-desk .s1 h1{font-family:var(--display);font-weight:800;font-size:clamp(46px,8vw,124px);line-height:1;letter-spacing:-.035em}
@@ -221,7 +221,7 @@ html.static .v-desk .strip{transform:rotate(-1.2deg)!important}
 html.static .v-desk .wc-title span{transform:rotate(-3deg) skew(-4deg)!important}
 /* ================= PORTRAIT (tablet portrait → phone) ================= */
 .v-port{--hdr:64px}
-.v-port .scroller{height:2080vh;height:2080svh} /* film 660 + paid 440 + 440 + free MIDI Fart Sniffer 440 last, plus the 100vh stage. The free section stays last. */
+.v-port .scroller{height:2520vh;height:2520svh} /* film 660 + paid 440 + 440 + 440 + free MIDI Fart Sniffer 440 last, plus the 100vh stage. The free section stays last. */
 .v-port header.top{height:var(--hdr);padding:0 20px;padding-top:env(safe-area-inset-top)}
 .v-port .wordmark b{font-size:16px}
 .v-port .navlink{font-size:11px;padding:11px 14px;min-height:40px;display:inline-flex;align-items:center}
@@ -366,6 +366,27 @@ html.static .mfs-lid{display:none}
 html.static .scene.bru{visibility:visible!important;min-height:100vh;min-height:100svh}
 html.static .bru-cur,html.static .bru-val{display:none}
 
+/* Mac sits under Bruno and above MIDI Fart Sniffer. No teaser video: his frames and a window shot. */
+.scene.mac{z-index:7;visibility:hidden;place-items:stretch;background:#07111f}
+.mac-hero{position:absolute;left:3%;top:7%;width:min(40vw,480px);height:auto;pointer-events:none}
+.mac-hero.rage{opacity:0}
+.mac-shot{position:absolute;right:3%;top:8%;width:min(46vw,620px);height:auto;border-radius:12px;pointer-events:none}
+.mac-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
+.mac-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center}
+.mactn,.mac-price{display:inline-flex;align-items:center;justify-content:center;font-family:"Titan One",Impact,sans-serif;font-size:20px;letter-spacing:.03em;line-height:1;padding:15px 24px 13px;color:#07111f;background:#8EBEFF;border:3px solid #07111f;border-radius:12px;box-shadow:4px 5px 0 #07111f;touch-action:manipulation}
+.mac-price{background:transparent;color:#F3F7FF;border-color:#8EBEFF;box-shadow:none}
+.mac-tag{font-family:"Titan One",Impact,sans-serif;font-size:13px;letter-spacing:.08em;color:#07111f;background:#8EBEFF;border:3px solid #07111f;border-radius:8px;padding:6px 12px 5px}
+.v-desk .mac-ui{bottom:max(11vh,64px)}
+.v-port .scene.mac{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:76px 16px 0;gap:8px}
+.v-port .mac-ui{position:absolute;bottom:max(18px,calc(env(safe-area-inset-bottom) + 12px))}
+.v-port .mac-hero{position:relative;left:auto;top:auto;width:min(40vw,150px);height:auto;transform:none;margin:0}
+.v-port .mac-hero.rage{position:absolute;left:50%;top:76px;width:min(40vw,150px);transform:translateX(-50%)}
+.v-port .mac-shot{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:min(100%,440px);max-height:36vh;height:auto;object-fit:contain}
+.v-port .mac-row{flex-direction:column;width:100%;max-width:440px}
+.v-port .mactn,.v-port .mac-price{width:100%;min-height:52px;font-size:16px}
+html.static .scene.mac{visibility:visible!important;min-height:100vh;min-height:100svh}
+html.static .mac-hero.rage{opacity:1}
+
 /* ================= MIDI Fart Sniffer beat (both layouts) ================= */
 .scene.mfs{z-index:7;visibility:hidden;place-items:stretch;background:#A6B0B8 url(/assets/mfs-steel.webp) 0 0/240px 240px}
 .mfs-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -423,7 +444,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
 <div id="app"></div>
 <noscript><style>.nojs{min-height:100vh;display:grid;place-items:center;text-align:center;padding:40px 24px}.nojs h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,8vw,110px);line-height:1;letter-spacing:-.03em}.nojs h1 em{font-style:normal;color:var(--signal)}.nojs p{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}</style>
 <!-- Paid plug-ins first. MIDI Fart Sniffer stays last. Do not add a free teaser above the paid plug-ins. -->
-<div class="nojs"><div><span class="mono" style="color:var(--signal)">Tril$oft VST Division</span><h1>Weird VSTs <em>no one</em> asked for.</h1><p><a class="btn btn-lime" href="/wildcard">Check out Wild Card →</a><a class="btn btn-white" href="#" data-stripe data-product="wildcard">Buy Now</a><a class="btn btn-lime" href="/conceal-n-strike">Conceal-N-Strike →</a><a class="btn btn-lime" href="/bruno">Bruno →</a><a class="btn btn-lime" href="/midi-fart-sniffer">MIDI Fart Sniffer →</a></p></div></div></noscript>
+<div class="nojs"><div><span class="mono" style="color:var(--signal)">Tril$oft VST Division</span><h1>Weird VSTs <em>no one</em> asked for.</h1><p><a class="btn btn-lime" href="/wildcard">Check out Wild Card →</a><a class="btn btn-white" href="#" data-stripe data-product="wildcard">Buy Now</a><a class="btn btn-lime" href="/conceal-n-strike">Conceal-N-Strike →</a><a class="btn btn-lime" href="/bruno">Bruno →</a><a class="btn btn-lime" href="/mac">Mac →</a><a class="btn btn-lime" href="/midi-fart-sniffer">MIDI Fart Sniffer →</a></p></div></div></noscript>
 <template id="tpl-desk"><div class="v-desk">
 <div class="bar" id="bar"></div>
 <header class="top">
@@ -432,12 +453,13 @@ html.static .cns-wipe,html.static .cns-door{display:none}
 </header>
 <!-- Paid plug-ins first. MIDI Fart Sniffer stays last; insert a new paid rail link before it. -->
 <nav class="rail" id="rail" aria-label="Sections">
-  <a href="#" data-go="0.055"><span>01 WEIRD</span><i></i></a>
-  <a href="#" data-go="0.141"><span>02 DIVISION</span><i></i></a>
-  <a href="#" data-go="0.319"><span>03 WILD CARD</span><i></i></a>
-  <a href="#" data-go="0.546"><span>04 CONCEAL-N-STRIKE</span><i></i></a>
-  <a href="#" data-go="0.773"><span>05 BRUNO</span><i></i></a>
-  <a href="#" data-go="1"><span>06 FART SNIFFER</span><i></i></a>
+  <a href="#" data-go="0.04"><span>01 WEIRD</span><i></i></a>
+  <a href="#" data-go="0.12"><span>02 DIVISION</span><i></i></a>
+  <a href="#" data-go="0.22"><span>03 WILD CARD</span><i></i></a>
+  <a href="#" data-go="0.35"><span>04 CONCEAL-N-STRIKE</span><i></i></a>
+  <a href="#" data-go="0.54"><span>05 BRUNO</span><i></i></a>
+  <a href="#" data-go="0.72"><span>06 MAC</span><i></i></a>
+  <a href="#" data-go="0.91"><span>07 FART SNIFFER</span><i></i></a>
 </nav>
 <main id="top">
 <div class="scroller" id="scroller">
@@ -473,7 +495,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         </div>
         <div class="rule" id="rule"><hr></div>
         <!-- Paid plug-ins first. MIDI Fart Sniffer stays last in this list. -->
-        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-004 · Bruno</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-004 · Bruno</span><span>Mac · In the works</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
       </div>
     </section>
     <section class="scene s3 wc" id="s3" aria-label="Wild Card">
@@ -527,6 +549,17 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     <div class="bru-cur l" id="bruCurL" aria-hidden="true"></div>
     <div class="bru-cur r" id="bruCurR" aria-hidden="true"></div>
     <div class="bru-val" id="bruVal" aria-hidden="true"><span>DIV-004 // BRUNO</span></div>
+    <!-- Mac, under Bruno, still above the free section. No Buy Now: pricing is TBD. -->
+    <section class="scene mac" id="mac" aria-label="Mac">
+      <h2 class="sr">Mac: an auto-drummer trained on punk, pop punk, and hardcore. In the works. Pricing TBD.</h2>
+      <img class="mac-hero" id="macHero" src="/img/mac/cute.webp" width="800" height="800" alt="">
+      <img class="mac-hero rage" id="macRage" src="/img/mac/rage.webp" width="800" height="800" alt="">
+      <img class="mac-shot" src="/img/mac/ui-verse.webp" width="1100" height="824" alt="Mac's plug-in window.">
+      <div class="mac-ui" id="macUi">
+        <span class="mac-tag">In the works · macOS</span>
+        <div class="mac-row"><a href="/mac" class="mactn">Check out Mac →</a><span class="mac-price">Pricing TBD</span></div>
+      </div>
+    </section>
     <!-- Free section. MIDI Fart Sniffer stays last, after every paid plug-in. Insert future paid scenes above #mfs. -->
     <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
       <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
@@ -600,7 +633,7 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         </div>
         <div class="rule" id="rule"><hr></div>
         <!-- Paid plug-ins first. MIDI Fart Sniffer stays last in this list. -->
-        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-004 · Bruno</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-004 · Bruno</span><span>Mac · In the works</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
       </div>
     </section>
     <section class="scene p3 wc" id="p3" aria-label="Wild Card">
@@ -655,6 +688,17 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     <div class="bru-cur l" id="bruCurL" aria-hidden="true"></div>
     <div class="bru-cur r" id="bruCurR" aria-hidden="true"></div>
     <div class="bru-val" id="bruVal" aria-hidden="true"><span>DIV-004 // BRUNO</span></div>
+    <!-- Mac, under Bruno, still above the free section. No Buy Now: pricing is TBD. -->
+    <section class="scene mac" id="mac" aria-label="Mac">
+      <h2 class="sr">Mac: an auto-drummer trained on punk, pop punk, and hardcore. In the works. Pricing TBD.</h2>
+      <img class="mac-hero" id="macHero" src="/img/mac/cute.webp" width="800" height="800" alt="">
+      <img class="mac-hero rage" id="macRage" src="/img/mac/rage.webp" width="800" height="800" alt="">
+      <img class="mac-shot" src="/img/mac/ui-verse.webp" width="1100" height="824" alt="Mac's plug-in window.">
+      <div class="mac-ui" id="macUi">
+        <span class="mac-tag">In the works · macOS</span>
+        <div class="mac-row"><a href="/mac" class="mactn">Check out Mac →</a><span class="mac-price">Pricing TBD</span></div>
+      </div>
+    </section>
     <!-- Free section. MIDI Fart Sniffer stays last, after every paid plug-in. Insert future paid scenes above #mfs. -->
     <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
       <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
@@ -884,15 +928,15 @@ html.static .cns-wipe,html.static .cns-door{display:none}
   // section's vh to PAID_* and insert its scene above #mfs. Distances: 620/1060/1500/1940 and 660/1100/1540/1980.
   const sum = (xs) => xs.reduce((s, n) => s + n, 0);
   const FILM_DESK = 620;
-  const PAID_DESK = [440, 440]; // Conceal-N-Strike, Bruno. Append future paid sections here.
+  const PAID_DESK = [440, 440, 440]; // Conceal-N-Strike, Bruno, Mac. Append future paid sections here.
   const MFS_DESK = 440; // free section. Stays after every paid plug-in.
-  const RANGE_DESK = FILM_DESK + sum(PAID_DESK) + MFS_DESK; // 1940
-  const MFS_AT_DESK = FILM_DESK + sum(PAID_DESK); // 1500 — start of the free section
+  const RANGE_DESK = FILM_DESK + sum(PAID_DESK) + MFS_DESK; // 2380
+  const MFS_AT_DESK = FILM_DESK + sum(PAID_DESK); // 1940 — start of the free section
   const FILM_PORT = 660;
-  const PAID_PORT = [440, 440]; // Conceal-N-Strike, Bruno. Append future paid sections here.
+  const PAID_PORT = [440, 440, 440]; // Conceal-N-Strike, Bruno, Mac. Append future paid sections here.
   const MFS_PORT = 440; // free section. Stays after every paid plug-in.
-  const RANGE_PORT = FILM_PORT + sum(PAID_PORT) + MFS_PORT; // 1980
-  const MFS_AT_PORT = FILM_PORT + sum(PAID_PORT); // 1540 — start of the free section
+  const RANGE_PORT = FILM_PORT + sum(PAID_PORT) + MFS_PORT; // 2420
+  const MFS_AT_PORT = FILM_PORT + sum(PAID_PORT); // 1980 — start of the free section
   function cns(root, mode) {
     const $ = s => root.querySelector(s);
     const sc = $('#cns'), vid = $('#cnsVid'), ui = $('#cnsUi'), bits = [...ui.querySelectorAll('.cns-tag, .cbtn')];
@@ -1001,9 +1045,35 @@ html.static .cns-wipe,html.static .cns-door{display:none}
         const on = q > .12;
         if (on) { nav.textContent = 'MIDI Fart Sniffer →'; nav.href = '/midi-fart-sniffer'; }
         navOn = on;
-        if (rail && q > .1) { railA.forEach((a, i) => a.classList.toggle('on', i === 5)); rail.classList.add('sn'); rail.classList.remove('wc', 'cn'); }
+        if (rail && q > .1) { railA.forEach((a, i) => a.classList.toggle('on', i === 6)); rail.classList.add('sn'); rail.classList.remove('wc', 'cn', 'mc'); }
       },
       destroy() { removeEventListener('touchstart', prime); vid.removeAttribute('src'); vid.load(); }
+    };
+  }
+
+  // ================= Mac beat: under Bruno, above the free section. Frames, not a teaser video. =================
+  function mac(root) {
+    const $ = s => root.querySelector(s);
+    const sc = $('#mac'), ui = $('#macUi'), bits = [...ui.querySelectorAll('.mac-tag, .mactn, .mac-price')];
+    const cute = $('#macHero'), rage = $('#macRage'), nav = $('#nav');
+    const rail = $('#rail'), railA = rail ? [...rail.querySelectorAll('a')] : [];
+    return {
+      render(q, next = 0) {
+        show(sc, q >= .12 ? 1 : 0);
+        const t = q < .4 ? 0 : Math.min(1, (q - .4) / .35);
+        if (cute) cute.style.opacity = String(1 - t);
+        if (rage) rage.style.opacity = String(t);
+        bits.forEach((b, i) => { const v = easeOut(seg(q, .28 + i * .04, .4 + i * .04)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
+        ui.style.pointerEvents = q > .4 && (q < 1 || next < .14) ? 'auto' : 'none';
+        if (q > .12 && q < 1) {
+          if (nav.textContent !== 'Mac →') { nav.textContent = 'Mac →'; nav.href = '/mac'; }
+        }
+        if (rail) {
+          if (q > .1 && q < 1) { railA.forEach((a, i) => a.classList.toggle('on', i === 5)); rail.classList.add('mc'); rail.classList.remove('wc', 'cn', 'br', 'sn'); }
+          else rail.classList.remove('mc');
+        }
+      },
+      destroy() {}
     };
   }
 
@@ -1047,20 +1117,23 @@ html.static .cns-wipe,html.static .cns-door{display:none}
     root.style.setProperty('--sh', a.stage.offsetHeight + 'px');
     goTo(keep, false);
     if (isStatic) return;
-    const base = (mode === 'port' ? port : desk)(root), cn = cns(root, mode), br = bru(root), mf = mfs(root), bar = root.querySelector('#bar');
+    const base = (mode === 'port' ? port : desk)(root), cn = cns(root, mode), br = bru(root), mc = mac(root), mf = mfs(root), bar = root.querySelector('#bar');
     const range = mode === 'port' ? RANGE_PORT : RANGE_DESK;
-    const K1 = (mode === 'port' ? FILM_PORT : FILM_DESK) / range;
-    const KB = ((mode === 'port' ? FILM_PORT : FILM_DESK) + (mode === 'port' ? PAID_PORT : PAID_DESK)[0]) / range; // Conceal-N-Strike → Bruno
-    const K2 = (mode === 'port' ? MFS_AT_PORT : MFS_AT_DESK) / range;
+    const film = mode === 'port' ? FILM_PORT : FILM_DESK;
+    const paid = mode === 'port' ? PAID_PORT : PAID_DESK;
+    const cuts = [film];
+    paid.forEach((vh) => cuts.push(cuts[cuts.length - 1] + vh));
+    const K = cuts.map((vh) => vh / range); // film end, then the end of each paid section. MFS starts at the last cut.
     a.renderer = {
       render(P, now, dp, dt) {
-        base.render(Math.min(1, P / K1), now, P < K1 ? dp / K1 : 0, dt);
-        cn.render(clamp((P - K1) / (KB - K1)), clamp((P - KB) / (K2 - KB)));
-        br.render(clamp((P - KB) / (K2 - KB)), clamp((P - K2) / (1 - K2)));
-        mf.render(clamp((P - K2) / (1 - K2)));
+        base.render(Math.min(1, P / K[0]), now, P < K[0] ? dp / K[0] : 0, dt);
+        cn.render(clamp((P - K[0]) / (K[1] - K[0])), clamp((P - K[1]) / (K[2] - K[1])));
+        br.render(clamp((P - K[1]) / (K[2] - K[1])), clamp((P - K[2]) / (K[3] - K[2])));
+        mc.render(clamp((P - K[2]) / (K[3] - K[2])), clamp((P - K[3]) / (1 - K[3])));
+        mf.render(clamp((P - K[3]) / (1 - K[3])));
         bar.style.transform = `scaleX(${P})`;
       },
-      destroy() { base.destroy(); cn.destroy(); br.destroy(); mf.destroy(); }
+      destroy() { base.destroy(); cn.destroy(); br.destroy(); mc.destroy(); mf.destroy(); }
     };
     a.cur = targetOf(a);
     let last = performance.now(), prev = a.cur;

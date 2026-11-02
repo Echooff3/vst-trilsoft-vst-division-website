@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
 <!-- Google tag (gtag.js): page views only, ad features and Google signals off -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGXGD2WJZ5"></script>
 <script>
@@ -69,6 +68,7 @@ h1{font-family:"Titan One",Impact,sans-serif;font-weight:400;font-size:clamp(64p
 .card h2 em{font-style:normal;color:#1D4ED8}
 .card p{font-size:17px;max-width:38em}
 .card p+p{margin-top:10px}
+.card img{display:block;width:100%;height:auto;max-height:46vh;object-fit:contain;object-position:left center;margin-top:12px;border:3px solid #0C1224;border-radius:10px;background:#111}
 .mantra{margin-top:8px;font-family:"Titan One",Impact,sans-serif;font-weight:400;font-size:clamp(22px,3vw,32px);line-height:1.2;color:#8EBEFF}
 .hint{margin-top:18px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.18em;color:#9EC4FF}
 @media (max-width:800px){
@@ -105,14 +105,14 @@ h1{font-family:"Titan One",Impact,sans-serif;font-weight:400;font-size:clamp(64p
       </div>
       <p class="rage-read">Sketch · <b id="rage-label">Cute</b></p>
       <div class="rage-bar" aria-hidden="true"><i></i></div>
-      <p class="note">His plug-in frames. Scroll sketches the planned Rage idea.</p>
+      <p class="note">His plug-in frames. Scroll moves his face, the way the Rage paw does.</p>
     </div>
     <div id="beats">
       <section class="beat">
         <p class="kicker">In the works · sibling to Bruno</p>
         <h1>MAC</h1>
         <p class="guff">Cute. Then don't push him.</p>
-        <p class="lead">An auto-drummer for macOS, trained on punk, pop punk, and hardcore. Bruno (DIV-004) is the sibling. Mac is the one in blue fur.</p>
+        <p class="lead">An auto-drummer for macOS, trained on punk, pop punk, and hardcore. Bruno (DIV-004) is the sibling. Mac is the one with the Rage paw.</p>
         <ul class="status">
           <li>In the works</li>
           <li>Pricing TBD</li>
@@ -122,32 +122,98 @@ h1{font-family:"Titan One",Impact,sans-serif;font-weight:400;font-size:clamp(64p
       </section>
       <section class="beat">
         <article class="card">
-          <span class="tag">The pile</span>
-          <h2>Punk, pop punk, <em>hardcore</em></h2>
-          <p>That's what he trained on. Fast songs, rude songs, and the ones that still carry a tune. He is an auto-drummer in Bruno's family, not a second copy of Bruno.</p>
+          <span class="tag">Header</span>
+          <h2>Count him <em>in</em></h2>
+          <p>The play button starts him, or stops him at the next bar. Status reads <b>STOPPED</b>, <b>COUNTING IN</b>, <b>PLAYING</b>, or <b>LAST HIT!</b></p>
+          <p><b>START WITH HOST</b> starts him with the host transport. It begins off. <b>SAME TAKE</b> plays the same performance every time. <b>NEW TAKE</b> rolls new dice on each start. Same Take is the start. <b>REROLL</b> picks new dice for the Same Take, and the project keeps them.</p>
+          <p class="tip">Standalone: Space starts and stops. F is a fill. 1 to 8 are the sections.</p>
         </article>
       </section>
       <section class="beat">
         <article class="card">
-          <span class="tag">The face</span>
-          <h2>Round, blue, and <em>furry</em></h2>
-          <p>He starts cute. Round face, a little smile, sticks resting on the kit. Push him and the cute leaves: grumpy first, then full rage, red eyes and teeth.</p>
-          <p>The pictures are his own frames. Scrolling only shows the change. The Rage control is still the plan.</p>
+          <span class="tag hot">Mac only</span>
+          <h2>The <em>Rage</em> paw</h2>
+          <p>How hard he gets pushed. Low is cute: ghost notes, grooves as written. High is louder, more crashes, then a d-beat, then a blast. His face follows the knob. It runs 0 to 100%, and starts at 35%.</p>
+          <p>Scroll on this page is the same idea: cute, then grumpy, then rage.</p>
         </article>
       </section>
       <section class="beat">
         <article class="card">
-          <span class="tag hot">Planned</span>
-          <h2>Rage, when it's <em>time</em></h2>
-          <p>The plan is a Rage control. Intensity, if that name is the one that sticks. One control would drive how hard he plays and how scary his face gets. Same move, both jobs.</p>
-          <p>It is not in a build. Scrolling this page only sketches the idea: calm at the top, mean at the bottom.</p>
+          <span class="tag">His mood</span>
+          <h2>Calm to <em>furious</em></h2>
+          <p>The pad is <b>CALM</b> to <b>FURIOUS</b> across, and <b>SIMPLE</b> to <b>FANCY</b> up. The readout is <b>ANGER</b> and <b>FANCY</b>. The puck picks grooves inside the Variation circle. Drag to move. Double-click resets. It starts at 50% across and 30% up. In Beatdown the pad shows breakdown patterns instead.</p>
         </article>
       </section>
       <section class="beat">
         <article class="card">
-          <span class="tag">The desk</span>
-          <h2>macOS. <em>Price later.</em></h2>
-          <p>Mac is for macOS, like the other plug-ins. Pricing TBD. Nothing to buy on this page.</p>
+          <span class="tag">Sections</span>
+          <h2>Eight <em>calls</em></h2>
+          <p><b>INTRO</b>, <b>VERSE</b>, <b>CHORUS</b>, <b>D-BEAT</b>, <b>TWO-STEP</b>, <b>BREAKDOWN</b>, <b>HARDCORE</b>, <b>PUNK</b>. <b>PHRASE</b> is the bar in the phrase, orange during a fill. <b>FILL!</b> plays a fill now.</p>
+          <p><img src="/img/mac/ui-verse.webp" width="1100" height="824" alt="Mac's window on VERSE, with His Mood, Sections, How Hard, and The Take."></p>
+        </article>
+      </section>
+      <section class="beat">
+        <article class="card">
+          <span class="tag">How hard</span>
+          <h2>Fills and <em>variation</em></h2>
+          <p><b>FILLS</b> is how often. 0 is none. Halfway is the end of each phrase. The top is <b>FILL MANIA!</b> It starts at 35%.</p>
+          <p><b>VARIATION</b> at 0 locks to the groove under the puck. Higher widens the pick circle and adds ghost notes, extra kicks, and looser timing. It starts at 7%.</p>
+        </article>
+      </section>
+      <section class="beat">
+        <article class="card">
+          <span class="tag">The take</span>
+          <h2>Drag it <em>out</em></h2>
+          <p>The film strip records everything he plays. <b>DRAG ME</b> drops it in the DAW as a MIDI clip. <b>CLEAR</b> empties the strip.</p>
+        </article>
+      </section>
+      <section class="beat">
+        <article class="card">
+          <span class="tag">Beatdown</span>
+          <h2>Chugs on the <em>sidechain</em></h2>
+          <p><b>BEATDOWN</b> latches breakdown mode. Sidechain chugs trigger a kick plus a crash, and the crashes alternate. <b>C0</b> does it, and so does <b>B</b> in the standalone app. It starts off.</p>
+          <p><b>THRESHOLD</b> is how big a rise counts as a chug. Lower catches softer palm mutes. It starts at 30%. <b>HITS</b> is <b>SINGLE</b>, <b>TRIPLETS</b> from 28%, or <b>QUAD BLAST</b> from 72%, locked to the tempo. Single is the start.</p>
+          <p><b>CHUGS</b> is sidechain hits only. <b>GROOVE</b> is a half-time bed the puck picks. <b>BOTH</b> is the two together, and it's the start. In Chugs, <b>SNARE</b> is how often a chug on beat 1 or 3 also hits the snare. It starts at 35%. Otherwise the line reads <b>PUCK PICKS THE BED</b>.</p>
+          <p>The sidechain meter runs from -60 to 0 dB and goes red above -12. <b>TRIG</b> flashes on each chug. The stereo input is named Sidechain. The pad patterns are HALF, AND, DOT, PUSH, WASH, BELL, CHINA, STEP, CALL, and MOSH.</p>
+          <p><img src="/img/mac/ui-beatdown.webp" width="1100" height="824" alt="Mac in Beatdown, Both, with the sidechain meter and TRIG lit."></p>
+        </article>
+      </section>
+      <section class="beat">
+        <article class="card">
+          <span class="tag">Tempo</span>
+          <h2>Host, or <em>the box</em></h2>
+          <p><b>HOST</b> follows the DAW. <b>SET</b> is the BPM box, 40 to 300. Shift-drag for fine steps. The box is hidden in the standalone app. Host is the start, and the box starts at 160. <b>HALF</b>, <b>NORMAL</b>, and <b>DOUBLE</b> are the feel. Normal is the start.</p>
+        </article>
+      </section>
+      <section class="beat">
+        <article class="card">
+          <span class="tag">Phrasing</span>
+          <h2>Bars, then <em>when</em></h2>
+          <p><b>BARS</b> is 4, 8, or 16. Fills land at the ends. 8 is the start. <b>START</b> is <b>NOW</b>, the next <b>BEAT</b>, or the next <b>BAR</b>. Bar is the start. Section changes wait for the same choice.</p>
+        </article>
+      </section>
+      <section class="beat">
+        <article class="card">
+          <span class="tag">Keyswitches</span>
+          <h2>From the <em>keys</em></h2>
+          <p><b>FROM</b> is the lowest keyswitch. It starts at C-1. Order: start or stop, fill, then the eight sections. <b>CHANNEL</b> is <b>ANY</b> or 1 to 16. Any is the start. <b>Last heard</b> shows the last one. <b>C0</b> toggles Beatdown and wins over that bank.</p>
+        </article>
+      </section>
+      <section class="beat">
+        <article class="card">
+          <span class="tag">Output</span>
+          <h2>Where the <em>notes</em> go</h2>
+          <p><b>CH</b> is the drum channel. It starts at 10. Velocity runs 0 to 200% and starts at 100%. <b>MAP</b> remaps each drum's note. <b>GENERAL MIDI</b> puts it back.</p>
+          <p>The port menu sends MIDI somewhere else as well as the host: <b>HOST ONLY</b>, <b>VIRTUAL PORT "Mac"</b>, or a device. Host only is the start.</p>
+          <p><img src="/img/mac/ui-port.webp" width="1100" height="824" alt="Mac's virtual port menu, open on Virtual Port Mac."></p>
+        </article>
+      </section>
+      <section class="beat">
+        <article class="card">
+          <span class="tag">Kit</span>
+          <h2>A kit to <em>hear him</em></h2>
+          <p><b>OFF</b> or <b>DRUMS</b>. Off in a DAW. Drums in the standalone app. The slider is the kit volume, -36 to +6 dB, starting at -3.</p>
+          <p>Pricing TBD. Nothing to buy on this page.</p>
           <p class="mantra">Nothing is impossible, improbable maybe.</p>
         </article>
       </section>

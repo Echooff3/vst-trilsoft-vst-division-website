@@ -83,6 +83,7 @@ nav.top .btn{font-size:16px;padding:10px 16px 8px}
 .card h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,2.4vw,40px);line-height:1.05;color:var(--ink);margin:6px 0 12px}
 .card h2 em{font-family:var(--rye);font-style:normal;color:var(--red);font-size:1.08em}
 .card p{font-size:17px;color:var(--ink);max-width:520px}
+.card img{display:block;width:100%;height:auto;max-height:22vh;object-fit:contain;object-position:left center;margin-top:12px;border:3px solid var(--ink);border-radius:10px;background:#1c1512}
 .card p+p{margin-top:10px}
 .keys{list-style:none;display:grid;gap:8px;margin-top:14px}
 .keys li{display:flex;align-items:baseline;gap:10px;font-size:15.5px;color:var(--ink)}
@@ -299,12 +300,12 @@ html.static .poster,html.static .poster .burst,html.static .poster .bruno{animat
 
       <article class="beat" data-beat="mood"><div class="card"><span class="tag teal">05 · HIS MOOD</span>
         <h2>Calm to <em>furious</em></h2>
-        <p>The pad is his mood. Left to right is calm to furious, bottom to top is simple to fancy. Every dot is a groove from the section, and he plays the one nearest the puck. A move lands on the next bar.</p>
-        <p class="tip"><b>Double-click</b> the pad to put the puck back.</p></div></article>
+        <p>The pad is his mood. Left to right is calm to furious, bottom to top is simple to fancy. The readout is <b>ANGER</b> and <b>FANCY</b>. He plays a groove inside the circle around the puck. Drag to move. Double-click puts the puck back. A move lands on the next bar.</p>
+        <p class="tip"><b>Coming in the next update:</b> in Beatdown the pad shows breakdown patterns instead.</p></div></article>
 
       <article class="beat" data-beat="sections"><div class="card"><span class="tag">06 · SECTIONS</span>
         <h2>Call the <em>section</em></h2>
-        <p>Eight of them, <b>INTRO</b> to <b>BREAKDOWN</b>. Click one and it blinks until the next bar, then he's there. With FILLS up, he fills into it. <b>PHRASE</b> shows where he is in the phrase.</p>
+        <p>Eight of them: <b>INTRO</b>, <b>GROOVE</b>, <b>UPBEAT</b>, <b>THRASH</b>, <b>DOUBLE BASS</b>, <b>RIDE</b>, <b>TWO-STEP</b>, <b>BREAKDOWN</b>. Click one and it blinks until the next bar, then he's there. With FILLS up, he fills into it. <b>PHRASE</b> shows the bar in the phrase, and goes orange during a fill.</p>
         <p class="tip"><b>Standalone app:</b> keys 1 to 8.</p></div></article>
 
       <article class="beat" data-beat="fills"><div class="card"><span class="tag mus">07 · HOW HARD</span>
@@ -314,18 +315,25 @@ html.static .poster,html.static .poster .burst,html.static .poster .bruno{animat
 
       <article class="beat" data-beat="take"><div class="card"><span class="tag mus">08 · VARIATION</span>
         <h2>Same take, or <em>new</em></h2>
-        <p><b>VARIATION</b> at 0 plays the library as written. Up from there: looser timing and velocity, ghost notes, extra kicks, open hats, swapped crashes.</p>
-        <p><b>SAME TAKE</b> plays the same performance every time the song plays, so a bounce matches what you heard. <b>REROLL</b> deals a different one. <b>NEW TAKE</b> rolls new dice every start.</p></div></article>
+        <p><b>SAME TAKE</b> plays the same performance every time the song plays, so a bounce matches what you heard. <b>REROLL</b> picks new dice for that take, and the project remembers them. <b>NEW TAKE</b> rolls new dice every start.</p>
+        <p class="tip"><b>Coming in the next update:</b> <b>VARIATION</b> at 0 locks to the groove under the puck. Higher widens the pick circle and adds ghost notes, extra kicks, and looser timing. It starts at 7%.</p></div></article>
+
+      <article class="beat" data-beat="beatdown"><div class="card"><span class="tag mus">COMING NEXT</span>
+        <h2>Beatdown, <em>next update</em></h2>
+        <p><b>Coming in the next update.</b> Not in the Bruno 0.1.0 installer. <b>BEATDOWN</b> latches breakdown mode. Sidechain chugs trigger a kick plus a crash, and the crashes alternate. <b>C0</b> does it. So does <b>B</b> in the standalone app.</p>
+        <p><b>THRESHOLD</b> starts at 30%. <b>HITS</b> is Single, Triplets from 28%, or Quad Blast from 72%. <b>CHUGS</b>, <b>GROOVE</b>, or <b>BOTH</b>. Both is the start. In Chugs, <b>SNARE</b> starts at 35%. Otherwise the line reads <b>PUCK PICKS THE BED</b>. The meter runs -60 to 0 dB, red above -12, and <b>TRIG</b> flashes. Patterns: HALF, AND, FOUR, TOM, RIDE, HAT, HEY, WALK, ROLL.</p>
+        <p><img src="/img/bruno/ui-beatdown.webp" width="1100" height="824" alt="Bruno's window in Beatdown, with the sidechain meter. This screen is the next update, not the 0.1.0 installer."></p></div></article>
 
       <article class="beat" data-beat="phrasing"><div class="card"><span class="tag">09 · PHRASING</span>
         <h2>Bars and <em>tempo</em></h2>
-        <p><b>BARS</b>: 4, 8, or 16 a phrase. <b>START</b>: wait for the next <b>BAR</b> or <b>BEAT</b>, or go <b>NOW</b>.</p>
-        <p><b>TEMPO</b>: <b>HOST</b> follows the DAW. <b>SET</b> is the box: drag it. <b>HALF</b> and <b>DOUBLE</b> play it at half or double time.</p></div></article>
+        <p><b>BARS</b>: 4, 8, or 16 a phrase. Fills land at the ends. It starts at 8. <b>START</b>: <b>NOW</b>, the next <b>BEAT</b>, or the next <b>BAR</b>. Bar is the start.</p>
+        <p><b>TEMPO</b>: <b>HOST</b> follows the DAW. <b>SET</b> is the box, 40 to 300, shift-drag for fine steps. The box is hidden in the standalone app. <b>HALF</b>, <b>NORMAL</b>, and <b>DOUBLE</b> are the feel. Normal is the start.</p></div></article>
 
       <article class="beat" data-beat="keys"><div class="card"><span class="tag mus">10 · KEYSWITCHES</span>
         <h2>Boss him from <em>the keys</em></h2>
         <ul class="keys"><li><kbd>C-1</kbd>Start him, or stop him</li><li><kbd>C#-1</kbd>A fill, now</li><li><kbd>D-1 – A-1</kbd>Sections 1 to 8</li></ul>
-        <p class="tip"><b>FROM</b> and <b>CHANNEL</b> move them. <b>Last heard</b> shows the last one, so a wrong octave is easy to spot. Every other note passes straight through.</p></div></article>
+        <p><b>FROM</b> is the lowest keyswitch. It starts at C-1. Then fill, then the eight sections. <b>CHANNEL</b> is <b>ANY</b> or 1 to 16. <b>Last heard</b> shows the last one.</p>
+        <p class="tip"><b>Coming in the next update:</b> <b>C0</b> toggles Beatdown, and it wins over the movable bank. In the standalone app, B does the same.</p></div></article>
 
       <article class="beat" data-beat="strip"><div class="card"><span class="tag ink">11 · THE TAKE</span>
         <h2>Drag the <em>take</em></h2>
@@ -334,8 +342,9 @@ html.static .poster,html.static .poster .burst,html.static .poster .bruno{animat
 
       <article class="beat" data-beat="output"><div class="card"><span class="tag">12 · OUTPUT</span>
         <h2>Where the <em>MIDI</em> goes</h2>
-        <p><b>CH</b> is the channel he plays on (10, for drums). The percentage scales velocity.</p>
-        <p>The box under them copies the MIDI to a port: an IAC bus, a drum machine, or <b>VIRTUAL PORT "Bruno"</b>, which other apps see as an input. The light flashes when MIDI goes out.</p></div></article>
+        <p><b>CH</b> is the channel he plays on. It starts at 10. The percentage scales velocity, 0 to 200%, starting at 100%.</p>
+        <p>The port menu sends MIDI somewhere else as well as the host: <b>HOST ONLY</b>, <b>VIRTUAL PORT "Bruno"</b>, or a device. Host only is the start. The light flashes when MIDI goes out.</p>
+        <p><img src="/img/bruno/ui-port.webp" width="1100" height="824" alt="Bruno's window, with the virtual port menu open."></p></div></article>
 
       <article class="beat" data-beat="map"><div class="card"><span class="tag teal">13 · MAP</span>
         <h2>Your drums, <em>your notes</em></h2>
@@ -343,7 +352,7 @@ html.static .poster,html.static .poster .burst,html.static .poster .bruno{animat
 
       <article class="beat" data-beat="kit"><div class="card"><span class="tag teal">14 · KIT</span>
         <h2>A kit to <em>hear him</em></h2>
-        <p>The preview kit is real drums. It's <b>OFF</b> in a DAW, where your drum plug-in is the sound, and on in the standalone app. The slider is its volume.</p>
+        <p><b>OFF</b> or <b>DRUMS</b>. Off in a DAW, where your drum plug-in is the sound. Drums in the standalone app. The slider is the kit volume, from -36 to +6 dB, starting at -3.</p>
         <p class="tip">Preview drums: The Aasimonster by <a href="https://drumgizmo.org">DrumGizmo.org</a>, licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Mixed to stereo and trimmed for Bruno.</p></div></article>
 
       <article class="beat" data-beat="ableton"><div class="card"><span class="tag">15 · ABLETON</span>
@@ -496,6 +505,7 @@ const beats = [
       if (a >= .62) click(st, a, win.seg('take', 1, 2), win.seg('take', 0, 2), .62, .7, .76, 'take', () => (st.takeMode = 'SAME'));
       if (a >= .78) click(st, a, win.seg('take', 0, 2), ctr('reroll'), .78, .88, .95, 'reroll');
     } },
+  { id: 'beatdown', rail: 'Beatdown', len: 1.3 },
   { id: 'phrasing', rail: 'Phrasing', focus: [pad(win.rect('tempo'), 0, 14), pad(win.rect('phrasing'), 0, 14)], cam: [8, 596, 452, 120], camPort: [8, 596, 452, 120], len: 1.5,
     apply(st, a, d) {
       if (d) { st.phrase = 16; st.launch = 'BEAT'; return; }
