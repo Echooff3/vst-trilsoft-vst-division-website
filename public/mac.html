@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- Google tag (gtag.js): page views only, ad features and Google signals off -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGXGD2WJZ5"></script>
 <script>
@@ -11,255 +11,384 @@
   gtag('js', new Date());
   gtag('config', 'G-HGXGD2WJZ5', { allow_google_signals: false, allow_ad_personalization_signals: false });
 </script>
-<title>Mac — Tril$oft VST Division</title>
+<title>Mac: the auto-drummer · Tril$oft VST Division</title>
 <meta name="description" content="Mac is an auto-drummer in the works, a sibling to Bruno, trained on punk, pop punk, and hardcore. macOS. Pricing TBD.">
 <link rel="canonical" href="https://vst.trilsoft.com/mac">
-<meta name="theme-color" content="#07111f">
+<meta name="theme-color" content="#12306A">
+<meta property="og:title" content="Mac: the auto-drummer · Tril$oft VST Division">
+<meta property="og:description" content="Mac is an auto-drummer in the works, a sibling to Bruno, trained on punk, pop punk, and hardcore. macOS. Pricing TBD.">
+<meta property="og:url" content="https://vst.trilsoft.com/mac">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tril$oft VST Division">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mac: the auto-drummer · Tril$oft VST Division">
+<meta name="twitter:description" content="Mac is an auto-drummer in the works, a sibling to Bruno, trained on punk, pop punk, and hardcore. macOS. Pricing TBD.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>
+(function(d){var p=matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: reduce)').matches?' static':'');})(document.documentElement);
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Comic+Neue:wght@700&family=Unbounded:wght@800&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Comic+Neue:wght@700&family=Unbounded:wght@800&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tour.css">
 <link rel="stylesheet" href="/footer.css">
 <style>
-:root{--rage:0;--fur:#3B78FF;--royal:#1D4ED8;--ink:#0C1224;--paper:#E7F0FF;--menace:#FF2D2D;--bone:#F3F7FF}
-*{box-sizing:border-box;margin:0;padding:0}
-html{background:#07111f}
-body{font-family:"Comic Neue","Comic Sans MS",system-ui,sans-serif;font-weight:700;color:var(--bone);line-height:1.45;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;
-  background:
-    radial-gradient(900px 520px at 18% 12%, rgba(47,107,255,calc(.28 - var(--rage) * .18)), transparent 60%),
-    radial-gradient(700px 480px at 70% 30%, rgba(255,45,45,calc(var(--rage) * .42)), transparent 62%),
-    #07111f}
-a{color:#9EC4FF}
-:focus-visible{outline:2px solid #9EC4FF;outline-offset:3px}
-header,footer{position:relative;z-index:3}
-header{padding:28px clamp(20px,5vw,56px)}
-header a.mark{display:inline-flex;align-items:center;gap:12px;color:inherit;text-decoration:none}
-.wordmark{font-family:Unbounded,system-ui,sans-serif;font-weight:800;font-size:19px;letter-spacing:-.01em}
-.wordmark i{font-style:normal;color:#FF5B1F}
-main{flex:1;width:min(1100px,100%);margin:0 auto;padding:8px clamp(20px,5vw,48px) 28px}
-.layout{display:grid;grid-template-columns:minmax(260px,420px) minmax(0,1fr);gap:28px;align-items:start}
-.mac-col{position:sticky;top:18px}
-/* Art slot is #mac-art. Swap by replacing /img/mac/cute.webp, grumpy.webp, rage.webp.
-   Scroll sets --mac-cute, --mac-grumpy, --mac-rage. The WebPs already fade their
-   grey corners out, so Safari does not need a CSS mask to blend them. */
-.mac-art{position:relative;width:min(100%,420px);margin:0 auto}
-.mac-art .frame{display:block;width:100%;height:auto;opacity:0}
-.mac-art .frame.grumpy,.mac-art .frame.rage{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain}
-.mac-art .frame.cute{position:relative;opacity:var(--mac-cute,1)}
-.mac-art .frame.grumpy{opacity:var(--mac-grumpy,0)}
-.mac-art .frame.rage{opacity:var(--mac-rage,0)}
-.rage-read{margin-top:8px;text-align:center;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#9EC4FF}
-.rage-read b{color:var(--bone);font-weight:400}
-.rage-bar{height:8px;margin:8px auto 0;max-width:220px;border:2px solid #0C1224;border-radius:99px;background:#10203f;overflow:hidden}
-.rage-bar i{display:block;height:100%;width:calc(var(--rage) * 100%);background:linear-gradient(90deg,#3B78FF,#FF2D2D)}
-.note{margin-top:8px;text-align:center;font-size:13px;color:#9AA8C7}
-.kicker{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7EB6FF}
-h1{font-family:"Titan One",Impact,sans-serif;font-weight:400;font-size:clamp(64px,8vw,104px);line-height:.9;letter-spacing:.02em;color:#8EBEFF;-webkit-text-stroke:7px #07101c;paint-order:stroke fill;margin:8px 0 6px}
-.guff{font-family:"Titan One",Impact,sans-serif;font-weight:400;font-size:clamp(16px,2vw,22px);letter-spacing:.04em;color:#F3F7FF;margin-bottom:10px}
-.lead{font-size:18px;max-width:36em;margin-bottom:16px}
-.status{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px;padding:0;list-style:none}
-.status li{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#07111f;background:#8EBEFF;border:3px solid #0C1224;border-radius:8px;padding:8px 10px}
-.beat{min-height:72vh;display:grid;align-content:center;padding:28px 0}
-.card{position:relative;background:var(--paper);color:var(--ink);border:3px solid #0C1224;border-radius:14px;padding:28px 24px 22px;box-shadow:6px 7px 0 #0C1224}
-.card .tag{position:absolute;left:16px;top:-14px;font-family:"Titan One",Impact,sans-serif;font-weight:400;font-size:14px;letter-spacing:.04em;color:#F3F7FF;background:var(--royal);border:2.5px solid #0C1224;border-radius:7px;padding:3px 10px 2px}
-.card .tag.hot{background:#9B1020}
-.card h2{font-family:"Titan One",Impact,sans-serif;font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1.05;margin:8px 0 10px}
-.card h2 em{font-style:normal;color:#1D4ED8}
-.card p{font-size:17px;max-width:38em}
-.card p+p{margin-top:10px}
-.card img{display:block;width:100%;height:auto;max-height:46vh;object-fit:contain;object-position:left center;margin-top:12px;border:3px solid #0C1224;border-radius:10px;background:#111}
-.mantra{margin-top:8px;font-family:"Titan One",Impact,sans-serif;font-weight:400;font-size:clamp(22px,3vw,32px);line-height:1.2;color:#8EBEFF}
-.hint{margin-top:18px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.18em;color:#9EC4FF}
-@media (max-width:800px){
-  .layout{grid-template-columns:1fr;gap:12px}
-  .mac-col{position:sticky;top:0;z-index:2;padding:4px 0 8px;background:#07111f}
-  .mac-art{width:min(200px,54vw)}
-  .beat{min-height:64vh;padding:18px 0}
-  h1{font-size:64px;-webkit-text-stroke-width:5px}
+:root{
+  --ink:#0C1224; --paper:#E7F0FF; --paper-d:#c5d4ee; --blue:#2F6BFF; --blue-d:#12306A; --ice:#8EBEFF; --pin:#D5DDE6; --rage:#FF2D2D; --bone:#F4F7FF;
+  --display:"Bungee",Impact,sans-serif; --body:"Comic Neue","Comic Sans MS",system-ui,sans-serif;
 }
+html{background:#070b14}
+body{font-family:var(--body);font-weight:700;color:var(--bone);background:#070b14;line-height:1.45;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(rgba(47,107,255,.35) 1.15px, transparent 1.45px);background-size:13px 13px;opacity:.55}
+.pbar{background:linear-gradient(90deg,var(--blue),var(--ice),var(--rage))}
+nav.top{position:fixed;inset:0 0 auto 0;z-index:60;min-height:74px;height:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 2.4vw;background:var(--blue-d) repeating-linear-gradient(-45deg,rgba(213,221,230,.22) 0 2px,transparent 2px 11px);border-bottom:3px solid var(--ink)}
+nav.top::after{content:"";position:absolute;left:0;right:0;top:100%;height:16px;pointer-events:none;background:radial-gradient(circle at 10px 0,transparent 0 5px,var(--pin) 5px 7px,var(--ink) 7px 8.5px,transparent 8.5px) 0 0/22px 16px repeat-x}
+.ts{display:inline-flex;align-items:center;gap:10px;font-family:"Unbounded",sans-serif;font-weight:800;font-size:15px;color:var(--bone);white-space:nowrap}
+.ts i{font-style:normal;color:#FF5B1F}
+.ts small{font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:.14em;color:rgba(244,247,255,.72)}
+nav.top .r{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--display);font-size:16px;letter-spacing:.02em;line-height:1;padding:14px 18px 12px;color:var(--ink);background:var(--ice);border:3px solid var(--ink);border-radius:12px;box-shadow:4px 5px 0 var(--ink);white-space:nowrap;position:relative}
+.btn:hover{filter:brightness(1.06)} .btn:active{transform:translate(2px,2px);box-shadow:2px 3px 0 var(--ink)}
+.btn.ghost{background:var(--paper);color:var(--ink)}
+.btn.idle{background:transparent;color:var(--bone);border-color:var(--ice);box-shadow:none;cursor:default}
+nav.top .btn{font-size:14px;padding:10px 14px 8px}
+.px{display:flex;flex-direction:column;align-items:flex-start;gap:2px;font-family:var(--display);font-size:15px;line-height:1.05;color:var(--bone);white-space:nowrap}
+.px small{font-family:var(--body);font-size:11px;letter-spacing:.06em;color:rgba(244,247,255,.75)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.stage{background:transparent}
+#uibox{border-radius:16px;border:3px solid var(--ink);box-shadow:7px 8px 0 #000;background:#111827}
+.is-port #uibox{border-radius:0;border-left:0;border-right:0;box-shadow:none}
+#shot{position:absolute;left:0;top:0;width:1100px;height:824px;display:block;pointer-events:none}
+#rail button span{font-family:var(--display);font-size:11px;letter-spacing:.04em;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);padding:2px 9px;border-radius:7px;box-shadow:2px 3px 0 var(--ink)}
+#rail button i{background:var(--pin);border-radius:50%}
+#rail button.on i{background:var(--ice);box-shadow:0 0 0 2px var(--ink)}
+.card{position:relative;background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:30px 28px 24px;box-shadow:6px 7px 0 var(--ink);color:var(--ink);font-weight:700}
+.card .tag{position:absolute;left:16px;top:-15px;font-family:var(--display);font-weight:400;font-size:12px;letter-spacing:.04em;color:var(--ink);background:var(--ice);border:2.5px solid var(--ink);border-radius:7px;box-shadow:2px 3px 0 var(--ink);padding:5px 11px 4px}
+.card .tag.hot{background:var(--rage);color:var(--bone)} .card .tag.pin{background:var(--pin)} .card .tag.ink{background:var(--ink);color:var(--bone)}
+.card h2{font-family:var(--display);font-weight:400;font-size:clamp(22px,1.7vw,32px);line-height:1.15;color:var(--ink);margin:6px 0 12px}
+.card h2 em{font-style:normal;color:var(--blue)}
+.card p{font-size:17px;color:var(--ink);max-width:34em}
+.card p+p{margin-top:10px}
+.keys{list-style:none;display:grid;gap:8px;margin-top:14px}
+.keys li{display:flex;align-items:baseline;gap:10px;font-size:15.5px;color:var(--ink)}
+kbd{flex:none;font-family:var(--display);font-weight:400;font-size:12px;letter-spacing:.04em;color:var(--ink);background:#fff;border:2.5px solid var(--ink);border-radius:8px;box-shadow:2px 3px 0 var(--ink);padding:4px 8px 3px;white-space:nowrap}
+.tip{margin-top:12px;font-size:15px;color:#243044}
+.tip b{color:var(--blue-d)}
+.scene{display:grid;place-items:center;text-align:center;padding:118px 6vw 36px;background:transparent}
+.scene>div{position:relative}
+.scene .tag{display:inline-block;font-family:var(--display);font-weight:400;letter-spacing:.04em;font-size:13px;color:var(--ink);background:var(--ice);border:2.5px solid var(--ink);border-radius:8px;box-shadow:3px 4px 0 var(--ink);padding:7px 12px 6px}
+.headline{position:relative;display:inline-block;font-family:var(--display);font-weight:400;line-height:.95;letter-spacing:.01em;color:var(--ice);-webkit-text-stroke:var(--sw) var(--ink);paint-order:stroke fill;--sw:8px}
+.headline .sh{position:absolute;left:.06em;top:.08em;color:var(--pin);z-index:-1;white-space:nowrap;-webkit-text-stroke:0}
+.guff{display:inline-block;font-family:var(--display);font-size:clamp(13px,1.2vw,18px);letter-spacing:.04em;color:var(--bone)}
+.tagline{font-family:var(--display);font-size:clamp(18px,1.8vw,28px);line-height:1.2;color:var(--bone);display:inline-block;margin-top:14px}
+.tagline em{font-style:normal;color:var(--ice)}
+.scene .sub{font-size:18px;color:var(--bone);max-width:36em;margin:14px 0 0}
+.scene .cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:22px}
+.price{font-family:var(--display);font-size:16px;color:var(--ice);margin-top:12px}
+.hint{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:14px;font-family:var(--display);letter-spacing:.16em;font-size:12px;color:var(--pin)}
+.hint i{display:block;width:12px;height:12px;border-radius:50%;background:var(--ice);border:2.5px solid var(--ink);animation:hop .7s cubic-bezier(.3,0,.5,1) infinite alternate}
+@keyframes hop{to{transform:translateY(14px) scaleY(.85)}}
+.fine{margin-top:18px;font-size:14px;letter-spacing:.08em;color:rgba(244,247,255,.72)}
+
+.hero .hero-in{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,64px);align-items:center;width:min(1180px,100%);text-align:left}
+.hero .headline{font-size:clamp(84px,11vw,180px);margin:14px 0 8px}
+.hero .hint{align-items:flex-start}
+.poster{position:relative;justify-self:center;width:min(360px,30vw)}
+.poster .frame{position:relative;border-radius:18px;border:3px solid var(--ink);overflow:hidden;background:#07111f;box-shadow:8px 10px 0 var(--ink)}
+.poster .halftone{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(47,107,255,.7) 1.2px, transparent 1.5px);background-size:8px 8px}
+.poster .splatter{position:absolute;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(circle at 18% 22%, rgba(213,221,230,.55) 0 7px, transparent 8px),
+  radial-gradient(circle at 78% 16%, rgba(47,107,255,.65) 0 11px, transparent 12px),
+  radial-gradient(circle at 84% 72%, rgba(255,45,45,.45) 0 6px, transparent 7px),
+  radial-gradient(circle at 12% 78%, rgba(142,190,255,.5) 0 5px, transparent 6px)}
+.poster .mac{position:relative;z-index:1;display:block;width:100%;height:auto}
+.poster .mac.over{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;opacity:0}
+.poster .pin{position:absolute;z-index:2;right:14px;top:14px;width:22px;height:22px;border-radius:50%;border:3px solid var(--pin);box-shadow:inset 0 0 0 3px var(--ink), 8px 2px 0 -2px var(--pin);pointer-events:none}
+.poster .say{position:absolute;z-index:3;left:8%;right:8%;top:7%;padding:9px 10px 7px;text-align:center;font-family:var(--display);font-size:clamp(12px,1.15vw,16px);color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:999px}
+.poster .say::after{content:"";position:absolute;left:42%;top:100%;border:10px solid transparent;border-top:16px solid var(--ink)}
+.poster .say::before{content:"";position:absolute;left:calc(42% + 4px);top:calc(100% - 1px);border:6px solid transparent;border-top:11px solid #fff;z-index:1}
+.poster .title{position:absolute;z-index:3;left:-4%;right:-4%;bottom:-4%;text-align:center}
+.poster .title b{display:inline-block;font-family:var(--display);font-weight:400;font-size:clamp(12px,1.2vw,16px);color:var(--ink);background:var(--paper);border:3px solid var(--ink);border-radius:8px;box-shadow:3px 4px 0 var(--ink);padding:6px 12px 5px;transform:rotate(2deg)}
+.poster .div{position:absolute;z-index:3;right:-5%;top:-3%;font-family:var(--display);font-size:clamp(11px,1.05vw,15px);color:var(--ink);background:var(--ice);border:3px solid var(--ink);border-radius:10px;padding:6px 10px 5px;transform:rotate(6deg);box-shadow:3px 4px 0 var(--ink)}
+
+#cta>div{width:min(760px,100%)}
+#cta .tag{display:block;width:max-content;max-width:100%;margin-inline:auto}
+#cta .headline{font-size:clamp(36px,5vw,72px);margin:18px 0 6px}
+#cta .cta{justify-content:center}
+
+.is-port{--hdr:calc(64px + env(safe-area-inset-top, 0px))}
+.is-port nav.top{height:auto;min-height:52px;padding:8px 14px;padding-top:max(8px,env(safe-area-inset-top));align-items:center;flex-wrap:nowrap;gap:10px}
+.is-port nav.top .r{flex:1;flex-wrap:nowrap;justify-content:flex-end;min-width:0;gap:8px}
+.is-port .ts small{display:none}
+.is-port nav.top .btn{font-size:12px;padding:8px 10px 7px}
+.is-port nav.top .plug{font-size:12px;padding:6px 9px 5px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.is-port nav.top .plug span{display:none}
+.is-port nav.top .px{font-size:13px}
+.is-port nav.top .px small{display:none}
+.is-port .copy{padding:18px 14px max(12px,env(safe-area-inset-bottom))}
+.is-port .beat{top:18px;bottom:8px;left:12px;right:12px}
+.is-port .card{height:100%;padding:12px 16px 14px;overflow:hidden}
+.is-port .card .tag{position:static;display:inline-block;margin-bottom:2px;font-size:11px}
+.is-port .card h2{font-size:clamp(20px,5.6vw,30px)}
+.is-port .card p,.is-port .keys li{font-size:14.5px}
+.is-port .scene{padding:calc(var(--hdr) + 18px) 20px 24px}
+.is-port .hero .hero-in{grid-template-columns:1fr;text-align:center;gap:8px}
+.is-port .hero .hero-copy{order:2}
+.is-port .poster{order:1;width:min(168px,40vw);margin:0 auto 4px}
+.is-port .poster .say{font-size:8px;padding:4px 6px 3px;border-width:2px;top:6%}
+.is-port .poster .title b{font-size:10px;padding:3px 7px 2px}
+.is-port .poster .div{font-size:9px;padding:3px 6px 2px}
+.is-port .hero .headline{font-size:min(22vw,120px);--sw:6px;margin:4px 0 6px}
+.is-port .guff{font-size:12px}
+.is-port .tagline{font-size:16px;margin-top:8px}
+.is-port .scene .sub{font-size:15px;line-height:1.3;margin:8px auto 0}
+.is-port .scene .cta{justify-content:center;margin-top:12px}
+.is-port .hero .hint{align-items:center}
+.is-port .btn{font-size:15px;padding:12px 14px 10px}
+.is-port #cta .headline{font-size:min(9vw,48px);--sw:5px}
+@media (max-width:720px){
+  .is-port{--hdr:calc(52px + env(safe-area-inset-top, 0px))}
+  .is-port nav.top{padding:6px 12px;padding-top:max(6px,env(safe-area-inset-top));gap:8px}
+  .is-port nav.top .plug{display:none}
+  .is-port .ts{font-size:13px;gap:6px}
+}
+@media (max-height:740px){ .is-desk .poster{width:min(280px,24vw)} .is-desk .hero .headline{font-size:clamp(72px,9vw,140px)} .is-desk .hero .sub{display:none} }
+html.static nav.top{position:sticky}
+html.static .scene{padding:48px 20px}
+html.static .poster .mac.over{opacity:0!important}
+html.static #uibox{width:min(1100px, calc(100% - 32px))}
 @media (prefers-reduced-motion:reduce){
-  .mac-art .frame{transition:none}
+  .hint i{animation:none}
+  .poster{transform:none}
 }
 </style>
 </head>
 <body>
-<header>
-  <a class="mark" href="/">
-    <svg width="38" height="38" viewBox="0 0 40 40" aria-hidden="true">
-      <rect x="1" y="1" width="38" height="38" rx="11" fill="#16161B" stroke="#FF5B1F" stroke-width="2"/>
-      <path d="M8 13c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round"/>
-      <path d="M8 20c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#FF5B1F" stroke-width="2.4" stroke-linecap="round"/>
-      <path d="M8 27c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" opacity=".45"/>
-    </svg>
-    <span class="wordmark">TRIL<i>$</i>OFT</span>
-  </a>
-</header>
-<main>
-  <div class="layout">
-    <div class="mac-col">
-      <div id="mac-art" class="mac-art" role="img" aria-label="Mac at the drums, cute.">
-        <img class="frame cute" src="/img/mac/cute.webp" width="800" height="800" alt="">
-        <img class="frame grumpy" src="/img/mac/grumpy.webp" width="800" height="800" alt="">
-        <img class="frame rage" src="/img/mac/rage.webp" width="800" height="800" alt="">
+<div class="pbar"></div>
+<nav class="top">
+  <a href="/" class="ts" title="Back to Tril$oft">← <span>TRIL<i>$</i>OFT</span> <small>VST DIV · 005</small></a>
+  <div class="r">
+    <a href="/bruno" class="btn ghost plug" title="Sibling plug-in: Bruno">DIV-004 <span>Bruno</span> →</a>
+    <span class="btn idle">In the works</span>
+    <span class="px">Pricing TBD</span>
+  </div>
+</nav>
+
+<main id="scroller" class="scroller">
+  <div id="stage" class="stage">
+    <section class="scene hero first" id="hero">
+      <div class="hero-in">
+        <div class="hero-copy">
+          <span class="tag">DIV-005 · Auto-drummer</span><br>
+          <h1 class="headline"><span class="sh" aria-hidden="true">MAC</span>MAC</h1><br>
+          <p class="guff">CUTE. THEN DON'T PUSH HIM.</p><br>
+          <p class="tagline">Weird VSTs <em>no one asked for.</em></p>
+          <p class="sub">An auto-drummer in the works, trained on punk, pop punk, and hardcore. Sibling to Bruno. He plays MIDI into your drum plug-in, locked to the host's tempo and bars, with a Rage paw that changes his face.</p>
+          <div class="cta"><span class="btn idle">In the works</span><a class="btn ghost" href="#" data-goto="start">Meet Mac</a></div>
+          <p class="price">Pricing TBD</p>
+          <div class="hint"><i></i>SCROLL</div>
+        </div>
+        <div class="poster" aria-hidden="true">
+          <div class="frame">
+            <div class="halftone"></div>
+            <div class="splatter"></div>
+            <img class="mac" id="faceCute" src="/img/mac/cute.webp" width="800" height="800" alt="">
+            <img class="mac over" id="faceGrumpy" src="/img/mac/grumpy.webp" alt="">
+            <img class="mac over" id="faceRage" src="/img/mac/rage.webp" alt="">
+            <i class="pin"></i>
+          </div>
+          <div class="say">DON'T PUSH ME.</div>
+          <div class="div">DIV-005</div>
+          <div class="title"><b>MAC · DRUMS</b></div>
+        </div>
       </div>
-      <p class="rage-read">Sketch · <b id="rage-label">Cute</b></p>
-      <div class="rage-bar" aria-hidden="true"><i></i></div>
-      <p class="note">His plug-in frames. Scroll moves his face, the way the Rage paw does.</p>
+    </section>
+
+    <div id="uibox"><div id="ui"><img id="shot" src="/img/mac/ui-verse.webp" width="1100" height="824" alt="Mac's plug-in window."></div></div>
+
+    <div class="copy">
+      <article class="beat" data-beat="start"><div class="card"><span class="tag">01 · HEADER</span>
+        <h2>Count him <em>in</em></h2>
+        <p>The play button starts him, or stops him at the next bar. Status reads <b>STOPPED</b>, <b>COUNTING IN</b>, <b>PLAYING</b>, or <b>LAST HIT!</b></p>
+        <p><b>START WITH HOST</b> starts with the host transport. It begins off. <b>SAME TAKE</b> plays the same performance every time. <b>NEW TAKE</b> rolls new dice on each start. <b>REROLL</b> picks new dice for the Same Take, and the project keeps them.</p>
+        <p class="tip"><b>Standalone:</b> Space starts and stops. Play, Stop, and Fill are also one-shot triggers for Max for Live and MIDI mapping.</p></div></article>
+
+      <article class="beat" data-beat="rage"><div class="card"><span class="tag hot">02 · RAGE</span>
+        <h2>The <em>Rage</em> paw</h2>
+        <p>Mac only. How hard he gets pushed. Low is cute: ghost notes, grooves as written. High is louder, more crashes, then a d-beat, then a blast. His face follows the knob.</p>
+        <p class="tip">0 to 100%. It starts at <b>35%</b>. Scroll the top of this page and the card does the same: cute, grumpy, rage.</p></div></article>
+
+      <article class="beat" data-beat="mood"><div class="card"><span class="tag">03 · HIS MOOD</span>
+        <h2>Calm to <em>furious</em></h2>
+        <p>The pad is <b>CALM</b> to <b>FURIOUS</b> across, and <b>SIMPLE</b> to <b>FANCY</b> up. The readout is <b>ANGER</b> and <b>FANCY</b>. The puck picks grooves inside the Variation circle. Drag to move. Double-click resets.</p>
+        <p class="tip">It starts at 50% across and 30% up. In Beatdown the pad shows breakdown patterns instead.</p></div></article>
+
+      <article class="beat" data-beat="sections"><div class="card"><span class="tag">04 · SECTIONS</span>
+        <h2>Eight <em>calls</em></h2>
+        <p><b>INTRO</b>, <b>VERSE</b>, <b>CHORUS</b>, <b>D-BEAT</b>, <b>TWO-STEP</b>, <b>BREAKDOWN</b>, <b>HARDCORE</b>, <b>PUNK</b>. <b>PHRASE</b> is the bar in the phrase, and it goes orange during a fill. <b>FILL!</b> plays a fill now.</p>
+        <p class="tip"><b>Standalone:</b> keys 1 to 8.</p></div></article>
+
+      <article class="beat" data-beat="fills"><div class="card"><span class="tag pin">05 · HOW HARD</span>
+        <h2>Fills, up to <em>mania</em></h2>
+        <p><b>FILLS</b> is how often. 0 is none. Halfway is the end of each phrase. The top is <b>FILL MANIA!</b> It starts at 35%.</p>
+        <p class="tip"><b>FILL!</b> asks for one right now. In the standalone app, so does F.</p></div></article>
+
+      <article class="beat" data-beat="variation"><div class="card"><span class="tag pin">06 · VARIATION</span>
+        <h2>The pick <em>circle</em></h2>
+        <p><b>VARIATION</b> at 0 locks to the groove under the puck. Higher widens the pick circle and adds ghost notes, extra kicks, and looser timing. It starts at 7%.</p></div></article>
+
+      <article class="beat" data-beat="strip"><div class="card"><span class="tag ink">07 · THE TAKE</span>
+        <h2>Drag the <em>take</em></h2>
+        <p>The film strip records everything he plays. <b>DRAG ME</b> drops it in the DAW as a MIDI clip. <b>CLEAR</b> empties the strip.</p></div></article>
+
+      <article class="beat" data-beat="beatdown"><div class="card"><span class="tag hot">08 · BEATDOWN</span>
+        <h2>Chugs on the <em>sidechain</em></h2>
+        <p><b>BEATDOWN</b> latches breakdown mode. Sidechain chugs trigger a kick plus a crash, and the crashes alternate. <b>C0</b> does it, and so does <b>B</b> in the standalone app. It starts off.</p>
+        <p><b>THRESHOLD</b> starts at 30%. Lower catches softer palm mutes. <b>HITS</b> is Single, Triplets from 28%, or Quad Blast from 72%. <b>CHUGS</b>, <b>GROOVE</b>, or <b>BOTH</b>. Both is the start. In Chugs, <b>SNARE</b> starts at 35%. Otherwise the line reads <b>PUCK PICKS THE BED</b>.</p>
+        <p class="tip">The meter runs from -60 to 0 dB and goes red above -12. <b>TRIG</b> flashes on each chug. Patterns: HALF, AND, DOT, PUSH, WASH, BELL, CHINA, STEP, CALL, MOSH.</p></div></article>
+
+      <article class="beat" data-beat="tempo"><div class="card"><span class="tag">09 · TEMPO</span>
+        <h2>Host, or <em>the box</em></h2>
+        <p><b>HOST</b> follows the DAW. <b>SET</b> is the BPM box, 40 to 300. Shift-drag for fine steps. The box is hidden in the standalone app. Host is the start, and the box starts at 160.</p>
+        <p><b>HALF</b>, <b>NORMAL</b>, and <b>DOUBLE</b> are the feel. Normal is the start.</p></div></article>
+
+      <article class="beat" data-beat="phrasing"><div class="card"><span class="tag">10 · PHRASING</span>
+        <h2>Bars, then <em>when</em></h2>
+        <p><b>BARS</b> is 4, 8, or 16. Fills land at the ends. 8 is the start. <b>START</b> is <b>NOW</b>, the next <b>BEAT</b>, or the next <b>BAR</b>. Bar is the start. Section changes wait for the same choice.</p></div></article>
+
+      <article class="beat" data-beat="keys"><div class="card"><span class="tag">11 · KEYSWITCHES</span>
+        <h2>From the <em>keys</em></h2>
+        <ul class="keys"><li><kbd>C-1</kbd>Start, or stop</li><li><kbd>C#-1</kbd>A fill, now</li><li><kbd>D-1 – A-1</kbd>Sections 1 to 8</li><li><kbd>C0</kbd>Beatdown. It wins over the bank.</li></ul>
+        <p class="tip"><b>FROM</b> is the lowest keyswitch. It starts at C-1. <b>CHANNEL</b> is <b>ANY</b> or 1 to 16. <b>Last heard</b> shows the last one.</p></div></article>
+
+      <article class="beat" data-beat="output"><div class="card"><span class="tag">12 · OUTPUT</span>
+        <h2>Where the <em>notes</em> go</h2>
+        <p><b>CH</b> starts at 10. Velocity runs 0 to 200% and starts at 100%. <b>MAP</b> remaps each drum. <b>GENERAL MIDI</b> puts it back.</p>
+        <p>The port menu sends MIDI somewhere else as well as the host: <b>HOST ONLY</b>, <b>VIRTUAL PORT "Mac"</b>, or a device. Host only is the start.</p></div></article>
+
+      <article class="beat" data-beat="kit"><div class="card"><span class="tag">13 · KIT</span>
+        <h2>Preview <em>kit</em></h2>
+        <p><b>OFF</b> or <b>DRUMS</b>. Off in a DAW, where your drum plug-in is the sound. Drums in the standalone app. The slider is the preview volume, from -36 to +6 dB, starting at -3.</p>
+        <p class="tip">What those preview drums are is not decided yet. This is the control, not a sample credit.</p></div></article>
     </div>
-    <div id="beats">
-      <section class="beat">
-        <p class="kicker">In the works · sibling to Bruno</p>
-        <h1>MAC</h1>
-        <p class="guff">Cute. Then don't push him.</p>
-        <p class="lead">An auto-drummer for macOS, trained on punk, pop punk, and hardcore. Bruno (DIV-004) is the sibling. Mac is the one with the Rage paw.</p>
-        <ul class="status">
-          <li>In the works</li>
-          <li>Pricing TBD</li>
-          <li>macOS</li>
-        </ul>
-        <p class="hint">SCROLL</p>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">Header</span>
-          <h2>Count him <em>in</em></h2>
-          <p>The play button starts him, or stops him at the next bar. Status reads <b>STOPPED</b>, <b>COUNTING IN</b>, <b>PLAYING</b>, or <b>LAST HIT!</b></p>
-          <p><b>START WITH HOST</b> starts him with the host transport. It begins off. <b>SAME TAKE</b> plays the same performance every time. <b>NEW TAKE</b> rolls new dice on each start. Same Take is the start. <b>REROLL</b> picks new dice for the Same Take, and the project keeps them.</p>
-          <p class="tip">Standalone: Space starts and stops. F is a fill. 1 to 8 are the sections.</p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag hot">Mac only</span>
-          <h2>The <em>Rage</em> paw</h2>
-          <p>How hard he gets pushed. Low is cute: ghost notes, grooves as written. High is louder, more crashes, then a d-beat, then a blast. His face follows the knob. It runs 0 to 100%, and starts at 35%.</p>
-          <p>Scroll on this page is the same idea: cute, then grumpy, then rage.</p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">His mood</span>
-          <h2>Calm to <em>furious</em></h2>
-          <p>The pad is <b>CALM</b> to <b>FURIOUS</b> across, and <b>SIMPLE</b> to <b>FANCY</b> up. The readout is <b>ANGER</b> and <b>FANCY</b>. The puck picks grooves inside the Variation circle. Drag to move. Double-click resets. It starts at 50% across and 30% up. In Beatdown the pad shows breakdown patterns instead.</p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">Sections</span>
-          <h2>Eight <em>calls</em></h2>
-          <p><b>INTRO</b>, <b>VERSE</b>, <b>CHORUS</b>, <b>D-BEAT</b>, <b>TWO-STEP</b>, <b>BREAKDOWN</b>, <b>HARDCORE</b>, <b>PUNK</b>. <b>PHRASE</b> is the bar in the phrase, orange during a fill. <b>FILL!</b> plays a fill now.</p>
-          <p><img src="/img/mac/ui-verse.webp" width="1100" height="824" alt="Mac's window on VERSE, with His Mood, Sections, How Hard, and The Take."></p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">How hard</span>
-          <h2>Fills and <em>variation</em></h2>
-          <p><b>FILLS</b> is how often. 0 is none. Halfway is the end of each phrase. The top is <b>FILL MANIA!</b> It starts at 35%.</p>
-          <p><b>VARIATION</b> at 0 locks to the groove under the puck. Higher widens the pick circle and adds ghost notes, extra kicks, and looser timing. It starts at 7%.</p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">The take</span>
-          <h2>Drag it <em>out</em></h2>
-          <p>The film strip records everything he plays. <b>DRAG ME</b> drops it in the DAW as a MIDI clip. <b>CLEAR</b> empties the strip.</p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">Beatdown</span>
-          <h2>Chugs on the <em>sidechain</em></h2>
-          <p><b>BEATDOWN</b> latches breakdown mode. Sidechain chugs trigger a kick plus a crash, and the crashes alternate. <b>C0</b> does it, and so does <b>B</b> in the standalone app. It starts off.</p>
-          <p><b>THRESHOLD</b> is how big a rise counts as a chug. Lower catches softer palm mutes. It starts at 30%. <b>HITS</b> is <b>SINGLE</b>, <b>TRIPLETS</b> from 28%, or <b>QUAD BLAST</b> from 72%, locked to the tempo. Single is the start.</p>
-          <p><b>CHUGS</b> is sidechain hits only. <b>GROOVE</b> is a half-time bed the puck picks. <b>BOTH</b> is the two together, and it's the start. In Chugs, <b>SNARE</b> is how often a chug on beat 1 or 3 also hits the snare. It starts at 35%. Otherwise the line reads <b>PUCK PICKS THE BED</b>.</p>
-          <p>The sidechain meter runs from -60 to 0 dB and goes red above -12. <b>TRIG</b> flashes on each chug. The stereo input is named Sidechain. The pad patterns are HALF, AND, DOT, PUSH, WASH, BELL, CHINA, STEP, CALL, and MOSH.</p>
-          <p><img src="/img/mac/ui-beatdown.webp" width="1100" height="824" alt="Mac in Beatdown, Both, with the sidechain meter and TRIG lit."></p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">Tempo</span>
-          <h2>Host, or <em>the box</em></h2>
-          <p><b>HOST</b> follows the DAW. <b>SET</b> is the BPM box, 40 to 300. Shift-drag for fine steps. The box is hidden in the standalone app. Host is the start, and the box starts at 160. <b>HALF</b>, <b>NORMAL</b>, and <b>DOUBLE</b> are the feel. Normal is the start.</p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">Phrasing</span>
-          <h2>Bars, then <em>when</em></h2>
-          <p><b>BARS</b> is 4, 8, or 16. Fills land at the ends. 8 is the start. <b>START</b> is <b>NOW</b>, the next <b>BEAT</b>, or the next <b>BAR</b>. Bar is the start. Section changes wait for the same choice.</p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">Keyswitches</span>
-          <h2>From the <em>keys</em></h2>
-          <p><b>FROM</b> is the lowest keyswitch. It starts at C-1. Order: start or stop, fill, then the eight sections. <b>CHANNEL</b> is <b>ANY</b> or 1 to 16. Any is the start. <b>Last heard</b> shows the last one. <b>C0</b> toggles Beatdown and wins over that bank.</p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">Output</span>
-          <h2>Where the <em>notes</em> go</h2>
-          <p><b>CH</b> is the drum channel. It starts at 10. Velocity runs 0 to 200% and starts at 100%. <b>MAP</b> remaps each drum's note. <b>GENERAL MIDI</b> puts it back.</p>
-          <p>The port menu sends MIDI somewhere else as well as the host: <b>HOST ONLY</b>, <b>VIRTUAL PORT "Mac"</b>, or a device. Host only is the start.</p>
-          <p><img src="/img/mac/ui-port.webp" width="1100" height="824" alt="Mac's virtual port menu, open on Virtual Port Mac."></p>
-        </article>
-      </section>
-      <section class="beat">
-        <article class="card">
-          <span class="tag">Kit</span>
-          <h2>A kit to <em>hear him</em></h2>
-          <p><b>OFF</b> or <b>DRUMS</b>. Off in a DAW. Drums in the standalone app. The slider is the kit volume, -36 to +6 dB, starting at -3.</p>
-          <p>Pricing TBD. Nothing to buy on this page.</p>
-          <p class="mantra">Nothing is impossible, improbable maybe.</p>
-        </article>
-      </section>
-    </div>
+
+    <section class="scene" id="cta">
+      <div>
+        <span class="tag">IN THE WORKS</span>
+        <h2 class="headline"><span class="sh" aria-hidden="true">DON'T PUSH HIM.</span>DON'T PUSH HIM.</h2><br>
+        <p class="tagline">Pricing <em>TBD.</em></p>
+        <p class="fine">macOS · In the works</p>
+      </div>
+    </section>
+    <div id="rail"></div>
   </div>
 </main>
+
 <footer>
-  <p>© 2026 Tril$oft</p>
-  <nav>
-    <a href="/">All plug-ins</a>
-    <a href="/support">Support</a>
-    <a href="/privacy">Privacy</a>
-    <a href="/faq">FAQ</a>
-  </nav>
+  <p>© 2026 Tril$oft · Mac is DIV-005</p>
+  <nav><a href="/">All plug-ins</a><a href="/wildcard">Wild Card</a><a href="/conceal-n-strike">Conceal-N-Strike</a><a href="/bruno">Bruno</a><a href="/midi-fart-sniffer">MIDI Fart Sniffer</a><a href="/privacy">Privacy</a><a href="/faq">FAQ</a></nav>
 </footer>
+<script src="/tour.js"></script>
+<script>
+(() => {
+const W = 1100, H = 824;
+const R = {
+  header: [420, 8, 680, 96],
+  follow: [430, 10, 200, 42],
+  take: [430, 48, 310, 36],
+  play: [1004, 10, 78, 82],
+  stage: [16, 104, 268, 382],
+  rage: [176, 360, 104, 122],
+  mood: [296, 104, 390, 382],
+  sections: [698, 104, 386, 198],
+  knobs: [698, 308, 386, 176],
+  fillknob: [720, 324, 150, 150],
+  varknob: [900, 324, 160, 150],
+  takestrip: [12, 492, 1072, 106],
+  dragme: [900, 528, 160, 36],
+  beatdown: [12, 604, 1072, 94],
+  tempo: [16, 704, 210, 94],
+  phrasing: [230, 704, 218, 94],
+  keys: [452, 704, 292, 94],
+  output: [748, 704, 202, 94],
+  kit: [954, 704, 130, 94]
+};
+const pad = (r, p = 6, rad = 14) => [r[0] - p, r[1] - p, r[2] + p * 2, r[3] + p * 2, rad];
+const ctr = r => [r[0] + r[2] / 2, r[1] + r[3] / 2];
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const seg = (a, x, y) => clamp((a - x) / (y - x));
+const sm = t => t * t * (3 - 2 * t);
+function point(st, a, from, to, t0, t1) {
+  const u = sm(seg(a, t0, t1));
+  st.cur = { x: from[0] + (to[0] - from[0]) * u, y: from[1] + (to[1] - from[1]) * u, down: a >= t1 && a < t1 + .12 };
+}
+
+const cute = document.getElementById('faceCute');
+const grumpy = document.getElementById('faceGrumpy');
+const rage = document.getElementById('faceRage');
+const shot = document.getElementById('shot');
+const SHOTS = { verse: '/img/mac/ui-verse.webp', beat: '/img/mac/ui-beatdown.webp', port: '/img/mac/ui-port.webp' };
+
+const base = () => ({ face: 0, shot: 'verse' });
+const beats = [
+  { id: 'hero', scene: 'hero', len: 1, apply(st, a, d) { if (!d) st.face = a; } },
+  { id: 'start', rail: 'Start', focus: [pad(R.follow, 4, 16), pad(R.take, 4, 12), pad(R.play, 4, 40)], cam: [400, 0, 700, 112], camPort: [400, 0, 700, 120], len: 1.25,
+    apply(st, a, d) { if (!d) point(st, a, [700, 200], ctr(R.play), .05, .4); } },
+  { id: 'rage', rail: 'Rage', focus: pad(R.rage, 10, 20), cam: [16, 250, 290, 250], camPort: [8, 280, 300, 220], len: 1.2,
+    apply(st, a, d) { if (!d) point(st, a, [400, 300], ctr(R.rage), .05, .35); } },
+  { id: 'mood', rail: 'His mood', focus: pad(R.mood, 4, 16), cam: [280, 90, 420, 410], camPort: [270, 96, 430, 400], len: 1.3,
+    apply(st, a, d) { if (!d) point(st, a, [500, 500], [520, 300], 0, .45); } },
+  { id: 'sections', rail: 'Sections', focus: pad(R.sections, 4, 14), cam: [680, 90, 410, 230], camPort: [660, 90, 430, 240], len: 1.25,
+    apply(st, a, d) { if (!d) point(st, a, [600, 200], [860, 170], .05, .4); } },
+  { id: 'fills', rail: 'Fills', focus: pad(R.knobs, 4, 14), cam: [680, 280, 410, 220], camPort: [660, 290, 430, 210], len: 1.2,
+    apply(st, a, d) { if (!d) point(st, a, [800, 200], ctr(R.fillknob), .05, .4); } },
+  { id: 'variation', rail: 'Variation', focus: pad(R.varknob, 8, 18), cam: [760, 280, 330, 220], camPort: [740, 290, 350, 210], len: 1.15,
+    apply(st, a, d) { if (!d) point(st, a, [700, 240], ctr(R.varknob), .05, .4); } },
+  { id: 'strip', rail: 'The take', focus: pad(R.takestrip, 2, 12), cam: [8, 470, 1084, 150], camPort: [520, 470, 570, 150], len: 1.2,
+    apply(st, a, d) { if (!d) point(st, a, [400, 400], ctr(R.dragme), .05, .4); } },
+  { id: 'beatdown', rail: 'Beatdown', focus: pad(R.beatdown, 2, 12), cam: [8, 560, 1084, 180], camPort: [8, 560, 1084, 200], len: 1.35,
+    apply(st, a, d) { if (!d) { st.shot = 'beat'; point(st, a, [400, 400], [180, 650], .05, .35); } } },
+  { id: 'tempo', rail: 'Tempo', focus: pad(R.tempo, 4, 12), cam: [0, 680, 460, 144], camPort: [0, 680, 480, 144], len: 1.15,
+    apply(st, a, d) { if (!d) point(st, a, [400, 600], ctr(R.tempo), .05, .4); } },
+  { id: 'phrasing', rail: 'Phrasing', focus: pad(R.phrasing, 4, 12), cam: [180, 680, 320, 144], camPort: [160, 680, 360, 144], len: 1.1,
+    apply(st, a, d) { if (!d) point(st, a, [80, 640], ctr(R.phrasing), .05, .4); } },
+  { id: 'keys', rail: 'Keyswitches', focus: pad(R.keys, 4, 12), cam: [420, 680, 360, 144], camPort: [400, 670, 400, 154], len: 1.2,
+    apply(st, a, d) { if (!d) point(st, a, [200, 640], ctr(R.keys), .05, .4); } },
+  { id: 'output', rail: 'Output', focus: pad(R.output, 4, 12), cam: [700, 640, 280, 184], camPort: [680, 640, 320, 184], len: 1.25,
+    apply(st, a, d) { if (!d) { st.shot = 'port'; point(st, a, [500, 600], ctr(R.output), .05, .4); } } },
+  { id: 'kit', rail: 'Kit', focus: pad(R.kit, 4, 12), cam: [900, 680, 200, 144], camPort: [860, 670, 240, 154], len: 1.1,
+    apply(st, a, d) { if (!d) point(st, a, [700, 640], ctr(R.kit), .05, .4); } },
+  { id: 'cta', rail: 'End', scene: 'cta' }
+];
+
+function render(st) {
+  const frozen = document.documentElement.classList.contains('static');
+  const t = frozen ? 0 : (st.face || 0);
+  const g = t < .34 ? 0 : t < .67 ? (t - .34) / .33 : 1;
+  const r = t < .67 ? 0 : (t - .67) / .33;
+  grumpy.style.opacity = String(g);
+  rage.style.opacity = String(r);
+  cute.style.opacity = '1';
+  const src = SHOTS[st.shot] || SHOTS.verse;
+  if (shot.getAttribute('src') !== src) shot.src = src;
+}
+
+Tour({ W, H, beats, base, render, vh: 92, vhPort: 88, maxZoom: 2.1, maxZoomPort: 2.4, ring: '#8EBEFF', ringW: 4, dim: 'rgba(7,17,31,.62)', clampCam: true });
+})();
+</script>
 <script>
 (function () {
-  var label = document.getElementById('rage-label');
-  var art = document.getElementById('mac-art');
-  var root = document.documentElement;
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  function frames(rage) {
-    if (reduce.matches) return rage < 0.62 ? [1, 0, 0] : [0, 0, 1];
-    if (rage <= 0.5) {
-      var t = rage / 0.5;
-      return [1 - t, t, 0];
-    }
-    var u = (rage - 0.5) / 0.5;
-    return [0, 1 - u, u];
+  function fitHdr() {
+    var nav = document.querySelector('nav.top');
+    if (!nav || !document.documentElement.classList.contains('is-port')) return;
+    document.documentElement.style.setProperty('--hdr', nav.offsetHeight + 'px');
+    if (window.__tour && window.__tour.fitCards) window.__tour.fitCards();
   }
-  function tick() {
-    var view = window.innerHeight || 1;
-    var max = Math.max(1, document.documentElement.scrollHeight - view);
-    var rage = Math.min(1, Math.max(0, window.scrollY / max));
-    var mix = frames(rage);
-    root.style.setProperty('--rage', rage.toFixed(3));
-    root.style.setProperty('--mac-cute', mix[0].toFixed(3));
-    root.style.setProperty('--mac-grumpy', mix[1].toFixed(3));
-    root.style.setProperty('--mac-rage', mix[2].toFixed(3));
-    var name = mix[2] >= mix[0] && mix[2] >= mix[1] ? "Don't push him" : mix[1] >= mix[0] ? 'Grumpy' : 'Cute';
-    if (label.textContent !== name) label.textContent = name;
-    art.setAttribute('aria-label', name === 'Cute' ? 'Mac at the drums, cute.' : name === 'Grumpy' ? 'Mac at the drums, grumpy.' : 'Mac at the drums, in a rage.');
-  }
-  addEventListener('scroll', tick, { passive: true });
-  addEventListener('resize', tick);
-  tick();
+  fitHdr();
+  addEventListener('resize', fitHdr);
+  if (document.fonts) document.fonts.ready.then(fitHdr);
 })();
 </script>
 </body>
