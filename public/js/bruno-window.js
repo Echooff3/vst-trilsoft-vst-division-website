@@ -11,7 +11,7 @@
    section sits in the built-in bank (x anger, y fancy). */
 (function (G) {
 'use strict';
-const W = 1100, H = 736;
+const W = 1100, H = 824;
 const INK = '#1c1512', PAPER = '#f6eacf', PAPER_DARK = '#e2cd9f', RED = '#b5322a', RED_DARK = '#7a1f1a',
   MUSTARD = '#e0a526', ORANGE = '#e87828', TEAL = '#3f7f7a', TEAL_DARK = '#244e4a', WHITE = '#ffffff';
 const TAU = Math.PI * 2, PI = Math.PI;
@@ -114,11 +114,11 @@ const RECTS = {
   sections: R(698, 104, 1084, 300), marquees: R(710, 128, 1072, 244), phrase: [710, 259, 260, 30], fillnow: [992, 259, 80, 30],
   knobs: R(698, 316, 1084, 484), fillknob: [736, 328, 120, 150], varknob: [926, 328, 120, 150],
   takestrip: R(16, 500, 1084, 598), strip: R(30, 518, 894, 586), takeside: R(906, 514, 1072, 588), dragme: [906, 536, 166, 28], clear: [906, 562, 166, 24],
-  tempo: R(16, 620, 226, 708), tempoSrc: [28, 636, 104, 28], bpm: [142, 634, 72, 32], speed: [28, 672, 186, 26],
-  phrasing: R(238, 620, 448, 708), bars: [290, 636, 146, 28], launch: [290, 672, 146, 26],
-  keys: R(460, 620, 744, 708), keyFrom: [472, 648, 62, 32], keyCh: [542, 648, 62, 32], legend: [612, 632, 130, 50],
-  output: R(756, 620, 950, 708), chan: [766, 634, 50, 30], vel: [822, 634, 58, 30], map: [886, 634, 54, 30], port: [766, 672, 174, 26],
-  kit: R(962, 620, 1084, 708), kitsegs: [970, 636, 106, 28], vol: [970, 676, 106, 16],
+  tempo: R(16, 708, 226, 796), tempoSrc: [28, 724, 104, 28], bpm: [142, 722, 72, 32], speed: [28, 760, 186, 26],
+  phrasing: R(238, 708, 448, 796), bars: [290, 724, 146, 28], launch: [290, 760, 146, 26],
+  keys: R(460, 708, 744, 796), keyFrom: [472, 736, 62, 32], keyCh: [542, 736, 62, 32], legend: [612, 720, 130, 50],
+  output: R(756, 708, 950, 796), chan: [766, 722, 50, 30], vel: [822, 722, 58, 30], map: [886, 722, 54, 30], port: [766, 760, 174, 26],
+  kit: R(962, 708, 1084, 796), kitsegs: [970, 724, 106, 28], vol: [970, 764, 106, 16],
   notemap: [270, 120, 560, 420], portmenu: [650, 572, 300, 96],
 };
 for (let i = 0; i < 8; i++) RECTS['sec' + i] = [710 + (i % 4) * 92.5, 128 + Math.floor(i / 4) * 62, 84.5, 54];
@@ -355,6 +355,8 @@ function BrunoWindow(host, opts = {}) {
   const fontUrl = f => (opts.fonts && opts.fonts[f]) || base + 'assets/fonts/bruno/' + FONTS[f].file;
   const art = new Image();
   art.src = opts.art || base + 'assets/bruno-art.webp';
+  const shot = new Image();
+  shot.src = opts.shot || base + 'img/bruno/ui-current.webp';
   const cv = document.createElement('canvas');
   cv.setAttribute('role', 'img');
   cv.setAttribute('aria-label', "Bruno's window: his stage, the mood pad, sections, fills and variation, the take, and the settings.");
@@ -432,6 +434,12 @@ function BrunoWindow(host, opts = {}) {
     st = Object.assign({}, BASE, st);
     const t = st.time, f = feel(st);
     c.setTransform(scale, 0, 0, scale, 0, 0);
+    if (shot.complete && shot.naturalWidth) {
+      c.drawImage(shot, 0, 0, W, H);
+      portMenu(st);
+      noteMap(st);
+      return;
+    }
     c.fillStyle = PAPER; c.fillRect(0, 0, W, H);
     c.drawImage(paperTexture(), 0, 0, W, H);
     header(st, f);
@@ -681,7 +689,7 @@ function BrunoWindow(host, opts = {}) {
   function portMenu(st) {
     if (!st.portsOpen) return;
     const items = [['', 'HOST ONLY'], ['VIRTUAL', 'VIRTUAL PORT "Bruno"'], ['IAC Driver Bus 1', 'IAC DRIVER BUS 1']];
-    const h = 30 * items.length + 12, w = 300, at = [950 - w, 668 - h - 4];
+    const h = 30 * items.length + 12, w = 300, at = [950 - w, 756 - h - 4];
     P.card([at[0], at[1], w, h], 10, PAPER, 5);
     items.forEach(([v, label], i) => {
       const r = [at[0] + 6, at[1] + 6 + 30 * i, w - 12, 28];
