@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google tag (gtag.js): page views only, ad features and Google signals off -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGXGD2WJZ5"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -32,475 +33,1135 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script>
-(function(d){var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-d.classList.toggle('static', reduce);})(document.documentElement);
+/* Pick the layout before first paint (no flash): portrait for tablet-portrait → phone, desktop otherwise. */
+(function(d){var p=matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+d.className+=(p?' is-port':' is-desk')+(matchMedia('(prefers-reduced-motion: reduce)').matches?' static':'');})(document.documentElement);
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Black+Ops+One&family=Rye&family=Comic+Neue:wght@700&family=Share+Tech+Mono&family=Titan+One&family=Unbounded:wght@400;600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/footer.css">
 <style>
-/* Homepage only. Product tutorials do not load this file. */
 :root{
-  --ink:#09090B; --bone:#EEE9E0; --mute:#A39EAE; --dim:#6E6A76;
-  --signal:#FF5B1F; --amber:#FFC266; --lime:#9CFF2E;
-  --display:"Unbounded",system-ui,sans-serif;
-  --body:"Inter",system-ui,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --ink:#09090B; --char:#111114; --panel:#16161B;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --bone:#EEE9E0; --mute:#8C8996; --dim:#5D5A66;
+  --signal:#FF5B1F; --signal-2:#FF8A3D; --amber:#FFC266;
+  --wc-deep:#1E0D4D; --wc-purple:#2D1679; --wc-violet:#4325B5; --wc-lav:#B9ADFF;
+  --lime:#9CFF2E; --wc-ink:#100524; --white:#fff;
+  --display:"Unbounded",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  --comic:"Bangers","Impact",sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:var(--ink)}
-body{background:var(--ink);color:var(--bone);font-family:var(--body);line-height:1.45;-webkit-font-smoothing:antialiased}
+body{background:var(--ink);color:var(--bone);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 a{color:inherit;text-decoration:none}
-:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.bar{position:fixed;left:0;top:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:80;background:linear-gradient(90deg,var(--signal),var(--amber),var(--lime));pointer-events:none}
-header.top{position:fixed;inset:0 0 auto 0;z-index:70;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:10px clamp(16px,3vw,40px);background:linear-gradient(#09090B,rgba(9,9,11,.72) 70%,transparent);pointer-events:none}
-header.top a,header.top button{pointer-events:auto}
-.logo{display:inline-flex;align-items:center;gap:10px;min-height:44px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+#app{min-height:100vh;min-height:100svh}
+
+/* header */
+header.top{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;height:84px;padding:0 clamp(20px,4vw,56px);pointer-events:none}
+header.top>*{pointer-events:auto}
+.logo{display:inline-flex;align-items:center;gap:12px}
 .wordmark{display:flex;flex-direction:column;line-height:1}
-.wordmark b{font-family:var(--display);font-weight:800;font-size:16px}
-.wordmark i{font-style:normal;color:var(--signal)}
-.wordmark small{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--dim);margin-top:4px}
-.rail{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.rail button{all:unset;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);min-height:36px;padding:6px 8px;border-radius:999px}
-.rail button.on{color:var(--bone)}
-.rail button:hover{color:var(--bone)}
+.wordmark b{font-family:var(--display);font-weight:800;font-size:19px;color:var(--bone)}
+.wordmark b i,.dollar{font-style:normal;color:var(--signal)}
+.wordmark small{font-family:var(--mono);font-size:9px;letter-spacing:.32em;color:var(--mute);margin-top:5px}
+.navlink{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone);padding:10px 16px;border:1px solid var(--line-2);border-radius:999px;background:rgba(9,9,11,.4);backdrop-filter:blur(8px);transition:.2s}
+.navlink:hover{border-color:var(--signal);color:var(--signal)}
+.bar{position:fixed;left:0;top:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:60;background:linear-gradient(90deg,var(--signal),var(--amber),var(--lime))}
 
-.scroller{position:relative;z-index:1;height:980vh}
-.stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden}
-.scene{position:absolute;inset:0;display:grid;place-items:center;opacity:0;visibility:hidden;background:#09090B}
-.scene.show{visibility:visible}
-.showcase{width:min(1120px,calc(100% - 48px));display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(20px,4vw,56px);align-items:center;padding:72px 0 28px}
-.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--signal)}
-h1,h2{font-family:var(--display);font-weight:800;letter-spacing:-.04em;line-height:.95}
-.intro h1{font-size:clamp(46px,7vw,104px);max-width:14ch}
-.intro h1 em{font-style:normal;color:var(--signal)}
-.intro .sub{margin-top:18px;max-width:38em;color:var(--mute);font-size:18px}
-.roll{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-.hint{margin-top:28px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
-.product h2{font-size:clamp(42px,5.4vw,78px);margin:10px 0 12px}
-.lede{font-size:clamp(18px,1.6vw,22px);color:var(--bone);max-width:28em}
-.desc{margin-top:10px;color:var(--mute);max-width:36em;font-size:16px}
-.price{margin-top:16px;font-family:var(--display);font-weight:800;font-size:22px}
-.price small{display:block;margin-top:4px;font-family:var(--body);font-weight:400;font-size:13px;color:var(--mute)}
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border-radius:12px;border:2px solid var(--bone);font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:-.02em;touch-action:manipulation}
-.btn.buy{background:var(--signal);border-color:var(--signal);color:#1a0c06}
-.btn.ghost{background:transparent;color:var(--bone)}
-.btn.idle{background:transparent;color:var(--bone);border-style:dashed;cursor:default}
-.art{display:flex;align-items:flex-end;justify-content:center;gap:14px;min-width:0}
-.art img{display:block;width:100%;height:auto;max-width:100%}
-.frame{background:#111114;border:2px solid rgba(255,255,255,.14);border-radius:16px;padding:8px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
-.frame img{border-radius:10px}
-.mate{width:min(180px,28%);flex:none}
-.mate img{width:100%;height:auto}
-.scene.wc{background:#140b2e}
-.scene.cns{background:#14110c}
-.scene.bru{background:#1c1210}
-.scene.mac{background:#07111f}
-.scene.mfs{background:#1a1c16}
-.scene.wc .kicker{color:#9CFF2E}
-.scene.cns .kicker{color:#FFC266}
-.scene.bru .kicker{color:#e0a526}
-.scene.mac .kicker{color:#8EBEFF}
-.scene.mfs .kicker{color:#9CFF2E}
-.scene.wc .btn.buy{background:#9CFF2E;border-color:#9CFF2E;color:#100524}
-.scene.cns .btn.buy{background:#FFC266;border-color:#FFC266;color:#1a1206}
-.scene.bru .btn.buy{background:#e0a526;border-color:#e0a526;color:#1c1512}
-.keyform{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;max-width:460px}
-.keyform input[type=email]{flex:1;min-width:180px;min-height:48px;border-radius:12px;border:2px solid var(--bone);background:#11140e;color:var(--bone);font:600 15px/1.2 var(--body);padding:10px 12px}
-.keyform button{min-height:48px;padding:12px 16px;border-radius:12px;border:2px solid #9CFF2E;background:#9CFF2E;color:#102006;font-family:var(--display);font-size:15px;cursor:pointer;touch-action:manipulation}
-.keyform button:disabled{opacity:.6}
-.keynote{flex-basis:100%;font-size:14px}
-.keynote.ok{color:#b6f59a}
-.keynote.bad{color:#ffb4a8}
-.keynote[hidden]{display:none}
-.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
-.keyfine{margin-top:8px;font-size:13px;color:var(--mute);max-width:42em}
-.keyfine a{text-decoration:underline;text-underline-offset:2px}
+/* pinned stage: native scroll drives a sticky stage */
+.scroller{position:relative;z-index:1}
+.stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;overflow:clip;isolation:isolate}
+.scene{position:absolute;inset:0;display:grid;place-items:center;will-change:transform,opacity}
 
-.wipe{position:absolute;inset:0;z-index:40;pointer-events:none;visibility:hidden}
-.wipe.on{visibility:visible}
-.waves{width:100%;height:100%;background:#FF5B1F}
-.waves path{fill:#FF8A3D}
-.waves path.b{fill:#FFC266}
-.waves path.c{fill:none}
-.shards{display:flex;height:100%}
-.shards i{flex:1;background:#09090B;transform:translateY(-110%)}
-.shards i:nth-child(odd){background:#FF5B1F}
-.shutters{height:100%}
-.shutters b{position:absolute;top:0;bottom:0;width:52%;background:#7a1f1a}
-.shutters b:first-child{left:0}
-.shutters b:last-of-type{right:0}
-.shutters .mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,64px);color:#f6eacf;letter-spacing:-.03em;text-align:center}
-.halftone{background-color:#07111f;background-image:radial-gradient(circle,#8EBEFF 1.5px,transparent 1.7px);background-size:14px 14px;opacity:0}
-.halftone span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--display);font-weight:800;font-size:clamp(42px,6vw,84px);color:#8EBEFF;letter-spacing:-.04em}
-.slab{background:#8a928c;transform:translateY(-110%)}
-.slab span{position:absolute;left:0;right:0;bottom:18%;text-align:center;font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,56px);color:#102006}
+.bg-dark{position:absolute;inset:0;z-index:-3;background:var(--ink);
+  background-image:radial-gradient(900px 560px at 50% 38%,rgba(255,91,31,.17),transparent 70%),
+  linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:auto,64px 64px,64px 64px;background-position:center}
+.bg-dark::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,var(--ink) 85%)}
+.waves{position:absolute;left:0;right:0;bottom:8vh;height:28vh;z-index:-2;opacity:.9;pointer-events:none}
+.waves path{fill:none;stroke-linecap:round}
+.bg-purple{position:absolute;inset:0;z-index:-1;background:var(--wc-purple);
+  background-image:radial-gradient(900px 600px at 70% 45%,rgba(156,255,46,.16),transparent 65%),
+  radial-gradient(rgba(143,124,255,.32) 1.6px,transparent 1.9px);
+  background-size:auto,16px 16px;clip-path:circle(0% at 50% 50%)}
+.bg-purple::after{content:"";position:absolute;inset:0;background:radial-gradient(900px 700px at 0% 100%,rgba(16,5,36,.75),transparent 70%)}
 
-@media (max-width:860px){
-  .wordmark small{display:none}
-  .rail button{font-size:9px;letter-spacing:.08em;padding:6px}
-  .showcase{width:min(560px,calc(100% - 28px));grid-template-columns:1fr;gap:12px;padding:78px 0 18px}
-  .art{order:-1}
-  .mate{width:72px}
-  .frame img,.shot img{max-height:30vh;width:auto;margin:0 auto}
-  .product h2{font-size:clamp(36px,11vw,52px)}
-  .lede,.desc{font-size:15px}
-  .actions,.keyform{flex-direction:column}
-  .btn,.keyform button,.keyform input[type=email]{width:100%}
-  .intro h1{font-size:clamp(40px,12vw,64px)}
-}
-@media (max-height:700px) and (min-width:861px){
-  .product h2{font-size:48px}
-  .desc{display:none}
-  .frame img{max-height:46vh;width:auto}
-}
+/* ghost-fill words */
+.w{--a:0;display:inline-block;will-change:transform;color:rgba(238,233,224,calc(.07 + var(--a)*.93))}
+em.w,.w em{font-style:normal;background:linear-gradient(90deg,rgba(255,91,31,calc(.12 + var(--a)*.88)),rgba(255,194,102,calc(.12 + var(--a)*.88)));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.hint{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px}
+.hint i{display:block;width:1px;height:46px;background:linear-gradient(var(--signal),transparent);animation:drip 1.6s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 
+/* lockup type */
+.brand{display:flex;align-items:center}
+.brand svg{height:auto;overflow:visible}
+.brand b{font-family:var(--display);font-weight:800;line-height:1;letter-spacing:-.01em}
+.brand b span{display:inline-block}
+.vst{font-family:var(--display);font-weight:900;line-height:.92;letter-spacing:-.045em}
+.vst .l{display:inline-block;will-change:transform}
+.vst .word{display:inline-flex;overflow:hidden;padding:.04em .02em .08em}
+.vst .div .l{color:transparent;-webkit-text-stroke:2px var(--signal)}
+.vst .div .l.fill{background:linear-gradient(90deg,var(--signal),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:0!important}
+.rule hr{flex:1;border:0;height:1px;background:linear-gradient(90deg,transparent,var(--signal),transparent);transform-origin:center}
+.meta span{display:inline-flex;align-items:center;gap:10px}
+.meta span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 10px var(--signal)}
+
+/* Wild Card comic kit */
+.tab{display:inline-block;font-family:var(--comic);font-size:20px;letter-spacing:.06em;background:var(--lime);color:var(--wc-ink);
+  padding:5px 14px 2px;border:3px solid var(--wc-ink);box-shadow:4px 4px 0 var(--wc-ink);transform:rotate(-1.5deg)}
+.wc-title{font-family:var(--comic);font-weight:400;line-height:.86;letter-spacing:.02em;color:var(--lime);-webkit-text-stroke:5px var(--wc-ink);paint-order:stroke fill;text-shadow:9px 9px 0 var(--wc-ink)}
+.wc-line{font-family:var(--comic);letter-spacing:.03em;line-height:1.02;color:var(--white);-webkit-text-stroke:2px var(--wc-ink);paint-order:stroke fill;text-shadow:4px 4px 0 var(--wc-ink)}
+.wc-line em{font-style:normal;color:var(--lime)}
+.wc-sub{font-size:17px;color:var(--wc-lav);font-weight:500}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;font-family:var(--comic);font-size:26px;letter-spacing:.05em;line-height:1;
+  padding:16px 28px 13px;border:4px solid var(--wc-ink);border-radius:14px;box-shadow:6px 6px 0 var(--wc-ink);transition:transform .12s,box-shadow .12s;touch-action:manipulation}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--wc-ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--wc-ink)}
+.btn-lime{background:var(--lime);color:var(--wc-ink)}
+.btn-white{background:var(--white);color:var(--wc-ink)}
+
+/* speech bubbles: body = ::after, tail = ::before, both z-index:-1 inside an isolated stacking
+   context. ::after paints after ::before, so the body always covers the tail; text paints on top. */
+.bubble{--bg:var(--white);position:absolute;isolation:isolate;display:inline-block;color:var(--wc-ink);font-family:var(--comic);font-size:24px;letter-spacing:.04em;line-height:1.05;padding:18px 26px 15px;white-space:nowrap;z-index:4}
+.bubble::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--bg);border:4px solid var(--wc-ink);border-radius:26px;box-shadow:5px 5px 0 var(--wc-ink)}
+.bubble::before{content:"";position:absolute;z-index:-1;width:26px;height:26px;background:var(--bg);border:4px solid var(--wc-ink);border-top:0;border-left:0;bottom:-15px;left:38px;transform:skew(28deg) rotate(45deg)}
+.bubble.r::before{left:auto;right:42px;transform:skew(-28deg) rotate(45deg)}
+.bubble.lime{--bg:var(--lime)}
+
+.deck{position:relative;aspect-ratio:1}
+.platter{position:absolute;inset:0;border-radius:50%;background:#1A0B44;border:5px solid var(--wc-ink);box-shadow:12px 12px 0 var(--wc-ink)}
+.platter::before{content:"";position:absolute;inset:2%;border-radius:50%;background:radial-gradient(circle,var(--lime) 0 2.3px,transparent 2.8px) 0 0/20px 20px;
+  -webkit-mask:radial-gradient(circle,transparent 90.5%,#000 91%);mask:radial-gradient(circle,transparent 90.5%,#000 91%);opacity:.9}
+.platter::after{content:"";position:absolute;inset:1%;border-radius:50%;border:3px dashed var(--lime);opacity:.85}
+.record{position:absolute;inset:6.2%;border-radius:50%;will-change:transform;
+  background:radial-gradient(circle,transparent 0 33%,rgba(255,255,255,.04) 33.3% 34%,transparent 34.5%),
+    conic-gradient(from 20deg,rgba(255,255,255,.12),transparent 12%,transparent 38%,rgba(255,255,255,.09) 50%,transparent 62%,transparent 88%,rgba(255,255,255,.12)),
+    repeating-radial-gradient(circle,#15121F 0 2px,#221D33 2px 3.2px,#15121F 3.2px 5px);
+  border:4px solid var(--wc-ink);box-shadow:inset 0 0 0 10px #0E0B18}
+.label{position:absolute;left:50%;top:50%;width:37%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:var(--lime);border:4px solid var(--wc-ink);display:grid;place-items:center;
+  background-image:radial-gradient(rgba(16,5,36,.16) 1.3px,transparent 1.6px);background-size:9px 9px;container-type:inline-size}
+.label .lt{font-family:var(--comic);font-size:21cqw;margin-top:-30%;letter-spacing:.04em;color:var(--wc-ink);line-height:.86;text-align:center;transform:skew(-6deg)}
+.label .lt small{display:block;font-size:7.5cqw;letter-spacing:.18em;margin-top:22%}
+.label::before{content:"";position:absolute;left:50%;top:50%;width:9%;height:9%;transform:translate(-50%,-50%);border-radius:50%;background:#EDE9FF;border:3px solid var(--wc-ink);z-index:2}
+.marker{position:absolute;left:50%;top:6%;width:2.4%;height:6%;transform:translateX(-50%);background:var(--lime);border:3px solid var(--wc-ink);border-radius:4px}
+.tonearm{position:absolute;right:-6%;top:-4%;width:42%;height:auto;z-index:3;transform-origin:85% 12%;filter:drop-shadow(5px 5px 0 var(--wc-ink))}
+.strip{background:var(--lime);border-block:4px solid var(--wc-ink);overflow:hidden;white-space:nowrap}
+.strip div{display:inline-block;padding:10px 0 6px;font-family:var(--comic);font-size:24px;letter-spacing:.06em;color:var(--wc-ink);will-change:transform}
+
+.after{position:relative;z-index:2;background:#141517 url(/assets/camo-dark.png) center/720px;image-rendering:pixelated;color:#E7E9EC}
+.after::before{content:"";position:absolute;left:0;right:0;top:0;height:12px;background:repeating-linear-gradient(-45deg,#F5A623 0 14px,#141414 14px 28px)}
+.after .lab{text-align:center;padding:70px 20px}
+.after .lab span{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#F5A623;padding:10px 18px;border:1px dashed rgba(245,166,35,.45);background:rgba(13,14,16,.7);border-radius:999px}
+.after .lab span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 10px var(--signal)}
+
+/* reduced motion (both versions): no pin, static stacked sections */
 html.static .scroller{height:auto!important}
 html.static .stage{position:relative;height:auto;overflow:visible}
-html.static .scene{position:relative;inset:auto;opacity:1!important;visibility:visible!important;min-height:100vh;min-height:100svh}
-html.static .wipe,html.static .bar,html.static .hint{display:none}
-html.static header.top{position:sticky}
+html.static .scene{position:relative;inset:auto;min-height:100vh;min-height:100svh;opacity:1!important;visibility:visible!important;transform:none!important}
+html.static .scene *{opacity:1!important;filter:none!important}
+html.static .scene .w,html.static .scene .l,html.static .scene .deck,html.static .scene .wc-title span,html.static .scene .cta,html.static .scene .cta a,html.static .scene .wc-line,html.static .scene .wc-sub,html.static .scene .brand,html.static .scene .brand b span,html.static .scene .meta,html.static .scene .rule hr,html.static .scene .tonearm,html.static .scene .record{transform:none!important}
+html.static .w{--a:1}
+html.static .vst .div .l{background:linear-gradient(90deg,var(--signal),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:0!important}
+html.static .scene.wc{background:var(--wc-purple);background-image:radial-gradient(rgba(143,124,255,.32) 1.6px,transparent 1.9px);background-size:16px 16px}
+html.static .bg-purple,html.static .hint,html.static .bar,html.static .rail,html.static .waves,html.static .edge{display:none}
+html.static .bg-dark{position:absolute;inset:0 0 auto 0;height:200vh;height:200svh}
+@media (prefers-reduced-motion:reduce){ .hint i{animation:none} }
+/* ================= DESKTOP / LANDSCAPE ================= */
+.v-desk .scroller{height:2480vh} /* film 620 + paid plug-ins (Conceal-N-Strike 440, Bruno 440, Mac 440) + free MIDI Fart Sniffer 440 last, plus the 100vh stage. Insert future paid plug-ins above #mfs. */
+.v-desk .s1 .inner{text-align:center;padding:0 24px;max-width:1200px}
+.v-desk .s1 .kicker{display:inline-block;margin-bottom:28px;color:var(--signal)}
+.v-desk .s1 h1{font-family:var(--display);font-weight:800;font-size:clamp(46px,8vw,124px);line-height:1;letter-spacing:-.035em}
+.v-desk .s1 h1 .w{margin:0 .1em}
+.v-desk .s2 .inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 20px}
+.v-desk .brand{gap:clamp(14px,1.6vw,24px)}
+.v-desk .brand svg{width:clamp(56px,6vw,92px)}
+.v-desk .brand b{font-size:clamp(34px,4.4vw,66px)}
+.v-desk .vst{margin-top:clamp(18px,2.6vw,34px);font-size:clamp(44px,9.4vw,150px);display:flex;gap:.22em;flex-wrap:wrap;justify-content:center}
+.v-desk .rule{margin-top:clamp(22px,3vw,38px);display:flex;width:min(760px,86vw)}
+.v-desk .meta{margin-top:18px;display:flex;gap:26px;flex-wrap:wrap;justify-content:center}
+.v-desk .s3{color:#F4F1FF}
+.v-desk .s3 .inner{width:min(1240px,100%);padding:84px clamp(24px,4vw,56px) 40px;display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(20px,3vw,48px);align-items:center}
+.v-desk .wc-title{font-size:clamp(84px,11.5vw,184px);margin:24px 0 26px}
+.v-desk .wc-title span{display:block;transform-origin:left bottom}
+.v-desk .wc-title span:nth-child(2){margin-left:.32em}
+.v-desk .wc-line{font-size:clamp(28px,2.8vw,42px)}
+.v-desk .wc-sub{margin-top:14px;max-width:470px}
+.v-desk .cta{display:flex;gap:18px;flex-wrap:wrap;margin-top:30px}
+.v-desk .deck{width:min(560px,44vw,66vh);justify-self:center}
+.v-desk .deck .b1{left:-8%;top:-2%;transform-origin:30px 100%}
+.v-desk .deck .b2{right:-4%;bottom:4%;transform-origin:80% 100%}
+.v-desk .strip{position:absolute;left:-2%;right:-2%;bottom:clamp(14px,3vh,34px);transform:rotate(-1.2deg);z-index:1}
+.v-desk .rail{position:fixed;left:50%;top:0;height:84px;transform:translateX(-50%);z-index:55;display:flex;gap:26px;align-items:center}
+.v-desk .rail a{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--dim);transition:color .3s}
+.v-desk .rail a i{display:block;width:18px;height:2px;background:currentColor;transition:width .3s}
+.v-desk .rail a.on{color:var(--signal)}
+.v-desk .rail a.on i{width:34px}
+.v-desk .rail.wc a{color:rgba(185,173,255,.55)}
+.v-desk .rail.wc a.on{color:var(--lime)}
+/* narrow landscape windows (e.g. landscape phones / small laptops) */
+@media (max-width:1100px){ .v-desk .rail{display:none} }
+@media (max-height:560px){
+  .v-desk header.top{height:58px}
+  .v-desk .s1 h1{font-size:min(8vw,15vh)}
+  .v-desk .vst{font-size:min(9.4vw,19vh);margin-top:10px}
+  .v-desk .brand b{font-size:min(4.4vw,9vh)} .v-desk .brand svg{width:min(6vw,12vh)}
+  .v-desk .s3 .inner{padding:62px 5vw 24px}
+  .v-desk .wc-title{font-size:min(11.5vw,24vh);margin:12px 0;text-shadow:5px 5px 0 var(--wc-ink);-webkit-text-stroke:4px var(--wc-ink)}
+  .v-desk .wc-line{font-size:min(2.8vw,6vh)} .v-desk .wc-sub,.v-desk .strip,.v-desk .deck .b2{display:none}
+  .v-desk .cta{margin-top:14px;gap:12px} .v-desk .btn{font-size:18px;padding:11px 16px 8px;box-shadow:4px 4px 0 var(--wc-ink)}
+  .v-desk .tab{font-size:14px} .v-desk .bubble{font-size:15px;padding:10px 14px 8px}
+  .v-desk .deck{width:min(40vw,72vh)}
+}
+html.static .v-desk .tab{transform:rotate(-1.5deg)!important}
+html.static .v-desk .strip{transform:rotate(-1.2deg)!important}
+html.static .v-desk .wc-title span{transform:rotate(-3deg) skew(-4deg)!important}
+/* ================= PORTRAIT (tablet portrait → phone) ================= */
+.v-port{--hdr:64px}
+.v-port .scroller{height:2520vh;height:2520svh} /* film 660 + paid 440 + 440 + 440 + free MIDI Fart Sniffer 440 last, plus the 100vh stage. The free section stays last. */
+.v-port header.top{height:var(--hdr);padding:0 20px;padding-top:env(safe-area-inset-top)}
+.v-port .wordmark b{font-size:16px}
+.v-port .navlink{font-size:11px;padding:11px 14px;min-height:40px;display:inline-flex;align-items:center}
+/* Plug-in jump lives on the product pages. The node stays so the film can still update it. */
+header.top a.navlink{display:none}
+.v-port .bg-dark{background-image:radial-gradient(70vw 50svh at 40% 40%,rgba(255,91,31,.18),transparent 70%),linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:auto,48px 48px,48px 48px}
+.v-port .waves{bottom:4svh;height:16svh}
+
+/* beat 1: stacked line */
+.v-port .p1{place-items:center start}
+.v-port .p1 .inner{padding:0 7vw;width:100%}
+.v-port .p1 .kicker{display:block;margin-bottom:3svh;color:var(--signal);font-size:11px}
+.v-port .p1 h1{font-family:var(--display);font-weight:800;font-size:min(16.5vw,9.4svh);line-height:1.02;letter-spacing:-.04em}
+.v-port .p1 h1 .w{display:block;width:max-content}
+.v-port .p1 h1 .w:nth-child(even){margin-left:auto}
+.v-port .p1 .hint{bottom:max(26px,calc(env(safe-area-inset-bottom) + 16px))}
+
+/* beat 2: stacked lockup */
+.v-port .p2 .inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 6vw}
+.v-port .brand{gap:14px}
+.v-port .brand svg{width:min(14vw,9svh)}
+.v-port .brand b{font-size:min(9.4vw,6.2svh)}
+.v-port .vst{margin-top:3svh;display:flex;flex-direction:column;align-items:center;gap:0}
+.v-port .vst .vstw{font-size:min(30vw,20svh);line-height:.86}
+.v-port .vst .div{font-size:min(13.4vw,8.4svh)}
+.v-port .vst .div .l{-webkit-text-stroke:1.5px var(--signal)}
+.v-port .rule{margin-top:3svh;display:flex;width:80vw}
+.v-port .meta{margin-top:2.4svh;display:flex;flex-direction:column;gap:10px;align-items:center;font-size:min(2.8vw,13px)}
+
+/* wipe */
+.v-port .edge{position:absolute;left:0;right:0;top:0;height:46px;margin-top:-23px;z-index:0;visibility:hidden}
+.v-port .edge div{font-size:20px;padding:8px 0 4px}
+
+/* beat 3: record dominant top half, copy stacked below */
+.v-port .p3{color:#F4F1FF;place-items:stretch}
+.v-port .p3 .inner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:min(3.2svh,30px);
+  padding:calc(var(--hdr) + env(safe-area-inset-top) + 1svh) 20px max(20px,calc(env(safe-area-inset-bottom) + 14px));text-align:center}
+.v-port .deck{flex:1 1 0;min-height:0;width:auto;max-height:min(80vw,46svh);max-width:100%}
+.v-port .deck .b1{left:-8%;top:0;font-size:min(4.4vw,22px);padding:12px 16px 10px;transform-origin:20% 100%}
+.v-port .deck .b1::before{width:20px;height:20px;bottom:-12px;left:26px}
+.v-port .copy{display:flex;flex-direction:column;align-items:center;width:100%}
+.v-port .tab{font-size:min(4.2vw,20px)}
+.v-port .wc-title{font-size:min(22vw,11.5svh);margin:min(2svh,18px) 0 min(1.4svh,14px);display:flex;gap:.2em;-webkit-text-stroke:4px var(--wc-ink);text-shadow:6px 6px 0 var(--wc-ink)}
+.v-port .wc-title span{display:block;transform-origin:50% 100%}
+.v-port .wc-line{font-size:min(7vw,4svh)}
+.v-port .wc-sub{display:none}
+.v-port .cta{display:flex;flex-direction:column;gap:14px;width:100%;max-width:440px;margin-top:min(3svh,28px)}
+.v-port .cta .btn{width:100%;min-height:58px;font-size:min(6.6vw,28px)}
+.v-port .strip:not(.edge){display:none}
+/* tablet portrait */
+@media (min-width:600px){
+  .v-port{--hdr:84px}
+  .v-port header.top{padding:0 40px}
+  .v-port .wordmark b{font-size:19px}
+  .v-port .p1 h1{font-size:min(15vw,10svh)}
+  .v-port .deck{max-height:min(68vw,44svh)}
+  .v-port .deck .b1{font-size:24px;padding:16px 24px 13px}
+  .v-port .wc-title{font-size:min(19vw,12svh);-webkit-text-stroke:5px var(--wc-ink);text-shadow:9px 9px 0 var(--wc-ink)}
+  .v-port .wc-sub{display:block;margin-top:14px;max-width:520px;font-size:19px}
+  .v-port .cta{flex-direction:row;max-width:680px;gap:20px}
+  .v-port .cta .btn{flex:1;min-height:72px;font-size:min(3.4vw,30px);white-space:nowrap;padding-inline:18px}
+  .v-port .p3 .inner{padding-bottom:calc(3svh + 90px)}
+  .v-port .strip:not(.edge){display:block;position:absolute;left:-2%;right:-2%;bottom:3svh;transform:rotate(-1.2deg);z-index:1}
+  .v-port .meta{font-size:13px}
+}
+/* short phones (e.g. 375×667) */
+@media (max-width:599px) and (max-height:720px){
+  .v-port .deck{max-height:min(72vw,40svh)}
+  .v-port .tab{display:none}
+  .v-port .cta .btn{min-height:54px}
+  .v-port .p3 .inner{gap:2svh}
+}
+html.static .v-port .p3{min-height:100svh}
+html.static .v-port .tab{transform:rotate(-1.5deg)!important}
+html.static .v-port .strip{transform:rotate(-1.2deg)!important}
+
+/* ================= Conceal-N-Strike beat (both layouts) ================= */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.scene.cns{z-index:5;visibility:hidden;place-items:stretch;background:#2A2C30 url(/assets/camo-light.png) center/720px;image-rendering:pixelated}
+.cns-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:auto}
+.cns-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
+.cns-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;filter:drop-shadow(0 5px 0 rgba(13,14,16,.9))}
+.cbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:"Black Ops One",Impact,sans-serif;font-size:20px;letter-spacing:.06em;line-height:1;text-transform:uppercase;
+  padding:19px 30px 18px;color:#141006;background:#F5A623;touch-action:manipulation;transition:filter .15s,transform .12s;
+  clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px)}
+.cbtn:hover{filter:brightness(1.12)} .cbtn:active{transform:translateY(2px)}
+.cbtn.cy{background:#3EC6F0;color:#06171D}
+.cns-tag{font-family:"Share Tech Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#F5A623;background:rgba(13,14,16,.9);border:1px solid rgba(245,166,35,.55);padding:7px 12px}
+.cns-wipe{position:absolute;top:-10%;bottom:-10%;left:0;width:56px;z-index:6;visibility:hidden;pointer-events:none;will-change:transform;
+  background:repeating-linear-gradient(-45deg,#F5A623 0 16px,#141414 16px 32px);box-shadow:0 0 0 4px #0D0E10,0 0 50px rgba(0,0,0,.65)}
+.cns-door{position:absolute;left:0;right:0;height:50.5%;z-index:6;visibility:hidden;pointer-events:none;display:flex;justify-content:center;will-change:transform;
+  background:#1A1B1E url(/assets/camo-dark.png) center/480px;image-rendering:pixelated}
+.cns-door.t{top:0;align-items:flex-end;padding-bottom:44px}
+.cns-door.b{bottom:0;align-items:flex-start;padding-top:44px}
+.cns-door::after{content:"";position:absolute;left:0;right:0;height:30px;background:repeating-linear-gradient(-45deg,#F5A623 0 14px,#141414 14px 28px);box-shadow:0 0 0 3px #0D0E10}
+.cns-door.t::after{bottom:0} .cns-door.b::after{top:0}
+.v-desk .cns-ui{bottom:max(11vh,64px)}
+.v-desk .rail.cn a{color:rgba(231,233,236,.55)}
+.v-desk .rail.cn a.on{color:#F5A623}
+.v-desk .rail.sn a{color:rgba(28,20,12,.55)}
+.v-desk .rail.sn a.on{color:#1C140C}
+@media (max-height:560px){ .v-desk .cns-ui{bottom:34px} .v-desk .cns-tag{display:none} .v-desk .cbtn{font-size:16px;padding:13px 20px 12px} }
+.v-port .cns-ui{bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px))}
+.v-port .cns-row{flex-direction:column;width:100%;max-width:440px;gap:12px}
+.v-port .cbtn{width:100%;min-height:58px;font-size:min(4vw,20px);letter-spacing:.03em;padding-inline:10px;white-space:nowrap}
+@media (min-width:600px){
+  .v-port .cns-ui{bottom:7svh}
+  .v-port .cns-row{flex-direction:row;max-width:720px;gap:18px}
+  .v-port .cbtn{flex:1;min-height:70px;font-size:min(2.7vw,22px);white-space:nowrap}
+}
+html.static .scene.cns,html.static .scene.mfs{visibility:visible!important;min-height:100vh;min-height:100svh}
+html.static .mfs-lid{display:none}
+
+/* ================= Bruno beat (both layouts): his curtains close over Conceal-N-Strike, then open on him ================= */
+.scene.bru{z-index:6;visibility:hidden;place-items:stretch;background:#7a1f1a}
+.bru-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bru-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
+.bru-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.bbtn{display:inline-flex;align-items:center;justify-content:center;font-family:"Titan One",Impact,sans-serif;font-size:20px;letter-spacing:.03em;line-height:1;padding:15px 24px 13px;color:#1c1512;background:#f6eacf;border:3px solid #1c1512;border-radius:12px;box-shadow:4px 5px 0 #1c1512;touch-action:manipulation}
+.bbtn:hover{filter:brightness(1.05)} .bbtn:active{transform:translate(2px,2px);box-shadow:2px 3px 0 #1c1512}
+.bbtn.buy{background:#e0a526}
+.bru-tag{font-family:"Titan One",Impact,sans-serif;font-size:13px;letter-spacing:.08em;color:#f6eacf;-webkit-text-stroke:3px #1c1512;paint-order:stroke fill;background:#3f7f7a;border:3px solid #1c1512;border-radius:8px;box-shadow:3px 3px 0 #1c1512;padding:6px 12px 5px}
+.bru-cur{position:absolute;top:0;bottom:0;width:51%;z-index:7;visibility:hidden;pointer-events:none;will-change:transform;
+  background:#7a1f1a repeating-linear-gradient(90deg,rgba(181,50,42,.95) 0 34px,rgba(181,50,42,0) 34px 62px);box-shadow:0 0 0 3px #1c1512,0 0 70px rgba(0,0,0,.6)}
+.bru-cur.l{left:0} .bru-cur.r{right:0}
+.bru-val{position:absolute;inset:0;z-index:7;visibility:hidden;pointer-events:none;display:grid;place-items:center;overflow:hidden}
+.bru-val::before{content:"";position:absolute;left:0;right:0;top:0;height:66px;transform:translateY(var(--drop,-100%));
+  background:radial-gradient(circle at 30px 34px,#e0a526 0 28px,#1c1512 28px 31px,transparent 31px) 0 0/60px 66px repeat-x,linear-gradient(#e0a526,#e0a526) 0 0/100% 34px no-repeat}
+.bru-val span{position:relative;margin:0 20px;font-family:"Rye",Georgia,serif;font-size:clamp(30px,5vw,78px);line-height:1;color:#b5322a;-webkit-text-stroke:7px #1c1512;paint-order:stroke fill;text-shadow:.05em .07em 0 #e0a526;text-align:center;padding:.32em .5em .26em;background:#f6eacf;border:4px solid #1c1512;border-radius:16px;box-shadow:7px 8px 0 #1c1512}
+.v-desk .rail.br a{color:rgba(246,234,207,.6)}
+.v-desk .rail.br a.on{color:#e0a526}
+.v-desk .bru-ui{bottom:max(11vh,64px)}
+@media (max-height:560px){ .v-desk .bru-ui{bottom:34px} .v-desk .bru-tag{display:none} .v-desk .bbtn{font-size:16px;padding:12px 16px 10px} }
+.v-port .bru-ui{bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px))}
+.v-port .bru-row{flex-direction:column;width:100%;max-width:440px;gap:12px}
+.v-port .bbtn{width:100%;min-height:58px;font-size:min(4.2vw,20px);padding-inline:12px}
+@media (min-width:600px){
+  .v-port .bru-ui{bottom:7svh}
+  .v-port .bru-row{flex-direction:row;max-width:720px;gap:18px}
+  .v-port .bbtn{flex:1;min-height:70px;font-size:min(2.6vw,22px)}
+}
+html.static .scene.bru{visibility:visible!important;min-height:100vh;min-height:100svh}
+html.static .bru-cur,html.static .bru-val{display:none}
+
+/* Mac sits under Bruno and above MIDI Fart Sniffer. No teaser video: his frames and a window shot. */
+.scene.mac{z-index:7;visibility:hidden;place-items:stretch;background:#07111f}
+.mac-hero{position:absolute;left:3%;top:7%;width:min(40vw,480px);height:auto;pointer-events:none}
+.mac-hero.rage{opacity:0}
+.mac-shot{position:absolute;right:3%;top:8%;width:min(46vw,620px);height:auto;border-radius:12px;pointer-events:none}
+.mac-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
+.mac-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center}
+.mactn,.mac-price{display:inline-flex;align-items:center;justify-content:center;font-family:"Titan One",Impact,sans-serif;font-size:20px;letter-spacing:.03em;line-height:1;padding:15px 24px 13px;color:#07111f;background:#8EBEFF;border:3px solid #07111f;border-radius:12px;box-shadow:4px 5px 0 #07111f;touch-action:manipulation}
+.mac-price{background:transparent;color:#F3F7FF;border-color:#8EBEFF;box-shadow:none}
+.mac-tag{font-family:"Titan One",Impact,sans-serif;font-size:13px;letter-spacing:.08em;color:#07111f;background:#8EBEFF;border:3px solid #07111f;border-radius:8px;padding:6px 12px 5px}
+.v-desk .mac-ui{bottom:max(11vh,64px)}
+.v-port .scene.mac{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:76px 16px 0;gap:8px}
+.v-port .mac-ui{position:absolute;bottom:max(18px,calc(env(safe-area-inset-bottom) + 12px))}
+.v-port .mac-hero{position:relative;left:auto;top:auto;width:min(40vw,150px);height:auto;transform:none;margin:0}
+.v-port .mac-hero.rage{position:absolute;left:50%;top:76px;width:min(40vw,150px);transform:translateX(-50%)}
+.v-port .mac-shot{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:min(100%,440px);max-height:36vh;height:auto;object-fit:contain}
+.v-port .mac-row{flex-direction:column;width:100%;max-width:440px}
+.v-port .mactn,.v-port .mac-price{width:100%;min-height:52px;font-size:16px}
+html.static .scene.mac{visibility:visible!important;min-height:100vh;min-height:100svh}
+html.static .mac-hero.rage{opacity:1}
+
+/* ================= MIDI Fart Sniffer beat (both layouts) ================= */
+.scene.mfs{z-index:7;visibility:hidden;place-items:stretch;background:#A6B0B8 url(/assets/mfs-steel.webp) 0 0/240px 240px}
+.mfs-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mfs-ui{position:absolute;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
+.mfs-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.mbtn{display:inline-flex;align-items:center;justify-content:center;font-family:"Titan One",Impact,sans-serif;font-size:20px;letter-spacing:.03em;line-height:1;padding:14px 22px 12px;color:#1C140C;background:#F6E7C1;border:3px solid #1C140C;border-radius:999px;box-shadow:4px 4px 0 #1C140C;touch-action:manipulation}
+.mbtn:hover{filter:brightness(1.05)} .mbtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #1C140C}
+.mbtn.slime{background:#8FDC2C}
+.mfs-tag{font-family:"Titan One",Impact,sans-serif;font-size:13px;letter-spacing:.08em;color:#1A1220;background:#8FDC2C;border:3px solid #1A1220;border-radius:999px;box-shadow:3px 3px 0 #1A1220;padding:6px 12px}
+.mfs-ui .keyform{position:relative;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;width:min(680px,100%)}
+.mfs-ui .keyform input[type=email]{flex:1;min-width:min(220px,100%);font-family:"Comic Neue","Comic Sans MS",sans-serif;font-weight:700;font-size:16px;color:#1C140C;background:#FFF6DE;border:3px solid #1C140C;border-radius:999px;padding:12px 16px;min-height:48px}
+.mfs-ui .keyform .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.mfs-ui .keyform button{cursor:pointer}
+.mfs-ui .keyform button:disabled{opacity:.55}
+.mfs-ui .keynote{flex-basis:100%;margin:0;text-align:center;font-family:"Comic Neue","Comic Sans MS",sans-serif;font-weight:700;font-size:16px;color:#1C140C;background:#F6E7C1;border:3px solid #1C140C;border-radius:999px;padding:6px 14px}
+.mfs-ui .keynote.ok{color:#14520f}
+.mfs-ui .keynote.bad{color:#8d1a1a}
+.mfs-ui .keynote[hidden]{display:none}
+.mfs-ui .keyfine{margin:0;max-width:560px;text-align:center;font-family:"Comic Neue","Comic Sans MS",sans-serif;font-weight:700;font-size:14px;color:#1C140C;background:#F6E7C1;border:3px solid #1C140C;border-radius:14px;box-shadow:3px 3px 0 #1C140C;padding:8px 12px}
+.mfs-ui .keyfine a{color:#5A28B8}
+.mfs-ui .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Concrete slab. Slime drips hang off the bottom and lead as it slides down over the paid section, then the slab lifts. */
+.mfs-lid{position:absolute;left:0;right:0;top:0;height:100%;z-index:8;visibility:hidden;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10vh;will-change:transform;
+  background:#A6B0B8 url(/assets/mfs-steel.webp) 0 0/240px 240px}
+.mfs-lid::after{content:"";position:absolute;left:-3%;right:-3%;bottom:-96px;height:124px;pointer-events:none;background:#8FDC2C;
+  clip-path:polygon(0 0,100% 0,100% 20%,97.2% 20%,95.4% 78%,92.6% 20%,87.4% 20%,84.2% 100%,80% 20%,74.6% 20%,71.8% 64%,68% 20%,62.2% 20%,58.4% 90%,54% 20%,48.2% 20%,44.6% 72%,40.2% 20%,34.4% 20%,30.6% 100%,26% 20%,20.2% 20%,16.8% 58%,12.6% 20%,7.4% 20%,4.2% 86%,1.2% 20%,0 20%);
+  filter:drop-shadow(0 4px 0 #1A1220)}
+.mfs-lid span{position:relative;z-index:1;font-family:"Titan One",Impact,sans-serif;font-size:clamp(28px,4.4vw,64px);line-height:.9;letter-spacing:.02em;color:#F7D21E;-webkit-text-stroke:7px #1A1220;paint-order:stroke fill;text-align:center}
+/* Reduced motion stacks the sections. The lid does not travel; drips still mark the threshold into the free section. */
+html.static .scene.mfs::before{content:"";position:absolute;left:-2%;right:-2%;top:0;height:78px;z-index:4;pointer-events:none;background:#8FDC2C;
+  clip-path:polygon(0 0,100% 0,100% 28%,97.2% 28%,95.4% 100%,92.6% 28%,87.4% 28%,84.2% 100%,80% 28%,74.6% 28%,71.8% 78%,68% 28%,62.2% 28%,58.4% 100%,54% 28%,48.2% 28%,44.6% 82%,40.2% 28%,34.4% 28%,30.6% 100%,26% 28%,20.2% 28%,16.8% 70%,12.6% 28%,7.4% 28%,4.2% 100%,1.2% 28%,0 28%);
+  filter:drop-shadow(0 3px 0 #1A1220)}
+.v-desk .mfs-ui{bottom:max(11vh,64px)}
+@media (max-height:560px){ .v-desk .mfs-ui{bottom:34px} .v-desk .mfs-tag{display:none} .v-desk .mbtn{font-size:16px;padding:12px 16px 10px} }
+.v-port .mfs-ui{bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px))}
+.v-port .mfs-row,.v-port .mfs-ui .keyform{flex-direction:column;width:100%;max-width:440px;gap:12px}
+.v-port .mfs-ui .keyform input[type=email],.v-port .mfs-ui .keyform button{width:100%}
+.v-port .mbtn{width:100%;min-height:58px;font-size:min(4.2vw,20px);padding-inline:12px}
+@media (min-width:600px){
+  .v-port .mfs-ui{bottom:7svh}
+  .v-port .mfs-row{flex-direction:row;max-width:760px;gap:18px}
+  .v-port .mbtn{flex:1;min-height:70px;font-size:min(2.6vw,22px)}
+}
+html.static .cns-wipe,html.static .cns-door{display:none}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="mark" viewBox="0 0 40 40">
+    <rect x="1" y="1" width="38" height="38" rx="11" fill="#16161B" stroke="#FF5B1F" stroke-width="2"/>
+    <path d="M8 13c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M8 20c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#FF5B1F" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M8 27c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" opacity=".45"/>
+  </symbol></defs></svg>
+<div id="app"></div>
+<noscript><style>.nojs{min-height:100vh;display:grid;place-items:center;text-align:center;padding:40px 24px}.nojs h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,8vw,110px);line-height:1;letter-spacing:-.03em}.nojs h1 em{font-style:normal;color:var(--signal)}.nojs p{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}</style>
+<!-- Paid plug-ins first. MIDI Fart Sniffer stays last. Do not add a free teaser above the paid plug-ins. -->
+<div class="nojs"><div><span class="mono" style="color:var(--signal)">Tril$oft VST Division</span><h1>Weird VSTs <em>no one</em> asked for.</h1><p><a class="btn btn-lime" href="/wildcard">Check out Wild Card →</a><a class="btn btn-white" href="#" data-stripe data-product="wildcard">Buy Now</a><a class="btn btn-lime" href="/conceal-n-strike">Conceal-N-Strike →</a><a class="btn btn-lime" href="/bruno">Bruno →</a><a class="btn btn-lime" href="/mac">Mac →</a><a class="btn btn-lime" href="/midi-fart-sniffer">MIDI Fart Sniffer →</a></p></div></div></noscript>
+<template id="tpl-desk"><div class="v-desk">
 <div class="bar" id="bar"></div>
 <header class="top">
-  <a href="#top" class="logo" aria-label="Tril$oft VST Division home">
-    <svg width="32" height="32" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="11" fill="#16161B" stroke="#FF5B1F" stroke-width="2"/><path d="M8 13c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round"/><path d="M8 20c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#FF5B1F" stroke-width="2.4" stroke-linecap="round"/><path d="M8 27c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" opacity=".45"/></svg>
-    <span class="wordmark"><b>TRIL<i>$</i>OFT</b><small>VST DIVISION</small></span>
-  </a>
-  <nav class="rail" id="rail" aria-label="Plug-ins">
-    <button type="button" data-go="wildcard">Wild Card</button>
-    <button type="button" data-go="cns">Conceal</button>
-    <button type="button" data-go="bruno">Bruno</button>
-    <button type="button" data-go="mac">Mac</button>
-    <button type="button" data-go="mfs">Sniffer</button>
-  </nav>
+  <a href="#top" class="logo" aria-label="Tril$oft VST Division home"><svg width="38" height="38"><use href="#mark"/></svg><span class="wordmark"><b>TRIL<i>$</i>OFT</b><small>VST DIVISION</small></span></a>
+  <a href="/wildcard" class="navlink" id="nav">Wild Card →</a>
+</header>
+<!-- Paid plug-ins first. MIDI Fart Sniffer stays last; insert a new paid rail link before it. -->
+<nav class="rail" id="rail" aria-label="Sections">
+  <a href="#" data-go="0.04"><span>01 WEIRD</span><i></i></a>
+  <a href="#" data-go="0.12"><span>02 DIVISION</span><i></i></a>
+  <a href="#" data-go="0.22"><span>03 WILD CARD</span><i></i></a>
+  <a href="#" data-go="0.35"><span>04 CONCEAL-N-STRIKE</span><i></i></a>
+  <a href="#" data-go="0.54"><span>05 BRUNO</span><i></i></a>
+  <a href="#" data-go="0.72"><span>06 MAC</span><i></i></a>
+  <a href="#" data-go="0.91"><span>07 FART SNIFFER</span><i></i></a>
+</nav>
+<main id="top">
+<div class="scroller" id="scroller">
+  <div class="stage" id="stage">
+    <div class="bg-dark"></div>
+    <svg class="waves" id="waves" viewBox="0 0 1440 240" preserveAspectRatio="none" aria-hidden="true">
+      <path id="wv1" stroke="#FF5B1F" stroke-width="2.5" opacity=".75"/>
+      <path id="wv2" stroke="#EEE9E0" stroke-width="1.5" opacity=".22"/>
+      <path id="wv3" stroke="#FFC266" stroke-width="1.5" opacity=".35"/>
+    </svg>
+    <div class="bg-purple" id="bgPurple"></div>
+    <section class="scene s1" id="s1" aria-label="Weird VSTs no one asked for">
+      <div class="inner">
+        <span class="mono kicker">Tril$oft VST Division</span>
+        <h1 id="line"><span class="w">Weird</span> <span class="w">VSTs</span> <em class="w">no</em> <em class="w">one</em> <span class="w">asked</span> <span class="w">for.</span></h1>
+      </div>
+      <div class="hint mono" id="hint"><span>Scroll</span><i></i></div>
+    </section>
+    <section class="scene s2" id="s2" aria-label="Tril$oft VST Division">
+      <div class="inner">
+        <div class="brand" id="brand">
+          <svg viewBox="0 0 40 40" id="bigmark" aria-hidden="true">
+            <rect x="1" y="1" width="38" height="38" rx="11" fill="#16161B" stroke="#FF5B1F" stroke-width="2" pathLength="1" class="mk-box"/>
+            <path class="mk-w" d="M8 13c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+            <path class="mk-w" d="M8 20c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#FF5B1F" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+            <path class="mk-w" d="M8 27c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" opacity=".45" pathLength="1"/>
+          </svg>
+          <b id="wm"><span>T</span><span>R</span><span>I</span><span>L</span><span class="dollar">$</span><span>O</span><span>F</span><span>T</span></b>
+        </div>
+        <div class="vst" id="vst" aria-label="VST Division">
+          <span class="word vstw"><span class="l">V</span><span class="l">S</span><span class="l">T</span></span>
+          <span class="word div"><span class="l">D</span><span class="l">I</span><span class="l">V</span><span class="l">I</span><span class="l">S</span><span class="l">I</span><span class="l">O</span><span class="l">N</span></span>
+        </div>
+        <div class="rule" id="rule"><hr></div>
+        <!-- Paid plug-ins first. MIDI Fart Sniffer stays last in this list. -->
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-004 · Bruno</span><span>Mac · In the works</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
+      </div>
+    </section>
+    <section class="scene s3 wc" id="s3" aria-label="Wild Card">
+      <div class="inner">
+        <div class="copy" id="copy">
+          <span class="tab" id="tab">DIV-001 · SCRATCH DECK</span>
+          <h2 class="wc-title" id="wctitle"><span>WILD</span><span>CARD</span></h2>
+          <p class="wc-line" id="wcline">Plug in your controller. <em>Scratch.</em></p>
+          <p class="wc-sub" id="wcsub">A dead-simple scratch deck for MIDI DJ controllers. No setup marathon — and cheaper than the DJ apps on iPad.</p>
+          <div class="cta" id="cta">
+            <a href="/wildcard" class="btn btn-lime">Check out Wild Card →</a>
+            <a href="#" data-stripe data-product="wildcard" class="btn btn-white">Buy Now</a>
+          </div>
+        </div>
+        <div class="deck" id="deck">
+          <div class="platter"></div>
+          <div class="record" id="record"><div class="marker"></div><div class="label"><div class="lt">WILD<br>CARD<small>TRIL$OFT</small></div></div></div>
+          <svg class="tonearm" id="tonearm" viewBox="0 0 220 300" aria-hidden="true">
+            <circle cx="186" cy="36" r="30" fill="#4325B5" stroke="#100524" stroke-width="6"/>
+            <circle cx="186" cy="36" r="11" fill="#9CFF2E" stroke="#100524" stroke-width="5"/>
+            <path d="M186 36 L176 200 L110 262" fill="none" stroke="#100524" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M186 36 L176 200 L110 262" fill="none" stroke="#EDE9FF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="78" y="246" width="50" height="34" rx="6" transform="rotate(-42 103 263)" fill="#9CFF2E" stroke="#100524" stroke-width="6"/>
+          </svg>
+          <div class="bubble b1" id="b1">Tested on the Starlight!</div>
+          <div class="bubble lime r b2" id="b2">Hold to cut!</div>
+        </div>
+      </div>
+      <div class="strip" id="strip" aria-hidden="true"><div class="stripTxt"></div></div>
+    </section>
+    <section class="scene cns" id="cns" aria-label="Conceal-N-Strike">
+      <h2 class="sr">Conceal-N-Strike: a 64-step turntablism sequencer. Two hands, every step.</h2>
+      <video class="cns-vid" id="cnsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/cns-teaser-desk.mp4" poster="/assets/cns-teaser-desk-start.jpg" data-end="/assets/cns-teaser-desk-end.jpg"></video>
+      <div class="cns-ui" id="cnsUi">
+        <span class="cns-tag">DIV-002 · VST3 · CLAP · AU</span>
+        <div class="cns-row"><a href="/conceal-n-strike" class="cbtn">Check out Conceal-N-Strike →</a><a href="#" data-stripe data-product="conceal-n-strike" class="cbtn cy">Buy Now</a></div>
+      </div>
+    </section>
+    <div class="cns-wipe" id="cnsWipe" aria-hidden="true"></div>
+    <!-- Paid: Bruno (DIV-004). The curtains close over Conceal-N-Strike, then open on him. -->
+    <section class="scene bru" id="bru" aria-label="Bruno">
+      <h2 class="sr">Bruno: an auto-drummer that plays your drums, locked to the DAW. Phrases, fills, and sections, on keyswitches.</h2>
+      <video class="bru-vid" id="bruVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/bruno-teaser-desk.mp4?v=2" poster="/assets/bruno-teaser-desk-start.jpg?v=2" data-end="/assets/bruno-teaser-desk-end.jpg?v=2"></video>
+      <div class="bru-ui" id="bruUi">
+        <span class="bru-tag">DIV-004 · VST3 · CLAP · AU</span>
+        <div class="bru-row"><a href="/bruno" class="bbtn">Check out Bruno →</a><a href="#" data-stripe data-product="bruno" class="bbtn buy">Buy Now</a></div>
+      </div>
+    </section>
+    <div class="bru-cur l" id="bruCurL" aria-hidden="true"></div>
+    <div class="bru-cur r" id="bruCurR" aria-hidden="true"></div>
+    <div class="bru-val" id="bruVal" aria-hidden="true"><span>DIV-004 // BRUNO</span></div>
+    <!-- Mac, under Bruno, still above the free section. No Buy Now: pricing is TBD. -->
+    <section class="scene mac" id="mac" aria-label="Mac">
+      <h2 class="sr">Mac: an auto-drummer trained on punk, pop punk, and hardcore. In the works. Pricing TBD.</h2>
+      <img class="mac-hero" id="macHero" src="/img/mac/cute.webp" width="800" height="800" alt="">
+      <img class="mac-hero rage" id="macRage" src="/img/mac/rage.webp" width="800" height="800" alt="">
+      <img class="mac-shot" src="/img/mac/ui-verse.webp" width="1100" height="824" alt="Mac's plug-in window.">
+      <div class="mac-ui" id="macUi">
+        <span class="mac-tag">In the works · macOS</span>
+        <div class="mac-row"><a href="/mac" class="mactn">Check out Mac →</a><span class="mac-price">Pricing TBD</span></div>
+      </div>
+    </section>
+    <!-- Free section. MIDI Fart Sniffer stays last, after every paid plug-in. Insert future paid scenes above #mfs. -->
+    <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
+      <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
+      <video class="mfs-vid" id="mfsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/mfs-teaser-desk.mp4" poster="/assets/mfs-teaser-desk-start.jpg" data-end="/assets/mfs-teaser-desk-end.jpg"></video>
+      <div class="mfs-ui" id="mfsUi">
+        <span class="mfs-tag">DIV-003 · Free</span>
+        <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
+          <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
+          <button type="submit" class="mbtn slime">Get Free Key</button>
+          <p class="keynote" role="status" aria-live="polite" hidden></p>
+        </form>
+        <p class="keyfine">The email is only used to send the key and is stored hashed. <a href="/privacy">Privacy</a>.</p>
+        <div class="mfs-row"><a href="/midi-fart-sniffer" class="mbtn">Check out MIDI Fart Sniffer →</a></div>
+      </div>
+    </section>
+    <div class="mfs-lid" id="mfsLid" aria-hidden="true"><span>DIV-003 // MIDI Fart Sniffer</span></div>
+  </div>
+</div>
+<section class="after">
+  <div class="lab"><span>More weird ones in the lab</span></div>
+  <footer>
+    <p>© 2026 Tril$oft · VST is a trademark of Steinberg Media Technologies GmbH.</p>
+    <nav>
+      <a href="/privacy">Privacy</a>
+      <a href="/faq">FAQ</a>
+    </nav>
+  </footer>
+</section>
+</main>
+</div></template>
+<template id="tpl-port"><div class="v-port">
+<div class="bar" id="bar"></div>
+<header class="top">
+  <a href="#top" class="logo" aria-label="Tril$oft VST Division home"><svg width="38" height="38"><use href="#mark"/></svg><span class="wordmark"><b>TRIL<i>$</i>OFT</b><small>VST DIVISION</small></span></a>
+  <a href="/wildcard" class="navlink" id="nav">Wild Card →</a>
 </header>
 <main id="top">
 <div class="scroller" id="scroller">
   <div class="stage" id="stage">
-    <section class="scene intro show" id="intro" data-step="intro" aria-label="Weird VSTs no one asked for">
-      <div class="showcase intro">
-        <div>
-          <p class="kicker">Tril$oft VST Division</p>
-          <h1>Weird VSTs <em>no one</em> asked for.</h1>
-          <p class="sub">Five plug-ins. Paid ones first. The free groove browser stays last.</p>
-          <p class="roll"><span>Wild Card</span><span>Conceal-N-Strike</span><span>Bruno</span><span>Mac</span><span>MIDI Fart Sniffer</span></p>
-          <p class="hint">Scroll</p>
+    <div class="bg-dark"></div>
+    <svg class="waves" id="waves" viewBox="0 0 1440 240" preserveAspectRatio="none" aria-hidden="true">
+      <path id="wv1" stroke="#FF5B1F" stroke-width="2.5" opacity=".75"/>
+      <path id="wv2" stroke="#EEE9E0" stroke-width="1.5" opacity=".22"/>
+      <path id="wv3" stroke="#FFC266" stroke-width="1.5" opacity=".35"/>
+    </svg>
+    <div class="bg-purple" id="bgPurple"></div>
+    <div class="strip edge" id="edge" aria-hidden="true"><div class="stripTxt"></div></div>
+    <section class="scene p1" id="p1" aria-label="Weird VSTs no one asked for">
+      <div class="inner">
+        <span class="mono kicker" id="pk">Tril$oft VST Division</span>
+        <h1 id="line"><span class="w">Weird</span> <span class="w">VSTs</span> <span class="w"><em>no one</em></span> <span class="w">asked</span> <span class="w">for.</span></h1>
+      </div>
+      <div class="hint mono" id="hint"><span>Scroll</span><i></i></div>
+    </section>
+    <section class="scene p2" id="p2" aria-label="Tril$oft VST Division">
+      <div class="inner">
+        <div class="brand" id="brand">
+          <svg viewBox="0 0 40 40" id="bigmark" aria-hidden="true">
+            <rect x="1" y="1" width="38" height="38" rx="11" fill="#16161B" stroke="#FF5B1F" stroke-width="2" pathLength="1" class="mk-box"/>
+            <path class="mk-w" d="M8 13c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+            <path class="mk-w" d="M8 20c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#FF5B1F" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+            <path class="mk-w" d="M8 27c2.4-3 4.8-3 7.2 0s4.8 3 7.2 0 4.8-3 7.2 0 2.4 3 2.4 3" fill="none" stroke="#EEE9E0" stroke-width="2.4" stroke-linecap="round" opacity=".45" pathLength="1"/>
+          </svg>
+          <b id="wm"><span>T</span><span>R</span><span>I</span><span>L</span><span class="dollar">$</span><span>O</span><span>F</span><span>T</span></b>
         </div>
+        <div class="vst" id="vst" aria-label="VST Division">
+          <span class="word vstw"><span class="l">V</span><span class="l">S</span><span class="l">T</span></span>
+          <span class="word div"><span class="l">D</span><span class="l">I</span><span class="l">V</span><span class="l">I</span><span class="l">S</span><span class="l">I</span><span class="l">O</span><span class="l">N</span></span>
+        </div>
+        <div class="rule" id="rule"><hr></div>
+        <!-- Paid plug-ins first. MIDI Fart Sniffer stays last in this list. -->
+        <div class="meta mono" id="meta"><span>DIV-001 · Wild Card</span><span>DIV-002 · Conceal-N-Strike</span><span>DIV-004 · Bruno</span><span>Mac · In the works</span><span>DIV-003 · MIDI Fart Sniffer</span></div>
       </div>
     </section>
-
-    <section class="scene product wc" id="wildcard" data-step="wildcard" aria-label="Wild Card">
-      <div class="showcase">
-        <div>
-          <p class="kicker">DIV-001 · Scratch deck</p>
-          <h2>Wild Card</h2>
-          <p class="lede">Plug in a MIDI DJ controller and scratch.</p>
-          <p class="desc">A scratch deck tested with the Hercules DJControl Starlight. macOS.</p>
-          <p class="price">$13</p>
-          <div class="actions">
-            <a class="btn ghost" href="/wildcard">Check out Wild Card</a>
-            <a class="btn buy" href="#" data-stripe data-product="wildcard">Buy Now</a>
+    <section class="scene p3 wc" id="p3" aria-label="Wild Card">
+      <div class="inner">
+        <div class="deck" id="deck">
+          <div class="platter"></div>
+          <div class="record" id="record"><div class="marker"></div><div class="label"><div class="lt">WILD<br>CARD<small>TRIL$OFT</small></div></div></div>
+          <svg class="tonearm" id="tonearm" viewBox="0 0 220 300" aria-hidden="true">
+            <circle cx="186" cy="36" r="30" fill="#4325B5" stroke="#100524" stroke-width="6"/>
+            <circle cx="186" cy="36" r="11" fill="#9CFF2E" stroke="#100524" stroke-width="5"/>
+            <path d="M186 36 L176 200 L110 262" fill="none" stroke="#100524" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M186 36 L176 200 L110 262" fill="none" stroke="#EDE9FF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="78" y="246" width="50" height="34" rx="6" transform="rotate(-42 103 263)" fill="#9CFF2E" stroke="#100524" stroke-width="6"/>
+          </svg>
+          <div class="bubble b1" id="b1">Tested on the Starlight!</div>
+          
+        </div>
+        <div class="copy" id="copy">
+          <span class="tab" id="tab">DIV-001 · SCRATCH DECK</span>
+          <h2 class="wc-title" id="wctitle"><span>WILD</span><span>CARD</span></h2>
+          <p class="wc-line" id="wcline">Plug in your controller. <em>Scratch.</em></p>
+          <p class="wc-sub" id="wcsub">A dead-simple scratch deck for MIDI DJ controllers. No setup marathon — and cheaper than the DJ apps on iPad.</p>
+          <div class="cta" id="cta">
+            <a href="/wildcard" class="btn btn-lime">Check out Wild Card →</a>
+            <a href="#" data-stripe data-product="wildcard" class="btn btn-white">Buy Now</a>
           </div>
         </div>
-        <div class="art">
-          <div class="frame shot"><img src="/assets/og/wildcard.jpg" width="1200" height="630" alt="Wild Card, a scratch deck for a MIDI DJ controller."></div>
-        </div>
+      </div>
+      <div class="strip" id="strip" aria-hidden="true"><div class="stripTxt"></div></div>
+    </section>
+    <section class="scene cns" id="cns" aria-label="Conceal-N-Strike">
+      <h2 class="sr">Conceal-N-Strike: a 64-step turntablism sequencer. Two hands, every step.</h2>
+      <video class="cns-vid" id="cnsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/cns-teaser-port.mp4" poster="/assets/cns-teaser-port-start.jpg" data-end="/assets/cns-teaser-port-end.jpg"></video>
+      <div class="cns-ui" id="cnsUi">
+        <span class="cns-tag">DIV-002 · VST3 · CLAP · AU</span>
+        <div class="cns-row"><a href="/conceal-n-strike" class="cbtn">Check out Conceal-N-Strike →</a><a href="#" data-stripe data-product="conceal-n-strike" class="cbtn cy">Buy Now</a></div>
       </div>
     </section>
-
-    <section class="scene product cns" id="cns" data-step="cns" aria-label="Conceal-N-Strike">
-      <div class="showcase">
-        <div>
-          <p class="kicker">DIV-002 · Sequencer</p>
-          <h2>Conceal-N-Strike</h2>
-          <p class="lede">64 steps. A platter move, then a fader cut.</p>
-          <p class="desc">Each step has a conceal and a strike. Two hands, on the grid. macOS.</p>
-          <p class="price">$15<small>Launch price. $19 after launch.</small></p>
-          <div class="actions">
-            <a class="btn ghost" href="/conceal-n-strike">Check out Conceal-N-Strike</a>
-            <a class="btn buy" href="#" data-stripe data-product="conceal-n-strike">Buy Now</a>
-          </div>
-        </div>
-        <div class="art">
-          <div class="frame shot"><img src="/assets/cns-teaser-desk-end.jpg" width="1280" height="720" alt="Conceal-N-Strike, the 64-step turntablism sequencer."></div>
-        </div>
+    <div class="cns-door t" id="doorT" aria-hidden="true"><span class="cns-tag">Authorized personnel only</span></div>
+    <div class="cns-door b" id="doorB" aria-hidden="true"><span class="cns-tag">DIV-002 // Conceal-N-Strike</span></div>
+    <!-- Paid: Bruno (DIV-004). The curtains close over Conceal-N-Strike, then open on him. -->
+    <section class="scene bru" id="bru" aria-label="Bruno">
+      <h2 class="sr">Bruno: an auto-drummer that plays your drums, locked to the DAW. Phrases, fills, and sections, on keyswitches.</h2>
+      <video class="bru-vid" id="bruVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/bruno-teaser-port.mp4?v=2" poster="/assets/bruno-teaser-port-start.jpg?v=2" data-end="/assets/bruno-teaser-port-end.jpg?v=2"></video>
+      <div class="bru-ui" id="bruUi">
+        <span class="bru-tag">DIV-004 · VST3 · CLAP · AU</span>
+        <div class="bru-row"><a href="/bruno" class="bbtn">Check out Bruno →</a><a href="#" data-stripe data-product="bruno" class="bbtn buy">Buy Now</a></div>
       </div>
     </section>
-
-    <section class="scene product bru" id="bruno" data-step="bruno" aria-label="Bruno">
-      <div class="showcase">
-        <div>
-          <p class="kicker">DIV-004 · Auto-drummer</p>
-          <h2>Bruno</h2>
-          <p class="lede">He plays your drums, locked to the bar.</p>
-          <p class="desc">Phrases, fills, and eight sections, on keyswitches. The take drags out as MIDI. macOS.</p>
-          <p class="price">$50</p>
-          <div class="actions">
-            <a class="btn ghost" href="/bruno">Check out Bruno</a>
-            <a class="btn buy" href="#" data-stripe data-product="bruno">Buy Now</a>
-          </div>
-        </div>
-        <div class="art">
-          <div class="mate"><img src="/assets/bruno-art.webp" width="800" height="1000" alt=""></div>
-          <div class="frame shot"><img src="/img/bruno/ui-current.webp" width="1100" height="824" alt="Bruno's plug-in window."></div>
-        </div>
+    <div class="bru-cur l" id="bruCurL" aria-hidden="true"></div>
+    <div class="bru-cur r" id="bruCurR" aria-hidden="true"></div>
+    <div class="bru-val" id="bruVal" aria-hidden="true"><span>DIV-004 // BRUNO</span></div>
+    <!-- Mac, under Bruno, still above the free section. No Buy Now: pricing is TBD. -->
+    <section class="scene mac" id="mac" aria-label="Mac">
+      <h2 class="sr">Mac: an auto-drummer trained on punk, pop punk, and hardcore. In the works. Pricing TBD.</h2>
+      <img class="mac-hero" id="macHero" src="/img/mac/cute.webp" width="800" height="800" alt="">
+      <img class="mac-hero rage" id="macRage" src="/img/mac/rage.webp" width="800" height="800" alt="">
+      <img class="mac-shot" src="/img/mac/ui-verse.webp" width="1100" height="824" alt="Mac's plug-in window.">
+      <div class="mac-ui" id="macUi">
+        <span class="mac-tag">In the works · macOS</span>
+        <div class="mac-row"><a href="/mac" class="mactn">Check out Mac →</a><span class="mac-price">Pricing TBD</span></div>
       </div>
     </section>
-
-    <section class="scene product mac" id="mac" data-step="mac" aria-label="Mac">
-      <div class="showcase">
-        <div>
-          <p class="kicker">DIV-005 · Auto-drummer</p>
-          <h2>Mac</h2>
-          <p class="lede">Punk, pop punk, and hardcore. In the works.</p>
-          <p class="desc">A sibling to Bruno, with a Rage paw. macOS. Nothing to buy yet.</p>
-          <p class="price">Pricing TBD</p>
-          <div class="actions">
-            <a class="btn ghost" href="/mac">Check out Mac</a>
-            <span class="btn idle">In the works</span>
-          </div>
-        </div>
-        <div class="art">
-          <div class="mate"><img src="/img/mac/cute.webp" width="800" height="800" alt=""></div>
-          <div class="frame shot"><img src="/img/mac/ui-verse.webp" width="1100" height="824" alt="Mac's plug-in window."></div>
-        </div>
+    <!-- Free section. MIDI Fart Sniffer stays last, after every paid plug-in. Insert future paid scenes above #mfs. -->
+    <section class="scene mfs" id="mfs" aria-label="MIDI Fart Sniffer">
+      <h2 class="sr">MIDI Fart Sniffer: a groove browser for drum MIDI. Click one and it plays your drums.</h2>
+      <video class="mfs-vid" id="mfsVid" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"
+        data-src="/assets/mfs-teaser-port.mp4" poster="/assets/mfs-teaser-port-start.jpg" data-end="/assets/mfs-teaser-port-end.jpg"></video>
+      <div class="mfs-ui" id="mfsUi">
+        <span class="mfs-tag">DIV-003 · Free</span>
+        <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
+          <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
+          <button type="submit" class="mbtn slime">Get Free Key</button>
+          <p class="keynote" role="status" aria-live="polite" hidden></p>
+        </form>
+        <p class="keyfine">The email is only used to send the key and is stored hashed. <a href="/privacy">Privacy</a>.</p>
+        <div class="mfs-row"><a href="/midi-fart-sniffer" class="mbtn">Check out MIDI Fart Sniffer →</a></div>
       </div>
     </section>
-
-    <section class="scene product mfs" id="mfs" data-step="mfs" aria-label="MIDI Fart Sniffer">
-      <div class="showcase">
-        <div>
-          <p class="kicker">DIV-003 · Free</p>
-          <h2>MIDI Fart Sniffer</h2>
-          <p class="lede">A groove browser for drum MIDI.</p>
-          <p class="desc">Point it at a folder. It plays the groove into your drums, locked to the host. macOS.</p>
-          <p class="price">Free</p>
-          <form class="keyform" data-free-key data-product="midi-fart-sniffer" novalidate>
-            <label><span class="sr">Email</span><input type="email" name="email" required autocomplete="email" inputmode="email" maxlength="254" placeholder="you@email.com" spellcheck="false"></label>
-            <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">
-            <button type="submit">Get Free Key</button>
-            <p class="keynote" role="status" aria-live="polite" hidden></p>
-          </form>
-          <p class="keyfine">The email is only used to send the key and is stored hashed. <a href="/privacy">Privacy</a>.</p>
-          <div class="actions">
-            <a class="btn ghost" href="/midi-fart-sniffer">Check out MIDI Fart Sniffer</a>
-          </div>
-        </div>
-        <div class="art">
-          <div class="frame shot"><img src="/assets/mfs-screenshot.webp" width="1200" height="800" alt="MIDI Fart Sniffer, the groove browser."></div>
-        </div>
-      </div>
-    </section>
-
-    <div class="wipe waves" id="wipe-waves" aria-hidden="true">
-      <svg viewBox="0 0 1440 900" preserveAspectRatio="none">
-        <path class="a" id="waveA"/>
-        <path class="b" id="waveB"/>
-        <path class="c" id="waveC"/>
-      </svg>
-    </div>
-    <div class="wipe shards" id="wipe-shards" aria-hidden="true"></div>
-    <div class="wipe shutters" id="wipe-shutters" aria-hidden="true">
-      <b id="shutL"></b><b id="shutR"></b>
-      <div class="mark">Bruno</div>
-    </div>
-    <div class="wipe halftone" id="wipe-dots" aria-hidden="true"><span>Mac</span></div>
-    <div class="wipe slab" id="wipe-slab" aria-hidden="true"><span>MIDI Fart Sniffer</span></div>
+    <div class="mfs-lid" id="mfsLid" aria-hidden="true"><span>DIV-003 // MIDI Fart Sniffer</span></div>
   </div>
 </div>
+<section class="after">
+  <div class="lab"><span>More weird ones in the lab</span></div>
+  <footer>
+    <p>© 2026 Tril$oft · VST is a trademark of Steinberg Media Technologies GmbH.</p>
+    <nav>
+      <a href="/privacy">Privacy</a>
+      <a href="/faq">FAQ</a>
+    </nav>
+  </footer>
+</section>
 </main>
-<footer>
-  <p>© 2026 Tril$oft</p>
-  <nav>
-    <a href="/privacy">Privacy</a>
-    <a href="/faq">FAQ</a>
-    <a href="/support">Support</a>
-  </nav>
-</footer>
-<noscript>
-  <div style="padding:96px 24px;max-width:720px">
-    <h1>Weird VSTs no one asked for.</h1>
-    <p><a href="/wildcard">Wild Card</a> · <a href="#" data-stripe data-product="wildcard">Buy Now</a></p>
-    <p><a href="/conceal-n-strike">Conceal-N-Strike</a> · <a href="#" data-stripe data-product="conceal-n-strike">Buy Now</a></p>
-    <p><a href="/bruno">Bruno</a> · <a href="#" data-stripe data-product="bruno">Buy Now</a></p>
-    <p><a href="/mac">Mac</a> — In the works. Pricing TBD.</p>
-    <p><a href="/midi-fart-sniffer">MIDI Fart Sniffer</a></p>
-  </div>
-</noscript>
+</div></template>
 <script>
 (() => {
-  const html = document.documentElement;
-  const scroller = document.getElementById('scroller');
-  const stage = document.getElementById('stage');
-  const bar = document.getElementById('bar');
-  const scenes = [...document.querySelectorAll('.scene')];
-  const byId = Object.fromEntries(scenes.map(s => [s.dataset.step, s]));
-  const railButtons = [...document.querySelectorAll('#rail button')];
-  const staticMode = () => html.classList.contains('static');
+  const PORTRAIT_Q = '(max-width: 1024px) and (orientation: portrait)';
+  const mqPort = matchMedia(PORTRAIT_Q), mqRM = matchMedia('(prefers-reduced-motion: reduce)');
+  const html = document.documentElement, app = document.getElementById('app');
+
+  // ---------- helpers ----------
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-  const seg = (v, a, b) => clamp((v - a) / (b - a));
-  const ease = t => t * t * (3 - 2 * t);
-
-  const ORDER = ['intro', 'wildcard', 'cns', 'bruno', 'mac', 'mfs'];
-  const LEN = { intro: .75, wildcard: 1.35, cns: 1.35, bruno: 1.35, mac: 1.35, mfs: 1.55 };
-  const TOTAL = ORDER.reduce((s, id) => s + LEN[id], 0);
-  const START = {};
-  ORDER.reduce((s, id) => { START[id] = s; return s + LEN[id]; }, 0);
-  function applyHeight() {
-    scroller.style.height = staticMode() ? '' : `calc(${(TOTAL * 100).toFixed(0)}vh + 100vh)`;
-  }
-  applyHeight();
-
-  const wipes = {
-    wildcard: document.getElementById('wipe-waves'),
-    cns: document.getElementById('wipe-shards'),
-    bruno: document.getElementById('wipe-shutters'),
-    mac: document.getElementById('wipe-dots'),
-    mfs: document.getElementById('wipe-slab')
-  };
-  const waveA = document.getElementById('waveA');
-  const waveB = document.getElementById('waveB');
-  const waveC = document.getElementById('waveC');
-  const shutL = document.getElementById('shutL');
-  const shutR = document.getElementById('shutR');
-  const slab = document.getElementById('wipe-slab');
-  const dots = document.getElementById('wipe-dots');
-  const shardHost = document.getElementById('wipe-shards');
-  const SHARD_N = 8;
-  for (let i = 0; i < SHARD_N; i++) shardHost.appendChild(document.createElement('i'));
-  const shards = [...shardHost.children];
-
-  function wave(y, amp, shift) {
-    let d = `M0 ${y}`;
-    for (let x = 0; x <= 1440; x += 48) {
-      const yy = y + Math.sin(x / 1440 * Math.PI * 4 + shift) * amp;
-      d += ` L${x} ${yy.toFixed(1)}`;
+  const seg = (p, a, b) => clamp((p - a) / (b - a));
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  const easeIn = t => t * t * t;
+  const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const back = t => { const c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+  const show = (el, o) => { el.style.opacity = o; el.style.visibility = o < 0.005 ? 'hidden' : 'visible'; };
+  function wavePath(phase, amp, freq, yOff) {
+    let d = '';
+    for (let x = 0; x <= 1440; x += 16) {
+      const y = 120 + yOff + Math.sin(x * freq + phase) * amp * Math.sin((x / 1440) * Math.PI);
+      d += (x ? 'L' : 'M') + x + ' ' + y.toFixed(1);
     }
-    return d + ' L1440 980 L0 980 Z';
+    return d;
+  }
+  const UNIT = 'WILD CARD • MIDI DJ CONTROLLERS • PLUG IN • SCRATCH • TESTED ON THE STARLIGHT • ';
+
+  // shared bits used by both scenes' renderers
+  function common(root) {
+    const $ = s => root.querySelector(s), $$ = s => [...root.querySelectorAll(s)];
+    return {
+      $, $$,
+      bar: $('#bar'), waves: $('#waves'), wv: [$('#wv1'), $('#wv2'), $('#wv3')],
+      mkBox: $('.mk-box'), mkW: $$('.mk-w'), bigmark: $('#bigmark'), wmL: $$('#wm span'),
+      vstL: $$('#vst .vstw .l'), divL: $$('#vst .div .l'), rule: $('#rule hr'), meta: $('#meta'), brand: $('#brand'),
+      bgPurple: $('#bgPurple'), tab: $('#tab'), titleS: $$('#wctitle span'), wcline: $('#wcline'), wcsub: $('#wcsub'),
+      cta: $('#cta'), ctaA: $$('#cta a'), deck: $('#deck'), record: $('#record'), tonearm: $('#tonearm'),
+      b1: $('#b1'), b2: $('#b2'), strip: $('#strip'), words: $$('#line .w'), hint: $('#hint'),
+      angle: 0,
+      drawWaves(p, now, fade) {
+        const ph = p * 26 + now / 900;
+        this.wv[0].setAttribute('d', wavePath(ph, 60 + p * 80, .0062, 0));
+        this.wv[1].setAttribute('d', wavePath(ph * .8 + 1.4, 46, .0081, 18));
+        this.wv[2].setAttribute('d', wavePath(-ph * .6 + 2.2, 34, .011, -14));
+        this.waves.style.opacity = .9 * fade * (.35 + .65 * seg(p, 0, .1));
+      },
+      drawMark(p, a) { // logo draws itself starting at progress a
+        const mk = easeOut(seg(p, a, a + .07));
+        this.bigmark.style.transform = `scale(${.4 + mk * .6}) rotate(${(1 - mk) * -90}deg)`;
+        this.bigmark.style.opacity = mk;
+        this.mkBox.style.strokeDasharray = 1; this.mkBox.style.strokeDashoffset = 1 - easeOut(seg(p, a + .01, a + .09));
+        this.mkBox.style.fillOpacity = seg(p, a + .04, a + .09);
+        this.mkW.forEach((w, i) => { w.style.strokeDasharray = 1; w.style.strokeDashoffset = 1 - easeOut(seg(p, a + .03 + i * .015, a + .09 + i * .015)); });
+      },
+      spin(p, dp, dt) { // record spins on its own; scroll velocity scratches it (scroll up = spin back)
+        this.angle += dt * .12 + dp * 4200;
+        this.record.style.transform = `rotate(${this.angle}deg)`;
+      },
+      marquee(el, p, now) { if (el) el.firstElementChild.style.transform = `translateX(${-((p * 2200 + now / 25) % 1200)}px)`; }
+    };
   }
 
-  function locate(p) {
-    let i = 0;
-    for (; i < ORDER.length - 1; i++) {
-      if (p < START[ORDER[i + 1]] / TOTAL) break;
+  // ================= desktop renderer =================
+  function desk(root) {
+    const c = common(root), $ = c.$, $$ = c.$$;
+    const s1 = $('#s1'), s2 = $('#s2'), s3 = $('#s3'), rail = $('#rail'), railA = $$('#rail a');
+    const onRail = e => { const a = e.target.closest('a[data-go]'); if (!a) return; e.preventDefault(); goTo(+a.dataset.go, true); };
+    rail.addEventListener('click', onRail);
+    return {
+      render(p, now, dp, dt) {
+        c.bar.style.transform = `scaleX(${p})`;
+        c.words.forEach((w, i) => {
+          const a = .01 + i * .03, t = easeOut(seg(p, a, a + .07));
+          w.style.setProperty('--a', t.toFixed(3));
+          w.style.transform = `translateY(${(1 - t) * 0.22}em) rotate(${(1 - t) * (i % 2 ? 3 : -3)}deg) scale(${.94 + t * .06})`;
+        });
+        show(c.hint, 1 - seg(p, .01, .06));
+        const out1 = easeIn(seg(p, .25, .34));
+        s1.style.transform = `scale(${1 + out1 * .5})`; s1.style.filter = `blur(${out1 * 14}px)`; show(s1, 1 - out1);
+
+        const in2 = seg(p, .29, .44), out2 = easeIn(seg(p, .55, .63));
+        show(s2, (in2 > 0 ? 1 : 0) * (1 - out2));
+        s2.style.transform = `scale(${1 - out2 * .18}) translateY(${-out2 * 40}px)`;
+        c.drawMark(p, .29);
+        c.wmL.forEach((l, i) => { const t = easeOut(seg(p, .31 + i * .007, .36 + i * .007)); l.style.opacity = t; l.style.transform = `translateY(${(1 - t) * 40}px)`; });
+        [...c.vstL, ...c.divL].forEach((l, i) => { const a = .335 + i * .007, t = easeOut(seg(p, a, a + .05)); l.style.transform = `translateY(${(1 - t) * 105}%) skewY(${(1 - t) * 8}deg)`; });
+        const fillT = seg(p, .43, .52);
+        c.divL.forEach((l, i) => l.classList.toggle('fill', fillT > (i + 1) / (c.divL.length + 1)));
+        c.rule.style.transform = `scaleX(${easeOut(seg(p, .40, .47))})`;
+        const mt = easeOut(seg(p, .42, .47)); c.meta.style.opacity = mt; c.meta.style.transform = `translateY(${(1 - mt) * 16}px)`;
+        c.brand.style.transform = `translateY(${-easeIO(seg(p, .44, .56)) * 8}px)`;
+        c.drawWaves(p, now, 1 - seg(p, .56, .66));
+
+        c.bgPurple.style.clipPath = `circle(${easeIO(seg(p, .575, .70)) * 160}% at 50% 100%)`;
+
+        show(s3, seg(p, .62, .64) > 0 ? 1 : 0);
+        const dk = easeOut(seg(p, .63, .76));
+        c.deck.style.transform = `translateY(${(1 - dk) * 60}vh) rotate(${(1 - dk) * 25}deg) scale(${.7 + dk * .3})`;
+        c.tonearm.style.transform = `rotate(${(1 - easeIO(seg(p, .76, .84))) * -28}deg)`;
+        const tb = back(seg(p, .68, .73)); c.tab.style.transform = `rotate(-1.5deg) scale(${tb})`; c.tab.style.opacity = clamp(tb * 3);
+        c.titleS.forEach((s, i) => { const a = .69 + i * .03, t = seg(p, a, a + .06); s.style.transform = `scale(${back(t)}) rotate(${(1 - t) * -12 - 3}deg) skew(-4deg)`; s.style.opacity = clamp(t * 4); });
+        const ln = easeOut(seg(p, .77, .83)); c.wcline.style.opacity = ln; c.wcline.style.transform = `translateX(${(1 - ln) * -40}px)`;
+        const sb = easeOut(seg(p, .80, .86)); c.wcsub.style.opacity = sb; c.wcsub.style.transform = `translateY(${(1 - sb) * 14}px)`;
+        const ct = easeOut(seg(p, .83, .90)); c.cta.style.opacity = ct; c.cta.style.transform = `translateY(${(1 - ct) * 26}px)`; c.cta.style.pointerEvents = ct > .6 ? 'auto' : 'none';
+        const bb1 = seg(p, .82, .87), bb2 = seg(p, .86, .91);
+        c.b1.style.transform = `rotate(-4deg) scale(${back(bb1)})`; show(c.b1, clamp(bb1 * 4));
+        c.b2.style.transform = `rotate(3deg) scale(${back(bb2)})`; show(c.b2, clamp(bb2 * 4));
+        c.strip.style.transform = `rotate(-1.2deg) translateY(${(1 - easeOut(seg(p, .74, .82))) * 160}%)`;
+        c.marquee(c.strip, p, now);
+        c.spin(p, dp, dt);
+        const idx = p < .29 ? 0 : p < .62 ? 1 : 2;
+        railA.forEach((a, i) => a.classList.toggle('on', i === idx));
+        rail.classList.toggle('wc', idx === 2);
+      },
+      destroy() { rail.removeEventListener('click', onRail); }
+    };
+  }
+
+  // ================= portrait renderer =================
+  // Own beats: stacked line slides in from alternating sides → lockup rises from below →
+  // lime-edged vertical wipe → record drops into top half, copy + big tap targets stack below.
+  function port(root) {
+    const c = common(root), $ = c.$;
+    const p1 = $('#p1'), p2 = $('#p2'), p3 = $('#p3'), pk = $('#pk'), edge = $('#edge');
+    const vstw = $('#vst .vstw'), divw = $('#vst .div');
+    function fit() { // make "VST" exactly as wide as "DIVISION" for a justified lockup
+      vstw.style.fontSize = '';
+      const target = divw.getBoundingClientRect().width, w = vstw.getBoundingClientRect().width;
+      if (w > 0 && target > 0) {
+        const fs = parseFloat(getComputedStyle(vstw).fontSize) * target / w;
+        vstw.style.fontSize = Math.min(fs, innerHeight * .22) + 'px';
+      }
     }
-    const id = ORDER[i];
-    const local = clamp((p * TOTAL - START[id]) / LEN[id]);
-    return { i, id, local };
+    fit(); document.fonts && document.fonts.ready.then(fit);
+    let rt; const onResize = () => { clearTimeout(rt); rt = setTimeout(fit, 120); };
+    addEventListener('resize', onResize);
+    return {
+      render(p, now, dp, dt) {
+        c.bar.style.transform = `scaleX(${p})`;
+        // beat 1 (0 → .30)
+        pk.style.transform = `translateY(${-easeIn(seg(p, .23, .3)) * 30}px)`;
+        c.words.forEach((w, i) => {
+          const a = .01 + i * .035, t = easeOut(seg(p, a, a + .08)), side = i % 2 ? 1 : -1;
+          w.style.setProperty('--a', t.toFixed(3));
+          const o = easeIn(seg(p, .22 + i * .012, .30 + i * .012));
+          w.style.transform = `translateX(${(1 - t) * side * 8}vw) translateY(${-o * 22}svh)`;
+          w.style.opacity = 1 - o;
+        });
+        show(c.hint, 1 - seg(p, .01, .06));
+        show(p1, 1 - seg(p, .31, .33));
+
+        // beat 2 (.30 → .60)
+        const out2 = easeIn(seg(p, .53, .60));
+        show(p2, (p > .29 ? 1 : 0) * (1 - out2));
+        p2.style.transform = `translateY(${-out2 * 14}svh)`;
+        c.drawMark(p, .30);
+        c.wmL.forEach((l, i) => { const t = easeOut(seg(p, .32 + i * .007, .37 + i * .007)); l.style.opacity = t; l.style.transform = `translateY(${(1 - t) * 30}px)`; });
+        c.vstL.forEach((l, i) => { const a = .35 + i * .012, t = easeOut(seg(p, a, a + .05)); l.style.transform = `translateY(${(1 - t) * 105}%)`; });
+        c.divL.forEach((l, i) => { const a = .38 + i * .006, t = easeOut(seg(p, a, a + .045)); l.style.transform = `translateY(${(1 - t) * 105}%)`; });
+        const fillT = seg(p, .44, .51);
+        c.divL.forEach((l, i) => l.classList.toggle('fill', fillT > (i + 1) / (c.divL.length + 1)));
+        c.rule.style.transform = `scaleX(${easeOut(seg(p, .43, .48))})`;
+        const mt = easeOut(seg(p, .45, .50)); c.meta.style.opacity = mt; c.meta.style.transform = `translateY(${(1 - mt) * 16}px)`;
+        c.drawWaves(p, now, 1 - seg(p, .55, .64));
+
+        // vertical wipe (.56 → .68): purple rises, led by a lime marquee band riding the edge
+        const w = easeIO(seg(p, .56, .68));
+        c.bgPurple.style.clipPath = `inset(${(1 - w) * 100}% 0 0 0)`;
+        edge.style.transform = `translateY(calc(${(1 - w).toFixed(4)} * var(--sh)))`;
+        edge.style.visibility = w > 0 && w < 1 ? 'visible' : 'hidden';
+        c.marquee(edge, p, now);
+
+        // beat 3 (.64 → 1)
+        show(p3, p > .63 ? 1 : 0);
+        const dk = easeOut(seg(p, .64, .76));
+        c.deck.style.transform = `translateY(${(1 - dk) * -75}svh) rotate(${(1 - dk) * -30}deg) scale(${.8 + dk * .2})`;
+        c.tonearm.style.transform = `rotate(${(1 - easeIO(seg(p, .75, .81))) * -28}deg)`;
+        const tb = back(seg(p, .74, .78)); c.tab.style.transform = `rotate(-1.5deg) scale(${tb})`; c.tab.style.opacity = clamp(tb * 3);
+        c.titleS.forEach((s, i) => { const a = .76 + i * .03, t = seg(p, a, a + .055); s.style.transform = `scale(${back(t)}) rotate(${(1 - t) * (i ? 10 : -10) - 3}deg) skew(-4deg)`; s.style.opacity = clamp(t * 4); });
+        const ln = easeOut(seg(p, .82, .87)); c.wcline.style.opacity = ln; c.wcline.style.transform = `translateY(${(1 - ln) * 20}px)`;
+        const sb = easeOut(seg(p, .84, .89)); c.wcsub.style.opacity = sb; c.wcsub.style.transform = `translateY(${(1 - sb) * 14}px)`;
+        c.ctaA.forEach((a, i) => { const t = easeOut(seg(p, .86 + i * .025, .92 + i * .025)); a.style.opacity = t; a.style.transform = `translateY(${(1 - t) * 40}px)`; });
+        c.cta.style.pointerEvents = p > .9 ? 'auto' : 'none';
+        const bb1 = seg(p, .89, .94);
+        c.b1.style.transform = `rotate(-4deg) scale(${back(bb1)})`; show(c.b1, clamp(bb1 * 4));
+        if (c.strip) { c.strip.style.transform = `rotate(-1.2deg) translateY(${(1 - easeOut(seg(p, .80, .88))) * 200}%)`; c.marquee(c.strip, p, now); }
+        c.spin(p, dp, dt);
+      },
+      destroy() { removeEventListener('resize', onResize); clearTimeout(rt); }
+    };
   }
 
-  function showScene(id, opacity) {
-    const el = byId[id];
-    el.style.opacity = String(opacity);
-    el.classList.toggle('show', opacity > 0.02);
-    const live = opacity > 0.92;
-    el.style.pointerEvents = live ? 'auto' : 'none';
-    el.querySelectorAll('a,button,input').forEach(n => { n.tabIndex = live ? 0 : -1; });
+
+  // ================= Conceal-N-Strike beat (shared; desktop = diagonal hazard sweep, portrait = blast doors) =================
+  // q = 0..1 progress inside one teaser's slice of the scroller. Each Remotion mp4 is scrubbed by currentTime
+  // (encoded with a 6-frame GOP so seeks stay cheap). Scroll distances of the older sections stay put.
+  // Paid plug-ins come first. The free MIDI Fart Sniffer section stays last: append a future paid
+  // section's vh to PAID_* and insert its scene above #mfs. Distances: 620/1060/1500/1940 and 660/1100/1540/1980.
+  const sum = (xs) => xs.reduce((s, n) => s + n, 0);
+  const FILM_DESK = 620;
+  const PAID_DESK = [440, 440, 440]; // Conceal-N-Strike, Bruno, Mac. Append future paid sections here.
+  const MFS_DESK = 440; // free section. Stays after every paid plug-in.
+  const RANGE_DESK = FILM_DESK + sum(PAID_DESK) + MFS_DESK; // 2380
+  const MFS_AT_DESK = FILM_DESK + sum(PAID_DESK); // 1940 — start of the free section
+  const FILM_PORT = 660;
+  const PAID_PORT = [440, 440, 440]; // Conceal-N-Strike, Bruno, Mac. Append future paid sections here.
+  const MFS_PORT = 440; // free section. Stays after every paid plug-in.
+  const RANGE_PORT = FILM_PORT + sum(PAID_PORT) + MFS_PORT; // 2420
+  const MFS_AT_PORT = FILM_PORT + sum(PAID_PORT); // 1980 — start of the free section
+  function cns(root, mode) {
+    const $ = s => root.querySelector(s);
+    const sc = $('#cns'), vid = $('#cnsVid'), ui = $('#cnsUi'), bits = [...ui.querySelectorAll('.cns-tag, .cbtn')];
+    const wipe = $('#cnsWipe'), dT = $('#doorT'), dB = $('#doorB'), nav = $('#nav'), wc = $('#s3') || $('#p3');
+    const rail = $('#rail'), railA = rail ? [...rail.querySelectorAll('a')] : [];
+    vid.src = vid.dataset.src; vid.load();
+    const prime = () => { const pr = vid.play(); if (pr && pr.then) pr.then(() => vid.pause()).catch(() => {}); else vid.pause(); };
+    addEventListener('touchstart', prime, { once: true, passive: true }); // iOS needs a gesture before it decodes for seeking
+    let navOn = false;
+    return {
+      render(q, next = 0) { // next: how far into the following section, which covers this one
+        let covered;
+        if (mode === 'desk') {
+          const w = easeIO(seg(q, .03, .17)), W = innerWidth, H = innerHeight, sl = .18 * W;
+          const X = W + sl - w * (W + 2 * sl);
+          sc.style.clipPath = w >= 1 ? 'none' : `polygon(${X + sl / 2}px 0,${W + 10}px 0,${W + 10}px ${H}px,${X - sl / 2}px ${H}px)`;
+          show(sc, w > 0 ? 1 : 0);
+          wipe.style.visibility = w > 0 && w < 1 ? 'visible' : 'hidden';
+          wipe.style.transform = `translateX(${X - 28}px) skewX(${-Math.atan2(sl, H) * 180 / Math.PI}deg)`;
+          covered = w >= 1;
+        } else {
+          const d = easeIO(seg(q, .02, .10)) * (1 - easeIO(seg(q, .13, .22))); // 0 open → 1 shut
+          dT.style.transform = `translateY(${(d - 1) * 102}%)`; dB.style.transform = `translateY(${(1 - d) * 102}%)`;
+          dT.style.visibility = dB.style.visibility = d > 0.001 ? 'visible' : 'hidden';
+          show(sc, q >= .115 ? 1 : 0);
+          covered = q >= .115;
+        }
+        if (covered) wc.style.visibility = 'hidden';
+        const t = seg(q, mode === 'desk' ? .16 : .21, .88) * Math.max(0, (vid.duration || 9) - .05);
+        if (vid.readyState >= 1 && !vid.seeking && Math.abs(vid.currentTime - t) > .015) { try { vid.currentTime = t; } catch (e) {} }
+        bits.forEach((b, i) => { const v = easeOut(seg(q, .84 + i * .025, .9 + i * .025)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
+        ui.style.pointerEvents = q > .9 && (q < 1 || next < .1) ? 'auto' : 'none';
+        const on = q > .12 && q < 1;
+        if (on !== navOn) { navOn = on; nav.textContent = on ? 'Conceal-N-Strike →' : 'Wild Card →'; nav.href = on ? '/conceal-n-strike' : '/wildcard'; }
+        if (rail && q > .1 && q < 1) { railA.forEach((a, i) => a.classList.toggle('on', i === 3)); rail.classList.add('cn'); rail.classList.remove('wc', 'sn'); }
+      },
+      destroy() { removeEventListener('touchstart', prime); vid.removeAttribute('src'); vid.load(); }
+    };
   }
 
-  function hideWipes() {
-    Object.values(wipes).forEach(w => { w.classList.remove('on'); w.style.opacity = '0'; });
+  // ================= Bruno beat (paid, DIV-004): his curtains close over Conceal-N-Strike, then open on the scrubbed teaser =================
+  function bru(root) {
+    const $ = s => root.querySelector(s);
+    const sc = $('#bru'), vid = $('#bruVid'), ui = $('#bruUi'), bits = [...ui.querySelectorAll('.bru-tag, .bbtn')];
+    const cl = $('#bruCurL'), cr = $('#bruCurR'), val = $('#bruVal'), title = val.querySelector('span'), nav = $('#nav');
+    const rail = $('#rail'), railA = rail ? [...rail.querySelectorAll('a')] : [];
+    vid.src = vid.dataset.src; vid.load();
+    // iOS shows a scrubbed video's frames only once it has played. If the
+    // first touch didn't get it going, try again while the section is up.
+    let primed = false, tried = 0;
+    const prime = () => { const pr = vid.play(); if (pr && pr.then) pr.then(() => { primed = true; vid.pause(); }).catch(() => {}); else { primed = true; vid.pause(); } };
+    addEventListener('touchstart', prime, { once: true, passive: true });
+    return {
+      render(q, next = 0) { // next: how far into the Fart Sniffer section, whose lid covers this one
+        if (!primed && q >= .15 && q < 1 && performance.now() - tried > 1000) { tried = performance.now(); prime(); }
+        const c = easeIO(seg(q, .02, .14)) * (1 - easeIO(seg(q, .2, .34))); // 0 open → 1 shut
+        cl.style.transform = `translateX(${(c - 1) * 102}%)`; cr.style.transform = `translateX(${(1 - c) * 102}%)`;
+        cl.style.visibility = cr.style.visibility = c > .001 ? 'visible' : 'hidden';
+        val.style.visibility = q > 0 && q < .34 ? 'visible' : 'hidden';
+        val.style.setProperty('--drop', `${((1 - easeOut(seg(q, 0, .08))) + easeIO(seg(q, .24, .34))) * -110}%`);
+        const ti = easeOut(seg(q, .1, .16));
+        title.style.opacity = ti * (1 - seg(q, .19, .23));
+        title.style.transform = `scale(${.7 + .3 * ti}) rotate(-2deg)`;
+        show(sc, q >= .15 ? 1 : 0); // stays up under the Fart Sniffer's lid
+        const t = seg(q, .22, .88) * Math.max(0, (vid.duration || 9) - .05);
+        if (vid.readyState >= 1 && !vid.seeking && Math.abs(vid.currentTime - t) > .015) { try { vid.currentTime = t; } catch (e) {} }
+        bits.forEach((b, i) => { const v = easeOut(seg(q, .84 + i * .025, .9 + i * .025)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
+        ui.style.pointerEvents = q > .9 && (q < 1 || next < .14) ? 'auto' : 'none';
+        if (q > 0 && q < 1) {
+          const [label, href] = q > .12 ? ['Bruno →', '/bruno'] : ['Conceal-N-Strike →', '/conceal-n-strike'];
+          if (nav.textContent !== label) { nav.textContent = label; nav.href = href; }
+        }
+        if (rail) {
+          if (q > .1 && q < 1) { railA.forEach((a, i) => a.classList.toggle('on', i === 4)); rail.classList.add('br'); rail.classList.remove('wc', 'cn', 'sn'); }
+          else rail.classList.remove('br');
+        }
+      },
+      destroy() { removeEventListener('touchstart', prime); vid.removeAttribute('src'); vid.load(); }
+    };
   }
 
-  function paintWipe(id, t) {
-    hideWipes();
-    const w = wipes[id];
-    if (!w || t <= 0 || t >= 1) return;
-    w.classList.add('on');
-    w.style.opacity = '1';
-    if (id === 'wildcard') {
-      const y = 1040 - ease(seg(t, 0, 0.72)) * 1700;
-      const amp = 28 + Math.sin(t * Math.PI) * 64;
-      waveA.setAttribute('d', wave(y, amp, t * 6));
-      waveB.setAttribute('d', wave(y + 46, amp * .65, t * 6 + 1.2));
-      waveC.setAttribute('d', wave(y + 96, amp * .4, t * 6 + 2.1));
-    } else if (id === 'cns') {
-      shards.forEach((col, i) => {
-        const delay = i * 0.035;
-        const local = seg(t, delay, Math.min(0.98, 0.7 + delay));
-        const y = local < 0.5 ? -110 + local * 220 : (local - 0.5) * 220;
-        col.style.transform = `translateY(${y}%)`;
-      });
-    } else if (id === 'bruno') {
-      const shut = t < 0.45 ? seg(t, 0.02, 0.42) : 1 - seg(t, 0.58, 0.96);
-      shutL.style.transform = `translateX(${(shut - 1) * 100}%)`;
-      shutR.style.transform = `translateX(${(1 - shut) * 100}%)`;
-    } else if (id === 'mac') {
-      const cover = Math.sin(t * Math.PI);
-      dots.style.opacity = String(cover);
-      dots.style.backgroundSize = `${8 + cover * 36}px ${8 + cover * 36}px`;
-    } else if (id === 'mfs') {
-      const y = t < 0.5 ? -110 + ease(seg(t, 0, 0.46)) * 110 : ease(seg(t, 0.54, 1)) * 110;
-      slab.style.transform = `translateY(${y}%)`;
-    }
+  // ================= MIDI Fart Sniffer beat (concrete slab with leading slime drips, then the scrubbed teaser) =================
+  // The free section stays last. This transition runs only after every paid plug-in.
+  function mfs(root) {
+    const $ = s => root.querySelector(s);
+    const sc = $('#mfs'), vid = $('#mfsVid'), ui = $('#mfsUi'), bits = [...ui.querySelectorAll('.mfs-tag, .keyform, .keyfine, .mfs-row')];
+    const lid = $('#mfsLid'), nav = $('#nav'), rail = $('#rail'), railA = rail ? [...rail.querySelectorAll('a')] : [];
+    vid.src = vid.dataset.src; vid.load();
+    const prime = () => { const pr = vid.play(); if (pr && pr.then) pr.then(() => vid.pause()).catch(() => {}); else vid.pause(); };
+    addEventListener('touchstart', prime, { once: true, passive: true });
+    let navOn = false;
+    return {
+      render(q) {
+        const shut = easeIO(seg(q, 0, .16));
+        const open = easeIO(seg(q, .18, .34));
+        const y = (-1 + shut) * 128 - open * 142;
+        const dockBottom = innerHeight <= 560 ? 34 : Math.max(innerHeight * 0.11, 64);
+        sc.style.setProperty('--mfs-dock', (ui.offsetHeight + dockBottom + 16) + 'px');
+        lid.style.visibility = shut > 0.001 && open < 0.92 ? 'visible' : 'hidden';
+        lid.style.transform = `translateY(${y}%)`;
+        show(sc, q >= .16 ? 1 : 0);
+        const t = seg(q, .2, .9) * Math.max(0, (vid.duration || 9) - .05);
+        if (vid.readyState >= 1 && !vid.seeking && Math.abs(vid.currentTime - t) > .015) { try { vid.currentTime = t; } catch (e) {} }
+        bits.forEach((b, i) => { const v = easeOut(seg(q, .84 + i * .025, .92 + i * .02)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
+        ui.style.pointerEvents = q > .9 ? 'auto' : 'none';
+        const on = q > .12;
+        if (on) { nav.textContent = 'MIDI Fart Sniffer →'; nav.href = '/midi-fart-sniffer'; }
+        navOn = on;
+        if (rail && q > .1) { railA.forEach((a, i) => a.classList.toggle('on', i === 6)); rail.classList.add('sn'); rail.classList.remove('wc', 'cn', 'mc'); }
+      },
+      destroy() { removeEventListener('touchstart', prime); vid.removeAttribute('src'); vid.load(); }
+    };
   }
 
-  let cur = 0;
-  function render(p) {
-    const { i, id, local } = locate(p);
-    const incoming = id !== 'intro' ? seg(local, 0, 0.5) : 1;
-    const hold = id === 'intro' ? 1 : seg(local, 0.4, 0.55);
-    ORDER.forEach(name => showScene(name, 0));
-    if (i > 0) showScene(ORDER[i - 1], 1 - seg(incoming, 0.2, 0.42));
-    showScene(id, id === 'intro' ? 1 : hold);
-    paintWipe(id, id === 'intro' ? 0 : incoming);
-    railButtons.forEach(btn => btn.classList.toggle('on', btn.dataset.go === id || (id === 'intro' && btn.dataset.go === 'wildcard' && false)));
-    if (id !== 'intro') railButtons.forEach(btn => btn.classList.toggle('on', btn.dataset.go === id));
-    else railButtons.forEach(btn => btn.classList.remove('on'));
-    bar.style.transform = `scaleX(${p})`;
+  // ================= Mac beat: under Bruno, above the free section. Frames, not a teaser video. =================
+  function mac(root) {
+    const $ = s => root.querySelector(s);
+    const sc = $('#mac'), ui = $('#macUi'), bits = [...ui.querySelectorAll('.mac-tag, .mactn, .mac-price')];
+    const cute = $('#macHero'), rage = $('#macRage'), nav = $('#nav');
+    const rail = $('#rail'), railA = rail ? [...rail.querySelectorAll('a')] : [];
+    return {
+      render(q, next = 0) {
+        show(sc, q >= .12 ? 1 : 0);
+        const t = q < .4 ? 0 : Math.min(1, (q - .4) / .35);
+        if (cute) cute.style.opacity = String(1 - t);
+        if (rage) rage.style.opacity = String(t);
+        bits.forEach((b, i) => { const v = easeOut(seg(q, .28 + i * .04, .4 + i * .04)); b.style.opacity = v; b.style.transform = `translateY(${(1 - v) * 24}px)`; });
+        ui.style.pointerEvents = q > .4 && (q < 1 || next < .14) ? 'auto' : 'none';
+        if (q > .12 && q < 1) {
+          if (nav.textContent !== 'Mac →') { nav.textContent = 'Mac →'; nav.href = '/mac'; }
+        }
+        if (rail) {
+          if (q > .1 && q < 1) { railA.forEach((a, i) => a.classList.toggle('on', i === 5)); rail.classList.add('mc'); rail.classList.remove('wc', 'cn', 'br', 'sn'); }
+          else rail.classList.remove('mc');
+        }
+      },
+      destroy() {}
+    };
   }
 
-  function progress() {
-    const total = scroller.offsetHeight - stage.offsetHeight;
-    return total > 0 ? clamp(-scroller.getBoundingClientRect().top / total) : 0;
+  // ================= mount / engine =================
+  let active = null; // {mode, scroller, stage, renderer, raf, cur}
+  function progressNow() {
+    if (!active) return 0;
+    if (active.static) { const max = document.documentElement.scrollHeight - innerHeight; return max > 0 ? clamp(scrollY / max) : 0; }
+    return active.cur;
+  }
+  function targetOf(a) {
+    const total = a.scroller.offsetHeight - a.stage.offsetHeight;
+    return total > 0 ? clamp(-a.scroller.getBoundingClientRect().top / total) : 0;
   }
   function goTo(p, smooth) {
-    const total = scroller.offsetHeight - stage.offsetHeight;
-    const top = scroller.offsetTop + total * clamp(p);
-    scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' });
+    if (!active) return;
+    let top;
+    if (active.static) top = (document.documentElement.scrollHeight - innerHeight) * p;
+    else top = active.scroller.offsetTop + (active.scroller.offsetHeight - active.stage.offsetHeight) * p;
+    scrollTo({ top, behavior: smooth ? 'smooth' : 'instant' });
   }
-  function goId(id, smooth) {
-    const at = (START[id] + LEN[id] * (id === 'intro' ? 0.15 : 0.62)) / TOTAL;
-    goTo(at, smooth);
+  function unmount() {
+    if (!active) return;
+    cancelAnimationFrame(active.raf);
+    active.renderer && active.renderer.destroy();
+    app.textContent = '';
+    active = null;
   }
+  function mount(mode, keep = 0) {
+    unmount();
+    const isStatic = mqRM.matches;
+    html.classList.toggle('is-port', mode === 'port');
+    html.classList.toggle('is-desk', mode === 'desk');
+    html.classList.toggle('static', isStatic);
+    const tpl = document.getElementById(mode === 'port' ? 'tpl-port' : 'tpl-desk');
+    app.appendChild(tpl.content.cloneNode(true));
+    const root = app.firstElementChild;
+    root.querySelectorAll('.stripTxt').forEach(el => el.textContent = UNIT.repeat(8));
+    if (isStatic) root.querySelectorAll('video[data-end]').forEach(v => { v.poster = v.dataset.end; });
+    const a = active = { mode, static: isStatic, root, scroller: root.querySelector('#scroller'), stage: root.querySelector('#stage'), cur: 0 };
+    root.style.setProperty('--sh', a.stage.offsetHeight + 'px');
+    goTo(keep, false);
+    if (isStatic) return;
+    const base = (mode === 'port' ? port : desk)(root), cn = cns(root, mode), br = bru(root), mc = mac(root), mf = mfs(root), bar = root.querySelector('#bar');
+    const range = mode === 'port' ? RANGE_PORT : RANGE_DESK;
+    const film = mode === 'port' ? FILM_PORT : FILM_DESK;
+    const paid = mode === 'port' ? PAID_PORT : PAID_DESK;
+    const cuts = [film];
+    paid.forEach((vh) => cuts.push(cuts[cuts.length - 1] + vh));
+    const K = cuts.map((vh) => vh / range); // film end, then the end of each paid section. MFS starts at the last cut.
+    a.renderer = {
+      render(P, now, dp, dt) {
+        base.render(Math.min(1, P / K[0]), now, P < K[0] ? dp / K[0] : 0, dt);
+        cn.render(clamp((P - K[0]) / (K[1] - K[0])), clamp((P - K[1]) / (K[2] - K[1])));
+        br.render(clamp((P - K[1]) / (K[2] - K[1])), clamp((P - K[2]) / (K[3] - K[2])));
+        mc.render(clamp((P - K[2]) / (K[3] - K[2])), clamp((P - K[3]) / (1 - K[3])));
+        mf.render(clamp((P - K[3]) / (1 - K[3])));
+        bar.style.transform = `scaleX(${P})`;
+      },
+      destroy() { base.destroy(); cn.destroy(); br.destroy(); mc.destroy(); mf.destroy(); }
+    };
+    a.cur = targetOf(a);
+    let last = performance.now(), prev = a.cur;
+    const ease = mode === 'port' ? .16 : .11; // lighter smoothing on touch so it tracks iOS momentum
+    const tick = now => {
+      if (active !== a) return;
+      const t = targetOf(a);
+      a.cur += (t - a.cur) * ease;
+      if (Math.abs(t - a.cur) < 1e-4) a.cur = t;
+      const dt = Math.min(64, now - last); last = now;
+      a.renderer.render(a.cur, now, a.cur - prev, dt);
+      prev = a.cur;
+      a.raf = requestAnimationFrame(tick);
+    };
+    a.raf = requestAnimationFrame(tick);
+  }
+  const modeNow = () => mqPort.matches ? 'port' : 'desk';
+  // keep stage-height var fresh (dynamic toolbar on mobile) without re-mounting
+  addEventListener('resize', () => { if (active) active.root.style.setProperty('--sh', active.stage.offsetHeight + 'px'); });
+  const remount = () => { const p = progressNow(); mount(modeNow(), p); };
+  mqPort.addEventListener('change', remount);   // orientation flip / crossing 1024px
+  mqRM.addEventListener('change', remount);
 
-  railButtons.forEach(btn => btn.addEventListener('click', () => goId(btn.dataset.go, true)));
+  mount(modeNow(), 0);
+  if (location.hash === '' && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-  let raf = 0;
-  function loop() {
-    if (staticMode()) return;
-    const target = progress();
-    cur += (target - cur) * 0.18;
-    if (Math.abs(target - cur) < 1e-4) cur = target;
-    render(cur);
-    raf = requestAnimationFrame(loop);
-  }
-  function boot() {
-    cancelAnimationFrame(raf);
-    if (staticMode()) {
-      hideWipes();
-      scenes.forEach(s => { s.style.opacity = ''; s.style.pointerEvents = ''; s.classList.add('show'); s.querySelectorAll('a,button,input').forEach(n => { n.tabIndex = 0; }); });
-      bar.style.transform = 'scaleX(0)';
-      return;
-    }
-    cur = progress();
-    render(cur);
-    raf = requestAnimationFrame(loop);
-  }
-  matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => {
-    html.classList.toggle('static', e.matches);
-    applyHeight();
-    boot();
-  });
-  boot();
-  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.__tril = { progress, goTo, goId, order: ORDER };
+  // test / debug hook
+  window.__tril = { mode: () => active && active.mode, progress: progressNow, goTo, scrollers: () => document.querySelectorAll('.scroller').length };
 })();
 </script>
 <script src="/js/site-config.js"></script>
