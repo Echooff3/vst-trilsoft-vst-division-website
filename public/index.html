@@ -31,10 +31,6 @@
 <meta name="twitter:image:alt" content="Tril$oft VST Division. Weird VSTs no one asked for.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<script>
-(function(d){var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-d.classList.toggle('static', reduce);})(document.documentElement);
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -70,10 +66,8 @@ header.top a,header.top button,header.top nav{pointer-events:auto}
 .menu button.on,.menu button:hover,.menu button:focus-visible{background:rgba(255,91,31,.18)}
 
 main{position:relative;z-index:1}
-.beat{position:relative;height:175svh;background:#09090B}
-.beat:last-child{height:auto}
-.showcase{position:sticky;top:0;min-height:100svh;width:min(1120px,calc(100% - 48px));margin:0 auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(20px,4vw,56px);align-items:center;padding:84px 0 28px}
-.beat:last-child .showcase{position:relative}
+.beat{position:relative;background:#09090B}
+.showcase{position:relative;min-height:100svh;width:min(1120px,calc(100% - 48px));margin:0 auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(20px,4vw,56px);align-items:center;padding:84px 0 28px}
 .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--signal)}
 h1,h2{font-family:var(--display);font-weight:800;letter-spacing:-.04em;line-height:.95}
 .intro h1{font-size:clamp(46px,7vw,104px);max-width:14ch}
@@ -121,28 +115,8 @@ h1,h2{font-family:var(--display);font-weight:800;letter-spacing:-.04em;line-heig
 .keyfine{margin-top:8px;font-size:13px;color:var(--mute);max-width:42em}
 .keyfine a{text-decoration:underline;text-underline-offset:2px}
 
-.wipe{position:fixed;inset:0;z-index:40;pointer-events:none;visibility:hidden;touch-action:none}
-.wipe.on{visibility:visible}
-.waves{width:100%;height:100%;background:#FF5B1F}
-.waves path{fill:#FF8A3D}
-.waves path.b{fill:#FFC266}
-.waves path.c{fill:none}
-.shards{display:flex;height:100%}
-.shards i{flex:1;background:#09090B;transform:translateY(-110%)}
-.shards i:nth-child(odd){background:#FF5B1F}
-.shutters{height:100%}
-.shutters b{position:absolute;top:0;bottom:0;width:52%;background:#7a1f1a}
-.shutters b:first-child{left:0}
-.shutters b:last-of-type{right:0}
-.shutters .mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,64px);color:#f6eacf;letter-spacing:-.03em;text-align:center}
-.halftone{background-color:#07111f;background-image:radial-gradient(circle,#8EBEFF 1.5px,transparent 1.7px);background-size:14px 14px;opacity:0}
-.halftone span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--display);font-weight:800;font-size:clamp(42px,6vw,84px);color:#8EBEFF;letter-spacing:-.04em}
-.slab{background:#8a928c;transform:translateY(-110%)}
-.slab span{position:absolute;left:0;right:0;bottom:18%;text-align:center;font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,56px);color:#102006}
-
 @media (max-width:860px){
   .wordmark small{display:none}
-  .beat{height:160svh}
   .showcase{width:min(560px,calc(100% - 28px));grid-template-columns:1fr;gap:12px;padding:76px 0 16px}
   .art{order:-1}
   .mate{width:72px}
@@ -164,11 +138,6 @@ h1,h2{font-family:var(--display);font-weight:800;letter-spacing:-.04em;line-heig
   .btn,.keyform button,.keyform input[type=email]{width:auto}
   .price,.actions{margin-top:10px}
 }
-
-html.static .beat{height:auto;min-height:100svh}
-html.static .showcase{position:relative;min-height:0}
-html.static .wipe,html.static .bar,html.static .hint{display:none}
-html.static header.top{position:sticky}
 </style>
 </head>
 <body>
@@ -304,22 +273,6 @@ html.static header.top{position:sticky}
       </div>
     </section>
 </main>
-<div id="wipes">
-    <div class="wipe waves" id="wipe-waves" aria-hidden="true">
-      <svg viewBox="0 0 1440 900" preserveAspectRatio="none">
-        <path class="a" id="waveA"/>
-        <path class="b" id="waveB"/>
-        <path class="c" id="waveC"/>
-      </svg>
-    </div>
-    <div class="wipe shards" id="wipe-shards" aria-hidden="true"></div>
-    <div class="wipe shutters" id="wipe-shutters" aria-hidden="true">
-      <b id="shutL"></b><b id="shutR"></b>
-      <div class="mark">Bruno</div>
-    </div>
-    <div class="wipe halftone" id="wipe-dots" aria-hidden="true"><span>Mac</span></div>
-    <div class="wipe slab" id="wipe-slab" aria-hidden="true"><span>MIDI Fart Sniffer</span></div>
-</div>
 <footer>
   <p>© 2026 Tril$oft</p>
   <nav>
@@ -340,107 +293,21 @@ html.static header.top{position:sticky}
 </noscript>
 <script>
 (() => {
-  const html = document.documentElement;
   const bar = document.getElementById('bar');
   const beats = [...document.querySelectorAll('.beat')];
   const menuBtn = document.getElementById('menuBtn');
   const menu = document.getElementById('product-menu');
   const menuItems = [...menu.querySelectorAll('button')];
-  const staticMode = () => html.classList.contains('static');
-  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-  const seg = (v, a, b) => clamp((v - a) / (b - a));
-  const ease = t => t * t * (3 - 2 * t);
   const ORDER = beats.map(b => b.dataset.step);
 
-  const wipes = {
-    wildcard: document.getElementById('wipe-waves'),
-    cns: document.getElementById('wipe-shards'),
-    bruno: document.getElementById('wipe-shutters'),
-    mac: document.getElementById('wipe-dots'),
-    mfs: document.getElementById('wipe-slab')
-  };
-  const waveA = document.getElementById('waveA');
-  const waveB = document.getElementById('waveB');
-  const waveC = document.getElementById('waveC');
-  const shutL = document.getElementById('shutL');
-  const shutR = document.getElementById('shutR');
-  const slab = document.getElementById('wipe-slab');
-  const dots = document.getElementById('wipe-dots');
-  const shardHost = document.getElementById('wipe-shards');
-  for (let i = 0; i < 8; i++) shardHost.appendChild(document.createElement('i'));
-  const shards = [...shardHost.children];
-
-  function wave(y, amp, shift) {
-    let d = `M0 ${y}`;
-    for (let x = 0; x <= 1440; x += 48) {
-      const yy = y + Math.sin(x / 1440 * Math.PI * 4 + shift) * amp;
-      d += ` L${x} ${yy.toFixed(1)}`;
-    }
-    return d + ' L1440 980 L0 980 Z';
-  }
-  function hideWipes() {
-    Object.values(wipes).forEach(w => { w.classList.remove('on'); w.style.opacity = '0'; });
-  }
-  function paintWipe(id, t) {
-    hideWipes();
-    const w = wipes[id];
-    if (!w || t <= 0.001 || t >= 0.999) return;
-    w.classList.add('on');
-    w.style.opacity = '1';
-    if (id === 'wildcard') {
-      const y = 1040 - ease(seg(t, 0, 0.72)) * 1700;
-      const amp = 28 + Math.sin(t * Math.PI) * 64;
-      waveA.setAttribute('d', wave(y, amp, t * 6));
-      waveB.setAttribute('d', wave(y + 46, amp * .65, t * 6 + 1.2));
-      waveC.setAttribute('d', wave(y + 96, amp * .4, t * 6 + 2.1));
-    } else if (id === 'cns') {
-      shards.forEach((col, i) => {
-        const delay = i * 0.035;
-        const local = seg(t, delay, Math.min(0.98, 0.7 + delay));
-        const y = local < 0.5 ? -110 + local * 220 : (local - 0.5) * 220;
-        col.style.transform = `translateY(${y}%)`;
-      });
-    } else if (id === 'bruno') {
-      const shut = t < 0.45 ? seg(t, 0.02, 0.42) : 1 - seg(t, 0.58, 0.96);
-      shutL.style.transform = `translateX(${(shut - 1) * 100}%)`;
-      shutR.style.transform = `translateX(${(1 - shut) * 100}%)`;
-    } else if (id === 'mac') {
-      const cover = Math.sin(Math.min(1, t) * Math.PI);
-      dots.style.opacity = String(cover);
-      dots.style.backgroundSize = `${8 + cover * 36}px ${8 + cover * 36}px`;
-    } else if (id === 'mfs') {
-      const y = t < 0.5 ? -110 + ease(seg(t, 0, 0.46)) * 110 : ease(seg(t, 0.54, 1)) * 110;
-      slab.style.transform = `translateY(${y}%)`;
-    }
-  }
-
-  function layout() {
-    beats.forEach((beat, i) => {
-      beat.style.minHeight = '';
-      if (staticMode() || i === beats.length - 1) return;
-      const hold = beat.querySelector('.showcase').offsetHeight;
-      beat.style.minHeight = Math.round(hold + window.innerHeight * 0.72) + 'px';
-    });
-  }
   function render() {
-    if (staticMode()) { hideWipes(); return; }
     const y = window.scrollY;
     const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    bar.style.transform = `scaleX(${clamp(y / max)})`;
+    bar.style.transform = `scaleX(${Math.min(1, Math.max(0, y / max))})`;
+    const mark = y + Math.min(96, window.innerHeight * 0.2);
     let active = ORDER[0];
-    hideWipes();
-    beats.forEach((beat, i) => {
-      const start = beat.offsetTop;
-      const hold = beat.querySelector('.showcase').offsetHeight;
-      const trans = Math.max(1, beat.offsetHeight - hold);
-      if (y + 8 >= start && y < start + hold) active = beat.dataset.step;
-      if (i < beats.length - 1 && y >= start + hold) {
-        const t = clamp((y - (start + hold)) / trans);
-        if (t > 0 && t < 1) {
-          paintWipe(beats[i + 1].dataset.step, t);
-          active = t < 0.55 ? beat.dataset.step : beats[i + 1].dataset.step;
-        }
-      }
+    beats.forEach(beat => {
+      if (beat.offsetTop <= mark) active = beat.dataset.step;
     });
     menuItems.forEach(btn => btn.classList.toggle('on', btn.dataset.go === active));
   }
@@ -449,17 +316,9 @@ html.static header.top{position:sticky}
     const el = document.getElementById(id);
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top, behavior: smooth && !staticMode() ? 'smooth' : 'auto' });
+    window.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' });
     const heading = el.querySelector('h1, h2');
     if (heading) heading.focus({ preventScroll: true });
-  }
-  function progress() {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    return max > 0 ? clamp(window.scrollY / max) : 0;
-  }
-  function goTo(p, smooth) {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    window.scrollTo({ top: max * clamp(p), behavior: smooth ? 'smooth' : 'auto' });
   }
 
   let open = false;
@@ -474,9 +333,8 @@ html.static header.top{position:sticky}
     if (open) menuItems[0].focus();
   });
   menuItems.forEach(btn => btn.addEventListener('click', () => {
-    const id = btn.dataset.go;
     setOpen(false);
-    goId(id, true);
+    goId(btn.dataset.go, true);
   }));
   document.addEventListener('keydown', (e) => {
     if (!open) return;
@@ -498,22 +356,13 @@ html.static header.top{position:sticky}
     setOpen(false);
   });
 
-  let raf = 0;
-  function loop() {
+  addEventListener('scroll', () => {
+    if (open) setOpen(false);
     render();
-    raf = requestAnimationFrame(loop);
-  }
-  addEventListener('scroll', () => { if (open) setOpen(false); }, { passive: true });
-  matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => {
-    html.classList.toggle('static', e.matches);
-    render();
-  });
-  layout();
+  }, { passive: true });
+  addEventListener('resize', render);
   render();
-  addEventListener('resize', () => { layout(); render(); });
-  if (!staticMode()) raf = requestAnimationFrame(loop);
-  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.__tril = { progress, goTo, goId, order: ORDER, setOpen };
+  window.__tril = { goId, order: ORDER, setOpen };
 })();
 </script>
 <script src="/js/site-config.js"></script>
