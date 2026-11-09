@@ -1,0 +1,145 @@
+# Deploys public/ to S3 and invalidates CloudFront on every push to main.
+# Auth is OIDC only: arn:aws:iam::636051285697:role/github-vst-trilsoft-site-deploy
+# Override the role with the repo variable AWS_DEPLOY_ROLE_ARN. No stored AWS keys.
+name: Deploy site to S3 + CloudFront
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-east-2
+  SITE_BUCKET: trilsoft-vst-site-f19f1525
+  CF_DISTRIBUTION_ID: ELSCB1CI491YP
+  AWS_ROLE_ARN: arn:aws:iam::636051285697:role/github-vst-trilsoft-site-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Bake Buy Now hrefs
+        run: node scripts/bake-static.js
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN != '' && vars.AWS_DEPLOY_ROLE_ARN || env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Sync dist/ to S3 with cache metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=dist
+          BUCKET="${SITE_BUCKET}"
+          REGION="${AWS_REGION}"
+
+          # Refuse to --delete the bucket from an empty or partial bake.
+          test -s "$SRC/index.html"
+          test -s "$SRC/mac.html"
+          test -s "$SRC/bruno.html"
+          test -s "$SRC/faq.html"
+          test -s "$SRC/js/site-config.js"
+          count="$(find "$SRC" -type f ! -name '.clean-urls' | wc -l)"
+          if [ "$count" -lt 40 ]; then
+            echo "Refusing to sync: only ${count} files in dist/" >&2
+            exit 1
+          fi
+
+          # Full tree first so removed pages leave the bucket. Metadata is
+          # corrected before CloudFront is invalidated. .clean-urls is a
+          # local manifest, not a site file.
+          aws s3 sync "$SRC" "s3://${BUCKET}/" \
+            --region "$REGION" \
+            --delete \
+            --exclude ".clean-urls" \
+            --only-show-errors
+
+          upload_class() {
+            local cache="$1"; shift
+            local ctype="$1"; shift
+            local pattern
+            for pattern in "$@"; do
+              while IFS= read -r -d '' f; do
+                key="${f#"$SRC"/}"
+                aws s3 cp "$f" "s3://${BUCKET}/${key}" \
+                  --region "$REGION" \
+                  --cache-control "$cache" \
+                  --content-type "$ctype" \
+                  --metadata-directive REPLACE \
+                  --only-show-errors
+              done < <(find "$SRC" -type f -name "$pattern" -print0)
+            done
+          }
+
+          # Same rules as cacheControl() and MIME in server.js.
+          upload_class "public, max-age=0, must-revalidate" "text/html; charset=utf-8" "*.html"
+          if [ -s "$SRC/.clean-urls" ]; then
+            while IFS= read -r key; do
+              [ -n "$key" ] || continue
+              aws s3 cp "$SRC/$key" "s3://${BUCKET}/${key}" \
+                --region "$REGION" \
+                --cache-control "public, max-age=0, must-revalidate" \
+                --content-type "text/html; charset=utf-8" \
+                --metadata-directive REPLACE \
+                --only-show-errors
+            done < "$SRC/.clean-urls"
+          fi
+
+          aws s3 cp "$SRC/js/site-config.js" "s3://${BUCKET}/js/site-config.js" \
+            --region "$REGION" \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --content-type "text/javascript; charset=utf-8" \
+            --metadata-directive REPLACE \
+            --only-show-errors
+
+          upload_class "public, max-age=604800" "image/jpeg" "*.jpg" "*.jpeg"
+          upload_class "public, max-age=604800" "image/png" "*.png"
+          upload_class "public, max-age=604800" "image/webp" "*.webp"
+          upload_class "public, max-age=604800" "image/gif" "*.gif"
+          upload_class "public, max-age=604800" "image/svg+xml" "*.svg"
+          upload_class "public, max-age=604800" "image/x-icon" "*.ico"
+          upload_class "public, max-age=604800" "video/mp4" "*.mp4"
+          upload_class "public, max-age=604800" "video/webm" "*.webm"
+
+          # Fonts are not in server.js's long-cache list, so they use the
+          # default: max-age=3600 and application/octet-stream.
+          upload_class "public, max-age=3600" "application/octet-stream" "*.ttf"
+
+          while IFS= read -r -d '' f; do
+            key="${f#"$SRC"/}"
+            [ "$key" = "js/site-config.js" ] && continue
+            aws s3 cp "$f" "s3://${BUCKET}/${key}" \
+              --region "$REGION" \
+              --cache-control "public, max-age=3600" \
+              --content-type "text/javascript; charset=utf-8" \
+              --metadata-directive REPLACE \
+              --only-show-errors
+          done < <(find "$SRC" -type f -name "*.js" -print0)
+
+          upload_class "public, max-age=3600" "text/css; charset=utf-8" "*.css"
+          upload_class "public, max-age=3600" "text/plain; charset=utf-8" "*.txt"
+
+      - name: Invalidate CloudFront
+        run: |
+          set -euo pipefail
+          aws cloudfront create-invalidation \
+            --distribution-id "${CF_DISTRIBUTION_ID}" \
+            --paths "/*" \
+            --query 'Invalidation.{Id:Id,Status:Status}' \
+            --output text
