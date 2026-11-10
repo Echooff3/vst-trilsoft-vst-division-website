@@ -15,8 +15,10 @@
   --display: "Unbounded", system-ui, sans-serif;
   --body: "Inter", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, monospace;
-  --shadow: 11px 11px 22px var(--lo), -7px -7px 16px var(--hi);
-  --shadow-sm: 6px 6px 12px var(--lo), -5px -5px 11px var(--hi);
+  /* Equal reach on both sides so the extrusion does not eat one gutter. */
+  --shadow: 8px 8px 16px var(--lo), -8px -8px 16px var(--hi);
+  --shadow-sm: 5px 5px 10px var(--lo), -5px -5px 10px var(--hi);
+  --gutter: 24px;
   --inset: inset 8px 8px 16px var(--lo), inset -6px -6px 14px var(--hi);
   --inset-sm: inset 4px 4px 8px var(--lo), inset -3px -3px 7px var(--hi);
   --header-top: calc(22px + env(safe-area-inset-top, 0px));
@@ -87,8 +89,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   position: fixed;
   z-index: 70;
   top: calc(7px + env(safe-area-inset-top, 0px));
-  left: max(16px, env(safe-area-inset-left, 0px));
-  right: max(16px, env(safe-area-inset-right, 0px));
+  left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  right: max(var(--gutter), env(safe-area-inset-right, 0px));
   height: 8px;
   border-radius: 99px;
   background: var(--base);
@@ -111,14 +113,14 @@ header.top {
   position: fixed;
   z-index: 60;
   top: var(--header-top);
-  left: max(12px, env(safe-area-inset-left, 0px));
-  right: max(12px, env(safe-area-inset-right, 0px));
+  left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  right: max(var(--gutter), env(safe-area-inset-right, 0px));
   height: var(--header-h);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 0 10px 0 12px;
+  padding: 0 12px;
   border-radius: 22px;
   background: var(--base);
   box-shadow: var(--shadow);
@@ -202,11 +204,11 @@ header.top {
   position: fixed;
   z-index: 65;
   top: var(--menu-top);
-  right: max(12px, env(safe-area-inset-right, 0px));
+  right: max(var(--gutter), env(safe-area-inset-right, 0px));
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: min(280px, calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
+  width: min(280px, calc(100% - 2 * var(--gutter)));
   max-height: calc(100vh - var(--menu-top) - 16px);
   max-height: calc(100dvh - var(--menu-top) - 12px - env(safe-area-inset-bottom, 0px));
   padding: 12px;
@@ -247,10 +249,12 @@ header.top {
 }
 
 main {
-  width: min(1080px, calc(100% - 32px));
-  margin: 0 auto;
+  width: min(1080px, 100%);
+  margin-inline: auto;
   padding-top: var(--header-clear);
   padding-bottom: 20px;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
   display: flex;
   flex-direction: column;
   gap: 36px;
@@ -366,7 +370,9 @@ h1, h2 {
   gap: clamp(18px, 3vw, 40px);
   align-items: center;
   padding: clamp(20px, 3vw, 36px);
+  width: 100%;
 }
+.product > * { min-width: 0; }
 
 .product h2 {
   margin: 8px 0 12px;
@@ -453,21 +459,24 @@ h1, h2 {
   cursor: default;
 }
 
-.art { min-width: 0; }
+.art { min-width: 0; max-width: 100%; }
 
 .art.duo {
   display: grid;
-  grid-template-columns: minmax(96px, 148px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 148px) minmax(0, 1fr);
   gap: 14px;
   align-items: end;
 }
+.art.duo > * { min-width: 0; }
 
-.mate { position: relative; }
-.mate img {
+.mate { position: relative; min-width: 0; max-width: 100%; }
+.mate img,
+.well img {
   position: relative;
   z-index: 1;
   display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
 }
 .mate::before {
@@ -484,16 +493,15 @@ h1, h2 {
 
 .well {
   min-width: 0;
+  max-width: 100%;
   padding: 12px;
   border-radius: 24px;
   background: var(--base);
   box-shadow: var(--inset);
+  overflow: hidden;
 }
 
 .well img {
-  display: block;
-  width: 100%;
-  height: auto;
   border-radius: 14px;
 }
 
@@ -564,10 +572,9 @@ h1, h2 {
 }
 
 footer {
-  width: min(1080px, calc(100% - 32px));
+  width: min(1080px, 100%);
   margin: 8px auto 0;
-  padding: 18px 8px;
-  padding-bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  padding: 18px max(var(--gutter), env(safe-area-inset-right, 0px)) max(18px, env(safe-area-inset-bottom, 0px)) max(var(--gutter), env(safe-area-inset-left, 0px));
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -592,7 +599,7 @@ footer nav {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin: 0 0 0 -10px;
+  margin: 0 -10px;
 }
 
 footer a {
@@ -603,8 +610,10 @@ footer a {
 }
 
 .fallback {
-  width: min(1080px, calc(100% - 32px));
+  width: min(1080px, 100%);
   margin: 0 auto 48px;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
   color: var(--text);
 }
 
@@ -636,7 +645,6 @@ footer a {
 
 @media (max-width: 800px) {
   .wordmark small { display: none; }
-  main, footer, .fallback { width: min(1080px, calc(100% - 20px)); }
   main { gap: 22px; }
   .hero h1 { max-width: none; font-size: clamp(40px, 12vw, 60px); }
   .keyform label { flex: 0 0 auto; width: 100%; }
@@ -647,15 +655,20 @@ footer a {
     padding: 16px;
   }
   .art { order: -1; }
-  .art.duo { grid-template-columns: 92px minmax(0, 1fr); gap: 10px; }
+  .art.duo {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 12px;
+  }
+  .mate { width: min(140px, 46%); }
+  .well { width: 100%; justify-self: stretch; }
   .product h2 { font-size: clamp(34px, 10vw, 48px); }
   .actions, .keyform { flex-direction: column; align-items: stretch; }
-  .btn, .keyform button, .keyform label { width: 100%; }
-  .card { --raise: 7px 7px 14px var(--lo), -6px -6px 12px var(--hi); }
+  .btn, .keyform button, .keyform label { width: 100%; max-width: 100%; }
 }
 
 @media (max-width: 380px) {
-  header.top { padding-left: 8px; padding-right: 6px; }
+  header.top { padding-inline: 8px; }
   .mark { width: 40px; height: 40px; }
   .wordmark b { font-size: 14px; }
   .hero-card { padding: 22px 16px; }
