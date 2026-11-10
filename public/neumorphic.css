@@ -259,9 +259,36 @@ main {
 .beat { scroll-margin-top: var(--header-clear); }
 
 .card {
+  position: relative;
   border-radius: var(--radius);
   background: var(--base);
-  box-shadow: var(--shadow);
+  --raise: var(--shadow);
+  box-shadow: var(--raise);
+}
+
+/* Flat until the card has been seen. The class is added only when JS runs,
+   so no-JS keeps the extruded shadow. The shadow lives on a pseudo-element
+   and fades in; the card itself only moves. */
+.js .card {
+  box-shadow: none;
+  transform: translateY(8px);
+  transition: transform 500ms ease-out;
+}
+.js .card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--raise);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease-out;
+}
+.js .card.is-raised {
+  transform: none;
+}
+.js .card.is-raised::after {
+  opacity: 1;
 }
 
 .hero-card { padding: clamp(28px, 5vw, 56px) clamp(22px, 5vw, 60px); }
@@ -624,7 +651,7 @@ footer a {
   .product h2 { font-size: clamp(34px, 10vw, 48px); }
   .actions, .keyform { flex-direction: column; align-items: stretch; }
   .btn, .keyform button, .keyform label { width: 100%; }
-  .card { box-shadow: 7px 7px 14px var(--lo), -6px -6px 12px var(--hi); }
+  .card { --raise: 7px 7px 14px var(--lo), -6px -6px 12px var(--hi); }
 }
 
 @media (max-width: 380px) {
@@ -642,7 +669,10 @@ footer a {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .burger i, .btn, .keyform button, .menu button, .track i { transition: none; }
+  .burger i, .btn, .keyform button, .menu button, .track i,
+  .js .card, .js .card::after { transition: none; }
+  .js .card { transform: none; box-shadow: none; }
+  .js .card::after { opacity: 1; }
 }
 
 @media (prefers-contrast: more) {

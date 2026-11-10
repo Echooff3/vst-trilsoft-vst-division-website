@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>document.documentElement.classList.add('js');</script>
 <meta name="robots" content="noindex">
 <!-- Neumorphic preview of the homepage. Not linked from the live nav. -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGXGD2WJZ5"></script>
@@ -287,6 +288,23 @@
   }, { passive: true });
   addEventListener('resize', render);
   render();
+})();
+(() => {
+  const cards = document.querySelectorAll('.card');
+  if (!cards.length) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) {
+    cards.forEach((card) => card.classList.add('is-raised'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-raised');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+  cards.forEach((card) => observer.observe(card));
 })();
 </script>
 <script src="/js/site-config.js"></script>
