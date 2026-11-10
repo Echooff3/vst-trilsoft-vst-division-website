@@ -1,37 +1,37 @@
 /* Neumorphic preview of the homepage. Loaded only by neumorphic.html.
-   One clay surface. Raised pieces use a light top-left shadow and a dark
-   bottom-right shadow. Pressed pieces reverse that pair. */
+   One dark charcoal surface. Raised pieces take a lighter top-left shadow
+   and a near-black bottom-right shadow. Pressed pieces reverse that pair. */
 
 :root {
-  --base: #e6dfd4;
-  --ink: #1c1714;
-  --text: #2b251f;
-  --muted: #514940;
-  --accent: #7a2610;
-  --ok: #0e4f24;
-  --bad: #8c1d1d;
-  --hi: #fbf7f1;
-  --lo: #c4b5a2;
+  --base: #262320;
+  --ink: #f4efe8;
+  --text: #e6ddd2;
+  --muted: #b3a89c;
+  --accent: #ff8f5a;
+  --ok: #8ee0a8;
+  --bad: #ffb4a8;
+  --hi: #4a443d;
+  --lo: #0a0908;
   --display: "Unbounded", system-ui, sans-serif;
   --body: "Inter", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, monospace;
-  --shadow: 9px 9px 18px var(--lo), -8px -8px 16px var(--hi);
-  --shadow-sm: 5px 5px 10px var(--lo), -5px -5px 10px var(--hi);
-  --inset: inset 7px 7px 14px var(--lo), inset -6px -6px 12px var(--hi);
-  --inset-sm: inset 3px 3px 7px var(--lo), inset -3px -3px 6px var(--hi);
+  --shadow: 11px 11px 22px var(--lo), -7px -7px 16px var(--hi);
+  --shadow-sm: 6px 6px 12px var(--lo), -5px -5px 11px var(--hi);
+  --inset: inset 8px 8px 16px var(--lo), inset -6px -6px 14px var(--hi);
+  --inset-sm: inset 4px 4px 8px var(--lo), inset -3px -3px 7px var(--hi);
   --header-top: calc(22px + env(safe-area-inset-top, 0px));
   --header-h: 64px;
   --menu-top: calc(var(--header-top) + var(--header-h) + 12px);
   --header-clear: calc(var(--header-top) + var(--header-h) + 28px);
   --radius: 30px;
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   background: var(--base);
-  color-scheme: light;
+  color-scheme: dark;
   scroll-padding-top: var(--header-clear);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -40,7 +40,7 @@ html {
 body {
   min-height: 100%;
   background-color: var(--base);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.045'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' fill='transparent'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.86 0.16 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' fill='transparent'/%3E%3C/svg%3E");
   background-size: 180px 180px;
   color: var(--text);
   font-family: var(--body);
@@ -68,7 +68,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   outline-offset: 3px;
 }
 
-::selection { background: #d9c7b6; color: var(--ink); }
+::selection { background: #5c4638; color: var(--ink); }
 
 .sr, .hp {
   position: absolute;
@@ -140,8 +140,11 @@ header.top {
   place-items: center;
   border-radius: 14px;
   background: var(--base);
+  color: var(--ink);
   box-shadow: var(--shadow-sm);
 }
+.mark .mid { color: var(--accent); }
+.mark .dim { opacity: 0.5; }
 
 .wordmark { display: flex; flex-direction: column; line-height: 1; min-width: 0; }
 .wordmark b {
@@ -449,7 +452,7 @@ h1, h2 {
   bottom: 1%;
   height: 7%;
   border-radius: 50%;
-  background: rgba(80, 62, 44, 0.2);
+  background: rgba(0, 0, 0, 0.55);
 }
 
 .well {
@@ -498,8 +501,8 @@ h1, h2 {
 }
 
 .keyform input[type="email"]::placeholder {
-  color: #5c534b;
-  -webkit-text-fill-color: #5c534b;
+  color: #a3988c;
+  -webkit-text-fill-color: #a3988c;
   opacity: 1;
 }
 
@@ -644,6 +647,6 @@ footer a {
 
 @media (prefers-contrast: more) {
   .card, .btn, .burger, .menu, .menu button, .well, .keyform input[type="email"], header.top {
-    outline: 1px solid rgba(28, 23, 20, 0.45);
+    outline: 1px solid rgba(244, 239, 232, 0.55);
   }
 }
