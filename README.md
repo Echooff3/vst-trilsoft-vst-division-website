@@ -53,6 +53,7 @@ window.TRILOSOFT = {
     wildcard: "https://buy.stripe.com/bJedR8bkvgvX49P4ZabII00",
     "conceal-n-strike": "https://buy.stripe.com/6oU7sKbkv0wZ21H8bmbII01",
     bruno: "https://buy.stripe.com/eVq9ASagr7ZrfSx2R2bII02",
+    mac: "https://buy.stripe.com/14A14m3S3frT8q54ZabII03",
   },
   API_BASE_URL: "",
   products: {
@@ -70,6 +71,8 @@ The links in the file are the live Payment Links. `PAYMENT_LINK_WILDCARD`, `PAYM
 MIDI Fart Sniffer is free. Its page and the homepage section use a Get Free Key form, not Buy Now. The form POSTs JSON `{"product":"fart-sniffer","email":"...","website":""}` to `{licenseBase}/api/free-key`. `licenseBase` in `site-config.js` is `https://vst-license.trilsoft.com`. `website` is a hidden honeypot. The price on the page is the word Free.
 
 Bruno is $20. `paymentLinks.bruno` is his Stripe Payment Link, and the bar on `public/bruno.html` shows `$20`. Set `PAYMENT_LINK_BRUNO` on the service to replace the link in the file. An empty value is what keeps a Buy Now button on the page, so don't clear his entry.
+
+Mac is $20. `paymentLinks.mac` is his Stripe Payment Link. `PAYMENT_LINK_MAC` replaces it the same way.
 
 `API_BASE_URL` is only the fallback for a plug-in with no payment link. Leave it empty and those buttons stay on the page. When it is an `http` or `https` origin (the `API_BASE_URL` environment variable overrides the file), a click POSTs `{API_BASE_URL}/checkout?product=<id>` with JSON `{ "product": "<id>" }` and follows a returned `url` (`checkoutUrl` and `checkout_url` too), or submits a form POST so the API can answer with a redirect. `products` maps the button's `data-product` slug to that id.
 
