@@ -11,9 +11,9 @@
      when that variable is set. Hyphens in the slug become underscores,
      so wildcard is PAYMENT_LINK_WILDCARD and conceal-n-strike is
      PAYMENT_LINK_CONCEAL_N_STRIKE. The value must be https.
-     The site is hosted on AWS S3/CloudFront. The three links below are
-     the live Payment Links. MIDI Fart Sniffer is free and has no
-     payment link.
+     The site is hosted on AWS S3/CloudFront. The links below are the
+     live Payment Links. MIDI Fart Sniffer is free and has no payment
+     link.
 
    licenseBase
      Origin of the license server. Get Free Key POSTs JSON to
@@ -34,6 +34,7 @@ window.TRILOSOFT = {
     wildcard: "https://buy.stripe.com/bJedR8bkvgvX49P4ZabII00",
     "conceal-n-strike": "https://buy.stripe.com/6oU7sKbkv0wZ21H8bmbII01",
     bruno: "https://buy.stripe.com/eVq9ASagr7ZrfSx2R2bII02",
+    mac: "https://buy.stripe.com/14A14m3S3frT8q54ZabII03",
   },
   licenseBase: "https://vst-license.trilsoft.com",
   API_BASE_URL: "",
@@ -41,6 +42,7 @@ window.TRILOSOFT = {
     wildcard: "wildcard",
     "conceal-n-strike": "conceal-n-strike",
     bruno: "bruno",
+    mac: "mac",
     "midi-fart-sniffer": "fart-sniffer",
   },
 };
