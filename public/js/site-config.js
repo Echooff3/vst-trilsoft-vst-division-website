@@ -2,18 +2,18 @@
    This is the only file Buy Now buttons read.
 
    paymentLinks
-     Plug-in slug → Stripe Payment Link (https://buy.stripe.com/...),
+     Plug-in slug → live Stripe Payment Link (https://buy.stripe.com/...),
      or "" when that plug-in has no link yet. An empty entry does not
      borrow another plug-in's URL. Buy Now is a plain link when the
-     value is https, including the no-JS fallback (server.js writes
-     the href into the HTML).
+     value is https, including the no-JS fallback (the S3 bake and
+     server.js write the href into the HTML).
      A PAYMENT_LINK_<SLUG> environment variable replaces the value here
-     at serve time. Hyphens in the slug become underscores, so wildcard
-     is PAYMENT_LINK_WILDCARD and conceal-n-strike is
-     PAYMENT_LINK_CONCEAL_N_STRIKE. The value must be https. On Railway,
-     set the variable to publish a link without a code change.
-     MIDI Fart Sniffer is free and has no payment link. Bruno's sandbox
-     link is set below. PAYMENT_LINK_BRUNO replaces it at serve time.
+     when that variable is set. Hyphens in the slug become underscores,
+     so wildcard is PAYMENT_LINK_WILDCARD and conceal-n-strike is
+     PAYMENT_LINK_CONCEAL_N_STRIKE. The value must be https.
+     The site is hosted on AWS S3/CloudFront. The three links below are
+     the live Payment Links. MIDI Fart Sniffer is free and has no
+     payment link.
 
    licenseBase
      Origin of the license server. Get Free Key POSTs JSON to
@@ -31,9 +31,9 @@
      fallback. Get Free Key sends it as "product" in the JSON body. */
 window.TRILOSOFT = {
   paymentLinks: {
-    wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
-    "conceal-n-strike": "https://buy.stripe.com/test_aFa5kF5C67X42GOfSL9R601",
-    bruno: "https://buy.stripe.com/test_aFa14p7Kedhoa9g21V9R603",
+    wildcard: "https://buy.stripe.com/bJedR8bkvgvX49P4ZabII00",
+    "conceal-n-strike": "https://buy.stripe.com/6oU7sKbkv0wZ21H8bmbII01",
+    bruno: "https://buy.stripe.com/eVq9ASagr7ZrfSx2R2bII02",
   },
   licenseBase: "https://vst-license.trilsoft.com",
   API_BASE_URL: "",

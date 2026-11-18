@@ -45,14 +45,14 @@ To ship a change, merge to the branch Railway watches and let it redeploy. HTML 
 
 ## Buy Now
 
-Every Buy Now button reads [`public/js/site-config.js`](public/js/site-config.js). Wild Card is a plain link to its Stripe Payment Link (test mode for now):
+Every Buy Now button reads [`public/js/site-config.js`](public/js/site-config.js). Wild Card is a plain link to its live Stripe Payment Link:
 
 ```js
 window.TRILOSOFT = {
   paymentLinks: {
-    wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
-    "conceal-n-strike": "https://buy.stripe.com/test_aFa5kF5C67X42GOfSL9R601",
-    bruno: "https://buy.stripe.com/test_aFa14p7Kedhoa9g21V9R603",
+    wildcard: "https://buy.stripe.com/bJedR8bkvgvX49P4ZabII00",
+    "conceal-n-strike": "https://buy.stripe.com/6oU7sKbkv0wZ21H8bmbII01",
+    bruno: "https://buy.stripe.com/eVq9ASagr7ZrfSx2R2bII02",
   },
   API_BASE_URL: "",
   products: {
@@ -65,7 +65,7 @@ window.TRILOSOFT = {
 
 `server.js` copies `paymentLinks.wildcard` into each Wild Card Buy Now `href`, including the homepage fallback inside `<noscript>`. The button is an ordinary link.
 
-To go live, set `PAYMENT_LINK_WILDCARD` or `PAYMENT_LINK_CONCEAL_N_STRIKE` on the Railway service to the live Payment Link. The server uses that variable in place of the value in the file, both in `/js/site-config.js` and in the HTML `href`s, and one plug-in's link is never copied onto the other. Hyphens in a slug become underscores in the variable name (`conceal-n-strike` → `PAYMENT_LINK_CONCEAL_N_STRIKE`).
+The links in the file are the live Payment Links. `PAYMENT_LINK_WILDCARD`, `PAYMENT_LINK_CONCEAL_N_STRIKE`, and `PAYMENT_LINK_BRUNO` still replace the matching entry when that variable is set (https only), both in `/js/site-config.js` and in the HTML `href`s. One plug-in's link is never copied onto the other. Hyphens in a slug become underscores in the variable name (`conceal-n-strike` → `PAYMENT_LINK_CONCEAL_N_STRIKE`). The S3/CloudFront deploy does not set those variables, so the file values are what ships.
 
 MIDI Fart Sniffer is free. Its page and the homepage section use a Get Free Key form, not Buy Now. The form POSTs JSON `{"product":"fart-sniffer","email":"...","website":""}` to `{licenseBase}/api/free-key`. `licenseBase` in `site-config.js` is `https://vst-license.trilsoft.com`. `website` is a hidden honeypot. The price on the page is the word Free.
 
@@ -97,8 +97,8 @@ Each plug-in is one HTML file with its own look. Copy the idea of [`public/wildc
 
    ```js
    paymentLinks: {
-     wildcard: "https://buy.stripe.com/test_6oUaEZ4y2gtAa9g21V9R600",
-     "conceal-n-strike": "https://buy.stripe.com/test_aFa5kF5C67X42GOfSL9R601",
+     wildcard: "https://buy.stripe.com/bJedR8bkvgvX49P4ZabII00",
+     "conceal-n-strike": "https://buy.stripe.com/6oU7sKbkv0wZ21H8bmbII01",
    },
    products: {
      wildcard: "wildcard",
